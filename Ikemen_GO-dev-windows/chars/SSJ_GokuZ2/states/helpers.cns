@@ -11957,3 +11957,214 @@ trigger2 = var(8) = 2
 trigger2 = 1 || var(8) := 0
 value = 2522, ifelse(random < 500, 0, 1)  ;Dizzy sounds. 
 ;End dizzy code 5.0
+;===========================================================================
+; KAMEO ASSIST ATTACKS - SSJ GOKU
+; States 19010-19050 mapped to directional B+C calls
+;===========================================================================
+
+; --- 19010 NEUTRAL: Flurry Punch + Fury Uppercut ---
+[Statedef 19010]
+type    = S
+movetype= A
+physics = S
+ctrl    = 0
+anim   = 200
+velset = 0,0
+
+[State 19010, Hit]
+type = HitDef
+trigger1 = Time >= 5
+attr = S, SA
+damage = 20
+animtype = Light
+hitflag = MAF
+guardflag = MA
+priority = 4
+sprpriority = 3
+pausetime = 5,5
+numhits = 1
+givepower = 5
+ground.type = High
+ground.slidetime = 5
+ground.hittime = 10
+air.hittime = 15
+
+[State 19010, End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 19011
+
+; --- Fury Uppercut ---
+[Statedef 19011]
+type    = A
+movetype= A
+physics = N
+ctrl    = 0
+anim   = 3005
+velset = 0,-12
+
+[State 19011, Hit]
+type = HitDef
+trigger1 = Time >= 3
+attr = S, SA
+damage = 35
+animtype = Medium
+hitflag = MAF
+guardflag = MA
+priority = 5
+sprpriority = 4
+pausetime = 10,10
+numhits = 1
+givepower = 10
+ground.type = High
+ground.velocity = 5,-10
+air.velocity = 5,-12
+
+[State 19011, Rise]
+type = VelAdd
+trigger1 = Time >= 10
+y = -0.5
+
+[State 19011, Land]
+type = SelfState
+trigger1 = Pos Y >= 0
+value = 0
+ctrl = 1
+
+; --- 19020 FORWARD: Ki Blast ---
+[Statedef 19020]
+type    = S
+movetype= A
+physics = S
+ctrl    = 0
+anim   = 2602
+sprpriority = 5
+
+[State 19020, Projectile]
+type = Projectile
+trigger1 = Time = 5
+ProjID = 19020
+projanim = 1
+projremovetime = 2
+offset = 0,-35
+postype = p1
+attr = A,SP
+projedgebound = 1400
+projstagebound = 1400
+velocity = 15,0
+damage = 30
+animtype = Medium
+hitflag = MAF
+guardflag = A
+numhits = 1
+
+[State 19020, End]
+type = ChangeState
+trigger1 = Time >= 30
+value = 0
+ctrl = 1
+
+; --- 19030 BACK: Kamehameha ---
+[Statedef 19030]
+type    = S
+movetype= A
+physics = S
+ctrl    = 0
+anim   = 2602
+sprpriority = 5
+
+[State 19030, Projectile - Kamehameha]
+type = Projectile
+trigger1 = Time = 8
+ProjID = 19030
+projanim = 2602
+projremovetime = 3
+offset = 0,-35
+postype = p1
+attr = A,SP
+projedgebound = 1600
+projstagebound = 1600
+velocity = 18,0
+damage = 50
+animtype = Heavy
+hitflag = MAF
+guardflag = A
+numhits = 1
+ground.velocity = -10,0
+air.velocity = -10,-3
+
+[State 19030, End]
+type = ChangeState
+trigger1 = Time >= 40
+value = 0
+ctrl = 1
+
+; --- 19040 UP: Blast Fist ---
+[Statedef 19040]
+type    = A
+movetype= A
+physics = N
+ctrl    = 0
+anim   = 1200
+velset = 0,-6
+facep2 = 1
+
+[State 19040, Hit]
+type = HitDef
+trigger1 = Time >= 5
+attr = S, SA
+damage = 25
+animtype = Medium
+hitflag = MAF
+guardflag = MA
+priority = 5
+pausetime = 8,8
+numhits = 1
+givepower = 8
+
+[State 19040, Rise]
+type = VelAdd
+trigger1 = Time >= 15
+y = -0.4
+
+[State 19040, Land]
+type = SelfState
+trigger1 = Pos Y >= 0
+value = 0
+ctrl = 1
+
+; --- 19050 DOWN: Miracle Strike ---
+[Statedef 19050]
+type    = S
+movetype= A
+physics = S
+ctrl    = 0
+anim   = 1327
+velset = 15,0
+
+[State 19050, Hit]
+type = HitDef
+trigger1 = Time >= 3
+attr = S, SA
+damage = 40
+animtype = Heavy
+hitflag = MAF
+guardflag = MA
+priority = 6
+pausetime = 12,12
+numhits = 1
+givepower = 12
+ground.type = High
+ground.velocity = -8,0
+air.velocity = -8,-5
+
+[State 19050, Slide]
+type = VelSet
+trigger1 = MoveHit
+x = -3
+
+[State 19050, End]
+type = ChangeState
+trigger1 = Time >= 25
+value = 0
+ctrl = 1
