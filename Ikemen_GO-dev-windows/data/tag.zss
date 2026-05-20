@@ -135,8 +135,8 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	velset: 0, 0; ctrl: 0;
 ]
 
-# --- Read the point character's map flag via player() ---
-var let callRequest = player(teamLeader),map(_iksys_kameoCallRequest);
+# --- Read the point character's map flag ---
+let callRequest = ifElse(teamMode = Turns, (player(teamLeader),map(_iksys_kameoCallRequest)), map(_iksys_kameoCallRequest));
 
 if $callRequest > 0 {
 	let partnerId = player(teamLeader),id + 1;
