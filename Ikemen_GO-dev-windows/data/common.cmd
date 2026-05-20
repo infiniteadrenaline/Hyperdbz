@@ -141,3 +141,57 @@ time = 1
 buffer.time = 1
 buffer.hitpause = 1
 buffer.pauseend = 1
+
+;===========================================================================
+; GLOBAL KAMEO ASSIST TRIGGERS - Applies to ALL characters
+;===========================================================================
+[State -1, Kameo - Neutral]
+type = ChangeState
+value = 18000
+triggerall = !AILevel
+triggerall = teammode = tag
+triggerall = movetype != H
+triggerall = stateno != 18000 && stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040
+triggerall = command = "w"
+triggerall = !command = "holdfwd" && !command = "holdback" && !command = "holdup" && !command = "holddown"
+trigger1 = ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100
+
+[State -1, Kameo - Forward]
+type = ChangeState
+value = 18010
+triggerall = !AILevel
+triggerall = teammode = tag
+triggerall = movetype != H
+triggerall = stateno != 18000 && stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040
+triggerall = command = "w"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdfwd"
+
+[State -1, Kameo - Back]
+type = ChangeState
+value = 18020
+triggerall = !AILevel
+triggerall = teammode = tag
+triggerall = movetype != H
+triggerall = stateno != 18000 && stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040
+triggerall = command = "w"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdback"
+
+[State -1, Kameo - Up]
+type = ChangeState
+value = 18030
+triggerall = !AILevel
+triggerall = teammode = tag
+triggerall = movetype != H
+triggerall = stateno != 18000 && stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040
+triggerall = command = "w"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdup"
+
+[State -1, Kameo - Down]
+type = ChangeState
+value = 18040
+triggerall = !AILevel
+triggerall = teammode = tag
+triggerall = movetype != H
+triggerall = stateno != 18000 && stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040
+triggerall = command = "w"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holddown"
