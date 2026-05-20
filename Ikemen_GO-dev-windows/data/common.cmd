@@ -120,7 +120,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "w"
-command =
+command = w
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
