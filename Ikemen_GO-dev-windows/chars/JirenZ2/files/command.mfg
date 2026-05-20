@@ -1,0 +1,3045 @@
+[Remap]
+x = x
+y = y
+z = z
+a = a
+b = b
+c = c
+s = s
+
+;-| Default Values |-------------------------------------------------------
+[Defaults]
+; Default value for the "time" parameter of a Command. Minimum 1.
+command.time = 15
+
+; Default value for the "buffer.time" parameter of a Command. Minimum 1,
+; maximum 30.
+command.buffer.time = 1
+
+;====================<SINGLE BUTTON>====================
+
+[Command]
+name = "a"
+command = a
+time = 1
+
+[Command]
+name = "b"
+command = b
+time = 1
+
+[Command]
+name = "c"
+command = c
+time = 1
+
+[Command]
+name = "x"
+command = x
+time = 1
+
+[Command]
+name = "y"
+command = y
+time = 1
+
+[Command]
+name = "z"
+command = z
+time = 1
+
+[Command]
+name = "start"
+command = s
+time = 1
+
+[Command]
+name = "s"
+command = s
+time = 1
+
+;==================<HOLD DIRECTION>==================
+
+[Command]
+name = "holdfwd"
+command=/$F
+time=1
+
+[Command]
+name = "holdback"
+command = /$B
+time = 1
+
+[Command]
+name = "holdup"
+command = /$U
+time=1
+
+[Command]
+name = "holddown"
+command = /$D
+time = 1
+
+
+;====================<HOLD BUTTON>====================
+
+[Command]
+name = "holda"
+command = /a
+time = 1
+
+[Command]
+name = "holdb"
+command = /b
+time = 1
+
+[Command]
+name = "holdc"
+command = /c
+time = 1
+
+[Command]
+name = "holdx"
+command = /x
+time = 1
+
+
+[Command]
+name = "holdy"
+command = /y
+time = 1
+
+[Command]
+name = "holdz"
+command = /z
+time = 1
+
+[Command]
+name = "holdstart"
+command = /s
+time = 1
+
+
+
+;====================<DIRECTION>====================
+
+[Command]
+name = "fwd"
+command = F
+time = 1
+
+[Command]
+name = "back"
+command = B
+time = 1
+
+[Command]
+name = "up"
+command = U
+time = 1
+
+[Command]
+name = "down"
+command = D
+time = 1
+
+[Command]
+name = "dfwd"
+command = DF
+time = 1
+
+[Command]
+name = "dback"
+command = DB
+time = 1
+
+[Command]
+name = "ufwd"
+command = UF
+time = 1
+
+[Command]
+name = "uback"
+command = UB
+time = 1
+
+
+
+;====================<RELEASE DIR>====================
+
+[Command]
+name = "rlsfwd"
+command = ~$F
+time = 1
+
+[Command]
+name = "rlsback"
+command = ~$B
+time = 1
+
+[Command]
+name = "rlsup"
+command = ~$U
+time = 1
+
+[Command]
+name = "rlsdown"
+command = ~$D
+time = 1
+
+
+
+;====================<RELEASE BUTTON>====================
+
+[Command]
+name = "rlsx"
+command = ~x
+time = 1
+
+[Command]
+name = "rlsy"
+command = ~y
+time = 1
+
+[Command]
+name = "rlsz"
+command = ~z
+time = 1
+
+[Command]
+name = "rlsa"
+command = ~a
+time = 1
+
+[Command]
+name = "rlsb"
+command = ~b
+time = 1
+
+[Command]
+name = "rlsc"
+command = ~c
+time = 1
+
+
+
+;====================<OTHER>====================
+
+[Command]
+name = "highjump"
+command = $D, $U
+time = 15
+
+
+
+;====================<DOUBLE TAP>====================
+
+[Command]
+name = "FF"
+command = F, F
+time = 10
+
+[Command]
+name = "BB"
+command = B, B
+time = 10
+
+
+
+[Command]
+name = "recovery"
+command = /x
+time = 1
+
+[Command]
+name = "recovery"
+command = /y
+time = 1
+
+[Command]
+name = "recovery"
+command = /z
+time = 1
+
+[Command]
+name = "recovery"
+command = /a
+time = 1
+
+[Command]
+name = "recovery"
+command = /b
+time = 1
+
+[Command]
+name = "recovery"
+command = /c
+time = 1
+
+
+[Command]
+name = "pp"
+command = x+y
+time = 1
+
+[Command]
+name = "pp"
+command = x+z
+time = 1
+
+[Command]
+name = "pp"
+command = y+z
+time = 1
+
+
+[Command]
+name = "kk"
+command = a+b
+time = 1
+
+[Command]
+name = "kk"
+command = a+c
+time = 1
+
+[Command]
+name = "kk"
+command = b+c
+time = 1
+
+
+[Command]
+name = "a+x"
+command = a+x
+time=1
+
+[Command]
+name = "b+y"
+command = b+y
+time = 1
+
+[Command]
+name = "c+z"
+command = c+z
+time = 1
+
+
+[Command]
+name = "a+b"
+command = a+b
+time = 1
+
+[Command]
+name = "a+c"
+command = a+c
+time = 1
+
+[Command]
+name = "b+c"
+command = b+c
+time = 1
+
+;==============================================================================================
+;========================================<-1 STATES>===========================================
+;==============================================================================================
+[StateDef -1]
+
+[State -1, AssertSpecial: NoAirGuard]
+type = AssertSpecial
+trigger1 = P2DisT x < -12 && StateType = A
+;trigger2 = var(10) =1
+;trigger3 = vel x >= 0.1
+trigger2 =  !NumExplod(90000004) && !NumExplod(90000006) && !NumExplod(90000001) && !NumExplod(90000003) && !NumExplod(90000007) && !NumExplod(90000009)
+trigger3 = StateNo = 110 || StateNo = 115 || StateNo = 111;5.1
+flag = NoAirGuard
+ignoreHitPause = 0
+ 
+;These three state controllers are only used in three siuations: when the character has landed from a jump
+;after switching sides (to get around a MUGEN bug where a character's directions don't switch until a
+;tick has passed, after they've landed from a jump and switched sides); if one of the control reversing
+;explods is active, or if (on a keyboard) two opposite directions are held simultaneously. For the first
+;two cases, guarding should still be possible, but in the third, guarding should be disabled. In all other
+;situations, MUGEN's default guard behavior works well enough!
+
+;The first state controller disables MUGEN's normal guard system if any of of these scenarios occur.
+[State -1, AssertSpecial: No StandGuard and NoCrouchGuard]
+type = AssertSpecial
+triggerAll = !AILevel
+trigger1 = P2dist x < -12 && StateType != A
+trigger2 = NumExplod(94646464) || NumExplod(92468246)
+trigger3 = command = "holdback" && command = "holdfwd" || command = "holdup" && command = "holddown"
+flag = NoStandGuard
+flag2 = NoCrouchGuard
+ignoreHitPause = 0
+
+;===========================================================================
+; HYPERS
+;===========================================================================
+
+; Justice Mode
+[State -1]
+type = ChangeState
+triggerall = enemy, name != "Saibamen Z2" && authorname = "Team Z2"
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= !AILevel && var(51)<=0
+;triggerall = roundstate = 2
+;triggerall = var(49)=0 ;No justice mode
+triggerall = NumExplod(90012602)
+triggerall = NumExplod(90000210) && NumExplod(90000240) || NumExplod(90000215) && NumExplod(90000245)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = Ctrl 
+trigger2 = stateno=900 
+value = 2745
+
+[State -1]
+type = ChangeState
+triggerall = enemy, name != "Saibamen Z2" && authorname = "Team Z2"
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= !AILevel && var(51)>1
+triggerall = roundstate = 2
+triggerall = var(50)=0
+triggerall = NumExplod(90012602)
+triggerall = NumExplod(90000210) && NumExplod(90000240) || NumExplod(90000215) && NumExplod(90000245)
+triggerall = statetype != A  && !WinKo
+triggerall = (stateno != [2000,3999])
+trigger1 = Ctrl 
+trigger2 = stateno=900 
+value = 2746
+
+[State -1]
+type = ChangeState
+triggerall = roundstate = 2 && statetype !=A
+triggerall = !WinKo
+triggerall = var(51)>1;EMO mode and not during EMO exit
+triggerall = var(50)=2 && !NumHelper(3820)
+triggerall = NumExplod(90012602)
+triggerall = NumExplod(90000210) && NumExplod(90000240) || NumExplod(90000215) && NumExplod(90000245)
+triggerall = Life<=700 ;Desperate move
+trigger1 = Ctrl
+trigger2 = stateno=900 
+value = 2746
+
+;Body Crush
+[State -1]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+;triggerall = TeamMode != Simul
+;triggerall = enemyNear,TeamMode != Simul
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030016) || NumExplod(90030003))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030101) || NumExplod(90030114))))
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+triggerall = statetype != A  && !WinKo
+triggerall = Cond(Var(51)<=0, power>=3000,power >= 2000) && (stateno != [2000,3999])
+trigger1 = ctrl
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),Var(1)>=20
+value = 3000
+
+;???
+[State -1]
+type = ChangeState
+triggerall= !AILevel && var(33)
+triggerall = roundstate = 2
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 3000 && (stateno != [2000,3999])
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030003) || NumExplod(90030116))))
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+trigger1 = Ctrl 
+value = 3300
+
+;===========================================================================
+; SUPERS
+;===========================================================================
+; Magneton LVL2 testing
+[State -1,MI]
+type = null;changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=0
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2040
+
+; Magneton LVL2 
+[State -1,MI]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=0
+triggerall = NumExplod(90031018) || NumExplod(90031112) || NumExplod(90031214) || NumExplod(90031316) || NumExplod(90031418) || NumExplod(90031502) || NumExplod(90031614) || NumExplod(90031716) || NumExplod(90031009) || NumExplod(90031103) || NumExplod(90031207) || NumExplod(90031309) || NumExplod(90031407) || NumExplod(90031501) || NumExplod(90031601) || NumExplod(90031703) 
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2040
+
+; Magneton LVL2 easy
+[State -1,MI]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=1
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2040
+
+; Magneton LVL1 testing
+[State -1,MI]
+type =null;changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=0
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+TriggerAll=NumExplod(90000230) || NumExplod(90000240) || NumExplod(90000250) || (NumExplod(90000235) || NumExplod(90000245) || NumExplod(90000255))
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2030
+
+; Magneton LVL1 
+[State -1,MI]
+type =changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=0
+triggerall = NumExplod(90031018) || NumExplod(90031112) || NumExplod(90031214) || NumExplod(90031316) || NumExplod(90031418) || NumExplod(90031502) || NumExplod(90031614) || NumExplod(90031716) || NumExplod(90031009) || NumExplod(90031103) || NumExplod(90031207) || NumExplod(90031309) || NumExplod(90031407) || NumExplod(90031501) || NumExplod(90031601) || NumExplod(90031703)
+TriggerAll=NumExplod(90000230) || NumExplod(90000240) || NumExplod(90000250) || (NumExplod(90000235) || NumExplod(90000245) || NumExplod(90000255))
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2030
+
+; Magneton LVL1 easy
+[State -1,MI]
+type =changestate
+triggerall = !AILevel &&  roundstate = 2
+TriggerAll=Var(48)=1
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+TriggerAll=NumExplod(90000230) || NumExplod(90000240) || NumExplod(90000250) || (NumExplod(90000235) || NumExplod(90000245) || NumExplod(90000255))
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 2030
+
+; Colossal Upper LVL2
+[State -1, Colossal Upper]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),MoveHit
+Trigger4=NumTarget(660)
+value = 2012
+
+; Colossal Upper
+[State -1, Colossal Upper]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030101) || NumExplod(90030114))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030016) || NumExplod(90030003))))
+TriggerAll=NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220) || (NumExplod(90000205) || NumExplod(90000215) || NumExplod(90000225))
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),MoveHit
+Trigger4=NumTarget(660)
+value = 2010
+
+; Blazing Storm
+[State -1, Blazing Storm]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+triggerall = ifElse(Facing = 1,(NumExplod(90030016) || NumExplod(90030003)),(NumExplod(90030114) || NumExplod(90030101))) 
+TriggerAll=NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220) || (NumExplod(90000205) || NumExplod(90000215) || NumExplod(90000225))
+triggerall = statetype = A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+TriggerAll=NumHelper(2002)=0
+trigger1 = ctrl
+Trigger2=StateNo=[600,699]
+Trigger2=MoveHit
+Trigger3=(StateNo=250&&AnimElemTime(10)<0) || (StateNo=450)
+Trigger3=MoveHit
+Trigger4= StateNo = 620
+Trigger4= NumHelper(2026)
+value = 2000
+
+; Glare
+[State -1,Glare]
+type = changestate
+triggerall = !AILevel &&  roundstate = 2
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && (NumExplod(90030016) || NumExplod(90030003))) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && (NumExplod(90030101) || NumExplod(90030114))))
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) || NumExplod(90000220) || NumExplod(90000225)
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),MoveHit
+Trigger4=NumTarget(660)
+value = 2015
+
+;===========================================================================
+; SPECIALS
+;===========================================================================
+
+;Air Grab
+[State -1]
+type = null;ChangeState
+triggerall= !AILevel
+triggerall = roundstate = 2 && StateType=A
+triggerall = Var(9) < 9997
+triggerall = IfElse(Facing=1,NumExplod(90000006),NumExplod(90000004)) && NumExplod(90000800) || NumExplod(90000800)
+trigger1 = ctrl
+value = 1800
+
+; Boss Reversal
+[State -1, AIBoss Reversal]
+type = ChangeState
+triggerall= !AILevel
+triggerall= statetype != A && numenemy && roundstate=2
+triggerall = Var(33)
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+trigger1 = ctrl
+value = 1704
+;---------------------------------------------------------------------------
+; EX Air Leg Spin Grab testing
+[State -1, Leg Spin Grab]
+type = null;ChangeState
+triggerall= !AILEVEL && statetype = A
+TriggerAll=Var(48)=0
+triggerall = Power >= 500 
+triggerall = ifElse(Facing = 1,(NumExplod(90010104)),(NumExplod(90010006))) 
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = MoveContact
+value = 1104
+
+; EX Air Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype = A
+TriggerAll=Var(48)=0
+triggerall = Power >= 500 
+triggerall = NumExplod(90011009) || NumExplod(90011103) || NumExplod(90011207) || NumExplod(90011309) || NumExplod(90011407) || NumExplod(90011501) || NumExplod(90011601) || NumExplod(90011703) || NumExplod(90011008) || NumExplod(90011102) || NumExplod(90011204) || NumExplod(90011306) || NumExplod(90011408) || NumExplod(90011502) || NumExplod(90011604) || NumExplod(90011706) 
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = MoveContact
+value = 1104
+
+; EX Air Leg Spin Grab EASY
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype = A
+triggerall = Power >= 500 
+TriggerAll=Var(48)=1
+triggerall = ifElse(Facing = 1,(NumExplod(90010104)),(NumExplod(90010006)))
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,650]
+trigger2 = MoveContact
+value = 1104
+;---------------------------------------------------------------------------
+; Air Leg Spin Grab testing
+[State -1, Leg Spin Grab]
+type = null;ChangeState
+triggerall= !AILEVEL && statetype = A
+TriggerAll=Var(48)=0
+triggerall = ifElse(Facing = 1,(NumExplod(90010104)),(NumExplod(90010006))) 
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = MoveContact
+value = 1100
+
+; Air Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype = A
+TriggerAll=Var(48)=0
+triggerall = NumExplod(90011009) || NumExplod(90011103) || NumExplod(90011207) || NumExplod(90011309) || NumExplod(90011407) || NumExplod(90011501) || NumExplod(90011601) || NumExplod(90011703) || NumExplod(90011008) || NumExplod(90011102) || NumExplod(90011204) || NumExplod(90011306) || NumExplod(90011408) || NumExplod(90011502) || NumExplod(90011604) || NumExplod(90011706)
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) || NumExplod(90000220) || NumExplod(90000225)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = MoveContact
+value = 1100
+
+; Air Leg Spin Grab EASY
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype = A
+TriggerAll=Var(48)=1
+triggerall = ifElse(Facing = 1,(NumExplod(90010104)),(NumExplod(90010006)))
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) || NumExplod(90000220) || NumExplod(90000225)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = MoveContact
+value = 1100
+;---------------------------------------------------------------------------
+; EX Leg Spin Grab testing
+[State -1, Leg Spin Grab]
+type = null;ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=0
+triggerall = Power >= 500
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010104)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010006)))
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1030
+
+; EX Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=0
+triggerall = Power >= 500
+triggerall = NumExplod(90011009) || NumExplod(90011103) || NumExplod(90011207) || NumExplod(90011309) || NumExplod(90011407) || NumExplod(90011501) || NumExplod(90011601) || NumExplod(90011703) || NumExplod(90011008) || NumExplod(90011102) || NumExplod(90011204) || NumExplod(90011306) || NumExplod(90011408) || NumExplod(90011502) || NumExplod(90011604) || NumExplod(90011706)
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1030
+
+; EX Leg Spin Grab EASY
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=1
+triggerall = Power >= 500
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010104)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010006)))
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1030
+
+;---------------------------------------------------------------------------
+; Leg Spin Grab testing
+[State -1, Leg Spin Grab]
+type = null;ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=0
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010104)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010006)))
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1000
+
+; Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=0
+triggerall = NumExplod(90011009) || NumExplod(90011103) || NumExplod(90011207) || NumExplod(90011309) || NumExplod(90011407) || NumExplod(90011501) || NumExplod(90011601) || NumExplod(90011703) || NumExplod(90011008) || NumExplod(90011102) || NumExplod(90011204) || NumExplod(90011306) || NumExplod(90011408) || NumExplod(90011502) || NumExplod(90011604) || NumExplod(90011706) 
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) || NumExplod(90000220) || NumExplod(90000225)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1000
+
+; Leg Spin Grab EASY
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= !AILEVEL && statetype != A
+TriggerAll=Var(48)=1
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010104)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010006)))
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) || NumExplod(90000220) || NumExplod(90000225)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+trigger3 = (NumProjID(231) && (StateNo = 230))
+value = 1000
+;---------------------------------------------------------------------------
+
+
+;Power Up
+[State -1, Power Up]
+type = null;ChangeState
+triggerall = !AILevel
+;TriggerAll=Var(42)=0
+triggerall = Var(51)>0
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+triggerall = StateType != A  && !WinKo
+trigger1 = ctrl
+trigger2 = (StateNo = [200,259]) || (StateNo = [400,499])
+trigger2 = MoveHit
+trigger3 = (NumProjID(231) && (StateNo = 230))
+trigger4 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+value = 1400
+
+;---------------------------------------------------------------------------
+;EX Ground to Air
+[State -1]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+triggerall = statetype != A
+triggerall = Power >=500
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+value = 1601
+
+;---------------------------------------------------------------------------
+;Ground to Air
+[State -1]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+triggerall = NumExplod(90000200) || NumExplod(90000205) || NumExplod(90000210) || NumExplod(90000215) ||NumExplod(90000220) || NumExplod(90000225) 
+triggerall = statetype != A
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact
+value = 1600
+
+;---------------------------------------------------------------------------
+; EX FIST
+[State -1, EX FIST]
+type = ChangeState
+triggerall= !AILEVEL
+;TriggerAll=Var(48)=0
+triggerall = Power >= 500&&NumHelper(12200)=0
+triggerall = !NumHelper(1220)
+triggerall = !NumProjID(1225)
+triggerall = var(36)>=4
+triggerall = statetype != A
+triggerall = Anim != 450
+trigger1 = ctrl
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4
+trigger4 = StateNo = 220
+trigger4 = MoveHit >=3
+value = 1230
+
+; EX FIST
+[State -1, EX FIST]
+type = null;ChangeState
+triggerall= !AILEVEL
+TriggerAll=Var(48)=1
+triggerall = Power >= 500&&NumHelper(12200)=0
+triggerall = !NumHelper(1220)
+triggerall = !NumProjID(1225)
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010104)))
+triggerall = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) ;|| (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+triggerall = statetype != A
+triggerall = Anim != 450
+trigger1 = ctrl
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4
+trigger4 = StateNo = 220
+trigger4 = MoveHit >=3
+value = 1230
+
+; FIST
+[State -1, FIST]
+type = ChangeState
+triggerall= !AILEVEL
+;TriggerAll=Var(48)=0
+triggerall = Var(34)>=4
+triggerall = !NumHelper(1220)
+triggerall = NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220) 
+triggerall = statetype != A
+triggerall = Anim != 450
+trigger1 = ctrl
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3
+value = 1200
+
+; FIST
+[State -1, FIST]
+type = null;ChangeState
+triggerall= !AILEVEL
+TriggerAll=Var(48)=1
+triggerall = !NumHelper(1220)
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010104)))
+triggerall = NumExplod(90000200) || NumExplod(90000210) || NumExplod(90000220) 
+triggerall = statetype != A
+triggerall = Anim != 450
+trigger1 = ctrl
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3
+value = 1200
+
+;---------------------------------------------------------------------------
+;TP Dash EX
+[State -1,DASH]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = Power >= 500
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010406)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010504)))
+triggerall = (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+triggerall = statetype != A
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit
+value = 1516
+
+
+;---------------------------------------------------------------------------
+;TP Dash LK
+[State -1, Dash]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010406)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010504)))
+triggerall = NumExplod(90000230) || NumExplod(90000235) 
+triggerall = statetype != A
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit
+value = 1500
+
+;---------------------------------------------------------------------------
+;TP Dash MK
+[State -1,DASH]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010406)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010504)))
+triggerall = NumExplod(90000240) || NumExplod(90000245) 
+triggerall = statetype != A
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit
+value = 1510
+
+;---------------------------------------------------------------------------
+;TP Dash HK
+[State -1,DASH]
+type = ChangeState
+triggerall= !AILEVEL
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010406)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010504)))
+triggerall = NumExplod(90000250) || NumExplod(90000255) 
+triggerall = statetype != A
+trigger1 = ctrl
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit
+value = 1515
+;===========================================================================
+; COMMAND & SYSTEM MOVES
+;===========================================================================
+
+
+
+; Ground Throw
+[State -1, Ground throw]
+type = changestate
+triggerall = !AILEVEL && !IsHelper
+triggerall = Var(9) < 9997
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)  
+triggerall = NumExplod(90000800)
+trigger1 = roundstate=2 && ctrl && statetype!=A && stateno!=100
+value = 850
+
+; Reverse Throw
+[State -1, throw2]
+type = changestate
+triggerall = !AILEVEL && !IsHelper
+triggerall = Var(9) < 9997
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000004)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000006))) && NumExplod(90000800)
+trigger1 = roundstate=2 && ctrl && statetype=S && stateno!=100
+value = 810
+
+; Forward Throw
+[State -1, throw1]
+type = changestate
+triggerall = !AILEVEL && !IsHelper
+triggerall = Var(9) < 9997
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000004))) && NumExplod(90000800) || NumExplod(90000800)
+trigger1 = roundstate=2 && ctrl && statetype=S && stateno!=100
+value = 800
+
+;Power Up
+[State -1, Power Up]
+type = ChangeState
+triggerall = !AILevel
+TriggerAll=Var(50)<=1
+triggerall = Var(51)>1
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = NumExplod(90000210) && NumExplod(90000240)
+;triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+;triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+triggerall = StateType != A  && !WinKo
+trigger1 = ctrl || stateno = 900 && Time < 4
+;trigger2 = (StateNo = [200,259]) || (StateNo = [400,499])
+;trigger2 = MoveHit
+;trigger3 = (NumProjID(231) && (StateNo = 230))
+;trigger4 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+value = 1400
+
+;Power Charge
+[State -1]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = StateType != A
+triggerall = stateno != 900
+triggerall = Ctrl
+;TriggerAll = Command != "holddown"
+triggerall = NumExplod(90000210) && NumExplod(90000240) || command = "holdb" && command = "holdy"
+trigger1 = Power < 3000 
+value = 900
+
+
+[State 0, Explod]
+type = Explod
+trigger1 = StateNo = [120,155]
+anim = 1
+ID = 140
+removetime = 10
+
+;Zetto Counter - Ground
+[State -1, Z Counter - Ground P]
+type = ChangeState
+trigger1 = !AILevel
+;trigger1 = stateno=[150, 155];JNP4.x
+trigger1 = NumExplod(140)		
+trigger1 = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000004)))
+trigger1 = ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2 || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+trigger1 = RoundState=2 && power>=1000 && StateType!=A
+trigger1 =  CTRL = 1
+value = 770
+
+;ZettoCounter - Air
+[State -1, Z Counter - Air P]
+type = ChangeState
+trigger1 = !AILevel
+;trigger1 = stateno=[150, 155];JNP4.x
+trigger1 = NumExplod(140)		
+trigger1 = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000004)))
+trigger1 = ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2 || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2)
+trigger1 = RoundState=2 && power>=1000 && StateType=A
+trigger1 = CTRL = 1
+value = 781
+
+;Zetto Counter - Ground
+[State -1, Z Counter - Ground]
+type = ChangeState
+trigger1 = !AILevel
+trigger1 = stateno=[150, 155];JNP4.x
+trigger1 = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000004)))
+trigger1 = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2) || (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+trigger1 = RoundState=2 && power>=1000 && StateType!=A
+trigger1 =  CTRL = 0
+value = 750
+
+;ZettoCounter - Air
+[State -1, Z Counter - Air]
+type = ChangeState
+trigger1 = !AILevel
+trigger1 = stateno=[150, 155];JNP4.x
+trigger1 = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000006)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000004)))
+trigger1 = (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2) || (ifElse(NumExplod(90000205), 1, 0) + ifElse(NumExplod(90000215), 1, 0) + ifElse(NumExplod(90000225), 1, 0) >= 2) || (ifElse(NumExplod(90000230), 1, 0) + ifElse(NumExplod(90000240), 1, 0) + ifElse(NumExplod(90000250), 1, 0) >= 2) || (ifElse(NumExplod(90000235), 1, 0) + ifElse(NumExplod(90000245), 1, 0) + ifElse(NumExplod(90000255), 1, 0) >= 2)
+trigger1 = RoundState=2 && power>=1000 && StateType=A
+trigger1 =  CTRL = 0
+value = 760
+
+;Zetto Counter - OTG
+[State -1, Z Counter - Ground]
+type = null;ChangeState
+trigger1 = !AILevel
+triggerall = command = "holdup"
+triggerall = (command = "holdx" && command = "holdy") || (command = "holdx" && command = "holdz") || (command = "holdy" && command = "holdz") || (command = "holdx" && command = "holdy" && command = "holdz") || (command = "holda" && command = "holdb") || (command = "holda" && command = "holdc") || (command = "holdb" && command = "holdc") || (command = "holda" && command = "holdb" && command = "holdc")
+triggerall = RoundState=2 && Power>=1000 
+trigger1 = Stateno = 5120 || Stateno = 8452
+trigger1 = Time<=2
+trigger2 = StateNo = [8450,8451]
+value = 770
+
+; Slashing Chop (aka Focus Attack)
+[State -1, Slashing Chop]
+type = ChangeState
+triggerall= !AILevel
+triggerall = RoundState = 2
+triggerall = StateNo !=[1300,1302]
+triggerall = StateNo != 106
+triggerall = command = "holdz" && command = "holdc"
+;triggerall = ((command = "z" && command = "c") || (NumExplod(90000220) && NumExplod(90000250)) || ((command = "holdz" && command = "holdc") && (PrevStateNo = 8452 || PrevStateNo = 5120)))
+trigger1 = StateType = S
+trigger1 = ctrl
+value = 1300
+
+;Air Dash Back JNP4.x
+[State -1, Air Dash Back]
+type = ChangeState
+value = 115
+triggerall = !AILevel
+triggerall = pos y < -30 || vel y > 0
+triggerall = var(10) = 0 ;limiter
+triggerall = vel x <= 0
+trigger1 = pos Y < -20
+triggerall = stateno != 105
+triggerall = ifElse(Facing = 1, NumExplod(90001064),NumExplod(90001016)) || (ifElse(Facing = 1, NumExplod(90000024),NumExplod(90000026)) && (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2))
+trigger1 = (StateType = A) && (ctrl)
+ 
+;Air Dash Forward
+[State -1, Air Dash Fwd]
+type = ChangeState
+value = 110
+triggerall = !AILevel
+triggerall = Var(33)
+triggerall = var(10) = 0 ;limiter
+triggerall = pos y < -30 || vel y > 0
+triggerall = stateno != 105
+triggerall = (ifElse(Facing = 1, NumExplod(90001016),NumExplod(90001064))) || (((ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2)) && !NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023) && !NumExplod(90000027) && !NumExplod(90000028) && !NumExplod(90000029) && (ifElse(Facing = 1, !NumExplod(90000024),!NumExplod(90000026))))
+trigger1 = (StateType = A) && (ctrl)
+trigger1 = pos Y < -20
+; Run Fwd
+[State -1, Run Fwd]
+type = ChangeState
+triggerall = !AILevel
+triggerall = Var(33)
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90001016)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90001064))) || (((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000026)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000024))) && (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2))
+trigger1 = statetype = S && ctrl
+trigger1 = roundstate=2 && (stateno!=[100,106])
+value = 100
+ 
+; Run Back
+[State -1, Run Back]
+type = ChangeState
+value = 105
+triggerall = !AILevel
+;triggerall = roundstate = 2
+triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90001064)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90001016))) || (((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000024)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000026))) && (ifElse(NumExplod(90000200), 1, 0) + ifElse(NumExplod(90000210), 1, 0) + ifElse(NumExplod(90000220), 1, 0) >= 2))
+triggerall = statetype = S
+trigger1 = ctrl
+trigger2 = StateNo=195 && animelemtime(3)>=0
+
+;Jump Down Heavy Kick
+[State -1, Jump Down Heavy Kick]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000021)||NumExplod(90000022)||NumExplod(90000023)
+triggerall = NumExplod(90000250)||command = "c"
+triggerall = statetype = A
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+Trigger2=StateNo=[600,659] 
+Trigger2=MoveHit
+Trigger3= StateNo = 620
+Trigger3= NumHelper(2026)
+trigger3 = helper(2026), MoveHit
+value = 670
+
+;FWD Medium Punch
+[State -1, FWD Medium Punch]
+type = ChangeState
+value =205
+triggerAll = !AILevel
+triggerall = NumExplod(90000210) ||  command = "y"
+triggerall = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000026)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000024))
+triggerall = StateType != A
+trigger1 = ctrl
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+
+;FWD L Punch
+[State -1, FWD L Punch]
+type = null;ChangeState
+value = 205
+triggerAll = !AILevel
+triggerall = NumExplod(90000200) ||  command = "x"
+triggerall = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000026)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000024))
+triggerall = StateType != A
+trigger1 = ctrl
+
+;===========================================================================
+; SYSTEM
+;===========================================================================
+
+;-| Punches |--------------------------------------------------------
+;Stand Light Punch
+[State -1, Stand Light Punch]
+type = ChangeState
+value = 200
+triggerAll = !AILevel
+triggerall = NumExplod(90000200) ||  command = "x"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+;trigger2 = (stateno = 210) || (stateno = 240)  || (StateNo=410)||(StateNo=440)
+;trigger2 =(Fvar(6)=2&&Var(42)) && MoveContact 
+
+;Stand Medium Punch
+[State -1, Stand Medium Punch]
+type = ChangeState
+value = 210
+triggerAll = !AILevel
+triggerall = NumExplod(90000210) ||  command = "y"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+
+;Stand Strong Punch
+[State -1, Stand Strong Punch]
+type = ChangeState
+value = 220
+triggerAll = !AILevel
+triggerall = NumExplod(90000220) ||  command = "z"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = (!NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 211)|| (stateno = 230) || (stateno = 240)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) ||  (StateNo = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+trigger5 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+
+;-| Kicks |--------------------------------------------------------
+;Stand Light Kick
+[State -1, Stand Light Kick]
+type = ChangeState
+value = 230
+triggerAll = !AILevel
+triggerall = NumExplod(90000230) ||  command = "a"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+;trigger2 = (stateno = 210) || (stateno = 240)  || (StateNo=410)||(StateNo=440)
+;trigger2 =(Fvar(6)=2&&Var(42)) && MoveContact 
+
+;Stand Medium Kick
+[State -1, Stand Medium Kick]
+type = ChangeState
+value = 240
+triggerAll = !AILevel
+triggerall = NumExplod(90000240) ||  command = "b"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact  
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact  
+trigger4 = (NumProjID(231) && (StateNo = 230))
+
+;Stand Strong Kick 
+[State -1, Stand Strong Kick]
+type =ChangeState
+value = 250
+triggerAll = !AILevel
+triggerall = NumExplod(90000250) ||  command = "c"
+triggerall = (!NumExplod(90000021) && !NumExplod(90000022) && !NumExplod(90000023))
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 211)|| (stateno = 230) || (stateno = 240)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) ||  (StateNo = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+trigger5 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+
+;-| Crouch Punches |--------------------------------------------------------
+;Crouch Light Punch
+[State -1, Crouch Light Punch]
+type = ChangeState
+value = 400
+triggerAll = !AILevel
+triggerall = NumExplod(90000200) ||  command = "x"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+;trigger2 = (stateno = 210) || (stateno = 240)  || (StateNo=410)||(StateNo=440)
+;trigger2 =(Fvar(6)=2&&Var(42)) && MoveContact 
+
+;Crouch Medium Punch
+[State -1, Crouch Medium Punch]
+type = ChangeState
+value = 410
+triggerAll = !AILevel
+triggerall = NumExplod(90000210) ||  command = "y"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+
+;Crouch Strong Punch
+[State -1, Crouch Strong Punch]
+type = ChangeState
+value = 420
+triggerAll = !AILevel
+triggerall = NumExplod(90000220) ||  command = "z"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 211) || (stateno = 230)  || (stateno = 240)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) ||  (StateNo = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger3 = MoveContact 
+trigger4 = (NumProjID(231) && (StateNo = 230))
+trigger5 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+
+;-| Crouch Kicks |--------------------------------------------------------
+;Crouch Crouch Light Kick
+[State -1, Crouch Light Kick]
+type = ChangeState
+value = 430
+triggerAll = !AILevel
+triggerall = NumExplod(90000230) ||  command = "a"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+;trigger2 = (stateno = 210) || (stateno = 240)  || (StateNo=410)||(StateNo=440)
+;trigger2 =(Fvar(6)=2&&Var(42)) && MoveContact 
+
+;Crouch Medium Kick
+[State -1, Crouch Medium Kick]
+type = ChangeState
+value = 440
+triggerAll = !AILevel
+triggerall = NumExplod(90000240) ||  command = "b"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl || stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact
+trigger4 = (NumProjID(231) && (StateNo = 230))
+
+;Crouch Strong Kick 
+[State -1, Crouch Strong Kick]
+type = ChangeState
+value = 450
+triggerAll = !AILevel
+triggerall = NumExplod(90000250) ||  command = "c"
+triggerall = NumExplod(90000021) || NumExplod(90000022) || NumExplod(90000023)
+triggerall = StateType != A
+trigger1 = ctrl|| stateno = 100 || stateno = 101
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 211)|| (stateno = 230)|| (stateno = 240)  
+trigger2 = MoveContact 
+trigger3 = (stateno = 400) ||  (StateNo = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger3 = MoveContact 
+trigger4 = (NumProjID(421) &&  (StateNo = 410 && AnimElemTime(11)>=0))
+trigger5 = (NumProjID(231) && (StateNo = 230))
+
+;-| Jump Punches |--------------------------------------------------------
+;Jump Light Punch
+[State -1, Jump Light Punch]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000200)||command = "x"
+triggerall = stateno != 600
+triggerall = statetype = A
+trigger1 = ctrl
+value = 600
+
+;Jump Medium Punch
+[State -1, Jump Medium Punch]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000210)||command = "y"
+triggerall = statetype = A
+trigger1 = ctrl
+Trigger2=(StateNo=600)||(StateNo=630)
+Trigger2=MoveHit
+value = 610
+
+;Jump Strong Punch 
+[State -1, Jump Strong Punch]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000220)||command = "z"
+triggerall = statetype = A
+trigger1 = ctrl
+Trigger2=(StateNo=600)||(StateNo=630)||(StateNo=610)||(StateNo=640)
+Trigger2=MoveHit
+value = 620
+
+;-| Jump Kicks |--------------------------------------------------------
+;Jump Light Kick
+[State -1, Jump Light Kick]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000230)||command = "a"
+triggerall = statetype = A
+trigger1 = ctrl 
+value = 630
+
+;Jump Medium Kick
+[State -1, Jump Medium Kick]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000240)||command = "b"
+triggerall = statetype = A
+triggerall = (stateno!=640); && (stateno!=645)
+trigger1 = ctrl 
+Trigger2=(StateNo=600)||(StateNo=630)
+Trigger2=MoveHit
+value = 640
+
+;Jump Strong Kick
+[State -1, Jump Strong Kick]
+type = ChangeState
+triggerAll = !AILevel
+triggerall = NumExplod(90000250)||command = "c"
+triggerall = statetype = A
+trigger1 = ctrl
+Trigger2=(StateNo=600)||(StateNo=630)||(StateNo=610)||(StateNo=640)
+Trigger2=MoveHit
+value = 650
+
+; Taunt
+[State -1, Taunt]
+type = ChangeState
+triggerall= !AILevel
+triggerall = NumExplod(90000195)  ||  command = "start"
+triggerall = StateNo!=195
+trigger1 = StateType != A
+trigger1 = ctrl
+value = 195
+
+; Super Jump
+;This state executes only after performing the air launcher
+[State -1, Jump Launcher]
+type = null;ChangeState
+value = 10230
+triggerall= !AILevel
+triggerall = NumExplod(90000008) || NumExplod(90000009) || NumExplod(90000007)
+trigger1 = (StateNo = 450 || StateNo = 455) && animelemtime(7)>0 && MoveHit
+
+[State -1, Super Jump Forward]
+type = ChangeState
+value = 10232
+triggerall= !AILevel
+trigger1 = StateType = S
+trigger1 = ctrl
+trigger1 = NumExplod(90000408) 
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000009)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000007))
+
+[State -1, Super Jump Backward]
+type = ChangeState
+value = 10233
+triggerall= !AILevel
+trigger1 = StateType = S
+trigger1 = ctrl
+trigger1 = NumExplod(90000408)
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000007)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000009))
+
+[State -1, Super Jump Straight Up]
+type = ChangeState
+value = 10231
+triggerall= !AILevel
+trigger1 = StateType = S
+trigger1 = ctrl
+trigger1 = NumExplod(90000408)
+
+;==============================================================================================
+;==========================================<GUARDING>==========================================
+;==============================================================================================
+ 
+;==============================================================================================
+;Here, we override the MUGEN's default guard system, and add our own triggers. This will ensure
+;that the player can always block as long as they are holding a direction away from the opponent.
+;This block of code also adds "chicken guarding", which is allowing the player to air guard by holding
+;not only back, but down-back and up-back.
+ 
+;It is also recommended that you also override the guard states (120, 130, 131, 132, 140, 150, 151, 152, 154, 155)
+;with an updated version that uses the EXPLODsive buffering system. A copy of those fixed states
+;can be found in this character, and also in the release thread (here:PUT LINK HERE).
+;==============================================================================================
+ 
+
+ 
+[State -1, Stand Blocking]
+type = ChangeState
+triggerAll = !AILevel
+triggerAll = InGuardDist
+triggerAll = StateType = S
+triggerAll = ctrl
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000004)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000006))
+value = 120
+ 
+[State -1, Crouch Blocking]
+type = ChangeState
+triggerAll = !AILevel
+triggerAll = InGuardDist
+triggerAll = StateType = C
+triggerAll = ctrl
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000001)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000003))
+value = 120
+ 
+[State -1, Air Blocking]
+type = ChangeState
+triggerAll = !AILevel
+triggerAll = InGuardDist
+triggerAll = StateType = A
+triggerAll = ctrl
+triggerall = StateNo != 110 || StateNo != 115 ;5.1
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000004)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000006))
+trigger2 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000001)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000003))
+trigger3 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000007)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000009))
+value = 120
+ 
+[State -1, Air Blocking]
+type = ChangeState
+triggerAll = !AILevel
+triggerAll = InGuardDist
+triggerAll = StateType = A
+triggerAll = StateNo = 5210 && Time = 14
+trigger1 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000004)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000006))
+trigger2 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000001)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000003))
+trigger3 = (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90000007)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90000009))
+value = 120
+ 
+;===========================================================================
+;===========================================================================
+;===========================================================================
+;===========================================================================
+;===========================================================================
+
+
+;===========================================================================
+; AI
+;===========================================================================
+
+;???
+[State -1]
+type = ChangeState
+triggerall= (AILevel>=1 && AILevel<=8) && var(50)=2
+triggerall = statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = power >= 3000 && (stateno != [2000,3999])
+triggerall = P2BodyDist X >-10
+triggerall = Ctrl 
+trigger1 = random<(650*((AIlevel**2)/64.0)) && enemynear, MoveType = A
+trigger2 = random<(750*((AIlevel**2)/64.0)) && enemynear, StateType = A
+trigger3 = Life <= LifeMax * .25
+trigger3 = enemynear, Life > enemynear,LifeMax *.75
+value = 3300
+
+;AI Jump
+[State 0, ChangeState AI Jump]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel <=8) && numenemy && roundstate=2 && StateType = S  
+triggerall = Ctrl = 1
+triggerall = ((P2BodyDist x != [-70,70])  && (P2StateType != S || P2StateType != C))
+triggerall = !NumTarget(1001)
+trigger1 = random <40*(AIlevel ** 2 / 64.0)
+trigger1 = (StateNo = 20) && Time >15
+trigger2 = p2bodydist x<140
+trigger2 = P2MoveType = H && P2StateType = A
+trigger2 = random <200*(AIlevel ** 2 / 64.0)
+trigger3 = P2BodyDist Y <0
+trigger3 = P2MoveType = A
+trigger3 = enemynear, Facing = Facing
+trigger3 = random <200*(AIlevel ** 2 / 64.0)
+trigger3 = P2BodyDist X = [10,30]
+value = 40
+ctrl = 0
+
+
+; Boss Reversal
+[State -1, AIBoss Reversal]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall =  (p2bodydist x = [-30,150]) && (p2bodydist y = [-120,0]) 
+triggerall = P2MoveType = A && Var(50)=2
+;trigger1 = enemynear, HitDefAttr = A
+trigger1 = ctrl && random < 350*(AIlevel ** 2 / 64.0)
+value = 1704
+
+; Boss Reversal
+[State -1, AIBoss Reversal]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2
+triggerall =  (p2bodydist x = [-30,150]) && (p2bodydist y = [-120,0]) 
+triggerall = P2MoveType = A && Var(50)=2
+trigger1 = ctrl && random < 150*(AIlevel ** 2 / 64.0)
+value = 1704
+
+[State -1, AI Guard]
+type= changestate
+triggerall= AILevel=8 && numenemy  
+triggerall= roundstate=2 && inguarddist
+;triggerall= statetype!=A || p2statetype=A
+triggerall= ctrl && (stateno!=[120,155])&& !(enemynear,ctrl)
+trigger1= random < 204*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,NA)
+trigger2= random < 278*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,SA)
+trigger3= random < 342*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,HA)
+value=120
+
+[State -1, AI Guard]
+type= changestate
+triggerall= AILevel>4 && AILevel<8 && numenemy  
+triggerall= roundstate=2 && inguarddist
+;triggerall= statetype!=A || p2statetype=A
+triggerall= ctrl && (stateno!=[120,155])&& !(enemynear,ctrl)
+trigger1= random < 64*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,NA)
+trigger2= random < 128*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,SA)
+trigger3= random < 192*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,HA)
+value=120
+
+[State -1, AI Guard]
+type= changestate
+triggerall = numenemy
+triggerall= AILevel>0 && AILevel<5 
+triggerall= roundstate=2 && inguarddist
+;triggerall= statetype!=A || p2statetype=A
+triggerall= ctrl && (stateno!=[120,155])&& !(enemynear,ctrl)
+trigger1= random < 34*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,NA)
+trigger2= random < 68*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,SA)
+trigger3= random < 92*(AIlevel ** 2 / 64.0) && (enemynear,hitdefattr=SCA,HA)
+value=120
+
+;AI Jump Light Kick
+[State -1, AI Jump Light Kick combo starter]
+type = ChangeState
+triggerall = (AILevel>=1 && AILevel<=8) && numenemy && roundstate=2 && statetype = A && Vel X > 0
+triggerall = (p2bodydist x = [5,190]) && (p2bodydist y = [-30,1-0]) && (p2statetype = S || p2statetype = C)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < 250*(AIlevel ** 2 / 64.0)
+value = 630
+
+; AI Stand Light Kick
+[State -1, AI Stand Light Kick]
+type = ChangeState
+triggerall = (AILevel>=1&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  && P2statetype != A
+triggerall = (p2bodydist x = [10, 90]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 350*(AIlevel ** 2 / 64.0)
+trigger1 = NumTarget
+trigger1 = target, MoveType = H
+value = 230
+
+; AI Stand Medium Punch
+[State -1, AI Stand Medium Punch]
+type = ChangeState
+triggerall = (AILevel>=1&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ((p2bodydist x = [-15, 90]) && (p2bodydist Y = [-20, 30]) && p2statetype != L) || ((p2bodydist x = [-15, 80]) && (enemynear, Pos Y = [-1,-80]) && P2MoveType = H && (P2StateNo != [120,155]))
+trigger1 =  random < (350+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger1 = (stateno = 230 && MoveHit) 
+value = 210
+
+; Glare
+[State -1,Glare]
+type = changestate
+triggerall= (AILevel>=1 && AILevel<=8) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,150]) && (p2bodydist y = [-80,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = random < 300*(AIlevel ** 2 / 64.0)
+trigger1 = (stateno = 230 && MoveHit) 
+value = 2015
+
+; EX Air Leg Spin Grab
+[State -1, AI Leg Spin Grab]
+type = ChangeState
+triggerall = Power >= 500 
+triggerall= (AILevel>4 && AILevel<=8) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [150,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,60]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = cond(var(51)<1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100) && random < 650*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+trigger2 = StateNo = [400,659]
+trigger2 = var(51)>=1&&movehit 
+value = 1104
+
+; EX Air Leg Spin Grab
+[State -1, AI Leg Spin Grab]
+type = ChangeState
+triggerall = Power >= 500 
+triggerall= (AILevel>0 && AILevel<=4) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [150,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,60]) 
+triggerall = cond(var(51)<1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100) && random < 250*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+trigger2 = StateNo = [400,659]
+trigger2 = var(51)>=1&&movehit&&random < 85*(AIlevel ** 2 / 64.0)
+value = 1104
+
+; Air Leg Spin Grab
+[State -1, AI Leg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [150,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,60]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = cond(var(51)<1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+trigger2 = StateNo = [400,659]
+trigger2 = var(51)>=1&&movehit&&random < 750*(AIlevel ** 2 / 64.0) 
+value = 1100
+
+
+
+; Air Leg Spin Grab
+[State -1, AI Leg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [150,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,60]) 
+triggerall = cond(var(51)<1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100) && random < 150*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = (StateNo = [400,659]) 
+trigger2 = var(51)>=1&&movehit;&&random < 485*(AIlevel ** 2 / 64.0)
+value = 1100
+
+;Body Crush
+[State -1]
+type = changestate
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [-20,90]) && (p2bodydist y = [-180,0]) && P2StateType = A
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = Cond(Var(51)<=0, power>=3000,power >= 2000) && (stateno != [2000,3999])
+trigger1 = ((ctrl && P2MoveType = H && (P2StateNo != [150,155]) && random < 550+(var(51)!=[0,1])*200)*(AIlevel ** 2 / 64.0) || (ctrl && random < 350+(var(51)!=[0,1])*200)*(AIlevel ** 2 / 64.0))
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact && cond(var(51)>1,random < 650*(AIlevel ** 2 / 64.0),random < 450*(AIlevel ** 2 / 64.0))
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),Var(1)>=20 && random < 450*(AIlevel ** 2 / 64.0)
+value = 3000
+
+;Body Crush
+[State -1]
+type = changestate
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [-20,90]) && (p2bodydist y = [-180,0]) && P2StateType = A
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = Cond(Var(51)<=0, power>=3000,power >= 2000) && (stateno != [2000,3999])
+trigger1 = (ctrl && P2MoveType = H && (P2StateNo != [150,155]) && random < 150*(AIlevel ** 2 / 64.0)) || (ctrl && random < 250*(AIlevel ** 2 / 64.0))
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact && random < 150*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),Var(1)>=20 && random < 150*(AIlevel ** 2 / 64.0)
+value = 3000
+
+[State -1,MI]
+type = changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,70]) && P2StateType !=A && P2StateNo != 5120 && cond(var(51)<=1,P2MoveType != H,P2StateType !=L)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+triggerall = var(51)<=1
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233]) && random < 350*(AIlevel ** 2 / 64.0)
+value = 2040
+
+[State -1,MI]
+type = changestate
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,70]) && P2StateType !=A && P2StateNo != 5120 && cond(var(51)<=1,P2MoveType != H,P2StateType !=L)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+triggerall = random < 50*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233]) 
+trigger2 = var(51)>1 && (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0) && random < 60*(AIlevel ** 2 / 64.0)
+trigger2 = movecontact
+value = 2040
+
+[State -1,MI]
+type =changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,70]) && P2StateType !=A && P2StateNo != 5120 && cond(var(51)<=1,P2MoveType != H,P2StateType !=L)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+triggerall = var(51)<=1 || var(51)>1&&power<2000
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233]) && random < 350*(AIlevel ** 2 / 64.0)
+trigger2 = var(51)>1 && (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0) && cond(power>=2000,random < 1*(AIlevel ** 2 / 64.0),random < 450*(AIlevel ** 2 / 64.0))
+trigger2 = movecontact
+value = 2030
+
+[State -1,MI]
+type =changestate
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,70]) && P2StateType !=A && P2StateNo != 5120 && cond(var(51)<=1,P2MoveType != H,P2StateType !=L)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+triggerall = random < 20*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 40 || (StateNo = [10231,10233]) 
+trigger2 = var(51)>1 && (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0) && random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = movecontact
+value = 2030
+
+
+[State -1, Fall Recovery AI]
+type=ChangeState
+value= ifelse((pos y>=-20), 5200, 5210)
+triggerall = numenemy 
+triggerall= AILevel>5
+triggerall= RoundState=2 && alive
+triggerall= StateNo=5050 && canrecover
+trigger1= vel y>=-1 && ceil(random<=50*(AILevel**2/64.0))
+trigger2 = enemynear, HitCount >15 && ceil(random<=200*(AILevel**2/64.0))
+
+[State -1, Fall Recovery AI]
+type=ChangeState
+value= ifelse((pos y>=-20), 5200, 5210)
+triggerall = numenemy
+triggerall= AILevel>0 && AILevel<5 
+triggerall= RoundState=2 && alive
+triggerall= StateNo=5050 && canrecover
+trigger1= vel y>=-1 && ceil(random<=50*(AILevel**2/64.0))
+
+[State -1, Air Dash AI]
+type = ChangeState
+value = 115
+triggerall = (AILevel>0 && AILevel<=8) && RoundState = 2 && numenemy && var(10) = 0 
+triggerall = statetype = A && Vel X <=0
+triggerall = ctrl && BackEdgeBodyDist > 90 && !var(33)
+trigger1 = (p2bodydist x>=80) ;&& (p2bodydist y=[-44,44])
+trigger1 = enemy, MoveType = A && random<100*((AIlevel**2)/64.0)
+trigger2 = random<10*((AIlevel**2)/64.0)
+
+[State -1, Air Dash AI]
+type = ChangeState
+value = cond(enemynear,Movetype=A&&enemynear, vel x>0&&random<150,115,110)
+triggerall = (AILevel>0 && AILevel<=8) && RoundState = 2 && numenemy && var(10) = 0 
+triggerall = statetype = A && Vel X <=0
+triggerall = ctrl && var(50)=2
+trigger1 = (p2bodydist x>=80) ;&& (p2bodydist y=[-44,44])
+trigger1 = enemy, MoveType != A && random<100*((AIlevel**2)/64.0)
+trigger2 = random<10*((AIlevel**2)/64.0)
+
+; AI Run Back
+[State -1, AI Run Back]
+type = ChangeState
+value = 105
+triggerall= (AILevel>4 && AILevel <=8) && numenemy
+triggerall= roundstate=2 && statetype=S
+triggerall= ctrl && (stateno!=105) && !NumTarget(1001)
+trigger1= (enemynear,movetype=A) && backedgedist>=80 && (p2bodydist x=[80,120]) && (enemynear,vel x)
+trigger1= random<ifelse((enemynear,hitdefattr=SC,AT),100,50)
+trigger1 = random<200*((AIlevel**2)/64.0) 
+
+; AI Run
+[State -1, AI Run]
+type = ChangeState
+value = 100
+triggerall= (AILevel>4 && AILevel <=8) && numenemy
+triggerall= roundstate=2 && statetype=S
+triggerall= ctrl && (stateno!=100) && var(50)=2 && !NumTarget(1001)
+trigger1= (enemynear,movetype!=A) && (p2bodydist x>=80)
+trigger1 = random<200*((AIlevel**2)/64.0) 
+trigger2 = enemynear, statetype = A && enemynear, movetype != A && p2bodydist x = [0, 100]
+trigger2 = random < 80 * (AIlevel ** 2 / 64.0)
+
+
+;AI Zetto Counter
+[State -1, AI P Zetto counter]
+type= ChangeState
+trigger1= AILevel>0 && numenemy && roundstate=2 && statetype!=A && power>=1000
+trigger1= stateno=[150, 155]
+trigger1= random < 35*(AIlevel ** 2 / 64.0)
+trigger1= (p2bodydist x=[0,50]) && (life<.5*lifemax)
+trigger1 = enemynear,HitDefAttr = SA,AA
+trigger1 = enemynear, StateType != C
+value=750
+
+;Air Zetto Counter
+[State -1, AI Air P Zetto counter]
+type= ChangeState 
+trigger1= AILevel>0 && numenemy && roundstate=2 && statetype=A && power>=1000
+trigger1= stateno=[150, 155]
+trigger1= random < 35*(AIlevel ** 2 / 64.0)
+trigger1= (p2bodydist x=[0,80]) && (life<.5*lifemax)
+trigger1 = enemynear, StateType = A
+value=760
+
+;AI Zetto Counter
+[State -1, AI K Zetto counter]
+type= ChangeState
+trigger1= AILevel>0 && numenemy && roundstate=2 && statetype!=A && power>=1000
+trigger1= stateno=[150, 155]
+trigger1= random < 45*(AIlevel ** 2 / 64.0)
+trigger1= (p2bodydist x=[20,150]) && (life<.5*lifemax)
+trigger1 = enemynear,StateType != A
+value=750
+
+;Air Zetto Counter
+[State -1, AI Air K Zetto counter]
+type= ChangeState 
+trigger1= AILevel>0 && numenemy && roundstate=2 && statetype=A && power>=1000
+trigger1= stateno=[150, 155]
+trigger1= random < 35*(AIlevel ** 2 / 64.0)
+trigger1= (p2bodydist x=[0,90]) && (life<.5*lifemax)
+trigger1 = enemynear, StateType != A
+value=760
+
+; Ground Throw
+[State -1, Ground throw]
+type = changestate
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate = 2 && statetype != A 
+triggerall = P2BodyDist X <=60 && !NumExplod(850)
+trigger1 =  ctrl && P2StateType = L && Cond(Var(52)> 0 && Var(18) <= 15,random<25*(AIlevel ** 2 / 64.0),random<525*(AIlevel ** 2 / 64.0)) && P2StateNo != 5120
+value = 850
+
+; Ground Throw
+[State -1, Ground throw]
+type = changestate
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate = 2 && statetype != A
+triggerall = P2BodyDist X >=120 && NumExplod(850) && var(52) < 2100
+trigger1 =  ctrl && P2StateType = L && random<525*(AIlevel ** 2 / 64.0) && P2StateNo != 5120 && var(51)>1
+value = 850
+
+; Ground Throw
+[State -1, Ground throw]
+type = changestate
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate = 2 && statetype != A 
+triggerall = P2BodyDist X <=60 && !NumExplod(850)
+trigger1 =  ctrl && P2StateType = L && Cond(Var(52)> 0 && Var(18) <= 15,random<45*(AIlevel ** 2 / 64.0),random<125*(AIlevel ** 2 / 64.0)) && P2StateNo != 5120
+value = 850
+
+[State -1, AI Focus Attack]
+type = ChangeState
+triggerall= AILevel>0 && numenemy && roundstate = 2 && (stateno !=[1300,1302]) && stateno != 106 && statetype = S && (enemynear, Movetype != A)
+triggerall= (p2bodydist x = [45,135]) && (p2bodydist y = [ -70, 0]) && (p2statetype != L) && (enemynear, vel y >= 0)
+triggerall= (enemynear, const(size.head.pos.y) <= -40) || (enemynear, statetype != A)
+trigger1 = ctrl && random<25*(AIlevel ** 2 / 64.0)
+trigger2 = ctrl && random<125*(AIlevel ** 2 / 64.0)
+trigger2 = P2BodyDist X = [-20,60]
+trigger2 = P2MoveType = A && (p2bodydist y = [ -70, 0])
+trigger2 = enemynear, HitDefAttr = SCA, NA
+value = 1300
+
+;AI Power Up
+[State -1, AI Power Up]
+type = ChangeState
+triggerall = AILevel
+TriggerAll=!var(33) 
+triggerall = Var(51)>1
+;triggerall = ((ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90010203)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90010301)))
+;triggerall = NumExplod(90000230) || NumExplod(90000235) || NumExplod(90000240) || NumExplod(90000245) || NumExplod(90000250) || NumExplod(90000255) 
+triggerall = StateType != A  && !WinKo
+triggerall = ctrl
+triggerall= !inguarddist && (random < 300*AIlevel ** 2 / 64.0) && (p2bodydist x>=120)
+triggerall= fvar(15)=0 ||  var(52) < 2100
+triggerall = !NumTarget(1001)
+trigger1=(enemynear,Movetype=H||enemynear,statetype=L)
+trigger2=enemynear,vel x<0 && fvar(15)=0
+trigger3=enemynear,stateno=[120,155] 
+trigger3=fvar(15)=0
+trigger4=enemynear,Movetype=I && fvar(15)=0
+value = 1400
+
+;AI Power Charge
+[State -1, AI Power Charge]
+type=ChangeState
+triggerall= AILevel>0 && numenemy && roundstate=2 && statetype!=A
+triggerall= power<const(data.power) && enemynear,Movetype!=A && !(enemynear,ctrl)
+triggerall=  (power < const(data.power) && power < powermax)
+triggerall= !inguarddist && (random < 300*AIlevel ** 2 / 64.0) && (p2bodydist x>=120)
+triggerall = stateno != [900,901]
+triggerall = prevstateno != [900,901]
+triggerall= ctrl
+triggerall = !NumTarget(1001)
+trigger1=(enemynear,Movetype=H||enemynear,statetype=L)
+trigger2=enemynear,vel x<0
+trigger3=enemynear,stateno=[120,155]
+trigger4=enemynear,Movetype=I
+value=900
+
+;AI Power Charge
+[State -1, AI Power Charge]
+type=ChangeState
+triggerall= AILevel>0 && numenemy && roundstate=2 && statetype!=A
+triggerall= power<const(data.power) 
+triggerall=  power < const(data.power) && power < powermax
+triggerall= !inguarddist && (random < 500*AIlevel ** 2 / 64.0) 
+triggerall = stateno != [900,901]
+triggerall = prevstateno != [900,901]
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1= ctrl && P2StateType != L && NumTarget(1303)
+value=900
+
+; AI Stand Light Punch
+[State -1, AI Stand Light Punch]
+type = ChangeState
+triggerall = numenemy && roundstate=2 && StateType != A
+triggerall = AILevel>4 && AILevel<=8
+triggerall =(p2bodydist x = [-5, 30]) &&(p2bodydist Y = [-20, 30]) &&P2statetype != C && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && cond(var(51)>1&&fvar(15)=0,random < 350*(AIlevel ** 2 / 64.0),random < 100*(AIlevel ** 2 / 64.0))
+trigger2 = (stateno = [100,101]) && cond(var(51)>1,random < 550*(AIlevel ** 2 / 64.0),random < 250*(AIlevel ** 2 / 64.0))
+trigger3 = ctrl&&(enemynear,Time>15) && cond(var(51)>1,random < 650*(AIlevel ** 2 / 64.0),random < 300*(AIlevel ** 2 / 64.0))
+trigger4 = ctrl && random < 550*(AIlevel ** 2 / 64.0)
+trigger4 = P2MoveType = H && P2StateType != A
+value = 200
+
+; AI Stand Light Punch
+[State -1, AI Stand Light Punch]
+type = ChangeState
+triggerall = numenemy && roundstate=2 && StateType != A
+triggerall = AILevel>0 && AILevel<5
+triggerall =(p2bodydist x = [-5, 30]) &&(p2bodydist Y = [-20, 30]) &&P2statetype != C && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 50*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = [100,101]) && random < 150*(AIlevel ** 2 / 64.0) 
+trigger3 = ctrl&&(enemynear,ctrl) && random < 100*(AIlevel ** 2 / 64.0)
+trigger4 = ctrl && random < 50*(AIlevel ** 2 / 64.0)
+trigger4 = P2MoveType = H
+value = 200
+
+;FWD Medium Punch
+[State -1, AIFWD Medium Punch]
+type = ChangeState
+value =205
+triggerall = (AILevel>4&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  && P2statetype = C
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ((p2bodydist x = [-15, 80]) && (p2bodydist Y = [-20, 30]) && p2statetype != L)
+trigger1 = ctrl && random < 50*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact && random < 20*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact && random < 20*(AIlevel ** 2 / 64.0)
+trigger4 = ctrl &&(P2StateNo = [120,155]) && random < 120*(AIlevel ** 2 / 64.0)
+
+;FWD Medium Punch
+[State -1, AIFWD Medium Punch]
+type = ChangeState
+value =205
+triggerall = (AILevel>0&&AILevel<=4) && numenemy && roundstate=2 && StateType != A  && P2statetype = C
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ((p2bodydist x = [-15, 80]) && (p2bodydist Y = [-20, 30]) && p2statetype != L)
+trigger1 = ctrl && random < 20*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact && random < 10*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact && random < 10*(AIlevel ** 2 / 64.0)
+trigger4 = ctrl &&(P2StateNo = [150,155]) && random < 120*(AIlevel ** 2 / 64.0)
+
+; AI Stand Medium Punch
+[State -1, AI Stand Medium Punch]
+type = ChangeState
+triggerall = (AILevel>4&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ((p2bodydist x = [-15, 80]) && (p2bodydist Y = [-20, 30]) && p2statetype != L) || ((p2bodydist x = [-15, 80]) && (enemynear, Pos Y = [-1,-80]) && P2MoveType = H && (P2StateNo != [120,155]))
+trigger1 = ctrl && random < (150+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 100 || stateno = 101)  && random < 350*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 200 && MoveContact) && random < 350*(AIlevel ** 2 / 64.0) 
+trigger4 = (stateno = 230 && MoveContact) && random < 350*(AIlevel ** 2 / 64.0) 
+trigger5 = (stateno = 400 && MoveContact) && random < 350*(AIlevel ** 2 / 64.0)
+trigger6 = (stateno = 430 && MoveContact) && random < 350*(AIlevel ** 2 / 64.0) 
+value = 210
+
+; AI Stand Medium Punch
+[State -1, AI Stand Medium Punch]
+type = ChangeState
+triggerall = (AILevel>0&&AILevel<5) && numenemy && roundstate=2 && StateType != A  && P2statetype != C
+triggerall = ((p2bodydist x = [-15, 80]) && (p2bodydist Y = [-20, 30]) && p2statetype != L) || ((p2bodydist x = [-15, 80]) && (enemynear, Pos Y = [-1,-80]) && P2MoveType = H && (P2StateNo != [120,155]))
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (90+fvar(15)*50)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 100 || stateno = 101)  && random < 50*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 200 && MoveContact) && random < 50*(AIlevel ** 2 / 64.0) 
+trigger4 = (stateno = 230 && MoveContact) && random < 50*(AIlevel ** 2 / 64.0) 
+trigger5 = (stateno = 400 && MoveContact) && random < 50*(AIlevel ** 2 / 64.0)
+trigger6 = (stateno = 430 && MoveContact) && random < 50*(AIlevel ** 2 / 64.0) 
+value = 210
+
+; AI Stand Strong Punch
+[State -1, AI Stand Strong Punch]
+type = ChangeState
+triggerall = (AILevel>4&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  && P2statetype != C
+triggerall = (p2bodydist x = [10, 60]) && (p2bodydist Y = [-20, 30]) && p2statetype != L || ((p2bodydist x >100) && !var(33)) && cond(NumTarget(1001),(p2bodydist Y = [-100, 0]),1)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl  && cond((p2bodydist x <100),random < (150-fvar(15)*100)*(AIlevel ** 2 / 64.0),random < 150*(AIlevel ** 2 / 64.0))
+trigger2 = StateType != A && movehit
+trigger2 = (stateno = 200) || (stateno = 210)  || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 300*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 100 || stateno = 101) && random < 250*(AIlevel ** 2 / 64.0)  
+trigger4 = (stateno = 400) || (stateno = 430) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 440)
+trigger4 = movehit && random < 300*(AIlevel ** 2 / 64.0)
+value = 220
+
+; AI Stand Strong Punch
+[State -1, AI Stand Strong Punch]
+type = ChangeState
+triggerall = (AILevel>0&&AILevel<5) && numenemy && roundstate=2 && StateType != A  && P2statetype != C
+triggerall = (p2bodydist x = [10, 75]) && (p2bodydist Y = [-20, 70]) && p2statetype != L || (p2bodydist x >90)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 60*(AIlevel ** 2 / 64.0)
+trigger2 = StateType != A && movehit
+trigger2 = (stateno = 200) || (stateno = 210)  || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 150*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 100 || stateno = 101) && random < 75*(AIlevel ** 2 / 64.0)  
+trigger4 = (stateno = 400) || (stateno = 430) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 440)
+trigger4 = movehit && random < 150*(AIlevel ** 2 / 64.0)
+value = 220
+
+; AI Stand Light Kick
+[State -1, AI Stand Light Kick]
+type = ChangeState
+triggerall = (AILevel>4&&AILevel<=8) && numenemy && roundstate=2 && StateType != A  && P2statetype != A
+triggerall = (p2bodydist x = [10, 90]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 150*(AIlevel ** 2 / 64.0)
+value = 230
+
+; AI Stand Light Kick
+[State -1, AI Stand Light Kick]
+type = ChangeState
+triggerall = (AILevel>0&&AILevel<5) && numenemy && roundstate=2 && StateType != A  && P2statetype != A
+triggerall = (p2bodydist x = [10, 90]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 70*(AIlevel ** 2 / 64.0)
+value = 230
+
+[State -1, AI Throw]
+type = ChangeState
+triggerall = AILevel>0
+triggerall = roundstate=2 && statetype!=A && enemynear,statetype!=L && (enemynear,stateno!=[5120,5201])
+triggerall = enemynear,movetype!=H && enemynear,statetype!=A && enemynear,Hitover && (p2bodydist x=[0,20])
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ctrl && stateno!=100
+trigger1 = random < 100*(AIlevel ** 2 / 64.0)
+trigger2 = enemynear,stateno=[120,155]
+trigger2 = random < 300*(AIlevel ** 2 / 64.0)
+value = Cond(BackEdgeBodyDist <30, 810,Ifelse(random<=500,800,810))
+
+; AI Standing Medium Kick
+[State -1, AI Standing Medium Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType != A  ;&& P2statetype != C
+triggerall = (p2bodydist x = [40, 120]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (100+fvar(15)*250)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 212) || (stateno = 230) 
+trigger2 = movehit && random < 600*(AIlevel ** 2 / 64.0)
+trigger3 = stateno = 100 || stateno = 101  && !NumProjID(220)
+trigger3 = movehit && random < 250*(AIlevel ** 2 / 64.0)
+trigger4 = (stateno = 400) || (stateno = 430)
+trigger4 = movehit && random < 450*(AIlevel ** 2 / 64.0)
+value = 240
+
+; AI Standing Medium Kick
+[State -1, AI Standing Medium Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType != A  ;&& P2statetype != C
+triggerall = (p2bodydist x = [40, 180]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (50+fvar(15)*50)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 212) || (stateno = 230) 
+trigger2 = movehit && random < 200*(AIlevel ** 2 / 64.0)
+trigger3 = stateno = 100 || stateno = 101  && !NumProjID(220)
+trigger3 = movehit && random < 50*(AIlevel ** 2 / 64.0)
+trigger4 = (stateno = 400) || (stateno = 430)
+trigger4 = movehit && random < 100*(AIlevel ** 2 / 64.0)
+value = 240
+
+; AI Standing Strong Kick
+[State -1, AI Standing Strong Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType != A  
+triggerall = ((p2bodydist x = [60, 120]) && p2statetype != L )|| ((p2bodydist x = [0, 100]) && (enemynear, Pos Y = [-1,-90]) && P2MoveType = H && (P2StateNo != [120,155]))
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (250-fvar(15)*150)
+trigger2 = (stateno = 200) || (stateno = 210)  || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 300*(AIlevel ** 2 / 64.0)
+trigger3 = stateno = 100 || stateno = 101  && !NumProjID(220)
+trigger3 = movehit && random < 250*(AIlevel ** 2 / 64.0)
+trigger4 = (stateno = 400) || (stateno = 430) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 440)
+trigger4 = movehit && random < 450*(AIlevel ** 2 / 64.0)
+value = 250
+
+; AI Standing Strong Kick
+[State -1, AI Standing Strong Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType != A  
+triggerall = ((p2bodydist x = [60, 150]) && p2statetype != L )|| ((p2bodydist x = [0, 100]) && (enemynear, Pos Y = [-1,-90]) && P2MoveType = H && (P2StateNo != [120,155]))
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 110*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 100*(AIlevel ** 2 / 64.0)
+trigger3 = stateno = 100 || stateno = 101  && !NumProjID(220)
+trigger3 = movehit && random < 110*(AIlevel ** 2 / 64.0)
+trigger4 = (stateno = 400) || (stateno = 430) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 440)
+trigger4 = movehit && random < 150*(AIlevel ** 2 / 64.0)
+value = 250
+
+; AI Standing Strong Kick
+[State -1, AI Standing Strong Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<8) && numenemy && roundstate=2 && StateType != A  
+triggerall = NumTarget(1001) || NumTarget(1512)
+triggerall = ctrl 
+;trigger5 = target, StateNo = 1021
+trigger1 = ((p2bodydist x = [20, 120]) && (target, Pos Y = [-1,-190]) && random < 450*(AIlevel ** 2 / 64.0))
+value = 250
+
+; AI Crouching Light Punch
+[State -1, AI Crouching Light Punch]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 50]) &&(p2bodydist y = 0) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && cond(var(51)>1&&fvar(15)=0,random < 550*(AIlevel ** 2 / 64.0),random < 250*(AIlevel ** 2 / 64.0))
+value = 400
+
+; AI Crouching Light Punch
+[State -1, AI Crouching Light Punch]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 90]) &&(p2bodydist y = 0) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 50*(AIlevel ** 2 / 64.0)
+value = 400
+
+; AI Crouching Medium Punch
+[State -1, AI Crouching Medium Punch]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 240]) &&(p2bodydist y = [-80,80]) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (250+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact && random < 250*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact && random < 250*(AIlevel ** 2 / 64.0)
+value = 410
+
+[State -1, AI Crouching Medium Punch OTG]
+type = ChangeState
+triggerall = (AILevel>3 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-10, 140]) && P2statetype = L && Var(18)<= 15
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (50+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact && random < 50*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact && random < 50*(AIlevel ** 2 / 64.0)
+value = 410
+
+; AI Crouching Medium Punch
+[State -1, AI Crouching Medium Punch]
+type = ChangeState
+triggerall = Var(29)=0
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 340]) &&(p2bodydist y = [-100,100]) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (100+fvar(15)*50)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 230)  
+trigger2 = MoveContact && random < 50*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 430)  
+trigger3 = MoveContact && random < 50*(AIlevel ** 2 / 64.0)
+value = 410
+
+; AI Crouching Strong Punch 
+[State -1, AI Crouching Strong Punch]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType != A
+triggerall = (p2bodydist x = [-5, 160]) &&(p2bodydist y = [-90,140]) && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (250-fvar(15)*150)*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 500*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 410 && AnimElemTime(11)>=0)  || (stateno = 430) || (stateno = 440) 
+trigger3 = movehit && random < 400*(AIlevel ** 2 / 64.0)
+value = 420
+
+; AI Crouching Strong Punch 
+[State -1, AI Crouching Strong Punch]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType != A
+triggerall = (p2bodydist x = [-5, 270]) &&(p2bodydist y = [-90,200]) && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 100*(AIlevel ** 2 / 64.0)
+trigger2 = (stateno = 200) || (stateno = 210) || (stateno = 230) || (stateno = 240) 
+trigger2 = movehit && random < 100*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 400) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger3 = movehit && random < 200*(AIlevel ** 2 / 64.0)
+value = 420
+
+; AI Crouching Light Kick
+[State -1, AI Crouching Light Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 50]) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 250*(AIlevel ** 2 / 64.0)
+value = 430
+
+; AI Crouching Light Kick
+[State -1, AI Crouching Light Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [-5, 60]) && P2statetype != A && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 90*(AIlevel ** 2 / 64.0)
+value = 430
+
+; AI Crouching Medium Kick
+[State -1, AI Crouching Medium Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [0, 110]) && P2statetype != A 
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < (250+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 200)  || (stateno = 230) || (stateno = 400) || (stateno = 430) 
+trigger2 = movehit && random < 400*(AIlevel ** 2 / 64.0)
+value = 440
+
+; AI Crouching Medium Kick
+[State -1, AI Crouching Medium Kick]
+type = ChangeState
+triggerall = StateNo != 440
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType = C
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x = [0, 190]) && P2statetype != A 
+trigger1 = ctrl && random < (90+fvar(15)*50)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 200)  || (stateno = 230) || (stateno = 400)  || (stateno = 430) 
+trigger2 = movehit && random < 70*(AIlevel ** 2 / 64.0)
+value = 440
+
+; AI Crouching Strong Kick
+[State -1, AI Crouching Strong Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [20, 120]) && P2statetype != C && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && cond((p2bodydist x <110),random < (250-fvar(15)*150)*(AIlevel ** 2 / 64.0),random < 250*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo = 400) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) || (stateno = 441) || (stateno = 442)
+trigger2 = movehit && Cond(P2StateType = S,random < 750*(AIlevel ** 2 / 64.0),random < 650*(AIlevel ** 2 / 64.0))
+trigger3 = (stateno = 200) || (stateno = 210) || (stateno = 230) || (stateno = 240) 
+trigger3 = movehit && Cond(P2StateType = S,random < 300*(AIlevel ** 2 / 64.0),random < 200*(AIlevel ** 2 / 64.0))
+value = 450
+
+; AI Crouching Strong Kick
+[State -1, AI Crouching Strong Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && StateType = C
+triggerall = (p2bodydist x = [20, 180]) && P2statetype != C && P2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 90*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 400) || (stateno = 410 && AnimElemTime(11)>=0) || (stateno = 430) || (stateno = 440) 
+trigger2 = movehit && random < 90*(AIlevel ** 2 / 64.0)
+trigger3 = (stateno = 200) || (stateno = 210) || (stateno = 230) || (stateno = 240)  
+trigger3 = movehit && random < 60*(AIlevel ** 2 / 64.0)
+value = 450
+
+;Jump Down Heavy Kick
+[State -1, Jump Down Heavy Kick]
+type = ChangeState
+triggerall = (AILevel>4&&AILevel<=8) && numenemy && roundstate=2 && StateType = A  && P2statetype != A
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x >= 25)  && random < 75*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+Trigger2=StateNo=[600,659] 
+Trigger2=MoveContact && random < 105*(AIlevel ** 2 / 64.0)
+Trigger3= StateNo = 620
+Trigger3= NumHelper(2026)
+trigger3 = helper(2026), MoveHit && random < 105*(AIlevel ** 2 / 64.0)
+value = 670
+
+;Jump Down Heavy Kick
+[State -1, Jump Down Heavy Kick]
+type = ChangeState
+triggerall = (AILevel>0&&AILevel<=4) && numenemy && roundstate=2 && StateType = A  && P2statetype != A
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x >= 25)  && random < 35*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+Trigger2=StateNo=[600,659] 
+Trigger2=MoveContact && random < 25*(AIlevel ** 2 / 64.0)
+Trigger3= StateNo = 620
+Trigger3= NumHelper(2026)
+trigger3 = helper(2026), MoveHit && random < 25*(AIlevel ** 2 / 64.0)
+value = 670
+
+;AI Jump Light Punch
+[State -1, AI Jump Light Punch]
+type = ChangeState
+triggerall = numenemy && roundstate=2 && statetype = A
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = ctrl || Stateno = 111
+trigger1 = (AILevel>4 && AILevel<=8)
+trigger1 = random < 150*(AIlevel ** 2 / 64.0) 
+trigger1 = (p2bodydist x = [-20,40]) && (p2bodydist y = [-60,60]) && p2statetype != L
+value = 600
+
+;AI Jump Light Punch
+[State -1, AI Jump Light Punch]
+type = ChangeState
+triggerall = numenemy && roundstate=2 && statetype = A
+triggerall = ctrl|| Stateno = 111
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (AILevel>0 && AILevel<5)
+trigger1 = random < 10*(AIlevel ** 2 / 64.0) 
+trigger1 = (p2bodydist x = [-20,40]) && (p2bodydist y = [-60,60]) && p2statetype != L
+value = 600
+
+;AI Jump Medium Punch
+[State -1, AI Jump Medium Punch]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [-30,80]) && (p2bodydist y = [-60,60]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (250+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 630)
+trigger2 = Movehit && random < 350*(AIlevel ** 2 / 64.0)
+value = 610
+
+;AI Jump Medium Punch
+[State -1, AI Jump Medium Punch]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [-50,120]) && (p2bodydist y = [-60,60]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (20+fvar(15)*10)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 630)
+trigger2 = Movehit && random < 20*(AIlevel ** 2 / 64.0)
+value = 610
+
+;AI Jump Strong Punch 
+[State -1, AI Jump Strong Punch]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [30,120]) && (p2bodydist y = [0,120]) 
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (250-fvar(15)*150)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 610) || (StateNo = 630) || (StateNo = 640)
+trigger2 = Movehit && random < 450*(AIlevel ** 2 / 64.0)
+value = 620
+
+;AI Jump Strong Punch 
+[State -1, AI Jump Strong Punch]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [30,120]) && (p2bodydist y = [0,120]) 
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 610) || (StateNo = 630) || (StateNo = 640)
+trigger2 = Movehit && random < 30*(AIlevel ** 2 / 64.0)
+value = 620
+
+
+
+;AI Jump Light Kick
+[State -1, AI Jump Light Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [5,90]) && (p2bodydist y = [-30,70]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < 250*(AIlevel ** 2 / 64.0)
+value = 630
+
+;AI Jump Light Kick
+[State -1, AI Jump Light Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [5,140]) && (p2bodydist y = [-30,70]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < 40*(AIlevel ** 2 / 64.0)
+value = 630
+
+;AI Jump Medium Kick
+[State -1, AI Jump Medium Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [-15,120]) && (p2bodydist y = [-20,60]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (250+fvar(15)*200)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 630)
+trigger2 = Movehit && random < 450*(AIlevel ** 2 / 64.0)
+value = 640
+
+;AI Jump Medium Kick
+[State -1, AI Jump Medium Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [-15,120]) && (p2bodydist y = [-20,60]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (50+fvar(15)*50)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 630)
+trigger2 = Movehit && random < 50*(AIlevel ** 2 / 64.0)
+value = 640
+
+;AI Jump Strong Kick
+[State -1, AI Jump Strong Kick]
+type = ChangeState
+triggerall = (AILevel>4 && AILevel<=8) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [5,120]) && (p2bodydist y = [-90,90]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < (250-fvar(15)*150)*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 610) || (StateNo = 630) || (StateNo = 640)
+trigger2 = Movehit && random < 550*(AIlevel ** 2 / 64.0)
+value = 650
+
+;AI Jump Strong Kick
+[State -1, AI Jump Strong Kick]
+type = ChangeState
+triggerall = (AILevel>0 && AILevel<5) && numenemy && roundstate=2 && statetype = A
+triggerall = (p2bodydist x = [5,80]) && (p2bodydist y = [-120,180]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = (ctrl || Stateno = 111) && random < 60*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = 600) || (StateNo = 610) || (StateNo = 630) || (StateNo = 640)
+trigger2 = Movehit && random < 60*(AIlevel ** 2 / 64.0)
+value = 650
+
+; Air Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [120,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,-60]) 
+triggerall = cond(var(51)<=1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100) && random < 550*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50)
+trigger1 = var(51)<=1
+trigger2 = StateNo = [400,659]
+trigger2 = var(51)>1&&movehit
+value = 1100
+
+; Air Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype = A && numenemy && roundstate=2
+triggerall = (P2StateNo != [120,155]) && (p2bodydist x = [0,60]) && (p2bodydist y = [-60,-60]) 
+triggerall = cond(var(51)<=1,P2MoveType != H,P2StateType !=L) && P2StateType = A ;|| (P2MoveType = H && P2StateType = A)
+triggerall = !NumProjID(1100) && random < 70*(AIlevel ** 2 / 64.0)
+trigger1 = ctrl || StateNo = 111 || (PrevStateNo = 111 && StateNo = 50) 
+trigger2 = StateNo = [400,659]
+trigger2 = var(51)>1&&movehit&&random < 85*(AIlevel ** 2 / 64.0)
+value = 1100
+
+; EX Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall = Power >= 500
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (P2StateNo != [120,155]) && (p2bodydist x = [0,70]) && (p2bodydist y = [-60,0]) && p2statetype != L
+triggerall = cond(var(51)<=1,P2MoveType != H,P2StateType !=L) && P2StateType != A  ;|| (P2MoveType = H && P2StateType = A)
+trigger1 = (ctrl || StateNo = 40 || (StateNo = [10231,10233])) && cond(var(51)>1,random < 1*(AIlevel ** 2 / 64.0),random < 250*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>1&&movehit,random < 850*(AIlevel ** 2 / 64.0),random < 150*(AIlevel ** 2 / 64.0))
+trigger3 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger3 = (PrevStateno = 1200 || PrevStateno = 1230) && var(51)>1 && P2MoveType = H && random < 850*(AIlevel ** 2 / 64.0)
+value = 1030
+
+; EX Leg Spin Grab
+[State -1, Leg Spin Grab]
+type = ChangeState
+triggerall = Power >= 500
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (P2StateNo != [120,155]) && (p2bodydist x = [0,70]) && (p2bodydist y = [-60,0]) && p2statetype != L
+triggerall = cond(var(51)<=1,P2MoveType != H,P2StateType !=L)  ;|| (P2MoveType = H && P2StateType = A)
+trigger1 = (ctrl || StateNo = 40 || (StateNo = [10231,10233])) && random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>1&&movehit,random < 65*(AIlevel ** 2 / 64.0),random < 40*(AIlevel ** 2 / 64.0))
+value = 1030
+
+
+; Leg Spin Grab
+[State -1, AILeg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (P2StateNo != [120,155]) && (p2bodydist x = [0,70]) && (p2bodydist y = [-60,0]) && p2statetype != L
+triggerall = cond(var(51)<=1,P2MoveType != H,P2StateType !=L) && P2StateType != A ;|| (P2MoveType = H && P2StateType = A)
+trigger1 = (ctrl || StateNo = 40 || (StateNo = [10231,10233])) && cond(var(51)>1,random < 1*(AIlevel ** 2 / 64.0),random < 350*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>1&&movehit,random < 850*(AIlevel ** 2 / 64.0),random < 150*(AIlevel ** 2 / 64.0))
+trigger3 = ctrl || StateNo = 40 || (StateNo = [10231,10233])
+trigger3 = (PrevStateno = 1200 || PrevStateno = 1230) && var(51)>1 && P2MoveType = H && random < 850*(AIlevel ** 2 / 64.0)
+value = 1000
+
+; Leg Spin Grab
+[State -1, AILeg Spin Grab]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [0,90]) && (p2bodydist y = [-60,0]) && p2statetype != L
+triggerall = P2StateNo != [120,155]
+trigger1 = (ctrl || StateNo = 40 || (StateNo = [10231,10233])) && random < 40*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>1&&movehit,random < 100*(AIlevel ** 2 / 64.0),random < 50*(AIlevel ** 2 / 64.0))
+value = 1000
+
+
+
+;---------------------------------------------------------------------------
+;EX Ground to Air
+[State -1]
+type = ChangeState
+triggerall = Power >=500
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [3,90]) && (!NumTarget(1001) && (p2bodydist y = [-90,0])) || (NumTarget(1001) && (p2bodydist y = [-160,-50])) 
+triggerall = p2statetype != L && P2StateType = A
+triggerall = P2StateNo != [120,155]
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl&& random < 100*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>=1,random < 100*(AIlevel ** 2 / 64.0),random < 300*(AIlevel ** 2 / 64.0))
+trigger3 = ctrl && NumTarget(1303) && random < 400*(AIlevel ** 2 / 64.0)
+trigger4 = ctrl &&  NumTarget(1001) && random < 600*(AIlevel ** 2 / 64.0)
+value = 1601
+
+;---------------------------------------------------------------------------
+;EX Ground to Air
+[State -1]
+type = ChangeState
+triggerall = Power >=500
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [3,90]) && (!NumTarget(1001) && (p2bodydist y = [-90,0])) || (NumTarget(1001) && (p2bodydist y = [-160,-50]))
+triggerall = p2statetype != L && P2StateType = A
+triggerall = P2StateNo != [120,155]
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl&& random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && random < 20*(AIlevel ** 2 / 64.0)
+trigger3 = ctrl && (NumTarget(1303) || NumTarget(1001)) && random < 40*(AIlevel ** 2 / 64.0)
+value = 1601
+
+;---------------------------------------------------------------------------
+;Ground to Air
+[State -1]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [3,90]) && (!NumTarget(1001) && (p2bodydist y = [-90,0])) || (NumTarget(1001) && (p2bodydist y = [-160,-50]))
+triggerall = p2statetype != L && P2StateType = A
+triggerall = P2StateNo != [120,155]
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl&& random < 230*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && cond(var(51)>=1,random < 150*(AIlevel ** 2 / 64.0),random < 350*(AIlevel ** 2 / 64.0))
+trigger3 = ctrl && NumTarget(1303) && random < 450*(AIlevel ** 2 / 64.0)
+trigger4 = ctrl &&  NumTarget(1001) && random < 700*(AIlevel ** 2 / 64.0)
+value = 1600
+
+;---------------------------------------------------------------------------
+;Ground to Air
+[State -1]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [3,90]) && (!NumTarget(1001) && (p2bodydist y = [-90,0])) || (NumTarget(1001) && (p2bodydist y = [-160,-50]))
+triggerall = p2statetype != L && P2StateType = A
+triggerall = P2StateNo != [120,155]
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl&& random < 20*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveContact && random < 20*(AIlevel ** 2 / 64.0)
+trigger3 = ctrl && (NumTarget(1303) || NumTarget(1001)) && random < 30*(AIlevel ** 2 / 64.0)
+value = 1600
+
+; EX FIST
+[State -1, EX FIST]
+type = ChangeState
+triggerall = Power >= 500&&NumHelper(12200)=0
+triggerall = !NumHelper(1220)
+triggerall = !NumProjID(1225)
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x >=0 ) && (p2bodydist y = [-80,0]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = Anim != 450
+trigger1 = ctrl && random < 75*(AIlevel ** 2 / 64.0) && P2MoveType = A && P2BodyDist X > 60
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit && random < 50*(AIlevel ** 2 / 64.0)
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4& random < 50*(AIlevel ** 2 / 64.0)
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3 & random < 50*(AIlevel ** 2 / 64.0)
+value = 1230
+
+; EX FIST
+[State -1, EX FIST]
+type = ChangeState
+triggerall = Power >= 500&&NumHelper(12200)=0
+triggerall = !NumHelper(1220)
+triggerall = !NumProjID(1225)
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x >=0 ) && (p2bodydist y = [-80,0]) && p2statetype != L
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = Anim != 450
+trigger1 = ctrl && random < 35*(AIlevel ** 2 / 64.0) && P2MoveType = A && P2BodyDist X > 60
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit && random < 20*(AIlevel ** 2 / 64.0)
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4& random < 20*(AIlevel ** 2 / 64.0)
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3 & random < 20*(AIlevel ** 2 / 64.0)
+value = 1230
+
+; FIST
+[State -1, FIST]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [1,150]) && (p2bodydist y = [-80,0]) && p2statetype != L
+triggerall = !NumHelper(1220)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = Anim != 450
+trigger1 = ctrl && random < 250*(AIlevel ** 2 / 64.0) && P2MoveType = A && P2BodyDist X > 60
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit && random < 100*(AIlevel ** 2 / 64.0)
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4& random < 100*(AIlevel ** 2 / 64.0)
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3 & random < 100*(AIlevel ** 2 / 64.0)
+value = 1200
+
+; FIST
+[State -1, FIST]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [1,150]) && (p2bodydist y = [-80,0]) && p2statetype != L
+triggerall = !NumHelper(1220)
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = Anim != 450
+trigger1 = ctrl && random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo = [200,219]) || (StateNo = [225,499])
+trigger2 = MoveHit && random < 30*(AIlevel ** 2 / 64.0)
+trigger3 = StateNo = 200 || StateNo = 210 || StateNo = 220
+trigger3 = Time <=4& random < 30*(AIlevel ** 2 / 64.0)
+trigger4 = StateNo = 220 
+trigger4 = MoveHit >=3 & random < 30*(AIlevel ** 2 / 64.0)
+value = 1200
+
+;---------------------------------------------------------------------------
+;TP Dash EX
+[State -1,DASH]
+type = ChangeState
+triggerall = Power >= 500
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x = [40,170]) 
+trigger1 = ctrl && cond(var(51)>1,random < 50*(AIlevel ** 2 / 64.0),random < 200*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(NumTarget(1001),random < 200*(AIlevel ** 2 / 64.0),random < 50*(AIlevel ** 2 / 64.0))
+value = 1516
+
+;---------------------------------------------------------------------------
+;TP Dash EX
+[State -1,DASH]
+type = ChangeState
+triggerall = Power >= 500
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x = [40,170]) 
+trigger1 = ctrl && random < 60*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(var(51)>1,random < 45*(AIlevel ** 2 / 64.0),random < 20*(AIlevel ** 2 / 64.0))
+value = 1516
+
+;---------------------------------------------------------------------------
+;TP Dash LK
+[State -1, Dash]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 
+triggerall = (P2StateType = A && P2BodyDist Y <= -110) || (enemy, BackEdgeBodyDist <=40 && P2MoveType = A && enemy, Time <=6 && BackEdgeBodyDist <=0)
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 300*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit  && random < 50*(AIlevel ** 2 / 64.0)
+value = 1500
+
+;---------------------------------------------------------------------------
+;TP Dash MK
+[State -1,DASH]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x = [40,120]) 
+trigger1 = ctrl && cond(var(51)>1,random < 40*(AIlevel ** 2 / 64.0),random < 350*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(NumTarget(1001),random < 350*(AIlevel ** 2 / 64.0),random < 70*(AIlevel ** 2 / 64.0))
+value = 1510
+
+;---------------------------------------------------------------------------
+;TP Dash HK
+[State -1,DASH]
+type = ChangeState
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 
+triggerall = !NumTarget(1000) && !NumTarget(1001) && !NumTarget(1511) && !NumTarget(1512)
+triggerall = (p2bodydist x = [120,170]) 
+trigger1 = ctrl && cond(var(51)>1,random < 45*(AIlevel ** 2 / 64.0),random < 400*(AIlevel ** 2 / 64.0))
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(NumTarget(1001),random < 400*(AIlevel ** 2 / 64.0),random < 100*(AIlevel ** 2 / 64.0))
+value = 1515
+
+;---------------------------------------------------------------------------
+;TP Dash LK
+[State -1, Dash]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2 
+triggerall = (P2StateType = A && P2BodyDist Y <= -110) || (enemy, BackEdgeBodyDist <=40 && P2MoveType = A && enemy, Time <=6 && BackEdgeBodyDist <=0)
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 40*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit  && random < 10*(AIlevel ** 2 / 64.0)
+value = 1500
+
+;---------------------------------------------------------------------------
+;TP Dash MK
+[State -1,DASH]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2 
+triggerall = (p2bodydist x = [60,160]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 30*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(var(51)>1,random < 65*(AIlevel ** 2 / 64.0),random < 10*(AIlevel ** 2 / 64.0))
+value = 1510
+
+;---------------------------------------------------------------------------
+;TP Dash HK
+[State -1,DASH]
+type = ChangeState
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [160,210])  
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)
+trigger1 = ctrl && random < 40*(AIlevel ** 2 / 64.0)
+trigger2 = (StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+trigger2 = MoveHit && cond(var(51)>1,random < 45*(AIlevel ** 2 / 64.0),random < 20*(AIlevel ** 2 / 64.0))
+value = 1515
+
+
+
+; Glare
+[State -1,Glare]
+type = changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,150]) && (p2bodydist y = [-80,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 350*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact && random < 550*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),MoveHit && random < 350*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660) && random < 550*(AIlevel ** 2 / 64.0)
+value = 2015
+
+; Glare
+[State -1,Glare]
+type = changestate
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2 && P2StateType != L
+triggerall = (p2bodydist x = [0,150]) && (p2bodydist y = [-80,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 30*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact && random < 100*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)
+Trigger3=Helper(1220),MoveHit && random < 100*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660) && random < 100*(AIlevel ** 2 / 64.0)
+value = 2015
+
+; Blazing Storm
+[State -1, Blazing Storm]
+type = changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype = A && numenemy && roundstate=2 
+triggerall = (p2bodydist x >50) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+TriggerAll=NumHelper(2002)=0
+trigger1 = ctrl && random < 550*(AIlevel ** 2 / 64.0)
+Trigger2=StateNo=[600,699]
+Trigger2=MoveHit && random < 250*(AIlevel ** 2 / 64.0)
+Trigger3=(StateNo=250&&AnimElemTime(10)<0) || (StateNo=450)
+Trigger3=MoveHit && random < 250*(AIlevel ** 2 / 64.0)
+Trigger4= StateNo = 620
+Trigger4= NumHelper(2026) && random < 250*(AIlevel ** 2 / 64.0)
+value = 2000
+
+; Blazing Storm
+[State -1, Blazing Storm]
+type = changestate
+triggerall= (AILevel>0 && AILevel<5) && statetype = A && numenemy && roundstate=2
+triggerall = (p2bodydist x >50) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+TriggerAll=NumHelper(2002)=0
+trigger1 = ctrl && random < 100*(AIlevel ** 2 / 64.0)
+Trigger2=StateNo=[600,699]
+Trigger2=MoveHit && random < 30*(AIlevel ** 2 / 64.0)
+Trigger3=(StateNo=250&&AnimElemTime(10)<0) || (StateNo=450)
+Trigger3=MoveHit && random < 30*(AIlevel ** 2 / 64.0)
+Trigger4= StateNo = 620
+Trigger4= NumHelper(2026) && random < 30*(AIlevel ** 2 / 64.0)
+value = 2000
+
+; Colossal Upper
+[State -1, Colossal Upper]
+type = changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2 
+triggerall = (p2bodydist x = [-60,60]) && (p2bodydist y = [-280,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 650*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact&& random < 350*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)&& random < 350*(AIlevel ** 2 / 64.0)
+Trigger3=Helper(1220),MoveHit&& random < 350*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660)&& random < 350*(AIlevel ** 2 / 64.0)
+value = 2010
+
+; Colossal Upper
+[State -1, Colossal Upper]
+type = changestate
+triggerall= (AILevel>0 && AILevel<5) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [-30,30]) && (p2bodydist y = [-280,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 1000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 110*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact&& random < 30*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)&& random < 30*(AIlevel ** 2 / 64.0)
+Trigger3=Helper(1220),MoveHit&& random < 50*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660)&& random < 30*(AIlevel ** 2 / 64.0)
+value = 2010
+
+; Colossal Upper LVL2
+[State -1, Colossal Upper]
+type = changestate
+triggerall= (AILevel>4 && AILevel<=8) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [-50,50]) && (p2bodydist y = [-280,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 450*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact&& random < 450*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)&& random < 450*(AIlevel ** 2 / 64.0)
+Trigger3=Helper(1220),MoveHit&& random < 450*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660)&& random < 450*(AIlevel ** 2 / 64.0)
+value = 2012
+
+; Colossal Upper LVL2
+[State -1, Colossal Upper]
+type = changestate
+triggerall= (AILevel>0 && AILevel<=4) && statetype != A && numenemy && roundstate=2
+triggerall = (p2bodydist x = [-90,90]) && (p2bodydist y = [-280,0]) 
+triggerall = !NumTarget(1000) && !NumTarget(1511) && !NumTarget(1512)  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = ctrl && P2MoveType = A && random < 70*(AIlevel ** 2 / 64.0)
+Trigger2=(StateNo=[200,409]) || (StateNo=[411,499]) || (StateNo = 410 && AnimElemTime(11)>=0)
+Trigger2=MoveContact&& random < 70*(AIlevel ** 2 / 64.0)
+Trigger3=NumHelper(1220)&& random < 70*(AIlevel ** 2 / 64.0)
+Trigger3=Helper(1220),MoveHit&& random < 70*(AIlevel ** 2 / 64.0)
+Trigger4=NumTarget(660)&& random < 250*(AIlevel ** 2 / 64.0)
+value = 2012
+
+;Justice Exit
+[State -1]
+type = ChangeState
+triggerall = roundstate = 2 && statetype !=A
+triggerall = !WinKo
+triggerall = var(51)>1;EMO mode and not during EMO exit
+triggerall = var(50)=2 && !NumHelper(3820)
+triggerall = Ctrl
+trigger1 = AILevel = 1 && Life<=100 ;Desperate move
+trigger2 = AILevel = 2 && Life<=200 ;Desperate move
+trigger3 = AILevel = 3 && Life<=300 ;Desperate move
+trigger4 = AILevel = 4 && Life<=400 ;Desperate move
+trigger5 = AILevel = 5 && Life<=500 ;Desperate move
+trigger6 = AILevel = 6 && Life<=600 ;Desperate move
+trigger7 = AILevel = 7 && Life<=650 ;Desperate move
+trigger8 = AILevel = 8 && Life<=700 ;Desperate move
+value = 2746
+
+;Justice Exit
+[State -1]
+type = ChangeState
+triggerall = AILevel>0 && numenemy && roundstate = 2 && statetype !=A
+triggerall = !WinKo
+triggerall = !Var(50)
+triggerall = var(51)>1;EMO mode and not during EMO exit
+triggerall = Life<400 ;Desperate move
+triggerall = p2bodydist x>80 && p2bodydist y=[-60,120]
+triggerall = enemynear,stateno!=[120,155]
+triggerall = !Var(33)
+trigger1 = Ctrl && random < 300*(AIlevel ** 2 / 64.0)
+value = 2746
+
+;Justice Mode Entrance
+[State -1]
+type = ChangeState
+triggerall = enemy, name != "Saibamen Z2" && authorname = "Team Z2"
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= (AILevel>4 && AILevel<=8) && var(51)<=0
+;triggerall = roundstate = 2
+;triggerall = var(49)=0 ;No justice mode
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = Ctrl 
+trigger1 = random<(550*((AIlevel**2)/64.0) + 150*(enemynear,movetype=H) + 150*(p2statetype = L) + 150*(p2bodydist x>=120) - 150*(enemynear,Movetype=A))
+value = 2745
+
+[State -1]
+type = ChangeState
+triggerall = enemy, name != "Saibamen Z2" && authorname = "Team Z2"
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall= (AILevel>0 && AILevel<=4) && var(51)<=0
+;triggerall = roundstate = 2
+;triggerall = var(49)=0 ;No justice mode
+triggerall = statetype != A  && !WinKo
+triggerall = power >= 2000 && (stateno != [2000,3999])
+trigger1 = Ctrl 
+trigger1 = random<(100*((AIlevel**2)/64.0) + 50*(enemynear,movetype=H) + 50*(p2statetype = L) + 50*(p2bodydist x>=120) - 50*(enemynear,Movetype=A))
+value = 2745
+
+
+
+
+

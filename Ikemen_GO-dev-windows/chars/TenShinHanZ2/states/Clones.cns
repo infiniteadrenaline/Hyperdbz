@@ -1,0 +1,3751 @@
+;Clone disappear
+[Statedef 40000]
+type    = A
+movetype= I;A
+physics = N
+anim = 40000
+velset = 0,0
+ctrl = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 
+
+[State 100, teleport sound]
+type = PlaySnd
+trigger1 = !Time
+value = S2500,0
+volumescale = 50 
+persistent = 0
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 1061, End]
+type = destroyself
+trigger1 = p2movetype != H && animelemtime(3) >= 60
+
+;Clone disappear Hit
+[Statedef 40001]
+type    = A
+movetype= I;A
+physics = N
+anim = 40000
+velset = 0,0
+ctrl = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 
+
+[State 100, teleport sound]
+type = PlaySnd
+trigger1 = !Time
+value = S2500,0
+volumescale = 50 
+persistent = 0
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 1061, End]
+type = destroyself
+trigger1 = p2movetype != H && animelemtime(3) >= 180
+
+;---------------------------------------------------------------------------
+;Hunting Crane -  Ground
+[Statedef 41000]
+type    = S
+movetype= A
+physics = S
+juggle  = 0
+velset  = 0,0
+poweradd= 30
+anim = Cond(root,NumExplod(90000235) || root,NumExplod(90000245) || root,NumExplod(90000255), 1101, 41005) ;Negative edge? Instant attack
+ctrl = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 1101
+movetype = I        ;I,A,H
+;ignorehitpause = 
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 7
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 201, OM PalFX] ;Dodonpa Clone
+type = PalFX
+trigger1 = time = 2
+time = 10
+add = 150,150,150
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1100, strength];Release: Attack Light
+type      = ChangeAnim
+triggerall = IsHelper(41000)
+triggerall = root,NumExplod(90000235) || !(root,command="holda")
+triggerall = (anim = 41005 && animelemtime(4) >= 20)
+trigger1 = anim = 41005
+value     = 1101
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Medium
+type      = ChangeAnim
+triggerall = IsHelper(41100)
+triggerall = root,NumExplod(90000245) || !(root,command="holdb")
+triggerall = (anim = 41005 && animelemtime(4) >= 20)
+trigger1 = anim = 41005
+value     = 1101
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Heavy
+type      = ChangeAnim
+triggerall = IsHelper(41200)
+triggerall = root,NumExplod(90000255) || !(root,command="holdc")
+triggerall = (anim = 41005 && animelemtime(4) >= 20)
+trigger1 = anim = 41005
+value     = 1101
+ignorehitpause = 1
+;persistent = 0
+
+[State 0, Juggle variable]
+type = ParentVarAdd
+triggerall = anim = 1101
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = anim = 1101
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 3
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = anim = 1101
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1100, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+;OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
+
+;[State 1100, VarSet]; light = 0; medium = 1; heavy = 2
+;type      = VarSet
+;trigger1  = Time = 0 && !AILevel
+;var(6)    = IfElse(Command = "QCB_a", 0, IfElse(Command = "QCB_b", 1, 2))
+;[State 1100, VarSet]; for the AI (this may have to be removed)
+;type      = VarSet
+;trigger1  = Time = 0 && AILevel
+;var(6)    = IfElse(random<100, 0, IfElse(random<350, 1, 2))
+
+;OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
+
+
+
+[State 1100, VarSet]; light = 0
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel
+trigger1  =  NumExplod(90000230) || NumExplod(90000235)
+var(6)    = 0
+[State 1100, VarSet]; medium = 1
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel
+trigger1  =  NumExplod(90000240) || NumExplod(90000245)
+var(6)    = 1
+[State 1100, VarSet]; heavy = 2
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel            
+trigger1  = NumExplod(90000250) || NumExplod(90000255)
+var(6)    = 2
+[State 1100, VarSet]; for the AI (this may have to be removed)
+type      = Null;VarSet
+trigger1  = Time = 0 && AILevel
+var(6)    = IfElse(random<100, 0, IfElse(random<350, 1, 2))
+
+
+
+[State 1100, StateTypeSet]
+type = StateTypeSet
+triggerall = anim = 1101
+trigger1 = AnimElemTime(2)>=0
+statetype = A       
+physics = N        
+ignorehitpause = 1
+
+
+
+[State 1100, VelSet]
+type = VelSet
+triggerall = anim = 1101
+trigger1 = AnimElem = 2
+x = 3+(var(6)*1.15)
+y = -7.25;-7
+ignorehitpause = 1
+;persistent = 
+
+
+
+[State 1100, Gravity]
+type = Gravity
+triggerall = anim = 1101
+trigger1 = AnimElemTime(2)>=0
+ignorehitpause = 0
+persistent = 1
+
+
+
+
+
+[State 1100, PlaySnd]
+type = PlaySnd
+triggerall = anim = 1101
+trigger1 = AnimElem = 2
+value = 1100, 0
+ignorehitpause = 1
+
+[State 1100, Voice]
+type = PlaySnd
+triggerall = anim = 1101
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElemTime (2) = 0
+value = s85,1100+random%2
+volumescale = 255
+channel = 0
+
+
+
+
+[State 1100, Hitdef]
+type = HitDef
+triggerall = root,Var(18) <= 55
+triggerall = !MoveContact
+trigger1 = Time = 0
+attr = A, SA
+damage = Ceil(IfElse(root,fvar(11) * (50 + root,var(6) * 7) < 3, 3, root,fvar(11) * (50 + root,var(6) * 7))), 8
+animtype = Medium
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 10+(root,var(6)), 11+(root,var(6))
+guard.pausetime = 11+(root,var(6)),11+(root,var(6))
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 5
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recovertime = 45
+envshake.time = 10
+envshake.freq = 120
+envshake.ampl = -4 
+id = 41000
+
+[State 620, TargetState]
+type = TargetState
+triggerall = anim = 1101
+trigger1 = movehit
+trigger1 = numtarget(41000)
+trigger1 = !(target, ishelper)
+value = 653 ;651
+ignorehitpause = 1
+persistent = 0
+id = 41000
+
+[State 1100, 5]
+type = ChangeState
+triggerall = anim = 1101
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= -12
+value = 41005
+
+;---------------------------------------------------------------------------
+;Hunting Crane- Landing
+[Statedef 41005]
+type    = S
+movetype= I
+physics = S
+ctrl = 0
+velset = 0,0
+anim = 1105
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 1105, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = 40, 0
+ignorehitpause = 1
+
+[State 1105, PosSet]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+ignorehitpause = 1
+[State 1105, PosAdd]
+type = PosAdd
+trigger1 = Time = 0
+x = 15
+
+
+[State 1105, Stand]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 40000
+ctrl = 0
+
+[State -2, Hitting ground/wall sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+triggerall	= NumTarget		;You must have a target
+triggerall	= Target, Time = 1
+trigger1		= Target, StateNo = 652	;custom state: a.SP
+;trigger2		= Target, StateNo = 3015	;custom state: Ungrounded (first bounce)
+;trigger3		= Target, StateNo = 1254	;custom state: EX Diving Kick Flurry
+;trigger4		= Target, StateNo = 1557	;custom state: EX Hurricane Kick
+;trigger5		= Target, StateNo = 2781	;custom state: Lvl 0 Finisher Gekiretsu Ranbu
+value		= 15000, 2
+ignorehitpause	= 1
+channel		= 20	;you need these to avoid sound repetition during a pause/superpause!
+[State -2, P2 Hit Ground Spark (front)]
+type		= Explod
+triggerall	= NumTarget
+trigger1		= Target,StateNo = 652  && !NumExplod(8400) ;after jSP
+;trigger2		= Target,StateNo = 3015 && !NumExplod(8400) ;after Ungrounded
+persistent	= 0
+ID		= 8400
+anim		= 8400
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+ownpal = 1
+[State -2, P2 Hit Ground Spark (back)]
+type		= Explod
+triggerall	= NumTarget
+trigger1		= Target,StateNo = 652  && !NumExplod(8401) ;after jSP
+;trigger2		= Target,StateNo = 3015 && !NumExplod(8401) ;after Ungrounded
+persistent	= 0
+ID		= 8401
+anim		= 8401
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= -3
+ignorehitpause	= 1
+ownpal = 1
+
+;---------------------------------------------------------------------------
+;Hunting Crane -  Air
+[Statedef 41020]
+type    = A
+movetype= A
+physics = N
+juggle  = 0
+velset  = 0,0
+poweradd= 30
+anim = Cond(root,NumExplod(90000235) || root,NumExplod(90000245) || root,NumExplod(90000255), 1110, 109) ;Negative edge? Instant attack
+ctrl = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 1110
+movetype = I        ;I,A,H
+;ignorehitpause = 
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 7
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 201, OM PalFX] ;Dodonpa Clone
+type = PalFX
+trigger1 = time = 2
+time = 10
+add = 150,150,150
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1100, strength];Release: Attack Light
+type      = ChangeAnim
+triggerall = IsHelper(41000)
+triggerall = root,NumExplod(90000235) || !(root,command="holda")
+triggerall = (anim = 109 && animelemtime(3) >= 1)
+trigger1 = anim = 109
+value     = 1110
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Medium
+type      = ChangeAnim
+triggerall = IsHelper(41100)
+triggerall = root,NumExplod(90000245) || !(root,command="holdb")
+triggerall = (anim = 109 && animelemtime(3) >= 1)
+trigger1 = anim = 109
+value     = 1110
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Heavy
+type      = ChangeAnim
+triggerall = IsHelper(41200)
+triggerall = root,NumExplod(90000255) || !(root,command="holdc")
+triggerall = (anim = 109 && animelemtime(3) >= 1)
+trigger1 = anim = 109
+value     = 1110
+ignorehitpause = 1
+;persistent = 0
+
+[State 0, Juggle variable]
+type = ParentVarAdd
+triggerall = anim = 1110
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = anim = 1110
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 3
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = anim = 1110
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1100, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+;OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
+
+;[State 1100, VarSet]; light = 0; medium = 1; heavy = 2
+;type      = VarSet
+;trigger1  = Time = 0 && !AILevel
+;var(6)    = IfElse(Command = "QCB_a", 0, IfElse(Command = "QCB_b", 1, 2))
+;[State 1100, VarSet]; for the AI (this may have to be removed)
+;type      = VarSet
+;trigger1  = Time = 0 && AILevel
+;var(6)    = IfElse(random<100, 0, IfElse(random<350, 1, 2))
+
+;OLD CODE OLD CODE OLD CODE OLD CODE OLD CODE
+
+
+
+[State 1100, VarSet]; light = 0
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel
+trigger1  =  NumExplod(90000230) || NumExplod(90000235)
+var(6)    = 0
+[State 1100, VarSet]; medium = 1
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel
+trigger1  =  NumExplod(90000240) || NumExplod(90000245)
+var(6)    = 1
+[State 1100, VarSet]; heavy = 2
+type      = Null;VarSet
+trigger1  = Time = 0 && !AILevel            
+trigger1  = NumExplod(90000250) || NumExplod(90000255)
+var(6)    = 2
+[State 1100, VarSet]; for the AI (this may have to be removed)
+type      = Null;VarSet
+trigger1  = Time = 0 && AILevel
+var(6)    = IfElse(random<100, 0, IfElse(random<350, 1, 2))
+
+
+
+
+
+
+[State 1100, VelSet]
+type = VelSet
+triggerall = anim = 1110
+trigger1 = AnimElem = 2
+x = 4.25
+y = -2.5;-7
+ignorehitpause = 1
+;persistent = 
+
+
+
+[State 1100, Gravity]
+type = Gravity
+triggerall = anim = 1110
+trigger1 = AnimElemTime(2)>=0
+ignorehitpause = 0
+persistent = 1
+
+
+
+
+
+
+
+[State 1100, PlaySnd]
+type = PlaySnd
+triggerall = anim = 1110
+trigger1 = AnimElem = 2
+value = 1100, 0
+ignorehitpause = 1
+
+[State 1100, Voice]
+type = PlaySnd
+triggerall = anim = 1110
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElemTime (2) = 0
+value = s85,1100+random%2
+volumescale = 255
+channel = 0
+
+
+
+
+[State 1100, Hitdef]
+type = HitDef
+triggerall = root,Var(18) <= 55
+triggerall = !MoveContact
+trigger1 = Time = 0
+attr = A, SA
+damage = Ceil(IfElse(root,fvar(11) * (50 + root,var(6) * 7) < 3, 3, root,fvar(11) * (50 + root,var(6) * 7))), 8
+animtype = Medium
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 10+(root,var(6)), 11+(root,var(6))
+guard.pausetime = 11+(root,var(6)),11+(root,var(6))
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 5
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recovertime = 45
+envshake.time = 10
+envshake.freq = 120
+envshake.ampl = -4 
+id = 41000
+
+[State 620, TargetState]
+type = TargetState
+triggerall = anim = 1110
+trigger1 = movehit
+trigger1 = numtarget(41000)
+trigger1 = !(target, ishelper)
+value = 653 ;651
+ignorehitpause = 1
+persistent = 0
+id = 41000
+
+[State 1100, 5]
+type = ChangeState
+triggerall = anim = 1110
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= -12
+value = 41005
+
+
+
+[State -2, Hitting ground/wall sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+triggerall	= NumTarget		;You must have a target
+triggerall	= Target, Time = 1
+trigger1		= Target, StateNo = 652	;custom state: a.SP
+;trigger2		= Target, StateNo = 3015	;custom state: Ungrounded (first bounce)
+;trigger3		= Target, StateNo = 1254	;custom state: EX Diving Kick Flurry
+;trigger4		= Target, StateNo = 1557	;custom state: EX Hurricane Kick
+;trigger5		= Target, StateNo = 2781	;custom state: Lvl 0 Finisher Gekiretsu Ranbu
+value		= 15000, 2
+ignorehitpause	= 1
+channel		= 20	;you need these to avoid sound repetition during a pause/superpause!
+[State -2, P2 Hit Ground Spark (front)]
+type		= Explod
+triggerall	= NumTarget
+trigger1		= Target,StateNo = 652  && !NumExplod(8400) ;after jSP
+;trigger2		= Target,StateNo = 3015 && !NumExplod(8400) ;after Ungrounded
+persistent	= 0
+ID		= 8400
+anim		= 8400
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+ownpal = 1
+[State -2, P2 Hit Ground Spark (back)]
+type		= Explod
+triggerall	= NumTarget
+trigger1		= Target,StateNo = 652  && !NumExplod(8401) ;after jSP
+;trigger2		= Target,StateNo = 3015 && !NumExplod(8401) ;after Ungrounded
+persistent	= 0
+ID		= 8401
+anim		= 8401
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= -3
+ignorehitpause	= 1
+ownpal = 1
+
+
+
+;===========================================================================================
+;===========================================================================================
+;===========================================================================================
+;Tayoken
+[Statedef 42000]
+type    = S
+movetype= A
+physics = S
+;juggle  = 7
+VelSet = 0,0
+ctrl = 0
+anim = Cond(root,NumExplod(90000235) || root,NumExplod(90000245) || root,NumExplod(90000255), 1700, 42005) ;Negative edge? Instant attack
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 1700
+movetype = I        ;I,A,H
+;ignorehitpause = 
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) < 90
+trigger1 = Time = 2
+fvar(28) = 3
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) > 90
+trigger1 = Time = 2
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 201, OM PalFX] ;Dodonpa Clone
+type = PalFX
+trigger1 = time = 2
+time = 10
+add = 150,150,150
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1100, strength];Release: Attack Light
+type      = ChangeAnim
+triggerall = IsHelper(42000)
+triggerall = root,NumExplod(90000235) || !(root,command="holda")
+triggerall = (anim = 42005 && animelemtime(3) >= 20)
+trigger1 = anim = 42005
+value     = 1700
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Medium
+type      = ChangeAnim
+triggerall = IsHelper(42100)
+triggerall = root,NumExplod(90000245) || !(root,command="holdb")
+triggerall = (anim = 42005 && animelemtime(3) >= 20)
+trigger1 = anim = 42005
+value     = 1700
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Heavy
+type      = ChangeAnim
+triggerall = IsHelper(42200)
+triggerall = root,NumExplod(90000255) || !(root,command="holdc")
+triggerall = (anim = 42005 && animelemtime(3) >= 20)
+trigger1 = anim = 42005
+value     = 1700
+ignorehitpause = 1
+;persistent = 0
+
+[State 0, VelAdd]
+type = VelAdd
+;triggerall = anim = 1700
+trigger1 = !time
+x = 10
+y = 0
+;ignorehitpause = 
+;persistent = 
+
+[State 0, Juggle variable]
+type = ParentVarAdd
+triggerall = anim = 1700
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7 ;?
+ignorehitpause = 1
+persistent = 0
+
+
+[State 1700, Voice]
+type = PlaySnd
+triggerall = anim = 1700
+trigger1 = AnimElem = 2
+value = S85,1700+random%2;S80,1700+random%2
+volumescale = 100
+channel = 0
+
+
+
+
+
+
+
+[State 1700, Solar Helper]
+type = Helper
+triggerall = anim = 1700
+trigger1 = AnimElem = 4
+helpertype = normal
+stateno = 1701
+ID = 1701
+name = "Solar Flare"
+postype = p1
+ownpal = 1
+pos = 0,0
+
+[State 1700, Helper - effect]
+type = Helper
+triggerall = anim = 1700
+trigger1 = AnimElemTime(4) = 3
+helpertype = normal
+name = "Solar Flare - effect"
+ID = 1703
+stateno = 1703
+pos = 0,0
+postype = p1
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+
+
+
+[State 1700, AssertSpecial]
+type = AssertSpecial
+triggerall = anim = 1700
+trigger1 = AnimElemTime(5) >= 0 && AnimElemTime(8) < 0
+flag = NoShadow
+ignorehitpause = 1
+persistent = 1
+
+
+
+
+
+[State 1700, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+triggerall = anim = 1700
+trigger1 = AnimElemTime(5)>=0		;after the attack's hit properties are finished working
+value = 0				;there's no distance between attacker and defender
+
+[State 1700, 3]
+type = ChangeState
+triggerall = anim = 1700
+trigger1 = AnimTime = 0
+value = 40000
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; LVL1 Dodonpa 1
+; Charging
+[Statedef 43000]
+type    = S
+movetype= A
+physics = S
+juggle  = 4
+velset = 0,0
+anim = Cond(root,NumExplod(90000205) || root,NumExplod(90000215) || root,NumExplod(90000225), 2200, 43005) ;Negative edge? Instant attack
+ctrl = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 2200
+movetype = I        ;I,A,H
+;ignorehitpause = 
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) < 90
+trigger1 = Time = 2
+fvar(28) = 3
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) > 90
+trigger1 = Time = 2
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 201, OM PalFX] ;Dodonpa Clone
+type = PalFX
+trigger1 = time = 2
+time = 10
+add = 150,150,150
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1100, strength];Release: Attack Light
+type      = ChangeAnim
+triggerall = IsHelper(43000)
+triggerall = root,NumExplod(90000205) || !(root,command="holdx")
+triggerall = (anim = 43005 && animelemtime(5) >= 20)
+trigger1 = anim = 43005
+value     = 2200
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Medium
+type      = ChangeAnim
+triggerall = IsHelper(43100)
+triggerall = root,NumExplod(90000215) || !(root,command="holdy")
+triggerall = (anim = 43005 && animelemtime(5) >= 20)
+trigger1 = anim = 43005
+value     = 2200
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Heavy
+type      = ChangeAnim
+triggerall = IsHelper(43200)
+triggerall = root,NumExplod(90000225) || !(root,command="holdz")
+triggerall = (anim = 43005 && animelemtime(5) >= 20)
+trigger1 = anim = 43005
+value     = 2200
+ignorehitpause = 1
+;persistent = 0
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = !time
+x = -8
+y = 0
+;ignorehitpause = 
+;persistent = 
+
+[State 2200, Hand effects]
+type = Explod
+triggerall = anim = 2200
+trigger1 = AnimElem = 5
+anim = 2205
+ID = 2205
+pos = -47,-43
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+removetime = 43
+scale = 1,1
+sprpriority = 1
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+supermovetime = 999
+pausemovetime = 999
+
+
+[State 2200, PlaySnd]	;Dodonpa sound
+type = PlaySnd
+triggerall = anim = 2200
+trigger1 = animelemtime(1) = 1
+value = s2200,11
+volumescale = 65
+
+
+
+
+[State 2200, ChangeState]
+type = ChangeState
+triggerall = anim = 2200
+trigger1 = AnimElemTime(5)=3
+value = 43001
+ctrl = 0
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+; LVL1 Dodonpa 2
+; Shooting
+[Statedef 43001]
+type    = S
+movetype= A
+physics = S
+juggle  = 4
+velset = 0,0
+poweradd = 0
+anim = 2201
+ctrl = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+
+[State 2201, width]
+type = width
+trigger1 = 1
+value = 35,0
+
+[State 2201, RemoveExplod]
+type = RemoveExplod
+trigger1 = 1
+id = 2205
+ignorehitpause = 1
+;persistent = 
+
+[State 2201, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+
+
+
+[State 2201, PlaySnd]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = s2200,10
+volumescale = 60
+
+[State 2201, PlaySnd]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = s2200,12
+volumescale = 60
+
+
+
+
+[State 2201, Voice]
+type = PlaySnd
+trigger1 = Time = 1
+value = 85,2200+random%6;80,2200+(random%2)
+volumescale = 255
+channel = 0
+
+
+
+
+
+
+
+[State 2201, Dodonpa helper]
+type = Helper
+triggerall = IsHelper(43000)
+trigger1 = AnimElem = 2
+helpertype = normal
+stateno = 43010
+ID = 43010
+name = "Dodonpa"
+postype = p1
+pos = 100,-60;0,0	;BindToParent in Helper.cns
+ownpal = 1
+sprpriority = 5
+[State 2201, Dodonpa helper]
+type = Helper
+triggerall = IsHelper(43100)
+trigger1 = AnimElem = 2
+helpertype = normal
+stateno = 43110
+ID = 43110
+name = "Dodonpa"
+postype = p1
+pos = 100,-60;0,0	;BindToParent in Helper.cns
+ownpal = 1
+sprpriority = 5
+[State 2201, Dodonpa helper]
+type = Helper
+triggerall = IsHelper(43200)
+trigger1 = AnimElem = 2
+helpertype = normal
+stateno = 43210
+ID = 43210
+name = "Dodonpa"
+postype = p1
+pos = 100,-60;0,0	;BindToParent in Helper.cns
+ownpal = 1
+sprpriority = 5
+
+[State 2201, Helper - FX 1 Start]
+type = Helper
+triggerall = IsHelper(43000)
+trigger1 = AnimElem = 2
+helpertype = normal ;player
+name = "Dodonpa FX 1 Start"
+ID = 43011
+stateno = 43011
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+sprpriority = 5
+[State 2201, Helper - FX 1 Start]
+type = Helper
+triggerall = IsHelper(43100)
+trigger1 = AnimElem = 2
+helpertype = normal ;player
+name = "Dodonpa FX 1 Start"
+ID = 43111
+stateno = 43111
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+sprpriority = 5
+[State 2201, Helper - FX 1 Start]
+type = Helper
+triggerall = IsHelper(43200)
+trigger1 = AnimElem = 2
+helpertype = normal ;player
+name = "Dodonpa FX 1 Start"
+ID = 43211
+stateno = 43211
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+ignorehitpause = 1
+sprpriority = 5
+
+
+
+[State 2201, Player helper]
+type = Helper
+trigger1 = !Time
+helpertype = normal
+stateno = 2216
+name = "Tien"
+postype = p1
+pos = 0,0;0,0	;BindToParent in Helper.cns
+ownpal = 1
+sprpriority = 5
+
+
+
+
+
+[State 2201, ChangeState]
+type = ChangeState
+trigger1 =  Time >= 45
+value = 43002
+ctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+
+
+;
+;[State -1, Dodonpa lvl 2]
+;type = ChangeState
+;value = 2230
+;triggerall = RoundState = 2
+;triggerall = Command = "QCFx2, 2p"
+;triggerall = Power >= 2000
+;triggerall = !NumHelper(2207)
+;trigger1 = StateNo = 2201 && Time >=20  ; && (NumHelper(2207) || Helper(2207),MoveHit)
+;
+;
+;[State -1, Dodonpa lvl 2]
+;type = ChangeState
+;value = 2230
+;triggerall = RoundState = 2
+;triggerall = Command = "QCFx2, 2p"
+;triggerall = Power >= 2000
+;triggerall = NumHelper(2207)
+;triggerall = (Helper(2207),MoveHit)
+;triggerall = !NumHelper(2207)
+;trigger1 = StateNo = 2201 ; && (NumHelper(2207) || Helper(2207),MoveHit)
+
+
+
+
+
+
+
+
+[State -1, Dodonpa lvl 2]
+type = ChangeState
+value = 2230
+triggerall = RoundState = 2
+triggerall = IfElse(Facing = -1,(NumExplod(90030016)),NumExplod(90030114))
+triggerall = NumExplod(90000200) && NumExplod(90000210)
+triggerall = NumExplod(90000210) && NumExplod(90000220)
+triggerall = NumExplod(90000220) && NumExplod(90000200)
+triggerall = Power >= 2000
+triggerall = !NumHelper(2207)
+trigger1 = StateNo = 2201 && Time >=20  ; && (NumHelper(2207) || Helper(2207),MoveHit)
+
+
+[State -1, Dodonpa lvl 2]
+type = ChangeState
+value = 2230
+triggerall = RoundState = 2
+triggerall = IfElse(Facing = -1,(NumExplod(90030016)),NumExplod(90030114))
+triggerall = NumExplod(90000200) && NumExplod(90000210)
+triggerall = NumExplod(90000210) && NumExplod(90000220)
+triggerall = NumExplod(90000220) && NumExplod(90000200)
+triggerall = Power >= 2000
+triggerall = NumHelper(2207)
+triggerall = (Helper(2207),MoveHit)
+triggerall = !NumHelper(2207)
+trigger1 = StateNo = 2201 ; && (NumHelper(2207) || Helper(2207),MoveHit)
+
+
+
+
+
+;Since Mugen is very stupid, if I put the changestage trigger in the .cmd it will cause debug messages.
+;So I must put this here.
+
+
+
+;---------------------------------------------------------------------------
+; LVL1 Dodonpa 3
+; Recover
+[Statedef 43002]
+type    = S
+movetype= A
+physics = S
+juggle  = 4
+velset = 0,0
+anim = 2202
+ctrl = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+
+[State 1700, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 40000
+ctrl = 0
+
+; --Clone Dodonpa Light
+[Statedef 43010]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 2281
+
+[State 0, Projectile]
+type = Projectile
+trigger1 = 1
+;trigger1 = (P2BodyDist X = [-90,90]) && (P2BodyDist Y = [-90,90])
+ProjID = 93999999999
+projanim = 1
+projremovetime = 2
+offset = -400,0
+postype = p1
+attr = A,SP        ;change this to whatever your projectile is set
+ignorehitpause = 1
+guardflag = A
+guard.dist = 1999
+projedgebound = 1600
+projstagebound = 1600
+
+
+[State 2220, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+
+
+[State 2220, hit]
+type = HitDef
+trigger1 = Time = 0
+attr = S,SP
+hitflag = MAF
+guardflag = MA
+priority = 7,Hit
+damage = Ceil(IfElse(root,fvar(11) * 50 < 3, 3, root,fvar(11) * 50)), 5
+getpower = 0,0
+givepower = 35,35
+pauseTime = 0,20
+guard.pauseTime = 0,5
+Animtype = Low
+air.Animtype = Back
+fall.Animtype = Back
+ground.type = High
+air.type = Low
+ground.hitTime = 16
+ground.slideTime = 16
+guard.hitTime = 16
+air.hitTime = 13
+airguard.ctrlTime = 16
+ground.velocity= -12,-4
+guard.velocity = -6
+air.velocity= -10,-5
+airguard.velocity = -6.5, -1.5 
+ground.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+yaccel = .5
+fall=1
+air.fall = 1
+fall.recover = 0
+sparkno = s7030
+guard.sparkno = s7000
+hitsound   = s1000,0; s2015,20 ;s1000,0
+guardsound = S6,0
+envshake.Time = 16
+envshake.ampl = 6
+envshake.freq = 100
+forcestand = 1
+palfx.sinadd=64,64,64,4
+palfx.mul=128,128,128
+palfx.Time=32
+p1sprpriority = -5
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = time >= 35
+movetype = I
+ignorehitpause = 1
+
+
+[State 2220, Helper - Trail 1]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 1"
+ID = 43012
+stateno = 43012
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+[State 2220, Helper - Trail 2]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 2"
+ID = 43013
+stateno = 43013
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+;[State 2220, Helper - End Trail]
+;type = Helper
+;trigger1 = Time = 0
+;Helpertype = normal 
+;name = "Dodonpa FX 2.1 - End Trail"
+;ID = 2223
+;stateno = 2223
+;;pos = 0,-167
+;postype = p1    
+;facing = 1
+;keyctrl = 0
+;ownpal = 1
+;supermoveTime = 0
+;pausemoveTime = 0
+;ignorehitpause = 1
+
+[State 2220, Helper - Head]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 3 - Head"
+ID = 43014
+stateno = 43014
+pos = 0,0
+postype = p1    
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+
+
+;[State 2220, End]
+;type = DestroySelf
+;trigger1 = Time = 45
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(30000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2220, ChangeState]
+type = ChangeState
+trigger1 = Time = 45
+trigger2 = Helper(43000), StateNo != 43001
+value = 43015
+ignorehitpause = 1
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 1 - start
+[Statedef 43011]
+type = A
+MoveType = I
+physics = N
+Anim = 2208
+sprpriority = 0
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43000),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2221, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2221, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 118,-62
+ignorehitpause = 1
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time >= 4
+Time = 1
+pos = 111,-63
+ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = Time = 45
+trigger2 = Helper(43000), StateNo != 43001
+;trigger3 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+;[State 2221, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 30
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+
+
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 1
+[Statedef 43012]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 2222, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2222, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 14,-3;11,-1    13,-1
+ignorehitpause = 1
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43000),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = 43001
+trigger1 = NumHelper(43014) = 1 
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43014),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = time >= 15
+x = 15
+;ignorehitpause = 
+;;persistent = 
+
+
+
+;[State 2222, VelSet]
+;type = VelSet
+;trigger1 = Time >= 30
+;x = 20
+;ignorehitpause = 1
+
+
+
+[State 2222, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43010
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = NumHelper(43014) = 0 
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43000), Stateno != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 2
+[Statedef 43013]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 22227, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 22227, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3;13,-1
+ignorehitpause = 1
+
+
+
+[State 22227, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43000),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 22227, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43014),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 22227, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 22227, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43010
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43000), Stateno != 43001
+ignorehitpause = 1
+
+
+;
+;;===========================================================================
+;;---------------------------------------------------------------------------
+;;Dodonpa FX 2.1 - end trail
+;[Statedef 2223]
+;type = A
+;MoveType = I
+;physics = N
+;Anim = 2212
+;sprpriority = -1
+;
+;[State 2222, VarAdd]	;End
+;type = VarAdd
+;trigger1 = Helper(30000),stateno = 31002
+;var(0) = 1
+;ignorehitpause = 1
+;
+;
+;
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2222, Effect scaling 2]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = [31000,31002]
+;scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = NoShadow
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = Time < 30
+;flag = Invisible
+;
+;
+;
+;[State 2223, NotHitBy]
+;type = NotHitBy
+;trigger1 = Time >= 0
+;Time = 1
+;value = SCA, AA, AT,AP
+;ignorehitpause = 1
+;
+;
+;
+;[State 2223, BindToParent]
+;type = BindToParent
+;trigger1 = Time = 0
+;Time = 1
+;pos = 0,-1	;14,-3
+;ignorehitpause = 1
+;
+;
+;
+;;[State 2223, VelSet]
+;;type = VelSet
+;;trigger1 = Time >= 15;30
+;;x = 15;20
+;;ignorehitpause = 1
+;
+;
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 60;45
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Parent, StateNo != 2220
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+;
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 3 - head
+[Statedef 43014]
+type = A
+MoveType = I
+physics = N
+Anim = 2210
+sprpriority = 0
+
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43000),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43014),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43000),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2224, Velocity]
+type = VelSet
+trigger1 = 1;Time <15;1
+x = IfElse((Time<2 && var(2)>1),1,20)
+ignorehitpause = 1
+;[State 2224, Velocity]	;added
+;type = VelSet
+;trigger1 = Time >=15
+;x = 2;7.5
+;ignorehitpause = 1
+
+
+
+[State 2224, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2224, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2224, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3
+ignorehitpause = 1
+
+
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 60;45
+trigger2 = NumTarget
+trigger2 = Target, MoveType != H
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43010
+trigger2 = Helper(43000), StateNo != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;===================================================
+; --END Clone Dodonpa
+[Statedef 43015]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 15999
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2225, DestroySelf]
+type = DestroySelf
+trigger1 = Enemy, MoveType != H
+ignorehitpause = 1
+
+; --Clone Dodonpa Medium
+[Statedef 43110]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 2281
+
+[State 0, Projectile]
+type = Projectile
+trigger1 = 1
+;trigger1 = (P2BodyDist X = [-90,90]) && (P2BodyDist Y = [-90,90])
+ProjID = 93999999999
+projanim = 1
+projremovetime = 2
+offset = -400,0
+postype = p1
+attr = A,SP        ;change this to whatever your projectile is set
+ignorehitpause = 1
+guardflag = A
+guard.dist = 1999
+projedgebound = 1600
+projstagebound = 1600
+
+
+[State 2220, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+
+
+[State 2220, hit]
+type = HitDef
+trigger1 = Time = 0
+attr = S,SP
+hitflag = MAF
+guardflag = MA
+priority = 7,Hit
+damage = Ceil(IfElse(root,fvar(11) * 50 < 3, 3, root,fvar(11) * 50)), 5
+getpower = 0,0
+givepower = 35,35
+pauseTime = 0,20
+guard.pauseTime = 0,5
+Animtype = Low
+air.Animtype = Back
+fall.Animtype = Back
+ground.type = High
+air.type = Low
+ground.hitTime = 16
+ground.slideTime = 16
+guard.hitTime = 16
+air.hitTime = 13
+airguard.ctrlTime = 16
+ground.velocity= -12,-4
+guard.velocity = -6
+air.velocity= -10,-5
+airguard.velocity = -6.5, -1.5 
+ground.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+yaccel = .5
+fall=1
+air.fall = 1
+fall.recover = 0
+sparkno = s7030
+guard.sparkno = s7000
+hitsound   = s1000,0; s2015,20 ;s1000,0
+guardsound = S6,0
+envshake.Time = 16
+envshake.ampl = 6
+envshake.freq = 100
+forcestand = 1
+palfx.sinadd=64,64,64,4
+palfx.mul=128,128,128
+palfx.Time=32
+p1sprpriority = -5
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = time >= 35
+movetype = I
+ignorehitpause = 1
+
+
+[State 2220, Helper - Trail 1]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 1"
+ID = 43112
+stateno = 43112
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+[State 2220, Helper - Trail 2]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 2"
+ID = 43113
+stateno = 43113
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+;[State 2220, Helper - End Trail]
+;type = Helper
+;trigger1 = Time = 0
+;Helpertype = normal 
+;name = "Dodonpa FX 2.1 - End Trail"
+;ID = 2223
+;stateno = 2223
+;;pos = 0,-167
+;postype = p1    
+;facing = 1
+;keyctrl = 0
+;ownpal = 1
+;supermoveTime = 0
+;pausemoveTime = 0
+;ignorehitpause = 1
+
+[State 2220, Helper - Head]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 3 - Head"
+ID = 43114
+stateno = 43114
+pos = 0,0
+postype = p1    
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+
+
+;[State 2220, End]
+;type = DestroySelf
+;trigger1 = Time = 45
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(30000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2220, ChangeState]
+type = ChangeState
+trigger1 = Time = 45
+trigger2 = Helper(43100), StateNo != 43001
+value = 43115
+ignorehitpause = 1
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 1 - start
+[Statedef 43111]
+type = A
+MoveType = I
+physics = N
+Anim = 2208
+sprpriority = 0
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43100),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2221, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2221, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 118,-62
+ignorehitpause = 1
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time >= 4
+Time = 1
+pos = 111,-63
+ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43100), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = Time = 45
+trigger2 = Helper(43100), StateNo != 43001
+;trigger3 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+;[State 2221, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 30
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+
+
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 1
+[Statedef 43112]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 2222, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2222, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 14,-3;11,-1    13,-1
+ignorehitpause = 1
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43100),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = 43001
+trigger1 = NumHelper(43114) = 1 
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43114),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = time >= 15
+x = 15
+;ignorehitpause = 
+;;persistent = 
+
+
+
+;[State 2222, VelSet]
+;type = VelSet
+;trigger1 = Time >= 30
+;x = 20
+;ignorehitpause = 1
+
+
+
+[State 2222, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43110
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = NumHelper(43114) = 0 
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43100), Stateno != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 2
+[Statedef 43113]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 22227, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 22227, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3;13,-1
+ignorehitpause = 1
+
+
+
+[State 22227, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43100),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 22227, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43114),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 22227, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43100), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 22227, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43110
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43100), Stateno != 43001
+ignorehitpause = 1
+
+
+;
+;;===========================================================================
+;;---------------------------------------------------------------------------
+;;Dodonpa FX 2.1 - end trail
+;[Statedef 2223]
+;type = A
+;MoveType = I
+;physics = N
+;Anim = 2212
+;sprpriority = -1
+;
+;[State 2222, VarAdd]	;End
+;type = VarAdd
+;trigger1 = Helper(30000),stateno = 31002
+;var(0) = 1
+;ignorehitpause = 1
+;
+;
+;
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2222, Effect scaling 2]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = [31000,31002]
+;scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = NoShadow
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = Time < 30
+;flag = Invisible
+;
+;
+;
+;[State 2223, NotHitBy]
+;type = NotHitBy
+;trigger1 = Time >= 0
+;Time = 1
+;value = SCA, AA, AT,AP
+;ignorehitpause = 1
+;
+;
+;
+;[State 2223, BindToParent]
+;type = BindToParent
+;trigger1 = Time = 0
+;Time = 1
+;pos = 0,-1	;14,-3
+;ignorehitpause = 1
+;
+;
+;
+;;[State 2223, VelSet]
+;;type = VelSet
+;;trigger1 = Time >= 15;30
+;;x = 15;20
+;;ignorehitpause = 1
+;
+;
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 60;45
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Parent, StateNo != 2220
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+;
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 3 - head
+[Statedef 43114]
+type = A
+MoveType = I
+physics = N
+Anim = 2210
+sprpriority = 0
+
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43100),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43114),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43100),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2224, Velocity]
+type = VelSet
+trigger1 = 1;Time <15;1
+x = IfElse((Time<2 && var(2)>1),1,20)
+ignorehitpause = 1
+;[State 2224, Velocity]	;added
+;type = VelSet
+;trigger1 = Time >=15
+;x = 2;7.5
+;ignorehitpause = 1
+
+
+
+[State 2224, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2224, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2224, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3
+ignorehitpause = 1
+
+
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 60;45
+trigger2 = NumTarget
+trigger2 = Target, MoveType != H
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43110
+trigger2 = Helper(43100), StateNo != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;===================================================
+; --END Clone Dodonpa
+[Statedef 43115]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 15999
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43100), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2225, DestroySelf]
+type = DestroySelf
+trigger1 = Enemy, MoveType != H
+ignorehitpause = 1
+
+; --Clone Dodonpa Heavy
+[Statedef 43210]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 2281
+
+[State 0, Projectile]
+type = Projectile
+trigger1 = 1
+;trigger1 = (P2BodyDist X = [-90,90]) && (P2BodyDist Y = [-90,90])
+ProjID = 93999999999
+projanim = 1
+projremovetime = 2
+offset = -400,0
+postype = p1
+attr = A,SP        ;change this to whatever your projectile is set
+ignorehitpause = 1
+guardflag = A
+guard.dist = 1999
+projedgebound = 1600
+projstagebound = 1600
+
+
+[State 2220, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+ignorehitpause = 1
+
+
+
+[State 2220, hit]
+type = HitDef
+trigger1 = Time = 0
+attr = S,SP
+hitflag = MAF
+guardflag = MA
+priority = 7,Hit
+damage = Ceil(IfElse(root,fvar(11) * 50 < 3, 3, root,fvar(11) * 50)), 5
+getpower = 0,0
+givepower = 35,35
+pauseTime = 0,20
+guard.pauseTime = 0,5
+Animtype = Low
+air.Animtype = Back
+fall.Animtype = Back
+ground.type = High
+air.type = Low
+ground.hitTime = 16
+ground.slideTime = 16
+guard.hitTime = 16
+air.hitTime = 13
+airguard.ctrlTime = 16
+ground.velocity= -12,-4
+guard.velocity = -6
+air.velocity= -10,-5
+airguard.velocity = -6.5, -1.5 
+ground.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+yaccel = .5
+fall=1
+air.fall = 1
+fall.recover = 0
+sparkno = s7030
+guard.sparkno = s7000
+hitsound   = s1000,0; s2015,20 ;s1000,0
+guardsound = S6,0
+envshake.Time = 16
+envshake.ampl = 6
+envshake.freq = 100
+forcestand = 1
+palfx.sinadd=64,64,64,4
+palfx.mul=128,128,128
+palfx.Time=32
+p1sprpriority = -5
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = time >= 35
+movetype = I
+ignorehitpause = 1
+
+
+[State 2220, Helper - Trail 1]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 1"
+ID = 43212
+stateno = 43212
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+[State 2220, Helper - Trail 2]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 2 - Trail 2"
+ID = 43213
+stateno = 43213
+;pos = 0,-167
+postype = p1   
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+;[State 2220, Helper - End Trail]
+;type = Helper
+;trigger1 = Time = 0
+;Helpertype = normal 
+;name = "Dodonpa FX 2.1 - End Trail"
+;ID = 2223
+;stateno = 2223
+;;pos = 0,-167
+;postype = p1    
+;facing = 1
+;keyctrl = 0
+;ownpal = 1
+;supermoveTime = 0
+;pausemoveTime = 0
+;ignorehitpause = 1
+
+[State 2220, Helper - Head]
+type = Helper
+trigger1 = Time = 0
+Helpertype = normal 
+name = "Dodonpa FX 3 - Head"
+ID = 43214
+stateno = 43214
+pos = 0,0
+postype = p1    
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermoveTime = 0
+pausemoveTime = 0
+ignorehitpause = 1
+
+
+
+;[State 2220, End]
+;type = DestroySelf
+;trigger1 = Time = 45
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(30000), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2220, ChangeState]
+type = ChangeState
+trigger1 = Time = 45
+trigger2 = Helper(43200), StateNo != 43001
+value = 43215
+ignorehitpause = 1
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 1 - start
+[Statedef 43211]
+type = A
+MoveType = I
+physics = N
+Anim = 2208
+sprpriority = 0
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43200),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2221, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2221, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 118,-62
+ignorehitpause = 1
+
+[State 2208, BindToParent]
+type = BindToParent
+trigger1 = Time >= 4
+Time = 1
+pos = 111,-63
+ignorehitpause = 1
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43200), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = Time = 45
+trigger2 = Helper(43200), StateNo != 43001
+;trigger3 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+;[State 2221, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 30
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+
+[State 2221, DestroySelf]
+type = DestroySelf
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+
+
+
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 1
+[Statedef 43212]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 2222, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 2222, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2222, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 14,-3;11,-1    13,-1
+ignorehitpause = 1
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43200),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = 43001
+trigger1 = NumHelper(43214) = 1 
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43214),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = time >= 15
+x = 15
+;ignorehitpause = 
+;;persistent = 
+
+
+
+;[State 2222, VelSet]
+;type = VelSet
+;trigger1 = Time >= 30
+;x = 20
+;ignorehitpause = 1
+
+
+
+[State 2222, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43210
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = NumHelper(43214) = 0 
+ignorehitpause = 1
+
+[State 2222, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43200), Stateno != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 2 - trail 2
+[Statedef 43213]
+type = A
+MoveType = I
+physics = N
+Anim = 2209
+sprpriority = -1
+
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+[State 22227, AssertSpecial]
+type = AssertSpecial
+trigger1 = AnimElem = 1
+flag = Invisible
+
+
+
+[State 22227, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 22227, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3;13,-1
+ignorehitpause = 1
+
+
+
+[State 22227, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43200),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 22227, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43214),pos X)))/56.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 22227, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = [43000,43002]
+scale =  10, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43200), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 22227, DestroySelf]
+type = DestroySelf
+;trigger1 = Time >= 45
+trigger1 = NumTarget
+trigger1 = Target, MoveType != H
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43210
+;trigger2 = parent,StateNo = [35210,35230]
+ignorehitpause = 1
+
+[State 22227, DestroySelf]
+type = DestroySelf
+trigger1 = Helper(43200), Stateno != 43001
+ignorehitpause = 1
+
+
+;
+;;===========================================================================
+;;---------------------------------------------------------------------------
+;;Dodonpa FX 2.1 - end trail
+;[Statedef 2223]
+;type = A
+;MoveType = I
+;physics = N
+;Anim = 2212
+;sprpriority = -1
+;
+;[State 2222, VarAdd]	;End
+;type = VarAdd
+;trigger1 = Helper(30000),stateno = 31002
+;var(0) = 1
+;ignorehitpause = 1
+;
+;
+;
+;[State 2222, Effect scaling 1]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = 31001
+;trigger1 = !MatchOver
+;trigger1 = Time >= 4
+;scale = (56.0 + abs(pos X - (Helper(2224),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2222, Effect scaling 2]
+;type = AngleDraw
+;trigger1 = Helper(30000),stateno = [31000,31002]
+;scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+;value = 0
+;ignorehitpause = 1
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = 1
+;flag = NoShadow
+;
+;[State 2223, AssertSpecial]
+;type = AssertSpecial
+;trigger1 = Time < 30
+;flag = Invisible
+;
+;
+;
+;[State 2223, NotHitBy]
+;type = NotHitBy
+;trigger1 = Time >= 0
+;Time = 1
+;value = SCA, AA, AT,AP
+;ignorehitpause = 1
+;
+;
+;
+;[State 2223, BindToParent]
+;type = BindToParent
+;trigger1 = Time = 0
+;Time = 1
+;pos = 0,-1	;14,-3
+;ignorehitpause = 1
+;
+;
+;
+;;[State 2223, VelSet]
+;;type = VelSet
+;;trigger1 = Time >= 15;30
+;;x = 15;20
+;;ignorehitpause = 1
+;
+;
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Time >= 60;45
+;trigger2 = NumTarget
+;trigger2 = Target, MoveType != H
+;
+;[State 2223, DestroySelf]
+;type = DestroySelf
+;trigger1 = Parent, StateNo != 2220
+;trigger2 = Helper(30000), StateNo != 31001
+;ignorehitpause = 1
+;
+
+
+;===========================================================================
+;---------------------------------------------------------------------------
+;Dodonpa FX 3 - head
+[Statedef 43214]
+type = A
+MoveType = I
+physics = N
+Anim = 2210
+sprpriority = 0
+
+
+
+
+[State 2222, VarAdd]	;End
+type = VarAdd
+trigger1 = Helper(43200),stateno = 43002
+var(0) = 1
+ignorehitpause = 1
+
+
+
+[State 2222, Effect scaling 1]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = 43001
+trigger1 = !MatchOver
+trigger1 = Time >= 4
+scale = (56.0 + abs(pos X - (Helper(43214),pos X)))/57.0 , 1    ;60+...	/60.0, 1
+value = 0
+ignorehitpause = 1
+
+[State 2222, Effect scaling 2]
+type = AngleDraw
+trigger1 = Helper(43200),stateno = [43000,43002]
+scale =  1, IfElse(1-0.02*(Time-var(0))<0, 0, 1-0.02*(Time-var(0)))	;10,...
+value = 0
+ignorehitpause = 1
+
+[State 2224, Velocity]
+type = VelSet
+trigger1 = 1;Time <15;1
+x = IfElse((Time<2 && var(2)>1),1,20)
+ignorehitpause = 1
+;[State 2224, Velocity]	;added
+;type = VelSet
+;trigger1 = Time >=15
+;x = 2;7.5
+;ignorehitpause = 1
+
+
+
+[State 2224, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = NoShadow
+
+
+
+[State 2224, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+Time = 1
+value = SCA, AA, AT,AP
+ignorehitpause = 1
+
+
+
+[State 2224, BindToParent]
+type = BindToParent
+trigger1 = Time = 0
+Time = 1
+pos = 0,-3
+ignorehitpause = 1
+
+
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Time >= 60;45
+trigger2 = NumTarget
+trigger2 = Target, MoveType != H
+
+[State 2224, DestroySelf]
+type = DestroySelf
+trigger1 = Parent, StateNo != 43210
+trigger2 = Helper(43200), StateNo != 43001
+ignorehitpause = 1
+
+
+
+;===========================================================================
+;===================================================
+; --END Clone Dodonpa
+[Statedef 43215]
+type = A
+physics = N
+movetype = A
+ctrl = 0
+sprpriority = 0
+Anim = 15999
+
+[State 32005, DestroySelf];Cinematic
+type = Null;DestroySelf
+trigger1 = Helper(43200), StateNo = 35210
+;ignorehitpause = 
+;persistent = 
+
+[State 2225, DestroySelf]
+type = DestroySelf
+trigger1 = Enemy, MoveType != H
+ignorehitpause = 1
+
+;---------------------------------------------------------------------------
+;- Buddha's Rise
+[Statedef 44000];- Buddha's Rise
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;2
+VelSet = 0,0;.3*vel x,.3*vel y
+ctrl = 0
+anim = Cond(root,NumExplod(90000205) || root,NumExplod(90000215) || root,NumExplod(90000225), 622, 44005) ;Negative edge? Instant attack
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = anim = 622
+movetype = I        ;I,A,H
+;ignorehitpause = 
+persistent = 0
+
+[State 0, OM variable]
+type = ParentVarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 7
+ignorehitpause = 1
+persistent = 0
+[State 0, OM variable]
+type = ParentVarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = root,fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 201, OM PalFX] ;Dodonpa Clone
+type = PalFX
+trigger1 = time = 2
+time = 10
+add = 150,150,150
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1100, strength];Release: Attack Light
+type      = ChangeAnim
+triggerall = IsHelper(44000)
+triggerall = root,NumExplod(90000205) || !(root,command="holdx")
+triggerall = (anim = 44005 && animelemtime(4) >= 20)
+trigger1 = anim = 44005
+value     = 622
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Medium
+type      = ChangeAnim
+triggerall = IsHelper(44100)
+triggerall = root,NumExplod(90000215) || !(root,command="holdy")
+triggerall = (anim = 44005 && animelemtime(4) >= 20)
+trigger1 = anim = 44005
+value     = 622
+ignorehitpause = 1
+;persistent = 0
+[State 1100, strength];Release: Attack Heavy
+type      = ChangeAnim
+triggerall = IsHelper(44200)
+triggerall = root,NumExplod(90000225) || !(root,command="holdz")
+triggerall = (anim = 44005 && animelemtime(4) >= 20)
+trigger1 = anim = 44005
+value     = 622
+ignorehitpause = 1
+;persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 622, VelSet]
+type = VelSet
+triggerall = anim = 622
+trigger1 = AnimElemTime(2)>0
+x = 8.4
+y = -9.6
+ignorehitpause = 1
+
+
+
+[State 622, Voice]
+type = PlaySND
+triggerall = anim = 622
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 500
+value = s85,4 + Random%2
+channel = 0
+
+
+[State 622, 2]
+type = PlaySND
+triggerall = anim = 622
+trigger1 = AnimElemTime(2)=0
+value = 0, 2
+
+
+[State 622, 3]
+type = HitDef
+triggerall = anim = 622
+triggerall = Vel Y >=0
+triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time >= 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 3, 3, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+[State 622, 3]
+type = HitDef
+triggerall = anim = 622
+triggerall = Vel Y <0
+triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time >= 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 3, 3, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = MA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+[State 622, PosFreeze]
+type = PosFreeze
+triggerall = anim = 622
+trigger1 = MoveContact
+value = 1
+ignorehitpause = 1
+
+
+[State 622, Gravity]
+type = Gravity
+triggerall = anim = 623
+trigger1 = AnimElemTime(2)>0
+ignorehitpause = 0
+;persistent = 
+
+[State 622, VelMul]
+type = VelMul
+trigger1 = anim = 623
+x = 0.5
+persistent = 0
+
+
+
+
+
+[State 622, ChangeAnim]
+type = ChangeAnim
+triggerall = anim = 622
+trigger1 = AnimElemTime(3)>=0 && MoveContact
+value = 622
+elem = 4
+ignorehitpause = 1
+persistent = 1
+;this changeanim is coded so that if he hits with the blur frame he goes immediately into the other frame
+
+
+[State 622, ChangeState]
+type = ChangeState
+triggerall = anim = 622
+trigger1 = MoveContact = 1
+value = 44001
+ctrl = 0
+ignorehitpause = 0
+
+
+
+[State 1700, 3]
+type = ChangeState
+triggerall = anim = 622
+trigger1 = AnimTime = 0
+value = 44002
+ctrl = 0
+
+
+
+
+;---------------------------------------------------------------------------
+;- recoil = hit
+[Statedef 44001];- recoil
+type    = A
+movetype= I
+physics = A
+VelSet = 0,0
+ctrl = 0
+anim = 623
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+[State 623, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = -3
+y = -8
+ignorehitpause = 1
+
+
+
+[State 1700, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 40000
+ctrl = 0
+
+;- recoil
+[Statedef 44002];- recoil
+type    = A
+movetype= I
+physics = A
+VelSet = 0,0
+ctrl = 0
+anim = 623
+
+[State 1061, HitOverride] ;Hit? Go away
+type = HitOverride
+trigger1 = Time >= 0
+time = 1
+stateno = 40001
+attr = SCA,AA,AP,AT
+ignorehitpause = 1
+
+[State 0, Helper]
+type = ChangeState
+trigger1 = root, numexplod(991901)
+trigger2 = enemy, numexplod(991901)
+trigger3 = root, movetype = H
+value = 40001
+ignorehitpause = 1
+
+
+[State 623, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = 3
+y = -8
+ignorehitpause = 1
+
+
+
+[State 1700, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 40000
+ctrl = 0

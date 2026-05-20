@@ -1,0 +1,212 @@
+
+
+;=============================================
+;Vars
+;=============================================
+;0: 
+;1: Majin Vegeta palette check (config)
+;var(2): crouch timer MIRROR
+;var(3): crouch timer2 MIRROR
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5: Allows player to use directions to change Pal (config)
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Specific Move Variables
+;10: Air dash limiter
+;11: opponent check (goku, vegeta)
+;12: OPEN1
+;13: Super BG choice (config)
+;14: Gethit gut or not (Ki Blast, Machine Gun Temper)(in helpers) - Used to detect if a projectile hit.
+;15: OPEN2
+;16: OPEN3
+;17: Zero Counter command
+;18: Juggle Safety
+;19: Time used for rapid kick state MIRROR
+;20: varset for 1st/2nd state of Focus Attack
+;21: JP
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: HK clone?
+;26: Fire Trap Shot?
+;27: First attack notification
+;28: Clone 1 Timer
+;29: Clone 2 Timer
+;30: Dash Collision count - Beam Collision count
+;31: Clone attack?
+;32: Trap Blast Counter
+;33: ai jump
+;34: button mash count
+;35: button mash timer
+;36: OPEN5
+;37: OPEN6     ;Activate Destroy Hellzone Anim-returned temporarily-5/18/20
+;38: throw check
+;39: Toggle Debug Clone (config)
+;40: Launch Hellzone Grenade
+;41: Strength var for special moves.
+;42: Create Balls for Hellzone?
+;43: Choose Clone teleport out sensitivity
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48: -2 Custom State Checker
+;49: -3 Custom State Checker
+;50: Animate blur through hitpause
+;51: 
+;52: DEMON MODE - Buffer variable. 1000 and goes down
+;53: DEMON MODE - Flames variable. 0 to 3000 (Correction:2100)
+;54: Clones Helper Type
+;55: VOICE (Jap/Eng) variable
+;56: counter system notification
+;57: counter system notification
+;58: Pal Color used with Var 5
+;59:  AI
+
+
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(4)  : 
+;fvar(8)  : Counter Hit
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Root Dampener
+;fvar(13) : Hit Count Reset
+;fvar(19): Mystic Harpoon Limiter
+;fvar(21): CHARGE X
+;fvar(22): CHARGE Y
+;fvar(23): CHARGE Z
+;fvar(24): CHARGE A
+;fvar(25): CHARGE B
+;fvar(26): CHARGE C
+;fvar(31): (SNK) CHARGE BACK, FORWARD
+;fvar(32): (SNK) CHARGE BACK, FORWARD
+;fvar(33): (SNK) CHARGE DOWN, UP
+;fvar(34): (SNK) CHARGE DOWN, UP
+;fvar(35): Run Back Clone Delay
+;fvar(36):
+;fvar(37): 
+;fvar(38): Used hellzone grenade 
+;fvar(39): boss options
+
+;mirror clone vars
+;var(2): crouch timer
+;var(3): crouch timer2
+;var(19): Time in rapid kick state
+;fvar(0): jump
+;fvar(4): LP basics
+;fvar(5): MP basics
+;fvar(6): SP basics
+;fvar(14): LK basics
+;fvar(15): MK basics
+;fvar(16): SK basics
+;fvar(17): DF+HP, F+HP, D+jHP
+;fvar(18): D+MK, launcher
+;fvar(12): Sonic Kick
+;fvar(20): rapid kick
+;fvar(21): Harpoon
+;fvar(22): Demon Wave
+;fvar(23): Carnage Blitz, jF+HK
+;fvar(24): AA
+;fvar(25): Dive Kick
+;fvar(26): SBC
+;fvar(27): Dead End
+;fvar(28): Seeking Bullet
+;fvar(29): Trap Shot 
+;fvar(30): super jump
+;fvar(31): short jump
+
+;Explod limiter ID's
+;numexpod(4900)Short Jump Cancel
+;numexpod(4901)RedShoulder Hits
+;numexplod(4902)Lock Clones
+;numexplod(4903)Lock Clones Attack
+;numexpod(1675)Mystic Harpoon Hits
+;numexpod(1677)Mystic Harpoon Guarded
+;numexpod(1678)AA Harpoon Limiter
+;numexpod(1679)EX M Harpoon Limiter
+;numexpod(1680)EX M Harpoon Limiter
+;numexpod(2200)Kick Super Limiter
+;=============================================
+; CNS File for Piccolo Z2 by Team Z2
+; Constants file
+;=============================================
+
+[Data]
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2	
+guard.sparkno = -1
+KO.echo = 0	
+IntPersistIndex = 50
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1                    ;Horizontal scaling factor.
+yscale = 1		;Vertical scaling factor.
+ground.back = 30		;Player width (back, ground)
+ground.front = 30		;Player width (front, ground)
+air.back = 12		;Player width (back, air)
+air.front = 12		;Player width (front, air)
+height = 60		;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too   
+head.pos = 1,-90   ;-5, -90	;Approximate position of head
+mid.pos = -1,-62   ;-5, -60	;Approximate position of midsection
+shadowoffset = -1		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 2.1		;Walk forward
+walk.back = -2.4		;Walk backward
+run.fwd  = 5, 5		;Run forward (x, y)
+run.back = -12,0	          ;Hop backward (x, y)
+jump.neu = 0,-9.5		;Neutral jumping velocity (x, y)
+jump.back = -2.5		;Jump back Speed (x, y)
+jump.fwd = 2.5		;Jump forward Speed (x, y)
+runjump.back = -5.25,-10	;Running jump speeds (opt)
+runjump.fwd = 5.25,-10	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0		;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .54            	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+air.gethit.groundrecover.groundlevel = 0
+
+[Quotes]
+
+victory78 = "I've decided to train you. By that, I mean I will shove you in front of a train."
+victory79 = "You fought nobly, like some kind of chump."
+victory80 = "God, demon, I don't care. Step up, I'm cutting you down."
+victory81 = "You were here to make a name for yourself? Congratulations, your name is dirt."
+victory82 = "You've got a really nice impression of me. Right in the middle of your face."
+victory83 = "Should've dodged."
+victory84 = "The tempest cares not for your desires. It simply is."
+victory85 = "You are going to carry this defeat with you."
+victory86 = "This world doesn't need a God."
+victory87 = "I'm sure someone, somewhere, misses you. Me, I hit you quite a few times."
+victory88 = "I guess THIS is your final form."
+victory89 = "Pick yourself up and leave, there's nothing for you here."
+victory90 = "Better to conquer yourself than others. "
+victory91 = "Hmph. I am not fond of what transpired here."
+victory92 = "You may be powerful, but I broke your nose."
+victory93 = "Ah, the old stand around screaming strategy. A classic, if I ever saw one."
+victory94 = "Secret techniques? Outlandish moves? Transformations? No, I will just break you."
+victory95 = "That's a lot of power... I mean you're still beaten to a pulp but I gotta admit that's a lot of power."
+victory96 =  "Give me some respect you bastard! Who do you think you are talking to?"
+victory97 =  "You're starting to piss me off!"
+victory98 =  "Class dismissed."
+victory99 =  "Did someone train you wrong as a joke?"

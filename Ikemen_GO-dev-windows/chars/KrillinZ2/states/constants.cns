@@ -1,0 +1,194 @@
+;=============================================
+;Vars
+;=============================================
+;0: Throw tech options
+;1: air basics juggle limiter(system)
+;2: 
+;3: 
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5: Allows player to use directions to change Pal (config)
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Specific Move Variables
+;10: Air dash limiter
+;11: 
+;12: Destructo Disc Limiter
+;13: Super BG choice (config)
+;14: 
+;15: Animate blur through hitpause
+;16: recoil var
+;17: Zero Counter command
+;18: Juggle Safety
+;19: 1st proj hit
+;20: varset for 1st/2nd state of Focus Attack
+;21: 
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: 
+;26: Used in KHH
+;27: First attack notification
+;28: ki blast no hit limiter
+;29: 
+;30: Dash Collision count - Beam Collision count
+;31: Ticks Back is held down (Charge char)
+;32: Back Charge Buffer (Charge char)
+;33: Ticks Down is held down (Charge char)
+;34: Down Charge Buffer (Charge char)
+;35: C18 Activation Check
+;36: C18  Winstate Decider 
+;37: 
+;38: throw check
+;39: Fwd Throw ctrl check
+;40: ex whoa
+;41: whoa loop failsafe
+;42: 
+;43: 
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48:
+;49: Custom state Check 
+;50: 
+;51: Emotion Mode / courage buffer
+;52: EMOTION MODE - Finisher variable. 0 to 2100
+;53: Emo Exit Active?
+;54: AI Routines
+;55: SND Var (Used to consistently play SNDs for targets)
+;56: counter system notification
+;57: counter system notification
+;58: Pal Color used with Var 5
+;59:  AI
+
+
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(4)  : x pos
+;fvar(5)  : C18 winpose Vel X tracking
+;fvar(6)  : C18 winpose Vel Y tracking
+;fvar(8)  : Counter Hit
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Root Dampener
+;fvar(13) : Hit Count Reset
+;fvar(14) : Save Intro Starting Position
+
+;=============================================
+; CNS File for Krillin by Team Z2
+; Constants file
+;=============================================
+
+[Data]
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2	
+guard.sparkno = -1
+KO.echo = 0	
+volumescale = 150
+IntPersistIndex = 50
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1				;Horizontal scaling factor.
+yscale = 1				;Vertical scaling factor.
+ground.back = 25		;Player width (back, ground)
+ground.front = 22		;Player width (front, ground)
+air.back = 12			;Player width (back, air)
+air.front = 12			;Player width (front, air)
+height = 60				;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too   
+head.pos = 0,-68   ;-5, -90		;Approximate position of head
+mid.pos = -3,-36   ;-5, -60		;Approximate position of midsection
+shadowoffset = 0		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 1.5			;Walk forward
+walk.back = -2.7		;Walk backward
+run.fwd  = 7.5, 0			;Run forward (x, y)
+run.back = -5.5,-4.8	;Hop backward (x, y)
+jump.neu = 0,-10		;Neutral jumping velocity (x, y)
+jump.back = -3.25		;Jump back Speed (x, y)
+jump.fwd = 3.25			;Jump forward Speed (x, y)
+runjump.back = -7.5,-8.5		;Running jump speeds (opt)
+runjump.fwd = 6,-8.5	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0			;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .51        	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+air.gethit.groundrecover.groundlevel = 0
+
+[Quotes]
+
+victory00 =    "I can cut through anything, care to go again?"
+victory01 =    "I have sore muscles I didn't know I had."
+victory02 =    "That was turtle style 315 katta."
+victory03 =    "You alright there?"
+victory04 =    "You just got yamcha'd."
+victory05 =    "I'm not bald! This is a fashion statement! Shut up!"
+victory06 =    "Right in the nards. Wow."
+victory07 =    "It doesn't really matter who is strongest, I'll fight to the end."
+victory08 =    "W-well sure I'm scared, but where would I be if not fighting?"
+victory09 =    "You've the right to remain silent! Anything you say can and will be used against you in a court of law!"
+victory10 =    "Where do you people keep coming from?!"
+victory11 =    "Geez, how much power does a person really need?!"
+victory12 =    "I might not punch harder than you, but I have stuff I care about that makes my punches truer."
+victory13 =    "Okay, sure, you can probably level a moon or something, but I'm going to punch you in the nose."
+victory14 =    "Turtle style beatdown! Like old Roshi used to do!"
+victory15 =    "That went in a totally weird direction from what I expected!"
+victory16 =    "Yeah, yeah you can blow up a mountain or something, lots of good that did for you."
+victory17 =    "You could use a few laps around Kame Island, here, I'll let you borrow my turtle shell."
+victory18 =    "HEY WHAT'S THE BIG IDEA?! Going around like you own the place?!"
+victory19 =    "We were just two kids studying martial arts with a pervert immortal, how did things got so complicated?!"
+victory20 =    "That was a straight up turtle style beatdown!"
+victory21 =    "Don't go filling yourself up on senzu now. It's.. it's not a pretty sight."
+victory22 =    "Oh geez, Roshi warned me there would be days like this."
+victory23 =    "Gods, aliens, kaioshins and stuff.. when I was a kid we just kicked around vampires."
+victory24 =    "Oh man, this sure is crazy..."
+victory25 =    "Aw geez..."
+victory26 =    "Kami willing, no one is dying on my watch!"
+victory27 =    "I'll face anyone and anything!! ...except Bulma."
+victory28 =    "Hey, do you need a senzu?"
+victory29 =    "You don't scare me! I mean, okay yeah, you scare me a little bit."
+victory30 =    "Praise Dende, I'm in one piece!"
+victory31 =    "My wife said I had to do this."
+victory32 =    "Still quite a way to go with that training of yours, huh?"
+victory33 =    "In my defense, I thought you were stronger than that."
+victory34 =    "You're not half as cool as you seem to think you are."
+victory35 =    "I better go home. I'm a family man."
+victory36 =    "Hah! Classic Krillin."
+victory37 =    "Give me a few minutes and we can go again... Alright, a few hours."
+victory38 =    "Getting pumped here."
+victory39 =    "We never did this in Orin's temple."
+victory40 =    "I have a huge bruise where my body used to be."
+victory41 =    "What's up with all the power creep?! We used to do martial arts, not shoot lasers!"
+victory42 =    "Too proud to admit that you made a mistake, huh?"
+victory43 =    "Turns out punching crooks all the time is good practice!"
+victory44 =    "H-hey what do you mean, 'police brutality'?!"
+victory45 =    "Oh man I almost got tambourined!"
+victory46 =    "What the hey?! You're all crazy!"
+victory47 =    "What do you mean you are calling the cops on me?!?"
+victory48 =    "There's going to come a day when someone stronger than you is going to walk all over you."
+victory49 =    "Okay, that thing you did was legit scary."
+victory50 =    "Strange things happen when you train turtle style... strange things involving lingerie."
+victory51 =    "Oh look at me, I'm all big and powerful and have awesome golden locks. Pfah. I could have hair like that if I wanted."
+victory52 =    "Boss me around do you?!"
+victory53 =    "My daughter is waiting for me at home, I can't afford to lose."
+victory54 =    "Hah! My wife is stronger than you... well, she's stronger than most people."
+;---------------------------------------------------------------------------

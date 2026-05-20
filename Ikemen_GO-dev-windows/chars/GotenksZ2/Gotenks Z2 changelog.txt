@@ -1,0 +1,933 @@
+- constants updated
+- updated ai
+
+04/30/25
+- boss compatible
+- fixed issue with jump land delay
+- drops balls in arcade
+
+;11/16/2024
+- Added FX for LVL2 Ghost Explosions (good stuff Balthazer!)
+- Added failsafes to hopefully fix a bug where Gotenks could maintain super jump velocity when jumping
+from Ballerina Kicks
+- Added a fix to throw teching to allow more consistent teching on wakeup
+- LVL0 Portal now causes a HKD
+
+;11/16/2024
+;-Moved Charge Var code to -2 from -1 (allows charging of moves even in custom states)
+;-Changed AI triggers to check for AILevel 5 instead of 4, so 1-4 should be easier now
+
+;5/28/2024
+;-Added Juggle = 0 to Special/Super attack statedefs (fixes weirdness with Mugens default Juggle system)
+;-Fixed an error where LVL2 Die Die Missiles (QCF+2P)  and Galactica Beach Ball (QCB+2P) would consume 
+;meter even if you had less than a bar
+;-Fixed a tiny debug error where Gotenks would enter invalid animelems when landing while in Hero stance (QCB+P)
+;-Added a Pos Y Failsafe so Gotenks' AI shouldn't be able to cancel into Super Volley Serve Attack! (HCBF+P)
+;while airborne
+;-Added code to allow Charge Attacks at roundstart
+;-Fixed SNDs not stopping when skipping Piccolo Ejected Intro, and added frames for Piccolo reacting
+;Fixed 2 bugs with Galactic Donut (QCBx2+P) where at certain heights, the enemy would constantly bob up
+;and down, and at certain speeds they wouldn't horizontally halt (least I believe so, put this move under
+;intense scrutiny and I haven't seen them again)
+;Charged Back+HP would lead to odd behaviour if the opponent was stuck in Galatic Donut. This has been
+;remedied
+
+;5/7/24
+;-added first attack fix
+;-added hold button to get up roll
+;-removed 3 active frames from sLP
+;-extended hurtbox for final hit of sMP
+;-hitbox for end of sHP lasts longer
+;-sLK hitbox lower hurtbox extended
+;-hitting with scream special applies 4 dmg scale points , EX still only applies 1
+;-air fireballs now apply 2 dmg scale points including ex fireballs
+;-all normals no longer get buffs in emo
+;-removed ability to chain all 6 buttons
+;-sMP final hit puts P2 in longer hitstun
+;
+;
+;4/25/24
+;-added hurt boxes to the butt bash bounce off ground/guarded anim
+;-can do jLP, jLK, and jHP with air dash
+;-the following are now considered attacks and can be counter hit: dash HP oB. butt bash on miss/block, superman falling, hero poses and hero cancels, headbutt guarded/missing
+;-hero pose has less fwd width
+;
+;
+;- Ghost mines leave when Gotenks is hit
+;- fixed ssj3 airdash height
+;- fixed transparency on ki blast
+;- brought 4hp damage down from 124 to 87 like charged hp
+;- buffed raw air heavies (they used to do same amount as mediums) 
+;- nerfed hk down from 74 to 50
+;- 4hp fully charged is now air blockable
+;- fixed finisher 2 board visual error
+;- nerfed ex ki blast loop, you can now only do one use of ex ki blast before it kds
+;- double checked 5.1 updates
+;- both punch alpha counters is now techable on the ground 
+;
+;
+;VF1
+;June 25th, 2023
+;- Uncharged 4HP now techable again
+;- Both Charges of 4HP has a special ceiling bounce now
+;- 4HP lvl1 Charge has invulnerability against air attacks
+;- 4HP Max Charge has Full Invincibility
+;
+;June 24th, 2023
+;- Added VF1 To His Name
+;- Changed The Hurt Frames When He Hits The Ground With His "Dynamic Entry"
+;- Removed Counter Flash
+;- 5.1 Updates
+;- Dash canceling from stHP while the opponent is guarding adds an extra 5 frames before you can dash cancel if you try to do it again before the opponent stops guarding
+;- Fixed Finisher 1 Visually Bugging Out At The Last Frame (Opponent Still Goes Invisible 😭)
+;- Headbutt is no longer techable & 4HP is no longer techable (5.1 Update)
+;- Gotenks fwd/back walk hurtbox now vertically peaks the same as standing
+;
+;V3
+;April/26/2022
+;-fixed issue air guarding while holding back from dash
+;-fixed issue with focus attack limiter
+;-FA is no longer F1 armor after Z Escape
+;-EX Hero Pose Kicker 2 now causes HKD
+;-EX scream hits OTG
+;
+;V2
+;April/12/2022
+;-ghosts can be hit by attacks while active
+;-FA hitting more than once update applied
+;-no longer lose 2nd EX ki blast on hit
+;-fixed issue with not being able to air guard
+;-updated air hero pose anim
+;-air normals now priority 3
+;
+;
+;V1
+;April/6/2022
+;-replaced ground ki blast frames
+;-run slide kick hits OTG
+;-testing a new meter gain if you keep opponent in guard strings for more than 5 seconds. They start gaining meter faster
+;-fixed issue with LVL2 hypers not pulling from extra emo super meter if you had LVL1 super and LVL1 extra
+;-emo no longer lossed by using all extra super meter
+;
+;April/1/2022
+;-Buffed run attributes 
+;-buffed jMP and jHP (better AA)
+;-buffed B+HP (better AA)
+;-headbutt on block will not recover until landing
+;-buffed hitbox for dash HK no longer need to hold down to do it
+;-hover movement made faster
+;-can now use SSJ2 power meter to zetto
+;
+;March/29/22
+;-updated small port and charge cs with toni fixes
+;-added matchover trigger to emo removal
+;-restored SSJ3 no blocking
+;-removed restand from Dash HP and sHKx2
+;-increased endlag from ghost spitting by 7 frames
+;-removed offset from hold HP and Hero Pose flight by pressing Kick
+;-fixed issue with EX Ki Blast effects removing when they shouldn't
+;-fixed weird mini hop after high jHK>Ki blast
+;-updated cursed landing anim time
+;-Zetto will no longer try to send helpers to HKD
+;-can hold to focus after OTG getup roll
+;-added Toni AI fix
+;-can no longer air guard during air dash
+;-removed counter flashes
+;-added wallbreak helper fix
+;-applied reversaldef fix
+;
+;March/10/22
+;-Added random boards for finisher lvl2
+;-Donut and Volleyball supers disable Butt bash, Ballerina and Superman limiters
+;-Added afterimages to EX moves
+;-Changed small portrait
+;-Fixed palette 9
+;-Fixed aura CS in fusion intro
+;-Sprpriority of unfused liedown state changed from -3 to 3 (It could be higher, test it out)
+;-Fixed bug where the charging ki sound wouldn't play if you hold mp+mk after activating emo mode
+;
+;march/9/22
+;-B+SP takes 4jp on hit
+;-B+SP LVL2 takes 1 jp
+;-fixed alignment issues on landed poses
+;-updated limiters on pose cancels. Can now only do 1 pose cancel per combo/route
+;-hero pose now faces opponent at start
+;-updated the flipped/mirrored sprite in the jump anim
+;-updated SSJ3 jump fwd and back anims
+;-SSJ3 can now block
+;-ki blasts graphics updated
+;-updated EX scream graphics
+;-updated fx for SSJ3 transformation
+;
+;feb/10/22
+;-Ki blasts KD after 3 (EX KD after 6)
+;-cMK increases JP unless combo'd with itself
+;-can fire ghosts without power in emo
+;-made air hero pose an actual pose
+;-converted flight rules of hero pose and hold SP to 18 flight rules
+;-allowed more hero pose cancels into themselves
+;-allowed ballerina spin to jump with UP
+;-increased emo gain
+;-made headbutt & SuperMan less safe
+;-reduced speed his emo powerbars fill
+;-can chain into B+HP launcher easier
+;-fixed issue with hero pose not returning to idle on round over
+;-can cancel SpinSpinSpin into Hero pose (hold sHP)
+;
+;todo
+;-allow guard in ssj3
+;---------------------------------------------------------
+;
+;jan/20/21
+;---------------------------------------------------------
+;-Power subtraction reworked for EX ghosts
+;-no longer can use ghost with zetto
+;-added get up backturn protection
+;-redefined Gotenks ki blast limiters
+;
+;jan/19/21
+;---------------------------------------------------------
+;-added ability to fire ex ghosts with P+K of same strength while in an attack state
+;-fixed issue with ghosts making exploding noises
+;-reverted dmg and juggle time of ghosts
+;-changed command for EX WFF to corrispond w the air version
+;-removed ex ki blast from sHK*2 combo
+;-added min height to air hero pose
+;-gain ctrl of superman land after 3 ticks
+;-MK ghost call back now calls back 1st 2 ghosts
+;
+;jan/15/21
+;---------------------------------------------------------
+;-fixed issues with WFF hitting opponents
+;-made deteriorating gravity for continued superman use in combos
+;-added buffer to grounded hero poses so you can press the attack button earlier and he will auto attack
+;-removed cHK follow up from HK AGAIN
+;-can INSULT after cHK
+;-added air ghost mine
+;-added air anims for ghost mine, hero stance, and ballerina
+;-can change how all follow ups from hero pose move by holding back, fwd or nothing
+;-added throw proximity
+;
+;jan/14/21
+;---------------------------------------------------------
+;-made cHP easier to combo from
+;-SuperMan, Butt Bash, and headcrash can cancel into hypers
+;-jHK can cancel into air specials/hypers
+;-buffed several SSJ basics clsn
+;-ghosts can no longer be hit by physical attacks
+;-ghost dmg increased from 30 to 60 and cause chip dmg now
+;-ghost juggle limit free time incresed from 120 to 180 ticks
+;-added air versions of the Hero Stance
+;--LP+MP or LP+HP = WFF Slasher
+;--MP+HP = MFF Kicker
+;
+;jan/12/21
+;---------------------------------------------------------
+;-cHP can combo into specials/supers now
+;-sHK can combo into specials/supers now
+;-Max Focus now causes hard KD if opponent is in hit state
+;
+;5.0Patch
+;---------------------------------------------------------
+;-more recovery after headbutt connects
+;-added Focus Limiter 2
+;-fixed issue with facing right FADC
+;-increased recovery after 2nd air ki blast 
+;-added invincibility to EX headbutt as it rises
+;-sLP chains into sMP
+;-increased life to 850
+;-adjusted defense code for emo
+;-fixed bug with charging
+;-removed limitation from charging power with ghost fired
+;-can cancel into ghosts from basics
+;-added destroyed helper protection
+;-adds 23 dampener points after zetto hits
+;-adds 2 dampener points after throw hits
+;
+;Dec/22/2020FINAL
+;---------------------------------------------------------
+;-added new ghost launch sound
+;-added sound after opponent hits ground from ball hyper
+;-added negative edge to D,U+K ghosts in ssj3
+;-slowed down when he can fire 2nd air ghosts by a few ticks
+;
+;
+;Sept/11/2020
+;---------------------------------------------------------
+;New AI added!
+;
+;NERFS:
+;-The following SSJ3 attacks have more endlag
+;--sLP,jLP, sMP, jMP, sHP, jHP, sLK, jLK, sMK, jMK, sHK, jHK, dMP (beam spit), dHP (ground pound); d+K(ghost spit); Portal scream
+;
+;August/13/2020
+;---------------------------------------------------------
+;SYSTEM:
+;-Added Satan Megaton Punch reactions and finisher 3 standards
+;-update focus, dizzy, and wall crush ko systems
+;
+;July/9/2020
+;---------------------------------------------------------
+;MISC:
+;-fixed pal fx applying to galactic donut
+;-will now play music during Piccolo intro
+;-can now go SSJ3 in team but cannot go emo
+;-fixed sound bug with opponent hitting ground during a pause
+;-fixed issue with Piccolo briefly appearing in Buu special intro
+;-updated win portrait
+;
+;NERF: 
+;-charging HP is now considered an attack state and will allow counter hit
+;-reduced startup on sMP
+;-standing hurtboxes made wider for head and upper body
+;-dash HP only does full launch if opponent is attacking or in a hit state
+;
+;Jan/1/2020
+;---------------------------------------------------------
+;MISC:
+;-fixed issue with some ghosts not leaving for cinematics
+;
+;Dec/11/2019
+;---------------------------------------------------------
+;MISC:
+;-tweaked wall binding and made hard limit for how long he can spin
+;-added shadow to Mighty Mask intro
+;-lowered axis for fat and skinny fusion fails
+;-fixed issue with Piccolo face palm intro
+;
+;Aug/8/2019
+;---------------------------------------------------------
+;NERFS:
+;-fixed issues with ssj buffs
+;
+;BUFFS:
+;-butt bash acts differently on contact and you gain control from it sooner
+;
+;July/26/2019
+;---------------------------------------------------------
+;MISC:
+;-tweaked Y accel on jHK after chaining from jMK
+;-updated Training mode detection code
+;
+;NERFS:
+;-removed ability to cancel into air ki blast on whiff of air basics
+;-cancelling Hero pose now takes 16 ticks if opponent is guarding
+;-SuperMan now has recovery if blocked
+;
+;BUFFS: 
+;-can cancel run stop into basics
+;
+;July/25/2019
+;---------------------------------------------------------
+;MISC:
+;-updated B+HP frames and clsn boxes
+;-updated Air Ghost Fire anims
+;-corrected P1 emo exit bars removal
+;-added Gotenks Scribble anim standard
+;
+;BUFFS: 
+;-added D+LP to SSJ3 form
+;
+;July/10/2019
+;---------------------------------------------------------
+;MISC:
+;-fixed statetype bug with air zetto teleport
+;-increased width on SSJ3 Dash Forward
+;-fixed issue with hair on UI LVL3 finisher attack frame
+;-Piccolo won't disappear for a longer time in Piccolo ejection intro
+;-fixed visual issue in LVL3 finisher where opponent would appear on opposit side of screen before Gotenks disappears
+;-P2 emo bar now disappears to the right when you die
+;-Piccolo intro bugs where he doesn't shake with a stage are NOT fixed as it'd be too much trouble to solve the issue
+;-fixed crop cut off on SSJ2 transform flash
+;-new sound for LVL3 super pause
+;-updated cliffside portrait
+;
+;NERFS: 
+;-2nd boar attack in a combo causes knockdown
+;-cannot charge power when opponent hit by ghost
+;
+;July/10/2019
+;---------------------------------------------------------
+;MISC:
+;-changed coding for a better looking forward throw
+;-updated sounds for Volley hyper
+;-removed lightning strikes/snds from SSJ3 transformation
+;-added new sounds to SSJ3 transformation
+;-SSJ3 changes
+;--moved Mouf Beam to D+MP
+;--call ghost with D+any kick
+;--Ghost Bros moves now available during attacks and taunt (besides call back ghost)
+;
+;NERFS: 
+;-Zetto counters can not kill and do not give power 
+;-3 more ticks of recovery for 1st air fireball
+;-no longer gain meter from using ghosts
+;-opponent gains 35 meter on hit by ghost and 40 on block
+;-ghost mine changes
+;--hitbox moved to it's back
+;--ghosts face the opponent
+;--ghosts will be slowly pushed back while near an opponent guarding an attack
+;--guard distance decreased
+;
+;BUFFS:
+;-can combo after off the wall butt bash into DieDie Missiles 
+;-can transform into SSJ2/3 in Hero Pose
+;
+;June/30/2019
+;---------------------------------------------------------
+;SYSTEM:
+;-added dizzy from full focus
+;-stars above head in dizzy
+;-added helper chicken block fix
+;-removed air dash bugs holding Fwd or Back
+;-fixed throw invuln for jump start-added new 5252 anim standard (18 spin throw)
+;
+;BUFFS:
+;-lowered destroy point for air ghost
+;-increased guard stun for air ghost fire and head crusher ghosts to 18 
+;-CLSN boxes for Air Ghost Fire made larger
+;-can continuously fire homing ghost by tapping K
+;
+;NERFS:
+;-smaller hitbox on mine
+;-larger hurtbox on mine
+;-no longer invuln near mine
+;-ghost destroyed at end of round no longer return next round
+;-sLP/cLP 4f
+;-head on crouch anim hurtboxes enlarged - (shrank back down just a bit)
+;-guard degradation from ghosts
+;-lowered health to 800
+;-SSJ defense gain lowered from .6 (1360 max health) to .25 (1000 max health)
+;-removed lower body invuln from emo cMP
+;-Following moves made - on block
+;--Insult
+;--DieDieMissile
+;--Galactic Donut
+;
+;MISC:
+;-fixed issues with ghost air fire
+;-fixed issue with Focus chaining from basics during guarded attacks
+;-fixed issue with air ki blasts losing their hitcount
+;
+;
+;June/21/2019
+;---------------------------------------------------------
+;SYSTEM:
+;-air dash while holding FWD changed
+;MISC:
+;-Hero Pose attacks swapped. Punches do attacks, kicks cancel it
+;BUFFS:
+;-welcome back Zetto Ghost 
+;-welcome back power increase while in Hero Pose
+;
+;June/20/2019
+;---------------------------------------------------------
+;SYSTEM:
+;-throw code updated
+;-invincibility on get up reduced to 1 tick
+;-Projectiles updated to new hitdef standard
+;-ghold button to recover
+;-charge power at time = 12
+;-flip ko snds added to -2
+;-removed ground/wall spark against clones
+;-recovery snd updated
+;MISC:
+;-Hero Pose now QCB+P
+;-Homing Ghost = B,F+K
+;-Ghost Mine = QCB+K
+;--Ghost call back = D,D+K
+;-Air Ghost Fire = QCF+K in air (can be done twice like air ki blast)
+;NERFS:
+;-Removed Ghost from Zetto Counter
+;-Removed D+HK after sHK 
+;-leaving SSJ3 makes you lose emo
+;-no longer gain power from Hero Pose unless in emo with full emo meter
+;BUFFS:
+;-ground KICK Zetto has shorter anim time
+;-air KICK Zetto appears in air and falls to ground
+;
+;June/15/2019
+;---------------------------------------------------------
+;MISC:
+;-guard code updated
+;NERFS:
+;-Air ki blast speed made quicker on Medium and Light strength
+;-air ki blast causes less block stun and gives less meter on guard
+;-Ballerina Kicks no longer destroys fireballs
+;-can no longer cancel headbutt from Butt Bash
+;-headbutt has 4 ticks longer to recover after hit
+;-opponent can air tech after headbutt hits
+;-guard time for ghosts reduced
+;-ghosts now run away if Gotenks is hit if they have been fired as a homing attack
+;
+;Feb 2 2018
+;---------------------------------------------------------
+;emo activation now -2 on block instead of +2
+;
+;Jan 25 2018
+;---------------------------------------------------------
+;-added portal hit fix
+;-adjusted Donut alignment
+;-removed chainable Focus Attack
+;-made attacks into portal look better
+;-removes double air attack limiter on emo activation
+;-added HP+HK as ghost mine shortcut while attacking
+;-made ghost removal explod failsafe in hopes ghosts never appear in finishers
+;-added new transformations supplied by Speedster to LVL3 finisher
+;
+;Jan 19 2018
+;---------------------------------------------------------
+;-fixed bug when HeadCrasher hits ground and Gotenks could stand above or below ground
+;-Fixed bug where he talked trash on death
+;-fixed issue with LVL2 finisher board not displaying correct image during certain matches
+;-fixed issue where opponent would appear for 1 tick before being expelled from LVL1 finisher portal
+;-decreased defense a bit for emo
+;-increased recovery time after Pig Attack
+;-decreased armor damage heavy hits apply to SSJ3
+;-decreased the points needed to knock SSJ3 down
+;-SSJ3 flashes red when he has no armor
+;-added 7 seconds cool down time after SSJ3 is used in emo indicated by an X over his emo face. You cannot turn SSJ3 again till this is gone
+;-fixed issue where LVL0 wouldn't remove finisher meter
+;-opponent bounce from EX headcrasher hit higher
+;
+;Dec 27 2017 
+;---------------------------------------------------------
+;-fixed issue where LVL3 finisher wouldn't take finisher bar
+;-multi hits of sMP knocks down air opponents
+;-Butt Bash now gains speed after 40 ticks to reach the wall
+;
+;Dec 26 2017 
+;---------------------------------------------------------
+;-Advantage leaving LVL1-3 finishers decreased
+;-When the match ends while you are SSJ3 emo Gotenks when you start the next round you lose the amount of super meter you gained extra (because you gain up to 1000 going into it)
+;-updated rub nose intro
+;-added angry intro variant
+;-very small chance of new earflick winpose
+;-added point up winpose (it has it's own ghost winpose too)
+;-added stoic winpose
+;-added new SSJ3 winpose
+;-added SSJ3 lose pose
+;-added new random standing taunt
+;-finished finisher 3
+;-can now adjust axis for SSJ3 small portrait
+;-can use pal select option in config
+;
+;Dec 21 2017 
+;---------------------------------------------------------
+;-Finisher LVL2 tweaks
+;
+;Dec 20 2017 
+;---------------------------------------------------------
+;-finished finishers LVL0 - 2
+;
+;Dec 14 2017 
+;---------------------------------------------------------
+;-revamped ghost color changing code
+;-portal scream has more recovery and no longer has armor
+;-removed insane hit boxes from SSJ3 basics and removed ripple fx
+;-added placeholder finisher 3
+;-removed limitation on easter egg
+;-added LVL0
+;
+;-finisher tweaks
+;
+;Dec 6 2017 
+;---------------------------------------------------------
+;-changes applied to full charged sSP impact
+;-added chance of fusion failure
+;-added new fx for ghost explosion
+;-added new winposes for SSJ3
+;-added taunt for SSJ3
+;-added lose poses for ghosts
+;-added easter egg for Volley Ball hyper
+;-de fusion winposes no longer go off screen
+;-Jump Cancel from Hero Pose only jumps FWD now
+;-SSJ3 only does fall down on exit now
+;
+;-smoothed out some intros
+;-changed timings of new ghost explosion fx 
+;
+;Dec 1 2017 
+;---------------------------------------------------------
+;shaking skinny knees... maybe?  https://vocaroo.com/i/s0zf5ukeP740
+;--added
+;
+;failed fusion smoke puff:   https://vocaroo.com/i/s1IKnETWskjD
+;--added
+;
+;This could be a general failed fusion funny sound, to go along with the smoke puff:  https://vocaroo.com/i/s0j94pZcobGM
+;--added
+;
+;-found a GOOF in w/ Piccolo intro 1 : failed headcrusher. He jumps forward 1 pixel when going from the intro to his actual stance. Unaccaptable!
+;--fixed
+;
+;-I think MAX Spin Spin Punch is still lackluster and not quite worth it in it's damage. I'd say you can also add those big blue circular hit sparks that the B+SP version has.
+;--added spark and now P2 flies up a tad higher allowing you to combo from it easier
+;
+;saw the intros good stuff some of them jump too fast from pose to stance and since stance is lower theres a tiny jump
+;--fixrd various alignments
+;
+;mighty mask one should loop the stretching of clothes, th final paart once more before the burst
+;--done
+;theres some winposes like the fist bump one that could say something like "HYPER or SUPER instead of a grunt
+;--done
+;
+;-added salute ghost winpose
+;-ghosts have actions they do themselves when you win now
+;
+;Nov 30 2017 
+;---------------------------------------------------------
+;-added new intros
+;-added new winposes
+;-added winpose to SSJ3
+;
+;Nov 29 2017 
+;---------------------------------------------------------
+;-added new intros
+;
+;Nov 22 2017 
+;---------------------------------------------------------
+;-tweaked timings for turn punch taunt and super taunt
+;-fixed throw tech
+;-replaced aura in zetto countersuperman
+;-updated various sounds
+;-SSJ2 aura shield is now +2
+;-updated SSJ3 transformation
+;-removed ability to go SSJ3 in simul
+;-portal now closes when you exit ssj3
+;-added training mode detection to SSJ3 and can exit SSJ3 with D,D MP+MK in training
+;
+;Nov 17 2017 
+;---------------------------------------------------------
+;-can cancel 1st 3 frames of sHP with focus except during chain combos
+;-changed fx for superman
+;-Added leave SSJ3 burst when time runs out
+;
+;-fixed charge up bug in SSJ2
+;-changed SSJ3 burst method
+;
+;Nov 16 2017 
+;---------------------------------------------------------
+;-finished all basics snds and fx
+;-finished portal actions 
+;--rules for when it can and cannot hit: 
+;---It will only hit when opponent is in hit state.
+;---When opponent gets up they have a 30 tic window to not get hit
+;---if the opponent blocks your attacks during the 30 tick window they cannot get hit by the portal until they stop blocking
+;-added time limit for SSJ3
+;-exit SSJ3 is temporary (it'll be an attack when done)
+;
+;Nov 15 2017 
+;---------------------------------------------------------
+;-update to OTG code2
+;-update to dash HP code
+;-increased min dmg to 3
+;-reduced juggle points of dash HP from 15 to 2
+;
+;-added new crouch taunt anim
+;-added exit emo D,D MP+MK
+;-Galactic Donut now drops scaling points down 75%
+;
+;Nov 14 2017 
+;---------------------------------------------------------
+;-fixed dash HP flip bug
+;-reduced block stun on SSJ transform
+;-updated OTG code
+;
+;-update to OTG code2
+;-update to dash HP code
+;
+;Nov 12 2017 
+;---------------------------------------------------------
+;-fixed error with ghost mine
+;-fixed super pausetimes with ghost
+;-reduced jHP dmg from 37 to 30
+;-superman no longer applies juggle points
+;
+;Nov 10 2017 part 2
+;---------------------------------------------------------
+;-ghosts per combo reduced to 2
+;-ghost dmg reduced back to 30
+;-fixed small port alignment
+;-added lie dead anim 
+;-added preliminary portal attack to SSJ3 charge back, F+P
+;
+;Nov 10 2017 
+;---------------------------------------------------------
+;-tweaked SSJ3 transformation
+;-changed base dmg on ghosts
+;-SSJ3 ghost fire and ghost serve now have min dmg values
+;-now go to standing or crouching state if in an anim where you have control and are idle
+;
+;Nov 9 2017 
+;---------------------------------------------------------
+;-turn corrections
+;-reset scaling points with Donut
+;-Ghost mine, fire, and head crush remove 10% of scale points
+;-finished SSJ3 transformation (prob needs different transform sound)
+;
+;
+;Nov 8 2017 part 5
+;---------------------------------------------------------
+;-reduced min dmg to 2
+;
+;Nov 8 2017 part 4
+;---------------------------------------------------------
+;-fixed ghosts in zetto counter
+;
+;Nov 8 2017 part 3
+;---------------------------------------------------------
+;-corrected a mistake in DieDie
+;-added ghost palfx for P2 ghost min in mirror match
+;-gotenks lauchs after Zettoport
+;-Gotenks can be hit after he appears following zetto port
+;
+;Nov 8 2017 
+;---------------------------------------------------------
+;-removed dust from air dash in SSJ3
+;-limited ghosts you can fire during a combo in SSJ3
+;-finished all jumping and standing taunts
+;-added Salute to ghosts taunt FWD+Start
+;-fixed ki blasts so they don't drop combo counter
+;-finished P2 emo meters
+;-added zetto counters
+;-added minimum height limit for jHK ssj3
+;
+;
+;Nov 5 2017 part2
+;---------------------------------------------------------
+;-no more juggle points in SSJ3 again
+;-applied air dash limiter in SSJ3
+;
+;Nov 5 2017
+;---------------------------------------------------------
+;-can use ghosts in SSJ3 that you carry over 
+;-can create ghosts with QCF+K
+;
+;
+;Nov 4 2017 part 2
+;---------------------------------------------------------
+;-updated charge code
+;-added timer to firing ghosts
+;-made contengency code to prevent ghosts from becomeing the same numbers
+;
+;Nov 4 2017
+;---------------------------------------------------------
+;-finished buffer adjustments
+;-fine tuned ghosts
+;-added ghost taunts
+;-finalized basics
+;-finalized focus by adding new shaky frame
+;-added super bg explosions for super move finishes
+;-added new snd for superman jump
+;-added air frames for floating HP
+;-can now move left and right with SPIN SPIN SPIN floating HP
+;-added ghost serve variant to Volley serve super
+;-removed blur during superman and volley serve hit pauses
+;-adjusted sMP
+;-removed OH from WFF Slasher gave it to WFF Kicker while it's on the way down
+;-fixed issue with WFF kicker hitting multiple times on block
+;-fixed SSJ3 knockdown direction
+;-added air and crouch taunt
+;-added dashes to SSJ3
+;-MP, MK, and SK all have different properties while dashing
+;-added D+HP on ground and air to SSJ3
+;-added IAD restriction and anti fuzzy code
+;
+;Oct 30 2017
+;---------------------------------------------------------
+;-fixed ghosts? I hope!
+;-can now do Ghost HeadCrash during the same states as Ghost Fire and Ghost Mine [D],U+K
+;
+;Oct 27 2017
+;---------------------------------------------------------
+;-increased fireball power gain back
+;-added a number of tweaks to prevent many combos he shouldn't have had (too bad I didn't log them all as I did them)
+;-recoded ghosts phase 1
+;
+;Oct 21 2017
+;---------------------------------------------------------
+;-added all the 4.5 updates junk
+;-decreased fireball power gain
+;
+;Oct 20 2017
+;---------------------------------------------------------
+;-Added preliminary SSJ3 mode QCBx2+K
+;-hitmechanics finalized?
+;-all basics added
+;-command basic added F+HP
+;-needs many sounds and effects
+;--update2--(all SSJ3)
+;-Timings for LP, MP and LK adjusted
+;-added fx for LP and MP
+;-Armor heals slower
+;-Mouth Beam not as spammy
+;-mouth beam loses armor
+;-fixed animation issue with jump forward
+;-raised get hits so they look better with floaty SSJ3
+;
+;
+;Sept 29 2017
+;---------------------------------------------------------
+;-removed Volley Ball Hyper points system (cries)
+;-added a percentage limiter. The move ends when you do 35% or more dmg
+;
+;
+;Sept 22 2017
+;---------------------------------------------------------
+;-finished Volley Ball Hyper points system
+;
+;Sept 20 2017
+;---------------------------------------------------------
+;-Volley Ball completed besides perks (sounds, various fixes from feedback)
+;
+;Sept 19 2017
+;---------------------------------------------------------
+;- QCBx2+2P Very beta version of Ball Hyper
+;-updated near ground tech code
+;-forward throw has longer recovery
+;-dash SP works against armor now
+;
+;Sept 9 2017
+;---------------------------------------------------------
+;-finished adding animations and sounds to Donut
+;-added hit to hitcounter for Volley Serve
+;-added aerial SSJ2
+;-added shield attack to SSJ2 transformation
+;-fixed issue with headbutt coming out while in juggle state
+;
+;Sept 6 2017
+;---------------------------------------------------------
+;-added limiter to jump attack into ki blast block strings (he goes into full jump recovery anim after 4 loops)
+;-Can hide beside a ghost mine to not get hit
+;-nerfed meter gain and dmg for superman
+;-fixed various issues with Donut and armor
+;-removed default negative edge for Hero but made it a config option
+;
+;Sept 1 2017
+;---------------------------------------------------------
+;-Changed Ghost fire alt to LP+LK, removed Ghost mine alt
+;-Longer block state for sMP
+;-can jump from run stop state
+;-added preliminary Galactic Donut 
+;-can cancel flying cSP into Die Die
+;-added negative edge cancels to Hero Pose
+;
+;August 31 2017
+;---------------------------------------------------------
+;-Decreased DMG multiplier of SSJ from 1.25 to 1.15
+;-Removed all basic follow ups for sSP
+;-can only do cSK and jSK cancels in 1st hit of sSK
+;-damage of canceled strong into strong attacks halved
+;-damage of Light attacks slightly decreased
+;-damage of SUPERMAN slightly decreased
+;-can now back dash after 2nd part of sSK on hit or miss
+;-can air dash after ButtBash is guarded
+;-fixed airblocking
+;-fived imvuln bug after INSULT
+;-changed pal method for ghosts
+;
+;August 30 2017
+;---------------------------------------------------------
+;-Back throw switches sides in corner
+;-Can no longer gain meter in Hero pose while P2 in hit state
+;-Superman gives less meter on hit
+;-simply doing the hero pose moves no longer gives meter
+;-reduced damage on WFF
+;-Added SJ infinite prevention
+;-Can use ghosts while charging meter
+;-removed dash from Hero stance
+;-added variant ghost headcrasher depending on button strength
+;-added alternate way to do ghosts mine is LP+LK and fire is MP+MK
+;-applied EXPLODsive buffering
+;-fixed issue with Gotenks appearing on ground if hit with flying SP
+;-added delay to air dash after hero sj cancel
+;-made hit box for Volley larger
+;-fixed it so Volley will not go behind the opponent after Ballerina Kicks
+;
+;August 25 2017
+;---------------------------------------------------------
+;-fixed power usage with ghosts
+;-added limiter to sSP cancel
+;-changed guard times for light attacks
+;
+;August 24 2017
+;---------------------------------------------------------
+;-fixed palette issues with ghosts
+;-tweaked poweradd values
+;-made SSJ jSK startup faster
+;-made charging power slower when scream is active
+;-fixed layering on emo meter
+;-fixed color selector in options.txt 
+;-applied new default colors
+;-changed SSJ2 charding anim
+;-can continue charging power after going ssj2
+;-fixed voices for Volley Hyper
+;-added new portraits
+;-Can cancel sSK into jSK
+;-fixed issue with buttbash not getting to the wall if P2 walks forward
+;-fixed palfx issues
+;-fixed issues with air headbutt (meter, sounds, effects)
+;-finalized emo meter usage for basics, specials, and EX attacks
+;-fixed jSK coming out too late from sSK
+;-cSK can come from either kick in sSK
+;-jSK has forward momentum when canceled from sSK
+;-fixed low airdash through P2
+;-can be hit during emo charge! weeee
+;-Volly hyper deals more damage
+;
+;
+;August 23 2017
+;---------------------------------------------------------
+;-changed dmg values for some jump basics
+;-Added nonrecoverable state and applied it to several attacks
+;--all charged sSP
+;--sSK
+;--cSP
+;--cSK
+;--dash SK
+;--jSP
+;-- Superman, twirl, and buttbash
+;-- Headbutt
+;-Reduced volume on fully charged B+SP
+;-fixed blinking ghosts issues
+;-have to run for 3 ticks before using dash attacks
+;-can combo off back throw into ghosts
+;-added AlexSin's Dash CLSN fix
+;-fixed issues with Volley Ball hitting
+;-HeadButt hits as an overhead on the way down
+;-jump reduced to 1 tick can no longer charge down super jump
+;-can cancel Headbutt into Die Die on hit and guard
+;-reduced hero mode cancelling from 13 to 8
+;-added forward and back dash options from Hero
+;-made EX Headbutt invincible
+;-can use Head Butt in air
+;-can cancel cSK into hero and headbutt
+;-can cancel sSK into headbutt
+;-can cancel headbutt from all air basics and from butt bash once it hits wall and after
+;-all crouching attacks must be blocked low
+;-headbutt must be blocked high
+;-can cancel charging portion of sSP into hero pose or headbutt
+;-ButtBash safe on Block
+;-fixed sliding back issue with WFF Kicker
+;-can cancel Twirl and most basics and charging sSP into Volley Ball Super
+;-SSJ gains all perks instantly
+;-gave ctrl early to MP ender if in SSJ
+;-adjusted the timings and clsns of many basics
+;-faster recovery after Dashing SP hits
+;-limiter set on dashing SP
+;-P2 air recovery time of air ki blast increased from 1 to 10 ex can no longer be air recovered
+;-Can cancel LVL1 Die Die into LVL2 Die Die
+;-hero pose charges power
+;
+;
+
+;========================================
+;Pasted from Rajaas Urien. Turns out without anything, Mugen just won't run the character. DON'T TOUCH
+;========================================
+[statedef -65536]
+type = A
+ctrl = 0
+[state -65536]
+type = null
+trigger1 = 0

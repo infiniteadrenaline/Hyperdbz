@@ -1,0 +1,200 @@
+;=============================================
+;Vars
+;=============================================
+;0: Throw Tech (config)
+;1: Juggle Limit LVL2
+;2: ssj3 small port(config)
+;3: Used in Corner Push code
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5: Allows player to use directions to change Pal (config)
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Specific Move Variables
+;10: Air dash limiter
+;11: Negative Edge used in Hero Pose? 0 = no 1 = yes (config)
+;12: Ghost: 1 = set down, 2 = fire
+;13: 
+;14: Gethit gut or not (Ki Blast, Machine Gun Temper)(in helpers) - Used to detect if a projectile hit.
+;15: Animate blur through hitpause
+;16: Did projectile hit? Used for 1st projectile hitting
+;17: Zero Counter command
+;18: Juggle Safety
+;19: Super BG choice (config)
+;20: varset for 1st/2nd state of Focus Attack
+;21: SlideTime for SSJ3 gethit
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: Max DMG Volley Ball Hyper can do
+;26: Armor Points for SSJ3
+;27: First attack notification
+;28: SSJ3 Get Hit Var
+;29: SSJ3?
+;30: Dash Collision count - Beam Collision count
+;31: Ticks Back is held down
+;32: Back Charge Buffer
+;33: Ticks Down is held down
+;34: Down Charge Buffer
+;35: 
+;36: 
+;37: AI choice var
+;38: throw check
+;39: 
+;40: Track ghosts time
+;41: superman hits
+;42: 
+;43: Choose Ghost teleport out sensitivity
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48: -2 Custom State Checker
+;49: -3 Custom State Checker
+;50: SSJ2 MODE - In SSJ2? If 0 then no
+;51: SSJ2 MODE - Extra Hyper Meters 0-3000
+;52: SSJ2 Mode - Finisher Bar 0-3000
+;53: How many ghosts?
+;54: 
+;55: 
+;56: counter system notification
+;57: counter system notification
+;58: Pal Color used with Var 5
+;59:  AI
+
+
+;fvar(0)  :
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(4)  : Specific Move Variabls (Velocities and such)
+;fvar(5)  :
+;fvar(6)  :
+;fvar(7)  :
+;fvar(8)  : Counter Hit
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Root Dampener
+;fvar(12) : DefenceMulset Fix
+;fvar(13) : Hit Count Reset
+;fvar(14) :1P X axis SSJ3 Small Port (config)
+;fvar(15) :Y axis SSJ3 Small Port (config)
+;fvar(16) :2P X axis SSJ3 Small Port (config)
+;fvar(17) : Did he get hit while he had 1 HP left during SSJ3?
+;fvar(18) : y Axis
+;fvar(19) : ex ki blast limiter
+;fvar(20) :
+;fvar(21) : 
+;fvar(22) : 
+;fvar(23) : 
+;fvar(24) :
+;fvar(25) :
+;fvar(26) :
+;fvar(27) :
+;fvar(28) :
+;fvar(29) :
+;fvar(30) :
+;fvar(31) : 
+;fvar(32) : 
+;fvar(33) : 
+;fvar(34) :
+;fvar(35) : 
+;fvar(36) : 
+;fvar(37) : stores power meter differences for ssj3 math
+;fvar(38) : was SSJ3?
+;fvar(39) : 
+
+;=============================================
+; CNS File for Gotenks Z2 by Team Z2
+; Constants file
+;=============================================
+
+[Data]
+life = 850
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2	
+guard.sparkno = -1
+KO.echo = 0	
+volumescale = 150
+IntPersistIndex = 49
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1				;Horizontal scaling factor.
+yscale = 1				;Vertical scaling factor.
+ground.back = 25		;Player width (back, ground)
+ground.front = 20		;Player width (front, ground)
+air.back = 12			;Player width (back, air)
+air.front = 12			;Player width (front, air)
+height = 50				;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too   
+head.pos = 13,-61   ;-5, -90		;Approximate position of head
+mid.pos = 1,-36   ;-5, -60		;Approximate position of midsection
+shadowoffset = 0		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 3			;Walk forward
+walk.back = -2.0		;Walk backward
+run.fwd  = 8, 0			;Run forward (x, y)
+run.back = -5.5,-4.8	;Hop backward (x, y)
+jump.neu = 0,-10		;Neutral jumping velocity (x, y)
+jump.back = -3.25		;Jump back Speed (x, y)
+jump.fwd = 3.25			;Jump forward Speed (x, y)
+runjump.back = -7.5,-8.5		;Running jump speeds (opt)
+runjump.fwd = 6,-8.5	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0			;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .51        	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+air.gethit.groundrecover.groundlevel = 0
+
+
+[Quotes]
+
+victory66 = "Amethyst Puncture! What does the move do? Who cares. Does it sound cool?"
+victory67 = "Immortal's Knee of the Unpredictable Suffering! What does the move do? Who cares. Does it sound cool?"
+victory68 = "Unholy Airborne Bite! What does the move do? Who cares. Does it sound cool?"
+victory69 = "Tracking One Million Streams Meteor! What does the move do? Who cares. Does it sound cool?"
+victory70 = "Tune in next week for more adventures of our charismatic hero! That's me!"
+victory71 = "I told you to not touch the hair!"
+victory72 = "Sorry, no autographs today, hands too full of VICTORY SIGNS!"
+victory73 = "Ya know, for filler, you were kind of a pain in the butt!"
+victory74 = "I'll give ya four months so you can train and challenge me again."
+victory75 = "Look everybody, this guy over here can't even take on a lil' kid! "
+victory76 = "I'm kind of a big deal."
+victory77 = "I'm going to tell our dads on you!"
+victory78 = "Aha! That was my secret move! Which one? Huhhhhh... all of them?"
+victory79 = "Give me your lunch money!"
+victory80 = "Oh man, that was HIIII-LA-RIOUS. Let's do it again!"
+victory81 = "Wait wait wait... It's over? I thought you were doing a whole bit."
+victory82 = "Your world status is now: ROCKED."
+victory83 = "What?! Already?! I didn't even use my best moves!"
+victory84 = "Original moves, dont steal!"
+victory85 = "Oh yeah! Gotenks' done it again!"
+victory86 = "SUPREME NEEDLE BLASTER. What does the move do? Who cares. Does it sound cool?"
+victory87 = "I'll let you be one of my errand boys if you go get me some chocolate!"
+victory88 = "I need to hire someone to just carry a boombox around and play my theme during those fights."
+victory89 = "Dontcha wish you were as cool as me?"
+victory90 = "If I catch that autograph I gave you on ebay I'm going to be mad!"
+victory91 = "Maybe I'm just too strong!"
+victory92 = "Thought you could just bully us around, huh?"
+victory93 = "TREMENDOUS SMOOTHIE KICK! What does the move do? Who cares. Does it sound cool?"
+victory94 = "NEGADEATH HAMMER! What does the move do? Who cares. Does it sound cool?"
+victory95 = "TAX INCURSION OVERDRIVE! What does the move do? Who cares. Does it sound cool?"
+victory96 = "BARKING FROST TAKEDOWN! What does the move do? Who cares. Does it sound cool?"
+victory97 = "JUST GARGOYLE BEAM POINT! What does the move do? Who cares. Does it sound cool?"
+victory99 = "Raging Broccoli Barbecue! What does the move do? Who cares. Does it sound cool?"

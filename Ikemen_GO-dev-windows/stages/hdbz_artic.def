@@ -1,0 +1,712 @@
+;================================================================
+;MADE BY:  DAERON          specially for the z2 chars!
+;Coding fixes and optimization by XGargoyle
+;================================================================
+
+[info]
+name ="Artic"
+displayname="Arctic"
+versiondate=04,15,2017
+mugenversion = 1.0
+author="Daeron"
+
+[camera]
+startx = 0 
+starty = 0
+boundleft = -224
+boundright = 224
+boundhigh = -300 ;-230
+boundlow = 0
+verticalfollow = .75
+tension = 50
+floortension 	= 90
+
+
+;--------------------------------------------------------
+[playerinfo]
+p1startx = -70          ;starting x coordinates
+p1starty = 0            ;starting y coordinates
+p1startz = 0            ;starting z coordinates
+p1facing = 1            ;direction player faces: 1=right, -1=left
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 ;left bound (x-movement)
+rightbound =  1000 ;right bound
+topbound  =  0   ;Top bound (z-movement)
+botbound  =  0    ;Bottom bound
+
+;--------------------------------------------------------
+[scaling]
+topz     = 0       ;top z-coordinate for scaling
+botz     = 50      ;bottom z-coordinate for scaling
+topscale = 1       ;scale to use at top
+botscale = 1.2     ;scale to use at bottom
+
+;--------------------------------------------------------
+[bound]
+screenleft = 30 ;15    ;dist from left of screen that player can move to
+screenright = 30 ;15   ;right edge
+
+;--------------------------------------------------------
+[stageinfo]
+ 
+zoffset = 220 ;360
+zoffsetlink = 4
+autoturn = 1
+resetbg = 0
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[shadow]
+intensity = 5
+color = 40,0,0
+fade.range = 0,-50
+yscale = 1
+
+[Reflection]
+intensity = 60
+
+
+;--------------------------------------------------------
+[music]
+
+bgmusic = sound/stages/hdbz_artic.mp3
+bgvolume = 100
+
+;looping points for hdbz_artic.mp3
+bgmloopstart = 679958
+bgmloopend = 4468249
+
+;========================================================
+;-------------------------------------
+; main background definition
+[bgdef]
+spr = stages/hdbz_artic.sff
+debugbg = 0
+
+;----------
+
+
+
+[bg sky]
+type = normal
+spriteno = 1,0
+start = 0, -142
+delta = 0.2,0.6
+mask = 1
+layerno = 0
+velocity = 0.2, 0
+tile = 1,0
+sin.y = 4, 720
+
+
+
+
+[bg sky2]
+type = normal
+spriteno = 1,11
+start = 0, -142
+delta = 0.3,0.6
+mask = 1
+layerno = 0
+velocity = 0.3, 0
+tile = 1,0
+sin.y = 4, 720
+
+
+
+[bg sky3]
+type = normal
+spriteno = 1,12
+start = 0, -142
+delta = 0.4,0.6
+mask = 1
+layerno = 0
+velocity = 0.4, 0
+tile = 1,0
+sin.y = 4, 720
+
+
+
+
+[bg distant fog]
+type = normal
+spriteno = 2,0
+start = 0, -142
+delta = 0.2,0.6
+mask = 1
+layerno = 0
+tile = 1,0
+trans = addalpha
+alpha = 90,256
+sin.y = 4, 720
+
+
+[BG suelofondo]
+type  = parallax
+spriteno = 1,1
+start = 0, -142
+delta = 0.2, 0.6
+xscale = 0.2, 0.6
+yscalestart = 100
+yscaledelta = 0
+sin.y = 4, 720
+
+
+[bg islas]
+type = normal
+spriteno = 1,7
+start = 0, -142
+delta = 0.3,0.6
+mask = 1
+layerno = 0
+tile = 1,0
+velocity = 0.1, 0
+sin.y = 4, 720
+
+
+
+[bg islas]
+type = normal
+spriteno = 1,10
+start = 0, -142
+delta = 0.4,0.7
+mask = 1
+layerno = 0
+tile = 1,0
+velocity = 0.2, 0
+sin.y = 4, 720
+
+
+
+[bg islas]
+type = normal
+spriteno = 1,13
+start = 0, -142
+delta = 0.5,0.8
+mask = 1
+layerno = 0
+tile = 1,0
+velocity = 0.3, 0
+sin.y = 4, 720
+
+
+
+
+[bg Iceberg]
+type = normal
+spriteno = 1,14
+delta = 0.5,0.9
+mask = 1
+layerno = 0
+sin.y = 4, 720
+ID = 5
+
+
+[bg fortress]
+type = normal
+spriteno = 1,17
+delta = 0.5,0.9
+mask = 1
+layerno = 0
+sin.y = 4, 720
+ID = 6
+
+
+[bg submarine]
+type = normal
+spriteno = 5,0
+delta = 0.5,0.9
+mask = 1
+layerno = 0
+sin.y = 4, 720
+ID = 7
+
+
+[BG floor bit]
+type = anim
+actionno = 2
+start = 0,-189
+delta = 1,1
+layerno = 0
+ID = 2
+
+[BG splash]
+type = anim
+actionno = 1
+start = 95,-195
+delta = 1,1
+layerno = 0
+ID = 1
+
+[BG splash]
+type = anim
+actionno = 1
+start = -195,-195
+delta = 1,1
+layerno = 0
+ID = 1
+
+
+[BG splash]
+type = anim
+actionno = 1
+start = -20,-180
+delta = 1,1
+layerno = 0
+ID = 1
+
+[BG splash2]
+type = anim
+actionno = 3
+start = 200,-195
+delta = 1,1
+layerno = 0
+ID = 3
+
+[BG splash2]
+type = anim
+actionno = 3
+start = 340,-170
+delta = 1,1
+layerno = 0
+ID = 3
+
+[BG splash2]
+type = anim
+actionno = 3
+start = -100,-195
+delta = 1,1
+layerno = 0
+ID = 3
+
+[BG splash]
+type = anim
+actionno = 1
+start = 285,-170
+delta = 1,1
+layerno = 0
+ID = 1
+
+
+[BG suelo]
+type = anim
+actionno = 4
+start = 16, 420 
+delta = 1,1
+layerno = 0
+ID = 4
+
+
+[bg suelodetalle2]
+type = normal
+spriteno = 1,16
+start = 16, 420
+delta = 1,1
+mask = 1
+layerno = 1
+tile = 0,0
+ID = 4
+
+
+[BG wind]
+type  = normal
+spriteno = 1, 18
+start = 0, -142
+delta = 1,1
+mask = 1
+layerno = 1
+sin.y = 8, 520
+sin.x = 17, 534
+velocity = 2, 0
+tile = 1, 1
+trans = addalpha
+alpha = 25,210
+
+
+
+
+==================================================
+
+; Splash 1
+[Begin Action 1]
+
+3,1, 0,0, 2
+3,2, 0,0, 2
+3,3, 0,0, 2
+3,4, 0,0, 2
+3,5, 0,0, 2
+
+3,1, 0,0, 2
+3,2, 0,0, 3
+3,3, 0,0, 4
+3,4, 0,0, 5
+3,5, 0,0, 6
+3,6, 0,0, 6
+3,7, 0,0, 5
+3,8, 0,0, 5
+
+-1,0, 0,0, 100
+
+3,1, 0,0, 2
+3,2, 0,0, 3
+3,3, 0,0, 5
+3,4, 0,0, 6
+3,5, 0,0, 7
+3,6, 0,0, 6
+3,7, 0,0, 5
+3,8, 0,0, 5
+
+
+[BGCtrlDef splash 1]
+looptime = -1
+ctrlID = 1
+
+[BGCtrl 1.1]
+type = Enable
+time = 0 
+id = 1
+value = 0 
+
+[BGCtrl 1.2]
+type = Enable
+time = 1100 
+id = 1
+value = 1
+
+[BGCtrl 1.3]
+type = Visible
+time = 1146 
+id = 1
+value = 0 
+
+[BGCtrl 1.4]
+type = Visible
+time = 1246 
+id = 1
+value = 1
+
+[BGCtrl 1.5]
+type = Enable
+time = 1285 
+id = 1
+value = 0 
+
+
+; Floor bit
+[Begin Action 2]
+4,0, 0,0, -1
+
+
+[BGCtrlDef floor bit]
+looptime = -1
+ctrlID = 2
+
+[BGCtrl 2.1]
+type = SinX
+time = 1100 
+id = 2
+value = -1, 4, 0 
+
+[BGCtrl 2.1]
+type = SinY
+time = 1100 
+id = 2
+value = 0.5, 4, 0 
+
+[BGCtrl 2.2]
+type = SinX
+time = 1112 
+id = 2
+value = -1, 16, 0 
+
+[BGCtrl 2.2]
+type = SinY
+time = 1112 
+id = 2
+value = 1.5, 16, 0 
+
+[BGCtrl 2.3]
+type = SinX
+time = 1128 
+id = 2
+value = -1, 64, 0 
+
+[BGCtrl 2.3]
+type = SinY
+time = 1128 
+id = 2
+value = 1.5, 64, 0 
+
+
+[BGCtrl 2.4]
+type = SinX
+time = 1172 
+id = 2
+value = 1, 256, 0 
+
+[BGCtrl 2.4]
+type = SinY
+time = 1172 
+id = 2
+value = 2.5, 256, 0
+
+[BGCtrl 2.5]
+type = VelSet
+time = 1172 
+id = 2
+x = 0.1
+y = 0.05
+
+
+[BGCtrl 2.6]
+type = VelSet
+time = 1204 
+id = 2
+x = 0.02
+y = 0.1
+
+[BGCtrl 2.7]
+type = VelSet
+time = 1241 
+id = 2
+x = 0.01
+y = 0.02
+
+[BGCtrl 2.8]
+type = VelSet
+time = 1273
+id = 2
+x = 0.02
+y = 0.01
+
+[BGCtrl 2.9]
+type = VelSet
+time = 1338 
+id = 2
+x = 1
+y = 0
+
+; Splash 3
+[Begin Action 3]
+6,1, 0,0, 2
+6,2, 0,0, 3
+6,3, 0,0, 4 
+6,4, 0,0, 5 
+6,5, 0,0, 6 
+6,6, 0,0, 6 
+6,7, 0,0, 5 
+6,8, 0,0, 5 
+
+
+[BGCtrlDef splash 3]
+looptime = -1
+ctrlID = 3
+
+[BGCtrl 3.0]
+type = Enable
+time = 0 
+id = 3
+value = 0 
+
+[BGCtrl 3.1]
+type = Enable
+time = 1140 
+id = 3
+value = 1
+
+[BGCtrl 3.1]
+type = Enable
+time = 1176 
+id = 3
+value = 0 
+
+[BGCtrl 3.2]
+type = Enable
+time = 1236 
+id = 3
+value = 1
+
+[BGCtrl 3.3]
+type = Enable
+time = 1272 
+id = 3
+value = 0 
+
+
+
+
+; suelo
+[Begin Action 4]
+0,0, 0,0, -1
+
+
+[BG Dummy] ;Dummy object for player's zoffset to be bound to
+type  = dummy
+id = 4
+start = 0,0
+positionlink = 1
+
+[BGCtrlDef floor]
+looptime = -1
+ctrlID = 4
+
+[BGCtrl 4.1]
+type = PosSet
+time = 0
+id = 4
+y = -420 ;Fix zoffset
+
+[BGCtrl 4.1]
+type = SinX
+time = 1130 
+id = 4
+value = -1, 4, 0 
+
+[BGCtrl 4.1]
+type = SinY
+time = 1130 
+id = 4
+value = 2.5, 4, 0 
+
+[BGCtrl 4.2]
+type = SinX
+time = 1142 
+id = 4
+value = -1, 8, 0 
+
+[BGCtrl 4.2]
+type = SinY
+time = 1142 
+id = 4
+value = 2.5, 8, 0 
+
+[BGCtrl 4.3]
+type = SinX
+time = 1154 
+id = 4
+value = -1, 16, 0 
+
+[BGCtrl 4.3]
+type = SinY
+time = 1154 
+id = 4
+value = 2.5, 16, 0 
+
+
+[BGCtrl 4.4]
+type = SinX
+time = 1166 
+id = 4
+value = -1, 32, 0 
+
+[BGCtrl 4.4]
+type = SinY
+time = 1166 
+id = 4
+value = 2.5, 32, 0 
+
+[BGCtrl 4.5]
+type = SinX
+time = 1178 
+id = 4
+value = -1, 64, 0 
+
+[BGCtrl 4.5]
+type = SinY
+time = 1178 
+id = 4
+value = 2.5, 64, 0 
+
+[BGCtrl 4.6]
+type = SinX
+time = 1190 
+id = 4
+value = -1, 128, 0 
+
+[BGCtrl 4.6]
+type = SinY
+time = 1190 
+id = 4
+value = 2.5, 128, 0 
+
+[BGCtrl 4.7]
+type = SinX
+time = 1202 
+id = 4
+value = -1, 256, 0 
+
+[BGCtrl 4.7]
+type = SinY
+time = 1202 
+id = 4
+value = 2.5, 256, 0 
+
+
+[BGCtrlDef Sub]
+looptime = -1
+ctrlID = 7
+
+
+[BGCtrl Pos]
+type = PosSet
+time = 0 
+id = 7
+x = -800
+y = -142
+
+
+[BGCtrl Submarine]
+type = VelSet
+time = 6000
+id = 7
+x = 0.4
+y = 0
+
+
+[BGCtrlDef Iceberg]
+looptime = 9000
+ctrlID = 5
+
+[BGCtrl Pos]
+type = PosSet
+time = 0 
+id = 5
+x = -800
+y = -142
+
+[BGCtrl Iceberg]
+type = VelSet
+time = 4600
+id = 5
+x = 0.5
+y = 0
+
+
+[BGCtrlDef Fortress]
+looptime = -1
+ctrlID = 6
+
+
+[BGCtrl Pos]
+type = PosSet
+time = 0 
+id = 6
+x = -800
+y = -142
+
+
+[BGCtrl Fortress]
+type = VelSet
+time = 1800
+id = 6
+x = 0.4
+y = 0

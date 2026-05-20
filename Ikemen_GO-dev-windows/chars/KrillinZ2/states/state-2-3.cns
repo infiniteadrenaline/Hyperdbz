@@ -1,0 +1,4341 @@
+[Statedef -2]
+
+;Focus unblockable protection
+[State 0, Explod]
+type = Explod
+trigger1 = NumExplod(5050)<6
+trigger1 = P2movetype = H
+anim = 15999
+ID = 5050
+removetime = 5
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = NumHelper(19875)
+trigger1 = fvar(39) <1000
+fvar(39) = 3000
+
+;==============================================================================================
+;==============================================================================================
+;================================<EXPLODsive Buffering System>=================================
+;====================================<by JustMorphPointman>====================================
+;==============================================================================================
+;==============================================================================================
+
+;This is an explod-based buffering system, designed to overcome several different errors and bugs
+;related to MUGEN's default method of processing commands, as well as offering creators more control
+;over how the commands of their character should work. It is designed to be easy to use, understand,
+;and install. For more information, including instructions on how to add this to a character, as
+;well as how to customize it and add new commands, please visit http://mugenguild.com/forum/msg.2366951
+
+;==============================================================================================
+;========================<QUICK REFERENCE GUIDE TO THE EXPLOD ID #'s>==========================
+;==============================================================================================
+
+;BASIC DIRECTIONAL INPUTS (these are primarily used to detect directional releases, but also can
+;be used outside of the Buffering system code block to detect when a specific direction is currently
+;being input or held down)
+
+;Down:										90000002
+;Down-right:									90000003
+;Right:										90000006
+;Up-right:									90000009
+;Up:										90000008
+;Up-left:									90000007
+;Left:										90000004
+;Down-left:									90000001
+
+
+;BUTTON PRESS
+;x:										90000200
+;y:										90000210
+;z:										90000220
+;a:										90000230
+;b:										90000240
+;c:										90000250
+;start:										90000195
+
+
+;BUTTON RELEASE
+;x:										90000205
+;y:										90000215
+;z:										90000225
+;a:										90000235
+;b:										90000245
+;c:										90000255
+;start:										90000196
+
+
+;SYSTEM MOTIONS
+;Down (3 ticks):				(D with a 3 tick buffer)	90000012
+;Down-right (3 ticks):				(DR with a 3 tick buffer)	90000013
+;Right (3 ticks):				(R with a 3 tick buffer)	90000016
+;Up-right (3 ticks):				(UR with a 3 tick buffer)	90000019
+;Up (3 ticks):					(U with a 3 tick buffer)	90000018
+;Up-left (3 ticks):				(UL with a 3 tick buffer)	90000017
+;Left (3 ticks):				(L with a 3 tick buffer)	90000014
+;Down-left (3 ticks):				(DL with a 3 tick buffer)	90000011
+
+;Down-left (3 ticks + HitPause):		(DL w/ 3 tick buffer + HitPause)90000021
+;Down (3 ticks + HitPause):			(D w/ 3 tick buffer + HitPause)	90000022
+;Down-right (3 ticks + HitPause):		(DR w/ 3 tick buffer + HitPause)90000023
+;Left (3 ticks + HitPause):			(L w/ 3 tick buffer + HitPause)	90000024
+;Right (3 ticks + HitPause):			(R w/ 3 tick buffer + HitPause)	90000026
+;Up (3 ticks + HitPause):			(U w/ 3 tick buffer + HitPause)	90000028
+;Up-left (3 ticks + HitPause):			(UL w/ 3 tick buffer + HitPause)90000027
+;Up-right (3 ticks + HitPause):			(UR w/ 3 tick buffer + HitPause)90000029
+
+;R, R:						(F, F)				90001016
+;L, L:						(B, B)				90001064
+;D, U:						(D, U)				90000408
+;U, U:						(U, U)				90000518
+;D, D:						(D, D)				90000562
+;R, DR, D					(F, DF, D)			90007502
+;L, DL, D					(B, DB, D)			90007552
+
+
+;SPECIAL MOTIONS
+;D, DR, R:					(QCF)				90010006
+;D, DL, L:					(QCB)				90010104
+;R, D, DR:					(F, D, DF)			90010203
+;L, D, DL:					(B, D, DB)			90010301
+;L, DL, D, DR, R:				(HCF)				90010406
+;R, DR, D, DL, L:				(HCB)				90010504
+;(charge) L, R:					([charge] B, F)			90010606
+;(charge) R, L:					([charge] F, B)			90010704
+;(charge) D, U:					([charge] D, U)			90010808
+;L, D, R, U:					(360)				90011008
+;L, U, R, D:					(360)				90011102
+;D, R, U, L:					(360)				90011204
+;D, L, U, R:					(360)				90011306
+;R, D, L, U:					(360)				90011408
+;R, U, L, D:					(360)				90011502
+;U, R, D, L:					(360)				90011604
+;U, L, D, R:					(360)				90011706
+;R, D, L, R:					(HCB, F)			90012016
+;L, D, R, L:					(HCF, B)			90012114
+;R, L, R:					(F, B, F)			90012216
+;L, R, L:					(B, F, B)			90012314
+;D, DR, R, UR:					(QCF, UF)			90012409
+;D, DL, L, UL:					(QCB, UB)			90012507
+;D, D:						([special] D, D)		90012602
+
+
+;SUPER MOTIONS
+;D, DR, R, D, DR, R:				(QCFx2)				90030016
+;D, DL, L, D, DL, L:				(QCBx2)				90030114
+;L, DL, D, DR, R, L, DL, D, DR, R:		(HCFx2)				90030416
+;R, DR, D, DL, L, R, DR, D, DL, L:		(HCBx2)				90030514
+;(charge) L, R, L, R:				([charge] B, F, B, F)		90030616
+;(charge) R, L, R, L:				([charge] F, B, F, B)		90030714
+;(charge) DL, DR, DL, UR:			([charge] DB, DF, DB, UF)	90030809
+;(charge) DR, DL, DR, UL:			([charge] DF, DB, DF, UB)	90030907
+;L, D, R, U, L, D, R, U:			(720)				90031018
+;L, U, R, D, L, U, R, D:			(720)				90031112
+;D, R, U, L, D, R, U, L:			(720)				90031214
+;D, L, U, R, D, L, U, R:			(720)				90031316
+;R, D, L, U, R, D, L, U:			(720)				90031418
+;R, U, L, D, R, U, L, D:			(720)				90031512
+;U, R, D, L, U, R, D, L:			(720)				90031614
+;U, L, D, R, U, L, D, R:			(720)				90031716
+;R, L, D, R:					(F, HCF)			90032016
+;L, R, D, L:					(B, HCB)			90032114
+;D, DR, R, D, L:				(QCF, HCB)			90032204
+;D, DL, L, D, R:				(QCB, HCF)			90032306
+;D, DR, R, DR, L:				(QCF, DF, B)			90032404
+;D, DL, L, DL, R:				(QCB, DB, F)			90032506
+;D, D, D:					(D, D, D)			90032602
+
+
+;SUPER MOTIONS (button inputs)
+;x, x, F, a, z:					(Shun Goku Satsu)		94000220
+
+
+
+;==============================================================================================
+;===================================<DIRECTIONAL COMMANDS>=====================================
+;==============================================================================================
+
+;==============================================================================================
+;These are required for the system to function; they are active whenever the specified direction
+;is currently being input, and disappear as soon as they are released (via a series of RemoveExplods
+;at the bottom of the Buffering system code block). They are used by the system to detect directional
+;releases, but can also be used outside of the Buffering system code block to detect when a specific
+;direction is being input or held down.
+;==============================================================================================
+
+[State -1, Release Down Detector]
+type = Explod
+;make sure explod doesn't already exist
+triggerAll = !NumExplod(90000002)
+;check to make sure Helper exists, and that the entity running this code isn't the helper, and that
+;the AI isn't active. Only a human player should be making explods!
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+;If either of these explods exist, then down/up inputs have been reversed (this is usually caused
+;by an attack of some sort, such as Thanos's Mind Gem super). We can easily flip left/right commands,
+;but for down/up inputs, we must have two sets of triggers. This is the first set, which only activate
+;if the explods don't exist, so we can just check the inputs normally.
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+;explod will be created if down is input
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+;no other directions may be input, otherwise it wouldn't be a down input!
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+;These sets of triggers, however, only are used if one of the direction input reversal explods exist.
+;We treat "down" inputs as "up", and vice-versa; "down-right" is treated as "up-right", and so on.
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000002
+;these explods are only removed via a RemoveExplod, so their RemoveTime is set to -1 (aka infinite)
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Down-Right Detector]
+type = Explod
+triggerAll = !NumExplod(90000003)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger1 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000003
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Right Detector]
+type = Explod
+triggerAll = !NumExplod(90000006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000006
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Up-Right Detector]
+type = Explod
+triggerAll = !NumExplod(90000009)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger1 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000009
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Up Detector]
+type = Explod
+triggerAll = !NumExplod(90000008)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000008
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Up-Left Detector]
+type = Explod
+triggerAll = !NumExplod(90000007)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger1 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000007
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Left Detector]
+type = Explod
+triggerAll = !NumExplod(90000004)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown" && Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000004
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release Down-Left Detector]
+type = Explod
+triggerAll = !NumExplod(90000001)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger1 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000001
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;==========================================<BUTTONS>===========================================
+;==============================================================================================
+
+[State -1, Press x]
+type = Explod
+;if there already exists a "press x" explod, and the player is in HitPauseTime, then we don't need another!
+trigger1 = !HitPauseTime || !NumExplod(90000200)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "x"
+anim = 1
+ID = 90000200
+;the removeTime, pauseMoveTime, and superMoveTime all must be the same value. This represents the
+;amount of time (in ticks) that this individual input is "active"; in other words, it's the window
+;of time the player has to input the next input in sequence (or if it's the final input of a command,
+;the amount of time that command will last, if the character cannot currently perform the move in
+;question). We use "10" as the default value for most directional inputs, because it's generally the
+;standard amount of time for most games
+;We use "3" for button inputs, which is what many modern games use, but there's a lot of variance
+;there.
+
+;We also include " + ifElse(HitPauseTime, HitPauseTime - 1, 0)" to the RemoveTime/PauseMoveTime/SuperMoveTime
+;in order to keep the command alive during hit pause. This goes on all button press commands, as well as
+;the final directional input of any system, special, or super command.
+;For more information on what the removeTime (and pauseMoveTime, et. al.) represents, see the comments for
+;the "Right, Right" command
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press y]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000210)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "y"
+anim = 1
+ID = 90000210
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press z]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000220)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "z"
+anim = 1
+ID = 90000220
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press a]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000230)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "a"
+anim = 1
+ID = 90000230
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press b]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000240)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "b"
+anim = 1
+ID = 90000240
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press c]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000250)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "c"
+anim = 1
+ID = 90000250
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, Press start]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000195)
+trigger1 = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "start"
+anim = 1
+ID = 90000195
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;These explods are used to detect button releases, much in the same way that the directional
+;detectors work. These are required for the system, but it's easier to use MUGEN's standard
+;"holda" / "holdx" / etc. for situations where you need to detect a held button input, rather than
+;making use of these like you would the release direction detectors.
+;==============================================================================================
+[State -1, Release x Detector]
+type = Explod
+triggerAll = !NumExplod(90000201)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "x" || Helper(90000005), command = "holdx"
+anim = 1
+ID = 90000201
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release y Detector]
+type = Explod
+triggerAll = !NumExplod(90000211)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "y" || Helper(90000005), command = "holdy"
+anim = 1
+ID = 90000211
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release z Detector]
+type = Explod
+triggerAll = !NumExplod(90000221)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "z" || Helper(90000005), command = "holdz"
+anim = 1
+ID = 90000221
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release a Detector]
+type = Explod
+triggerAll = !NumExplod(90000231)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "a" || Helper(90000005), command = "holda"
+anim = 1
+ID = 90000231
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release b Detector]
+type = Explod
+triggerAll = !NumExplod(90000241)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "b" || Helper(90000005), command = "holdb"
+anim = 1
+ID = 90000241
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release c Detector]
+type = Explod
+triggerAll = !NumExplod(90000251)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "c" || Helper(90000005), command = "holdc"
+anim = 1
+ID = 90000251
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+[State -1, Release start Detector]
+type = Explod
+triggerAll = !NumExplod(90000194)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "start"
+anim = 1
+ID = 90000194
+removeTime = -1
+pauseMoveTime = -1
+superMoveTime = -1
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;Take note of the RemoveTimes on these: release button inputs don't persist through hitpause!
+;==============================================================================================
+
+[State -1, Release x]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000205)
+triggerAll = NumExplod(90000201)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "x" && Helper(90000005), command != "holdx"
+anim = 1
+ID = 90000205
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release y]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000215)
+triggerAll = NumExplod(90000211)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "y" && Helper(90000005), command != "holdy"
+anim = 1
+ID = 90000215
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release z]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000225)
+triggerAll = NumExplod(90000221)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "z" && Helper(90000005), command != "holdz"
+anim = 1
+ID = 90000225
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release a]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000235)
+triggerAll = NumExplod(90000231)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "a" && Helper(90000005), command != "holda"
+anim = 1
+ID = 90000235
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release b]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000245)
+triggerAll = NumExplod(90000241)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "b" && Helper(90000005), command != "holdb"
+anim = 1
+ID = 90000245
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release c]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000255)
+triggerAll = NumExplod(90000251)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "c" && Helper(90000005), command != "holdc"
+anim = 1
+ID = 90000255
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Release start]
+type = Explod
+trigger1 = !HitPauseTime || !NumExplod(90000196)
+triggerAll = NumExplod(90000194)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "start" && Helper(90000005), command != "holdstart"
+anim = 1
+ID = 90000196
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+[State -1, Throw Tech]
+type = Explod
+trigger1 = NumHelper(90000005) && !IsHelper
+trigger1 = !AILevel
+trigger1 = Helper(90000005), command = "x" && Helper(90000005), command = "a"
+anim = 1
+ID = 90000800
+removeTime = 3 
+pauseMoveTime = 3 
+superMoveTime = 3 
+ignoreHitPause = 1
+
+;==============================================================================================
+;=============================<DIRECTIONAL INPUTS (3 TICK BUFFER)>=============================
+;==============================================================================================
+
+;==============================================================================================
+;These activate whenever the direction in question is input, and persist for three ticks. Useful
+;if you need to use only a single directional input, but also want it to last longer than one tick.
+;==============================================================================================
+
+;======================================<DOWN (3 TICKS)>========================================
+[State -1, Down (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90000012
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;===================================<DOWN-RIGHT (3 TICKS)>=====================================
+[State -1, Down-Right (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90000013
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;======================================<RIGHT (3 TICKS)>=======================================
+[State -1, Right (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90000016
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;=====================================<UP-RIGHT (3 TICKS)>=====================================
+[State -1, Up-Right (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+anim = 1
+ID = 90000019
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;========================================<UP (3 TICKS)>========================================
+[State -1, Up (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down" && Helper(90000005), command != "back"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "back"
+anim = 1
+ID = 90000018
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;=====================================<UP-LEFT (3 TICKS)>======================================
+[State -1, Up-Left (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+anim = 1
+ID = 90000017
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;=======================================<LEFT 3 TICKS>=========================================
+[State -1, Left (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90000014
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;====================================<DOWN-LEFT 3 TICKS>=======================================
+[State -1, Down-Left (3 ticks)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90000011
+removeTime = 3
+pauseMoveTime = 3
+superMoveTime = 3
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;=====================<DIRECTIONAL INPUTS (3 TICK BUFFER + HITPAUSE TIME)>=====================
+;==============================================================================================
+
+;==============================================================================================
+;These are almost identical to the explods directly above this, except these will persist through
+;a HitPause, and will only activate if the direction in question is being either held or input on
+;the same tick that any button is input. These can be used to replicate the command behavior of Capcom
+;games for crouching and command normal moves. For more information, please see [INSERT LINK].
+;==============================================================================================
+
+;==============================<DOWN (3 TICKS + HITPAUSE TIME)>================================
+[State -1, Down (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "down" || Helper(90000005), command = "holddown") && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holdup" && Helper(90000005), command != "holdfwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "up" || Helper(90000005), command = "holdup") && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holddown" && Helper(90000005), command != "holdfwd"
+anim = 1
+ID = 90000022
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+
+;===========================<DOWN-RIGHT (3 TICKS + HITPAUSE TIME)>=============================
+[State -1, Down-Right (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "dfwd" || (Helper(90000005), command = "holddown" && Helper(90000005), command = "holdfwd")) && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holdup"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "ufwd" || (Helper(90000005), command = "holdup" && Helper(90000005), command = "holdfwd")) && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000023
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================<RIGHT (3 TICKS + HITPAUSE TIME)>===============================
+[State -1, Right (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = (Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd") && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holdup" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000026
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;=============================<UP-RIGHT (3 TICKS + HITPAUSE TIME)>=============================
+[State -1, Up-Right (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "ufwd" || (Helper(90000005), command = "holdup" && Helper(90000005), command = "holdfwd")) && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holddown"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "dfwd" || (Helper(90000005), command = "holddown" && Helper(90000005), command = "holdfwd")) && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "holdback" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000029
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;================================<UP (3 TICKS + HITPAUSE TIME)>================================
+[State -1, Up (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "up" || Helper(90000005), command = "holdup") && Helper(90000005), command != "fwd" && Helper(90000005), command != "down" && Helper(90000005), command != "back" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holddown" && Helper(90000005), command != "holdback"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "down" || Helper(90000005), command = "holddown") && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "back" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holdup" && Helper(90000005), command != "holdback"
+anim = 1
+ID = 90000028
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;=============================<UP-LEFT (3 TICKS + HITPAUSE TIME)>==============================
+[State -1, Up-Left (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "uback" || (Helper(90000005), command = "holdup" && Helper(90000005), command = "holdback")) && Helper(90000005), command != "fwd" && Helper(90000005), command != "down" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holddown"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "dback" || (Helper(90000005), command = "holddown" && Helper(90000005), command = "holdback")) && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000027
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;===============================<LEFT 3 TICKS + HITPAUSE TIME>=================================
+[State -1, Left (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = (Helper(90000005), command = "back" || Helper(90000005), command = "holdback") && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holdup" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000024
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;============================<DOWN-LEFT 3 TICKS + HITPAUSE TIME>===============================
+[State -1, Down-Left (3 ticks + HitPauseTime)]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+triggerAll = Helper(90000005), command = "x" || Helper(90000005), command = "y" || Helper(90000005), command = "z" || Helper(90000005), command = "a"  || Helper(90000005), command = "b" || Helper(90000005), command = "c" || Helper(90000005), command = "start"
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command = "dback" || (Helper(90000005), command = "holddown" && Helper(90000005), command = "holdback")) && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holdup"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = (Helper(90000005), command = "uback" || (Helper(90000005), command = "holdup" && Helper(90000005), command = "holdback")) && Helper(90000005), command != "fwd" && Helper(90000005), command != "down" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "holddown"
+anim = 1
+ID = 90000021
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;Reminder: because this system is based on absolute directions (left/right) instead of relative
+;directions (forward/backward), all commands must have a mirrored command as well (unless they are
+;performed solely with up and/or down!) In other words, two different versions of each individual
+;command must be defined in this system: one assuming the character is facing the right, and one
+;for the left.
+;==============================================================================================
+
+;==============================================================================================
+;================================<FORWARD, FORWARD/BACK, BACK>=================================
+;==============================================================================================
+
+;==============================================================================================
+;Dash/run commands in SNK typically have release directions as their first inputs. In other words,
+;in most SNK games, you can dash/run by holding forward or back for however long you like, and then
+;quickly releasing the stick and returning to neutral, then quickly inputting forward/back again.
+;In most Capcom games, this will not work. We have the dash/run commands in this system set up to
+;follow Capcom's example.
+
+;Different games have different input windows for dash commands. KOF gives you a 7 tick window between
+;each the first and second forward/back commands, and the final input has a buffer time of 3 ticks.
+;CPS2 Capcom games (under the normal speed setting) have an input window of 7 ticks for the consecutive
+;forward/back commands, and the final input has a buffer time of 2 ticks. In SFIII, both the input
+;window and the buffer time is 7 ticks. The default values in this system are 10 for the input window
+;and 3 for the buffer time, to match up with the other commands (but feel free to change those values
+;to suit your personal preference!)
+;==============================================================================================
+
+;=======================================<RIGHT, RIGHT>=========================================
+[State -1, R, R: 1st Right]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001006
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, R: Neutral]
+type = Explod
+triggerAll = NumExplod(90000006) && NumExplod(90001006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+;make sure no directional input is being performed
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd"
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90001005
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+;We remove the neutral explod if any non-right input is detected, or if the 1st right explod does not exist
+;in most Capcom games, a dash command will be cancelled mid-input if any direction other than forward/back
+;and neutral are input. But SNK games give you more leeway: as long as you have inputting forward/back, and
+;have returned the stick to neutral, you can input any other directional command and still get a dash as long
+;as you input another forward/back command. If you want to replicate this behavior, simply delete the first trigger
+;of this RemoveExplod sctrl (you will still need the second trigger, though).
+[State -1, Remove R, R: Neutral]
+type = RemoveExplod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = NumExplod(90000002) || NumExplod(90000003) || NumExplod(90000009) || NumExplod(90000008) || NumExplod(90000007) || NumExplod(90000004) || NumExplod(90000001)
+trigger2 = !NumExplod(90001006)
+ID = 90001005
+ignoreHitPause = 1
+
+[State -1, R, R: 2nd Right]
+type = Explod
+;we check to see if the user has input right recently, and has returned the stick to neutral
+triggerAll = NumExplod(90001005) && NumExplod(90001006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001016
+;see the button explods above for an explanation of this ifElse statement. This statement only goes on the final
+;input of any command, and should not go anywhere else in the command!
+;We also are using a non-standard removeTime for this input, as dash commands in most games are only active
+;for a short period of time (around 1-3 ticks).
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, R, R: 2nd Right (10 ticks)]
+type = Explod
+;this one is used for Kung Fu Knee
+triggerAll = NumExplod(90001005) && NumExplod(90001006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001026
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;Now for the reversed command:
+;==============================================================================================
+
+;=======================================<LEFT, LEFT>=========================================
+[State -1, L, L: 1st Left]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001054
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, L: Neutral]
+type = Explod
+triggerAll = NumExplod(90000004) && NumExplod(90001054)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback"
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown" && Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90001055
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, Remove L, L: Neutral]
+type = RemoveExplod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = NumExplod(90000002) || NumExplod(90000003) || NumExplod(90000006) || NumExplod(90000009) || NumExplod(90000008) || NumExplod(90000007) || NumExplod(90000001)
+trigger2 = !NumExplod(90001054)
+ID = 90001055
+ignoreHitPause = 1
+
+[State -1, L, L: 2nd Left]
+type = Explod
+triggerAll = NumExplod(90001055) && NumExplod(90001054)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001064
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+[State -1, L, L: 2nd Left (10 ticks)]
+type = Explod
+triggerAll = NumExplod(90001055) && NumExplod(90001054)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90001074
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;===================================<DOWN, UP (SUPER JUMP)>====================================
+;==============================================================================================
+
+;==============================================================================================
+;Super jump commands can be done with any down directional input, followed by any up directional
+;==============================================================================================
+
+;=======================================<DOWN, UP>=========================================
+[State -1, D, U: Down]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger1 = Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger2 = Helper(90000005), command != "down"
+anim = 1
+ID = 90000402
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, U: Up]
+type = Explod
+triggerAll = NumExplod(90000402)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger1 = Helper(90000005), command != "down"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger2 = Helper(90000005), command != "up"
+anim = 1
+ID = 90000408
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;=====================================<UP, UP/DOWN, DOWN>======================================
+;==============================================================================================
+
+;==============================================================================================
+;Pretty similar to the Forward, Forward/Back, Back commands, only we don't need to worry about
+;the player's facing or anything, since all the inputs are either down or up!
+
+;Also of note is that any up/down direction may be used to activate this command (i.e., a UF, UF
+;will still be considered a U, U command).
+;==============================================================================================
+
+;=======================================<UP, UP>=========================================
+[State -1, U, U: 1st Up]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger1 = Helper(90000005), command != "down"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger2 = Helper(90000005), command != "up"
+anim = 1
+ID = 90000508
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, U, U: Neutral]
+type = Explod
+triggerAll = (NumExplod(90000007) || NumExplod(90000008) || NumExplod(90000009)) && NumExplod(90000508)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd"
+anim = 1
+ID = 90000505
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, Remove U, U: Neutral]
+type = RemoveExplod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = NumExplod(90000004) || NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003) || NumExplod(90000006)
+trigger2 = !NumExplod(90000508)
+ID = 90000505
+ignoreHitPause = 1
+
+[State -1, U, U: 2nd Up]
+type = Explod
+triggerAll = NumExplod(90000505) && NumExplod(90000508)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger1 = Helper(90000005), command != "down"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger2 = Helper(90000005), command != "up"
+anim = 1
+ID = 90000518
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;=========================================<DOWN,DOWN>==========================================
+[State -1, D, D: 1st Down]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger1 = Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger2 = Helper(90000005), command != "down"
+anim = 1
+ID = 90000552
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, D: Neutral]
+type = Explod
+triggerAll = (NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) && NumExplod(90000552)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90000555
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, Remove D, D: Neutral]
+type = RemoveExplod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = NumExplod(90000004) || NumExplod(90000007) || NumExplod(90000008) || NumExplod(90000009) || NumExplod(90000006)
+trigger2 = !NumExplod(90000552)
+ID = 90000555
+ignoreHitPause = 1
+
+[State -1, D, D: 2nd Down]
+type = Explod
+triggerAll = NumExplod(90000555) && NumExplod(90000552)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger1 = Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger2 = Helper(90000005), command != "down"
+anim = 1
+ID = 90000562
+removeTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 3 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;===============================<QUARTER CIRCLE FORWARD/BACK>==================================
+;==============================================================================================
+
+;==============================================================================================
+;The vast majority of all commands in fighting games allow the first input of any command to be
+;a release input, so that you're allowed to hold the direction that the command starts with for
+;however long you want, then input the rest of the command, and still get the move. This is why
+;in MUGEN, people typically write all their character's commands as starting with a release input;
+;however, things are a bit more complicated outside of MUGEN (and thus, more complicated in this
+;buffer too). In most games, the window of time a player has to input the next command in sequence
+;after performing a release input is shorter than the window of time they have to input the next
+;command after a press input. For example, in Street Fighter III, if you want to perform a quarter-
+;circle forward motion, and you press (or hold) the "down" direction, you will have 10 ticks to
+;input "down-forward" and continue the command. But if instead you were to hold the "down" direction
+;down for a few seconds before releasing it, you will have only 5 ticks to input "down-forward" to
+;continue entering the command.
+
+;The way this is translated to the EXPLODsive Buffering system is this: we have two separate explods
+;for the first input of every command that uses a release directional input. One explod is created
+;whenever the first input is entered, and has a RemoveTime of 10 (which is the same amount of time
+;that most other directional explods use in this system); one other explod is also created whenever
+;the direction of the first input is released: this has a RemoveTime of 5, which is generally what
+;commercial fighting games use.
+
+;Do note that not every game gives players the same input windows for every single command: for
+;example, in Street Fighter Alpha 3 (on normal speed), press directional inputs all have a 10 tick
+;input window, but the input window for the release directional input in a quarter-circle motion is
+;6, while the input window for the release directional input in a forward, down, down-forward motion
+;is only 4! There's a whole bunch of variance here, sometimes in the same game, and so it's best to check
+;the source game of the character you're making (if applicable) to try and get an idea of what RemoveTime
+;will be best for each of your commands.
+;==============================================================================================
+
+;================================<DOWN, DOWN-RIGHT, RIGHT>=====================================
+
+;Since this is the press directional input for the first input, it has a RemoveTime of 10
+[State -1, D, DR, R: Press Down]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010002
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+;And since this is the release directional input for the first input, it has a RemoveTime of only 5!
+[State -1, D, DR, R: Release Down]
+type = Explod
+triggerAll = NumExplod(90000002)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+anim = 1
+ID = 90010052
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, D, DR, R: Down-Right]
+type = Explod
+;Remember, we have to check to see if either the "press down" or "release down" explods exist!
+triggerAll = NumExplod(90010002) || NumExplod(90010052)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010003
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DR, R: Right]
+type = Explod
+triggerAll = NumExplod(90010003)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010006
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;=================================<DOWN, DOWN-LEFT, LEFT>======================================
+[State -1, D, DL, L: Press Down]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010102
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DL, L: Release Down]
+type = Explod
+triggerAll = NumExplod(90000002)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+anim = 1
+ID = 90010152
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, D, DL, L: Down-Left]
+type = Explod
+triggerAll = NumExplod(90010102) || NumExplod(90010152)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010101
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DL, L: Left]
+type = Explod
+triggerAll = NumExplod(90010101)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010104
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;===========================<DOUBLE QUARTER CIRCLE FORWARD/BACK>===============================
+;==============================================================================================
+
+;==============================================================================================
+;This command is mostly identical to the QCF/QCB commands, but with different ID's; there are some
+;important differences, however. Instead of repeating the entire first QCF/QCB command, we just
+;(mostly) use the ones we already defined above!
+
+;We do repeat the forward/backward input from the first QCF/QCB, though. This is because the final
+;explod of the QCF/QCB command will persist through hitpause, which is not true for the QCFx2
+;command: otherwise, you'd be able to input a QCF during a long hitpause, wait for the hitpause to
+;end, and then input another QCF and still get a QCFx2 motion, and that's not how things are supposed
+;to work!
+
+;Also, do note that Capcom games use a command shortcut for QCFx2/QCBx2 motions; a D, DF, F, D, DF
+;will work just as well as a D, DF, F, D, DF, F motion; if you want to replicate this behavior, all
+;you have to do is check to see if either the repsective "DF/DB" or the "F/B" explods exist in the
+;triggers for that move's ChangeState.
+;==============================================================================================
+
+;===========================<DOUBLE DOWN, DOWN-RIGHT, RIGHT>===============================
+;this is almost identical to the D, DR, R: Right explod; the only difference is that it has a
+;RemoveTime of 10 (with no additional ifElse statements), because it shouldn't persist through hitpause!
+[State -1, D, DR, R, D, DR, R: 1st Right]
+type = Explod
+triggerAll = NumExplod(90010003)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030006
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DR, R, D, DR, R: 2nd Down]
+type = Explod
+triggerAll = NumExplod(90030006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90030002
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DR, R, D, DR, R: 2nd Down-Right]
+type = Explod
+triggerAll = NumExplod(90030002)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030003
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DR, R, D, DR, R: 2nd Right]
+type = Explod
+triggerAll = NumExplod(90030003)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030016
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+;===========================<DOUBLE DOWN, DOWN-LEFT, LEFT>===============================
+[State -1, D, DL, L, D, DL, L: 1st Left]
+type = Explod
+triggerAll = NumExplod(90010101)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030104
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DL, L, D, DL, L: 2nd Down]
+type = Explod
+triggerAll = NumExplod(90030104)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90030102
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DL, L, D, DL, L: 2nd Down-Left]
+type = Explod
+triggerAll = NumExplod(90030102)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030101
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, D, DL, L, D, DL, L: 2nd Left]
+type = Explod
+triggerAll = NumExplod(90030101)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90030114
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+
+;==============================================================================================
+;====================<FORWARD, DOWN, DOWN-FORWARD/BACK, DOWN, DOWN-BACK>=======================
+;==============================================================================================
+
+;==============================================================================================
+;Nothing special here, just the standard dragon punch motion!
+;==============================================================================================
+
+;================================<RIGHT, DOWN, DOWN-RIGHT>=====================================
+[State -1, R, D, DR: Press Right]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010206
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, D, DR: Release Right]
+type = Explod
+triggerAll = NumExplod(90000006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+anim = 1
+ID = 90010256
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, R, D, DR: Down]
+type = Explod
+triggerAll = NumExplod(90010206) || NumExplod(90010256)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010202
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, D, DR: Down-Right]
+type = Explod
+triggerAll = NumExplod(90010202)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010203
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;=================================<LEFT, DOWN, DOWN-LEFT>======================================
+[State -1, L, D, DL: Press Left]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010304
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, D, DL: Release Left]
+type = Explod
+triggerAll = NumExplod(90000004)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+anim = 1
+ID = 90010354
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, L, D, DL: Down]
+type = Explod
+triggerAll = NumExplod(90010304) || NumExplod(90010354)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010302
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, D, DL: Down-Left]
+type = Explod
+triggerAll = NumExplod(90010302)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010301
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;=================================<HALF CIRCLE FORWARD/BACK>===================================
+;==============================================================================================
+
+;==============================================================================================
+;As mentioned earlier, SNK games have command shortcuts for half-circle moves, allowing the user
+;to only input cardinal directions and still complete the command. We have opted to use Capcom's
+;method for the standard half circle comands here, but these can very easily be modified to use
+;the SNK method!
+;==============================================================================================
+
+;========================<LEFT, DOWN-LEFT, DOWN, DOWN-RIGHT, RIGHT>============================
+[State -1, L, DL, D, DR, R: Press Left]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010404
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, DL, D, DR, R: Release Left]
+type = Explod
+triggerAll = NumExplod(90000004)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+anim = 1
+ID = 90010454
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, L, DL, D, DR, R: Down-Left]
+type = Explod
+triggerAll = NumExplod(90010404) || NumExplod(90010454)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010401
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, DL, D, DR, R: Down]
+type = Explod
+triggerAll = NumExplod(90010401) || NumExplod(90010404) || NumExplod(90010454)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010402
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, DL, D, DR, R: Down-Right]
+type = Explod
+triggerAll = NumExplod(90010402) || NumExplod(90010401)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010403
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, L, DL, D, DR, R: Right]
+type = Explod
+triggerAll = NumExplod(90010403) || NumExplod(90010402)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010406
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;========================<RIGHT, DOWN-RIGHT, DOWN, DOWN-LEFT, LEFT>============================
+[State -1, R, DR, D, DL, L: Press Right]
+type = Explod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "fwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010506
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+
+[State -1, R, DR, D, DL, L: Release Right]
+type = Explod
+triggerAll = NumExplod(90000006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+anim = 1
+ID = 90010556
+removeTime = 5
+pauseMoveTime = 5
+superMoveTime = 5
+ignoreHitPause = 1
+
+[State -1, R, DR, D, DL, L: Down-Right]
+type = Explod
+triggerAll = NumExplod(90010506) || NumExplod(90010556)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "up"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "ufwd" && Helper(90000005), command != "back" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010503
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, DR, D, DL, L: Down]
+type = Explod
+triggerAll = NumExplod(90010503) || NumExplod(90010506) || NumExplod(90010556)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" && Helper(90000005), command != "back" && Helper(90000005), command != "up" && Helper(90000005), command != "fwd"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" && Helper(90000005), command != "back" && Helper(90000005), command != "down" && Helper(90000005), command != "fwd"
+anim = 1
+ID = 90010502
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, DR, D, DL, L: Down-Left]
+type = Explod
+triggerAll = NumExplod(90010502) || NumExplod(90010503)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !NumExplod(92828282) && !NumExplod(92468246)
+trigger1 = Helper(90000005), command = "dback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up"
+trigger2 = NumExplod(92828282) || NumExplod(92468246)
+trigger2 = Helper(90000005), command = "uback" && Helper(90000005), command != "fwd" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010501
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, R, DR, D, DL, L: Left]
+type = Explod
+triggerAll = NumExplod(90010501) || NumExplod(90010502)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "back" && Helper(90000005), command != "fwd" && Helper(90000005), command != "up" && Helper(90000005), command != "down"
+anim = 1
+ID = 90010504
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+;==============================================================================================
+;==================================<(SPECIAL) DOWN, DOWN >=====================================
+;==============================================================================================
+
+;==============================================================================================
+;This explod is for the special move variant of the D, D motion; the only difference between this
+;and the one above is that this has a RemoveTime of 10, like every other special move, since it's
+;designed to be used for special moves (as opposed to the earlier D, D command, which was for air
+;dashing).
+;==============================================================================================
+
+[State -1, (special) D, D: 2nd Down]
+type = Explod
+triggerAll = NumExplod(90000555) && NumExplod(90000552)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger1 = Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger2 = Helper(90000005), command != "down"
+anim = 1
+ID = 90012602
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;====================================<DOWN, DOWN, DOWN>========================================
+;==============================================================================================
+
+;==============================================================================================
+;And this is just extending the principle futher, to a third down input! This is typically used
+;as a super command.
+;==============================================================================================
+
+[State -1, D, D, D: 2nd Neutral]
+type = Explod
+triggerAll = (NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) && NumExplod(90012602)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd" && Helper(90000005), command != "back" && Helper(90000005), command != "holdback" && Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+anim = 1
+ID = 90032605
+removeTime = 10
+pauseMoveTime = 10
+superMoveTime = 10
+ignoreHitPause = 1
+
+[State -1, Remove D, D, D: 2nd Neutral]
+type = RemoveExplod
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = NumExplod(90000004) || NumExplod(90000007) || NumExplod(90000008) || NumExplod(90000009) || NumExplod(90000006)
+trigger2 = !NumExplod(90012602)
+ID = 90032605
+ignoreHitPause = 1
+
+[State -1, D, D, D: 3rd Down]
+type = Explod
+triggerAll = NumExplod(90032605) && NumExplod(90012602)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command = "down" || Helper(90000005), command = "dfwd" || Helper(90000005), command = "dback"
+trigger1 = Helper(90000005), command != "up"
+trigger2 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "ufwd" || Helper(90000005), command = "uback"
+trigger2 = Helper(90000005), command != "down"
+anim = 1
+ID = 90032602
+removeTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+pauseMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+superMoveTime = 10 + ifElse(HitPauseTime, HitPauseTime - 1, 0)
+ignoreHitPause = 1
+
+
+;==============================================================================================
+;===============================<REMOVE DIRECTIONAL DETECTORS>=================================
+;==============================================================================================
+
+;==============================================================================================
+;This block of RemoveExplods gets rid of any active release detector explods; if the direction in
+;question isn't currently being input, or if the direction is being input but other directions are
+;also being input, then the detector explod is removed, having served its purpose as a detector.
+;This must go at the very bottom of the entire EXPLODsive Buffering system code!
+;==============================================================================================
+
+[State -1, Remove Down Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000002)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+id = 90000002
+ignoreHitPause = 1
+
+[State -1, Remove Down-Right Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000003)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command != "down" && Helper(90000005), command != "holddown") || (Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd")
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = (Helper(90000005), command != "up" && Helper(90000005), command != "holdup") || (Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd")
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger4 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+id = 90000003
+ignoreHitPause = 1
+
+[State -1, Remove Right Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000006)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+id = 90000006
+ignoreHitPause = 1
+
+[State -1, Remove Up-Right Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000009)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command != "up" && Helper(90000005), command != "holdup") || (Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd")
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = (Helper(90000005), command != "down" && Helper(90000005), command != "holddown") || (Helper(90000005), command != "fwd" && Helper(90000005), command != "holdfwd")
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd"
+trigger4 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+id = 90000009
+ignoreHitPause = 1
+
+[State -1, Remove Up Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000008)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = Helper(90000005), command != "up" && Helper(90000005), command != "holdup"
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = Helper(90000005), command != "down" && Helper(90000005), command != "holddown"
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "back" || Helper(90000005), command = "holdback" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+id = 90000008
+ignoreHitPause = 1
+
+[State -1, Remove Up-Left Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000007)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command != "up" && Helper(90000005), command != "holdup") || (Helper(90000005), command != "back" && Helper(90000005), command != "holdback")
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = (Helper(90000005), command != "down" && Helper(90000005), command != "holddown") || (Helper(90000005), command != "back" && Helper(90000005), command != "holdback")
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger4 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+id = 90000007
+ignoreHitPause = 1
+
+[State -1, Remove Left Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000004)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "back" && Helper(90000005), command != "holdback"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown" || Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+id = 90000004
+ignoreHitPause = 1
+
+[State -1, Remove Down-Left Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000001)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger1 = (Helper(90000005), command != "down" && Helper(90000005), command != "holddown") || (Helper(90000005), command != "back" && Helper(90000005), command != "holdback")
+trigger2 = !enemy, NumExplod(92828282) && !enemy, NumExplod(92468246)
+trigger2 = Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+trigger2 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger2 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger3 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger3 = (Helper(90000005), command != "up" && Helper(90000005), command != "holdup") || (Helper(90000005), command != "back" && Helper(90000005), command != "holdback")
+trigger4 = enemy, NumExplod(92828282) || enemy, NumExplod(92468246)
+trigger4 = Helper(90000005), command = "up" || Helper(90000005), command = "holdup"
+trigger4 = Helper(90000005), command = "back" || Helper(90000005), command = "holdback"
+trigger4 = Helper(90000005), command = "fwd" || Helper(90000005), command = "holdfwd" || Helper(90000005), command = "down" || Helper(90000005), command = "holddown"
+id = 90000001
+ignoreHitPause = 1
+
+
+
+;==============================================================================================
+;==============================<REMOVE RELEASE BUTTON DETECTORS>===============================
+;==============================================================================================
+
+;==============================================================================================
+;Same principle here as with the directional release detector explods.
+;==============================================================================================
+
+[State -1, Remove x Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000201)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "x" && Helper(90000005), command != "holdx"
+ID = 90000201
+ignoreHitPause = 1
+
+[State -1, Remove y Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000211)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "y" && Helper(90000005), command != "holdy"
+ID = 90000211
+ignoreHitPause = 1
+
+[State -1, Remove z Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000221)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "z" && Helper(90000005), command != "holdz"
+ID = 90000221
+ignoreHitPause = 1
+
+[State -1, Remove a Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000231)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "a" && Helper(90000005), command != "holda"
+ID = 90000231
+ignoreHitPause = 1
+
+[State -1, Remove b Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000241)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "b" && Helper(90000005), command != "holdb"
+ID = 90000241
+ignoreHitPause = 1
+
+[State -1, Remove c Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000251)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "c" && Helper(90000005), command != "holdc"
+ID = 90000251
+ignoreHitPause = 1
+
+[State -1, Remove start Detector]
+type = RemoveExplod
+triggerAll = NumExplod(90000194)
+triggerAll = NumHelper(90000005) && !IsHelper && !AILevel
+trigger1 = Helper(90000005), command != "start" && Helper(90000005), command != "holdstart"
+ID = 90000194
+ignoreHitPause = 1
+
+;end of explodsive
+
+;manga palette mode section
+[State 0, RemapPal]
+type = RemapPal
+triggerall = var(58) 
+triggerall = RoundState = 0
+triggerall = RoundsExisted = 0
+triggerall = PalNo = 1
+trigger1 = !AILEVEL
+trigger1 = command = "holda"
+trigger1 = command = "holdb"
+trigger1 = command = "holdstart"
+trigger2 = AILEVEL
+trigger2 = enemy, authorname = "Team Z2"
+trigger2 = enemy, NumProjID(59098)
+source = 1,1
+dest = 1,5900
+
+[State 0, varset]
+type = varset    
+triggerall = var(58) 
+triggerall = RoundState = 0
+triggerall = RoundsExisted = 0
+triggerall = PalNo = 1
+trigger1 = !AILEVEL
+trigger1 = command = "holda"
+trigger1 = command = "holdb"
+trigger1 = command = "holdstart"
+trigger2 = AILEVEL
+trigger2 = enemy, authorname = "Team Z2"
+trigger2 = enemy, NumProjID(59098)
+var(58) = 5900
+
+[State 0, RemapPal]
+type = RemapPal
+triggerall = var(58) 
+triggerall = RoundState = 0
+triggerall = RoundsExisted = 0
+triggerall = PalNo = 2
+trigger1 = !AILEVEL
+trigger1 = command = "holda"
+trigger1 = command = "holdb"
+trigger1 = command = "holdstart"
+trigger2 = AILEVEL
+trigger2 = enemy, authorname = "Team Z2"
+trigger2 = enemy, NumProjID(59098)
+source = 1,1
+dest = 1,1984
+
+[State 0, varset]
+type = varset    
+triggerall = var(58) 
+triggerall = RoundState = 0
+triggerall = RoundsExisted = 0
+triggerall = PalNo = 2
+trigger1 = !AILEVEL
+trigger1 = command = "holda"
+trigger1 = command = "holdb"
+trigger1 = command = "holdstart"
+trigger2 = AILEVEL
+trigger2 = enemy, authorname = "Team Z2"
+trigger2 = enemy, NumProjID(59098)
+var(58) = 1984
+
+[State 0, Projectile]
+type = Projectile
+triggerAll = !NumProjID(59098)
+trigger1 = Var(58)=5900
+trigger2 = Var(58)=1984
+ProjID = 59098
+projanim = 1
+projremovetime = -1
+ignorehitpause = 1
+persistent = 1
+
+[State 0, BGPalFX]
+type = BGPalFX
+triggerAll = NumProjID(59098)
+Trigger1=Enemy,NumProjID(59098)
+time = 1
+color = 0
+ignorehitpause = 1
+persistent = 1
+; end of manga palette mode section
+
+;boss options
+[State 0, PowerSet]
+type = PowerSet
+triggerall = (enemy, name = "G. Freeza Z2") || (enemy, name = "Black Z2") || (enemy, name = "Jiren Z2")
+triggerall = RoundState = 2
+trigger1 = enemy, fvar(39)=1001
+trigger2 = enemy,NumProjID(32)
+value = 3000
+ignorehitpause = 1
+;-------------
+
+;IAD changes
+[State 0, Explod]
+type = Explod
+triggerall = !AnimTime
+trigger1 = StateNo = 40
+trigger2 = StateNo = [10231,10233]
+anim = 15999
+ID = 110
+removetime = 12
+removeongethit = 1
+[state 200, velmul]
+type = velmul
+triggerall = time<=2
+triggerall = PrevStateNo = 111
+triggerall = MoveType = A
+triggerall = StateType = A
+trigger1 = Vel X >0&& Var(51)>0
+trigger2 = Vel X <0&& Var(51)<=0
+x = 0.8
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(17670)
+trigger1 = anim = 7670
+anim = 17670
+ID = 17670
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+sprpriority = 7
+ownpal = 0
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = Anim != 7670
+id = 17670
+
+;AI hit tracker
+[State -2, VarSet]
+type = VarSet
+triggerall = AILevel
+trigger1 = p2movetype!=H
+var(54) = 0
+ignorehitpause = 1 
+;persistent = 
+[State -2, VarAdd]
+type = VarAdd
+triggerall = AILevel
+triggerall = numtarget
+trigger1 = target,time=1
+var(54) =Cond(Var(51)=0,1,-1)
+ignorehitpause = 1 
+;persistent = 
+[State 0, PowerSet]
+type = null;PowerSet
+trigger1 = 1
+value = 3000
+
+[State 0, VarSet]
+type = null;VarSet
+trigger1 = 1
+var(51)=1000
+[State 0, VarSet]
+type = null;VarSet
+trigger1 = 1
+var(52)=700
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(6999)
+trigger1 = Anim = 7611
+anim = 6999
+ID = 6999
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = Anim = 7611
+trigger1 = AnimElemTime(3)>=0
+trigger2 = MoveType != H
+id = 6999
+ignorehitpause = 1
+
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "sysvar(2) = %d, sysvar(3) = %d, var(9) = %d"
+params = sysvar(2),sysvar(3), var(9)
+
+;throw limiter reset
+[State 0, VarSet]
+type = VarSet
+trigger1 = StateNo != 801
+var(39) = 0
+
+[State -2, Training stuff, it won't effect the gameplay]
+;also I'm tired of pressing the spacebar. :P
+type = AssertSpecial
+trigger1 = Enemy, Name = "Training"
+flag = timerfreeze
+ignorehitpause = 1
+
+[State 0, DestroySelf];new
+type = DestroySelf
+trigger1 = Time = 99999999999999
+
+[State -2, EXPLODsive Buffering Helper]
+type = Helper
+trigger1 = !NumHelper(90000005)
+stateNo = 90000005
+ID = 90000005
+name = "EXPLODsive Buffering helper"
+posType = P1
+facing = ifElse(Facing = 1, 1, -1)
+keyCtrl = 1
+ignoreHitPause = 1
+
+; ------- Custom State Check --------
+[State -2, VarAdd]
+type = VarAdd
+trigger1 = GameTime
+var(48) = 1
+
+;=======================================================
+;Advanced EXPLODsive buffer turning
+;=======================================================
+;disable MUGEN's hardcoded turning
+[State -2, AssertSpecial]
+type = AssertSpecial
+trigger1 = P2DisT x >= -12
+flag = noautoturn
+
+[State -2, No walk during turning animation]
+type = PosFreeze
+triggerall = MoveType != H
+trigger1 = anim=5
+value = 1
+[State 0, AssertSpecial]
+type = AssertSpecial
+triggerall = MoveType != H
+trigger1 = Anim = 5
+flag = nowalk
+
+;When to play standing turn anim
+[State -2, ChangeAnim]
+type = ChangeAnim
+triggerall = MoveType != H
+triggerall = ctrl
+triggerall = Anim !=5
+triggerall = StateType !=A
+trigger1 = prevstateno !=50
+trigger1 = P2DisT x < -12
+trigger1 = StateNo = [0,20]
+trigger1 = (!AILEVEL && !NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003)) || AILEVEL && command != "holddown"
+value = 5
+;When to play crouching turn anim
+[State -2, ChangeAnim]
+type = ChangeAnim
+triggerall = MoveType != H
+triggerall = StateType !=A
+trigger1 = Anim !=6
+trigger1 = P2DisT x < -12
+trigger1 = ctrl
+trigger1 = StateNo = [0,20]
+trigger1 = (!AILEVEL && NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) || AILEVEL && command = "holddown"
+value = 6
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = MoveType != H
+triggerall = (!AILEVEL && !NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003)) || AILEVEL && command != "holddown"
+triggerall = ctrl
+triggerall = Anim !=5
+triggerall = P2DisT x < -12
+triggerall = StateType !=A
+trigger1 = StateNo != [0,20]
+trigger1 = MoveType = I
+value = 0
+ctrl = 1
+[State 0, ChangeState]
+type = ChangeState
+triggerall = MoveType != H
+triggerall = (!AILEVEL && NumExplod(90000001) || NumExplod(90000002) || NumExplod(90000003)) || AILEVEL && command = "holddown"
+triggerall = ctrl
+triggerall = Anim !=6
+triggerall = P2DisT x < -12
+triggerall = StateType !=A
+trigger1 = StateNo != [0,20]
+trigger1 = MoveType = I
+value = 11
+ctrl = 1
+
+;When to actually turn(notice this is below the turn anim code blocks)
+[State -2, Turn]
+type = Turn
+triggerall = P2DisT x < -12
+trigger1 = MoveType != H || (StateNo !=[120,155]) 
+trigger1 = StateType != A
+trigger1 = ctrl
+trigger1 = stateno !=52
+trigger1 = StateNo = [0,20]
+trigger2 = (StateNo = 5120 || StateNo = 8452) && !AnimTime
+trigger2 = ctrl=0
+[State -2, Turn]
+type = Turn
+triggerall = FrontEdgeBodyDist <= 2
+trigger1 = (StateNo = 5120 || StateNo = 8452) && !AnimTime
+trigger1 = ctrl=0
+
+;can throw tech in these states
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(98000000)
+trigger1 = StateNo = [0,20]
+trigger2 = StateNo = [120,152]
+trigger3 = StateNo = [800,899]
+trigger4 = StateNo = 5120
+anim = 15999
+ID = 98000000
+removetime = -1
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+triggerall = numexplod(98000000)
+trigger1 = StateNo != [0,20]
+trigger1 = StateNo != [120,152]
+trigger1 = StateNo != [800,899]
+trigger1 = StateNo != 5120
+id = 98000000
+
+;air basic juggle limiter
+[State 0, VarSet]
+type = VarSet
+trigger1 = P2MoveType != H
+var(1) = 0
+
+;Trick Ki limiter
+[State 0, VarSet]
+type = VarSet
+trigger1 = P2MoveType != H
+var(28) = 0
+
+;jump link infinite prevention on tall chars--see state 50 in override
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+trigger2 = P2StateType = A
+trigger3 = StateNo >=1000
+id = 52
+
+;this resets the var so he will go to state 5170 correctly in all instances
+ [State -2, System Variable Set]
+type = VarSet
+trigger1 = StateType = S || Statetype = C
+sysvar(0) = 0
+ignorehitpause = 1
+
+;Recoil var
+[State 0, VarSet]
+type = VarSet
+trigger1 = P2MoveType != H
+trigger1 = StateType != A
+var(16) = 0
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+trigger1 = StateType != A
+id = 1109
+
+;fake TF limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1060
+;fake Jet limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1061
+;fake ki limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1063
+;fake SF limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1064
+;WHOA limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1065
+
+;focus limiter2
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+trigger1 = P2StateNo !=5300
+id = 1302
+
+;1st hit proj reset
+[State 0, VarSet]
+type = VarSet
+trigger1 = P2MoveType != H
+var(19) = 0
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveType = H
+trigger2 = StateNo != 3400
+id = 9020011
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = PrevStateNo = 3000
+var(12) = 0
+
+[State -2, remove basics limiter]
+type = RemoveExplod
+triggerall = NumExplod(987654321)
+trigger1 = numenemy
+trigger1 = enemynear, movetype != H || (enemynear, stateno = [120,155]) || enemynear, ctrl
+id = 987654321
+ignorehitpause = 1
+
+;------------------------------
+;Palette Selection Code
+[State 0, VarSet]
+type = VarSet
+triggerall = var(5) = 1
+trigger1 = var(58) <= 0
+trigger2 = var(58) > 104;when you add a palette increase this number by 1
+var(58) = 1
+
+[State 0, VarSet]
+type = VarSet
+triggerall = var(5) = 1
+trigger1 = Facing = -1
+trigger1 = P2Name = "Name Z2"
+trigger1 = enemy, var(58) = var(58)
+var(58) = var(58) + 1
+
+[State 0, VarAdd]
+type = VarAdd
+triggerall = var(5) = 1
+triggerall = RoundState = 1
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+trigger1 = Facing = 1
+trigger1 = command = "fwd"
+trigger2 = Facing = -1
+trigger2 = command = "back"
+var(58) = Cond((P2Name = "Name Z2") && enemy, var(58) = var(58) + 10,11,Cond((Var(58) >= 94), -94,10));You will edit this portion Cond((Var(58) >= ##), -##,10)) increase the ## by 1
+[State 0, VarAdd]
+type = VarAdd
+triggerall = var(5) = 1
+triggerall = RoundState = 1
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+trigger1 = Facing = 1
+trigger1 = command = "back"
+trigger2 = Facing = -1
+trigger2 = command = "fwd"
+var(58) = Cond((P2Name = "Name Z2") && enemy, var(58) = var(58) - 10,-11,Cond((Var(58) <= 10), 94,-10));You will edit this portion Cond((Var(58) <= 10), ##,-10) increase the ## by 1
+[State 0, VarAdd]
+type = VarAdd
+triggerall = var(5) = 1
+triggerall = RoundState = 1
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+trigger1 = command = "up"
+var(58) = Cond((P2Name = "Name Z2") && enemy, var(58) = var(58) + 1,2,Cond((Var(58) >= 104), -103,1));You will edit this portion Cond((Var(58) >= ##), -##,1)) increase the ## by 1
+[State 0, VarAdd]
+type = VarAdd
+triggerall = var(5) = 1
+triggerall = RoundState = 1
+triggerall = RoundNo = 1
+triggerall = !NumExplod(21)
+trigger1 = command = "down"
+var(58) = Cond((P2Name = "Name Z2") && enemy, var(58) = var(58) - 1,-2,Cond((Var(58) <= 1), 103,-1));You will edit this portion Cond((Var(58) <= 1), ##,-1)) increase the ## by 1
+
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(21)
+triggerall = var(5) = 1
+triggerall = RoundState <= 1
+triggerall = RoundNo = 1
+triggerall = Anim = 0
+trigger1 = command = "start"
+anim = 1606
+ID = 21
+removetime = -1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = RoundState = 2
+id = 21
+;End of Palette Selection Code
+;------------------------------
+
+
+
+
+
+
+;------------------------------
+;FLASH for Solar Flare
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = NumProjID(1450)
+flag = noFG
+flag2 = globalnoshadow
+ignorehitpause = 1
+
+[State 0, BGPalFX]
+type = BGPalFX
+trigger1 = NumProjID(1450)
+time = 1
+add = 256,256,256
+mul = 256,256,256
+ignorehitpause = 1
+
+
+;===============================================================================
+; ------- Remove various explods --------
+;===============================================================================
+
+[state -2, remove Flip KO FX]
+type = removeexplod
+trigger1 = anim!=5937
+id = 5938
+[state -2, remove Twist KO FX]
+type = removeexplod
+trigger1 = anim!=5052
+id = 20152
+
+[state -2, remove charge dust]
+type = removeexplod
+trigger1 = stateno != 900
+trigger1 = stateno != 901
+id = 908
+
+;special/super cancel
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = StateNo != [190,999]
+id = 200
+
+;jHK limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 650
+
+;special/super cancel
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1020
+
+;back flip kick
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+id = 1406
+
+;Fake Jet limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = StateType!=A
+id = 1134
+
+;RocketMan limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H 
+trigger1 = StateType!=A
+trigger2 = StateNo = 49
+id = 1501
+
+;EX RocketMan limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = StateType!=A
+trigger1 = P2MoveType != H 
+id = 1502
+
+[state -2, remove mouth Chou Kmh]
+type = RemoveExplod
+trigger1 = (StateNo != 2400) && (StateNo!=2480) && (StateNo!=2600)
+id = 24000
+
+[state 1215, remove charge FX]
+type = RemoveExplod
+trigger1 = StateNo != 2400 && (StateNo!=2480)
+trigger1 = StateNo != 2600
+trigger1 = StateNo != 3205
+ID = 2420
+
+[state -2, remove charge lightning FX Chou Kmh]
+type = RemoveExplod
+trigger1 = (StateNo != 2400) && (StateNo!=2480)
+trigger1 = StateNo != 2600
+trigger1 = StateNo != 3205
+id = 2430
+
+[state 17100,remove FX]
+type = RemoveExplod
+trigger1 = (StateNo != [2401,2403])
+id = 2403
+[state 17100,remove FX]
+type = RemoveExplod
+trigger1 = (StateNo != [2401,2403])
+id = 2404
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = P2MoveType != H
+var(19) = 0
+[State 0, VarSet]
+type = VarSet
+trigger1 = Var(19)>1
+var(19) = 1
+
+;===============================================================================
+;C18 Special Winpose
+;===============================================================================
+[State 0, Vel X Initialize]
+type = VarSet
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = roundstate = 0
+trigger1 = Time = 1
+fvar(5) = 0
+
+[State 0, Vel Y Initialize]
+type = VarSet
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = roundstate = 0
+trigger1 = Time = 1
+fvar(6) = 0
+
+[State -2, Save X]
+type = VarSet
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = WinKO
+fvar(5)= EnemyNear, Facing * (EnemyNear, GetHitVar(xvel))
+
+[State -2, Save Y]
+type = VarSet
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = WinKO
+fvar(6)= EnemyNear, GetHitVar(yvel)
+
+[state -2, winpose decider]
+type = null
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = enemy,name = "C18 Z2"
+trigger1 = roundstate = 0 && time = 1
+var(35) = random%4 = 0
+
+[state -2, winpose decider]
+type = null
+trigger1 = roundstate = 0  && time = 1
+var(36) = var(35)
+
+;Check KO ;Thanks to Splode for coming up with the original concept
+[State -2, Special Projectile]
+type = null
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+triggerall = var(36) = 1 
+trigger1 = WinKO 
+ProjID = 70980
+projanim = 70980
+postype = p2
+offset = 0, -60
+attr = A, NP
+hitflag = MAF
+guardflag =
+pausetime = 0, 0
+sparkno = -1
+hitsound = -1
+numhits = 0
+air.velocity = fvar(5)/2.0, fvar(6)/2.0
+p2stateno = EnemyNear, StateNo
+
+[State 0, Stomp Winpose Enabled]
+type = null
+triggerall = NumEnemy
+triggerall = TeamMode != Simul
+triggerall = enemyNear,TeamMode != Simul
+trigger1 = NumProjID(70980)
+var(36) = 0
+
+[state 0, reset trigger]
+type = null
+triggerall = WinKO
+triggerall = !NumProjID(70980)
+triggerall = var(35) = 1
+trigger1  = movehit = 1
+var(36) = 1
+
+[State -2, Glass break sound effect];FA kill sound
+type		= PlaySnd
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		= Target,StateNo = 1323 
+value		= 1323, 0
+ignorehitpause	= 1
+persistent  = 0
+ 
+[State -2, P2 Glass Break FX Left] ;Updated
+type		= Explod
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		 = Target,StateNo = 1323  && !NumExplod(1323)
+trigger1            = Target, Facing = 1 
+persistent	= 0
+ID		= 1323
+anim		= 1323
+postype		= left
+pos		        = -10, ceil(Target,screenpos y)-55
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+ 
+[State -2, P2 Glass Break FX Right] ;Updated
+type		= Explod
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		= Target,StateNo = 1323  && !NumExplod(1323) 
+trigger1            = Target, Facing = -1
+persistent	= 0
+ID		        = 1323
+anim		= 1323
+postype		= right
+pos		        = 10, ceil(Target,screenpos y)-55
+facing              = -1
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+
+;--STOP SOUNDS-----------------------------------------------------
+[State 1001, stop power charging sound]
+type = stopsnd
+trigger1 = PrevStateNo = 900 || PrevStateNo = 902 
+trigger2 = MoveType = H
+channel = 3
+
+[State 1001, stop power charging sound]
+type = stopsnd
+trigger1 = PrevStateNo = 900 || PrevStateNo = 902 
+trigger2 = MoveType = H
+channel = 4
+
+;===============================================================================
+; ------- Damage Dampener --------
+;===============================================================================
+ 
+[State -2, Counter Flag] 
+type = VarSet
+trigger1 = NumEnemy
+fvar(8) = (EnemyNear, MoveType = A)
+ignoreHitPause = 1
+ 
+;Damage Dampener Variable (by POTS)
+[State -2, Hit Count] 
+type = VarAdd 
+trigger1 = !NumTarget(3101)
+trigger1 = !IsHelper
+trigger1 = MoveHit = 1 
+trigger1 = !HitPauseTime 
+trigger1 = !(HitDefAttr = SCA, AT) 
+trigger2 = NumProjID(1760)
+fvar(13) = 1 
+ 
+[State -2, Hit Count Reset] 
+type = VarSet 
+trigger1 = NumEnemy && fvar(13) 
+trigger1 = (EnemyNear, MoveType != H) && (EnemyNear, StateNo != 5300) 
+fvar(13) = 0 
+ignoreHitPause = 1
+ 
+[State -2, Dampener] 
+type = VarSet 
+trigger1 = 1 
+fvar(10) = ifElse(fvar(13) < 3, 24, ifElse(fvar(13) >= 23, 1, 24 - fvar(13))) / 24.0 
+ignoreHitPause = 1 
+ 
+[State -2, Dampener Limit] 
+type = VarSet 
+trigger1 = fvar(10) < 0 
+fvar(10) = 0 
+ignoreHitPause = 1 
+ 
+[State -2, Root Dampener] 
+type = VarSet 
+trigger1 = 1 
+fvar(11) = fvar(10) * ifElse(fvar(8), 1.2, 1) 
+ignoreHitPause = 1
+
+;===============================================================================
+; ------- VarSets --------
+;===============================================================================
+
+[State -2, 2OS Helper to detect life removal]
+type = helper
+trigger1 = !numhelper(2)
+id = 2
+keyctrl = 0
+size.xscale = const(size.xscale)
+size.yscale = const(size.yscale)
+stateno = 2
+ignorehitpause = 1
+persistent = 1
+pausemovetime = 9999999
+supermovetime = 9999999
+
+[State -2, 2OS Damage detection]
+type = varset
+trigger1 = 1
+fvar(2) = life - helper(2),var(2)
+ignorehitpause = 1
+persistent = 1
+
+
+[State -2, Air dash reset var when char lands]
+type=VarSet
+trigger1= statetype!=A
+trigger2 = StateNo = 49 && !NumExplod(49)
+var(10) = 0
+
+;remove wall jump airdash limiter
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = StateType != A
+id =49
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = StateType = A && CTRL = 1 && NumExplod(49) <4
+trigger1 = !NumProjID(49)
+trigger1 = FrontEdgeBodyDist <= 0
+trigger1 = (ifelse(Facing = 1, (NumExplod(90000007)),(NumExplod(90000009))))
+trigger1 = Pos Y < -20
+value = 49
+ctrl = 0
+
+;Slashing Chop
+[State -2, Focus Attack meter reset when no longer charging]
+type = VarSet
+trigger1 = (StateNo !=[1300,1301]) && ((StateNo = [5000,5099]) && PrevStateNo != 1300)
+trigger2 = StateNo = [100,105]
+trigger3 = StateNo = [1400,1499]
+trigger4 = StateNo = [10231,10232]
+trigger5 = StateNo = 15
+fv = 9
+value = 0
+
+;remove dizzy stars
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = Anim != 5300
+id = 5931
+;remove dizzy stars
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = enemy,Anim != 5300
+id = 5932
+;dizzy stars
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(5931)
+trigger1 = Anim = 5300
+trigger1 = MoveType = H
+trigger2 = StateNo = 5300
+anim = 5931
+ID = 5931
+pos = 0,-100;edit height as needed for your char
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+removetime = -1
+removeongethit = 1
+sprpriority = 2
+ownpal = 1
+ 
+;dizzy stars
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(5931)
+triggerall = enemy, AnimExist(5931)
+trigger1 = Anim = 5300
+trigger1 = MoveType = H
+trigger2 = StateNo = 5300
+anim = 5931
+ID = 5931
+pos = 0,-100;edit height as needed for your char
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+removetime = -1
+removeongethit = 1
+sprpriority = 2
+ownpal = 1
+ 
+[State 1315, Dizzy Stars]
+type=explod
+triggerall = !NumExplod(5932)
+triggerall = !enemy, AnimExist(5931)
+trigger1 = enemy,Anim = 5300
+trigger1 =enemy, MoveType = H
+trigger2 = enemy,StateNo = 5300
+anim = 5931
+ID = 5932
+postype = p2
+pos = -2, (enemynear,const(size.head.pos.y))-20
+bindtime = -1
+removetime = -1
+removeongethit = 1
+sprpriority = 2
+ownpal = 1
+
+[State -2, Glass break sound effect];FA kill sound
+type		= PlaySnd
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		= Target,StateNo = 1323 
+value		= 1323, 0
+ignorehitpause	= 1
+persistent  = 0
+ 
+[State -2, P2 Glass Break FX Left] ;Updated
+type		= Explod
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		 = Target,StateNo = 1323  && !NumExplod(1323)
+trigger1            = Target, Facing = 1 
+persistent	= 0
+ID		= 1323
+anim		= 1323
+postype		= left
+pos		        = -10, ceil(Target,screenpos y)-55
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+ 
+[State -2, P2 Glass Break FX Right] ;Updated
+type		= Explod
+triggerall	= NumTarget
+triggerall          = !(Target, alive)
+trigger1            = Target, time = 1
+trigger1		= Target,StateNo = 1323  && !NumExplod(1323) 
+trigger1            = Target, Facing = -1
+persistent	= 0
+ID		        = 1323
+anim		= 1323
+postype		= right
+pos		        = 10, ceil(Target,screenpos y)-55
+facing              = -1
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent = 0
+
+
+
+
+
+[State -2, Reset var when the opponent recovers]
+type=VarSet
+trigger1= NumEnemy
+trigger1= (enemynear,movetype!=H)
+trigger2= !NumEnemy
+var(7) = 0
+ignorehitpause = 1
+
+[State -2, OTG]
+type= VarSet
+trigger1= MoveContact=1 && p2statetype!=L
+var(6) = 0
+ignorehitpause = 1
+[State -2, Free Juggling] ;NO JUGGLE CHECK nojugglecheck free juggling
+type = assertspecial
+trigger1 = var(6)=1
+flag = nojugglecheck
+ignorehitpause = 1
+
+[State -2, Super Jump reset var when char lands]
+type=VarSet
+trigger1= statetype!=A
+var(22) = 0
+
+
+[State -2, KO snd]
+type = VarSet
+trigger1 = alive && var(8) > 0
+trigger2 = !alive && var(8) < 2
+var(8) = IfElse(alive, 0, var(8) + 1)
+ignorehitpause = 1
+
+;These controllers play the "hit ground" sound effect everytime the enemy hits the ground, 
+;during different custom states.
+[State -2, Hitting ground sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+;triggerall	= NumTarget		;You must have a target
+;triggerall	= Target, Time = 1+(target,teamside = 1)
+;trigger1		= Target, StateNo = 652	;custom state: a.SP
+trigger1 = var(55) = 1
+value		= 15000, 2
+ignorehitpause	= 1
+channel		= 20
+[State -2, Hitting ground sound effect];Medium sound effect, first bounce
+type		= PlaySnd
+triggerall	= NumTarget
+triggerall	= Target, Time = 1+(target,teamside = 1)
+trigger1		= Target, StateNo = 1115100	;custom state: Dizzy/Stun, falling
+value		= 15000, 1
+ignorehitpause	= 1
+channel		= 21
+[State -2, Hitting ground sound effect];Weak sound effect, second bounce
+type		= PlaySnd
+triggerall	= NumTarget
+triggerall	= Target, Time = 1+(target,teamside = 1)
+trigger1		= Target, StateNo = 1115110	;custom state: Dizzy/Stun, falling
+trigger2 = Target, stateno = 1321
+value		= 15000, 0
+ignorehitpause	= 1
+channel		= 22
+
+[State -2, Hitting ground sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+triggerall = enemy,MoveType = H
+trigger1 = enemy, StateNo = 855 && enemy, time = 1
+trigger2 = enemy, StateNo = 1458 && enemy, time = 1
+value		= 15000, 2
+ignorehitpause	= 1
+channel		= 20
+
+[State -2, KO snd English]
+type = playsnd
+triggerall=stateno!=5950
+trigger1 = !alive && var(8) = 1
+trigger1 = var(8) := 2
+value = 11, 1 +random%2
+volumescale = 300
+
+[State -2, ctrlset]
+type = CtrlSet
+trigger1 = roundstate=0 || roundstate=1
+value = 0
+
+[State -2, Explod];State 5052 Twist FX
+type = PlaySnd
+trigger1 = anim=5052 && !(gametime%10) && animelemtime(4)>=0
+value = 5052,0
+
+[State -2, Explod];State 5052 Twist FX
+type = Explod
+triggerall = !IsHelper
+triggerall = NumExplod(20152) = 0
+trigger1 = anim=5052 && animelemtime(4)=0
+anim = 20152
+pos = 0,-50
+postype = P1
+removetime = -1
+;supermovetime = 99999
+sprpriority = 3
+id = 20152
+bindtime = -1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+[state 17100, Flip KO FX]
+type=explod
+triggerall = !IsHelper
+trigger1 = Anim=5937 && !numexplod(5938) && animelemtime(3)=0
+anim = 5938
+id = 5938
+pos = 0,-50
+postype = P1
+sprpriority = 3
+ownpal = 1
+;supermovetime = -1
+removetime = -1
+persistent = 0
+bindtime = -1
+ignorehitpause = 1
+
+[State 6100, FLIP turning snd]
+type = PlaySnd
+triggerall = anim=5937
+trigger1 = AnimElemTime(4)>=0
+trigger1 = !(gametime%10) ;&& animelemtime(4)>=0
+value = 21,1
+
+[State -2, Hitting wall/ground sound effect]
+type = PlaySnd
+triggerall = NumTarget
+triggerall = target, Time = 1
+trigger1 = target, StateNo = 1236
+trigger2 = Target, stateno = 1321
+value = 15000, 2
+channel	= 23
+
+[State -2, P2 Hit Ground Spark (front)]
+type		= Explod
+triggerall = enemy,MoveType = H && !NumExplod(8400)
+trigger1		= enemy, StateNo = 1458 && enemy, time = 1+(enemy,teamside = 1)
+trigger2		= var(55) = 1
+trigger3		= enemy, StateNo = 855 && enemy, time = 1+(enemy,teamside = 1)
+ID		= 8400
+anim		= 8400
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= 3
+ignorehitpause	= 1
+[State -2, P2 Hit Ground Spark (back)]
+type		= Explod
+triggerall = enemy,MoveType = H && !NumExplod(8401)
+trigger1		= enemy, StateNo = 1458 && enemy, time = 1+(enemy,teamside = 1)
+trigger2		= var(55) = 1
+trigger2 		= 1 || var(55) := 0
+trigger3		= enemy, StateNo = 855 && enemy, time = 1+(enemy,teamside = 1)
+ID		= 8401
+anim		= 8401
+postype		= p2
+pos		= -4, -3
+velocity		= 0, 0
+accel		= 0, 0
+removetime	= -2
+sprpriority	= -3
+ignorehitpause	= 1
+
+
+[State -2, P2 Hit Wall Spark (front)]
+type		= Explod
+triggerall	= NumTarget
+triggerall = !target,IsHelper
+triggerall = !NumExplod(8402)
+trigger1 = target,  StateNo = 1235
+trigger2 = Target, stateno = 1321 && Target, time = 2
+trigger3 = Target, stateno = 1321 && !NumExplod(8402) && Target, time = 1+(target,teamside = 1)
+ID		= 8402
+anim		= 8402
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+[State -2, P2 Hit Wall Spark (back)]
+type		= Explod
+triggerall	= NumTarget
+triggerall = !target,IsHelper
+triggerall = !NumExplod(8403)
+trigger1 = target,  StateNo = 1235
+trigger2 = Target, stateno = 1321 && Target, time = 2
+trigger3 = Target, stateno = 1321 && !NumExplod(8403) && Target, time = 2
+ID		= 8403
+anim		= 8403
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	=-3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+
+[State -2, Hitting wall/ground sound effect]
+type = PlaySnd
+triggerall = P2MoveType = H
+trigger1 = enemy,  StateNo = 1235
+value = 15000, 2
+channel	= 23
+
+[State -2, P2 Hit Wall Spark (front)]
+type		= Explod
+triggerall	= P2MoveType = H
+triggerall = !NumExplod(8402)
+trigger1 = enemy,  StateNo = 1235
+ID		= 8402
+anim		= 8402
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	= 3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+[State -2, P2 Hit Wall Spark (back)]
+type		= Explod
+triggerall	= P2MoveType = H
+triggerall = !NumExplod(8403)
+trigger1 = enemy,  StateNo = 1235
+ID		= 8403
+anim		= 8403
+pos		= -20, -50
+postype		= p2
+velocity		= 0, 0
+accel		= 0, 0
+removetime	=-2
+sprpriority	=-3
+ignorehitpause	= 1
+persistent	= 0
+facing		=-1
+
+[state 17100, Shocked FX]
+type=explod
+trigger1 = (Anim=7696 || anim=9010) && !numexplod(9011)
+anim = 9011
+id = 9011
+pos = 0,0
+postype = P1
+sprpriority = -5
+ownpal = 1
+removetime = -1
+persistent = 0
+bindtime = -1
+ignorehitpause = 1
+
+[state 17100, Shocked FX]
+type = RemoveExplod
+trigger1 = (Anim != 7696 && anim != 9010) && numexplod(9011)
+ID = 9011
+
+;===============================================================================
+; ------- Chou Kamehameha Fatality - WTF --------
+;===============================================================================
+
+[State 10000, Explod]; White BG
+type = Explod
+;trigger1 = WinKO && MatchOver
+triggerall = NumEnemy;;
+triggerall = enemy,movetype=H
+trigger1 = (Enemy,StateNo = 5943 || Enemy,StateNo = 5944 || Enemy,StateNo = 5946) && NumExplod(5943)=0
+anim = 2763
+id = 5943
+pos =  160,120
+postype = left
+sprpriority = 6
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+supermove = 1
+scale = 1.5,1.5
+ignorehitpause = 1
+persistent = 0
+
+[State 10000, Explod]; White BG front holes
+type = Explod
+triggerall = NumEnemy
+;triggerall = WinKO && MatchOver
+triggerall = enemy,movetype=H
+trigger1 = Enemy,StateNo = 5943 && NumExplod(5944)=0
+trigger2 = Enemy,StateNo = 2487 && NumExplod(5944)=0
+anim = 5944
+id = 5944
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+supermove = 1
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+[State 10000, Explod]; White BG front holes tall chars
+type = Explod
+triggerall = NumEnemy
+;triggerall = WinKO && MatchOver
+triggerall = enemy,movetype=H
+trigger1 = Enemy,StateNo = 5943 && NumExplod(59440)=0
+trigger2 = Enemy,StateNo = 2487 && NumExplod(59440)=0
+anim = 5944
+id = 59440
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)-170
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+supermove = 1
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+[State 10000, Explod]; White BG front holes VERY tall chars
+type = Explod
+;triggerall = WinKO && MatchOver
+triggerall = NumEnemy
+triggerall = enemy,movetype=H
+trigger1 = Enemy,StateNo = 5943 && NumExplod(59441)=0
+trigger2 = Enemy,StateNo = 2487 && NumExplod(59441)=0
+anim = 5944
+id = 59441
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)+170
+sprpriority = 8
+bindtime = -1
+ownpal = 1
+removetime = -2
+pausemovetime = 999999
+supermovetime = 999999
+supermove = 1
+scale = 1,1
+ignorehitpause = 1
+persistent = 0
+facing = -1
+
+; White BG front holes - DIAGONAL FATALITY UP
+[State -2, Explod Helper]
+type = helper
+;trigger1 = WinKO && MatchOver
+triggerall = NumEnemy
+triggerall = enemy,movetype=H
+trigger1 = Enemy,StateNo = 5944 && NumHelper(5945)=0
+ID = 5945
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+StateNo = 5945
+helpertype = normal
+name = "white_fg"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = 8
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+facing = 1
+
+; White BG front holes - DIAGONAL FATALITY DOWN
+[State -2, Explod Helper]
+type = helper
+;trigger1 = WinKO && MatchOver
+triggerall = NumEnemy;;
+triggerall = enemy,movetype=H
+trigger1 = Enemy,StateNo = 5946 && NumHelper(5947)=0
+ID = 5947
+postype = p2
+pos =  0, ceil(((enemy,const(size.head.pos.Y))+(enemy,const(size.mid.pos.Y)))/2)
+StateNo = 5947
+helpertype = normal
+name = "white_fg"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = 8
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+facing = 1
+
+;===============================================================================
+; ------- Compatibility with V.Akiha by Kohaku --------
+;===============================================================================
+
+[State -2, LifeAdd]
+type = LifeAdd
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "Kohaku" && Enemy,Name = "VAkiha_K"
+trigger1 = Enemy,Var(30) = 1
+value = -5
+kill = 0
+
+[State -2, PowerAdd]
+type = PowerAdd
+triggerall = NumEnemy
+triggerall = Enemy,AuthorName = "Kohaku" && Enemy,Name = "VAkiha_K"
+trigger1 = Enemy,Var(30) = 1
+value = -26
+
+;===============================================================================
+; ------- Rage Mode Gauge --------
+;===============================================================================
+
+; RAGE MODE GAUGE P1
+[State -2, Hope Gauge]
+type = helper
+trigger1 = !NumHelper(2750) && teamside = 1
+trigger1 = Var(51) >0
+ID = 2750
+stateno = 2750
+pos = 20, 0
+postype = left
+name = "emo"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = 7
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+size.xscale = 0.5
+size.yscale = 0.5
+
+; RAGE MODE GAUGE P2
+[State -2, Hope Gauge]
+type = helper
+trigger1 = !NumHelper(2760) && teamside = 2
+trigger1 = Var(51) >0
+ID = 2760
+stateno = 2760
+pos = 20, 0
+postype = left
+name = "emo"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = 7
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+size.xscale = 0.5
+size.yscale = 0.5
+
+;===============================================================================
+; ------- Compatibility with Warachia by Rajaaboy --------
+;===============================================================================
+
+[state -2,RajaaBoy:_Warachia]
+type = lifeadd
+trigger1 = NumEnemy
+trigger1 = enemy,authorname="RajaaBoy"
+trigger1 = enemy,name="RajaaWarachia"
+trigger1 = enemy,var(32)=1||enemy,var(33)=1||enemy,var(34)=1
+value = (-14*enemy,var(32))+(-21*enemy,var(33))+(-28*enemy,var(34))
+kill = 0
+ignorehitpause = 1
+
+[state -2,RajaaBoy:_Warachia]
+type = poweradd
+trigger1 = NumEnemy
+trigger1 = enemy,authorname="RajaaBoy"
+trigger1 = enemy,name="RajaaWarachia"
+trigger1 = enemy,var(32)=1||enemy,var(33)=1||enemy,var(34)=1
+value = 10
+ignorehitpause = 1
+
+;;===============================================================================
+; ------- Super Background Helper Triggers --------
+;===============================================================================
+
+; SUPER BG HELPER
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO && !NumHelper(19875)
+triggerall = var(13) < 2
+triggerall = RoundState = 3
+trigger1 = NumProjId(3000) || NumProjId(3001)	
+trigger2 = StateNo = 3601
+ID = 19875
+pos = 20-20*(var(13)=0),-250+250*(var(13)=0)
+postype = left
+stateno = 19875 + 25*var(13)
+helpertype = normal
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = -5
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+
+; SUPER BG HELPER - Super DBZ Physic
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO && !NumHelper(19875)
+triggerall = var(13) = 2
+trigger1 = NumProjId(3001) 
+ID = 19875
+pos = 0,0
+postype = left
+stateno = 19885
+helpertype = normal
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = -5
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+; SUPER BG HELPER - Super DBZ Ki
+[State -2, Hyper Kill bg]
+type = helper
+triggerall = winKO && !NumHelper(19875)
+triggerall = var(13) = 2
+triggerall = RoundState = 3
+trigger1 = NumProjId(3000) 
+trigger2 = StateNo = 3600
+trigger2 = Time = 535
+trigger2 = !enemy, Alive
+ID = 19875
+pos =  0,0
+postype = left
+stateno = 19892
+helpertype = normal
+name = "superbackground"
+pausemovetime = 999999
+supermovetime = 999999
+sprpriority = -5
+ownpal = 1
+keyctrl = 0
+ignorehitpause = 1
+persistent = 0
+
+
+
+;=======================================================================
+; External coding for Hyper Pause Fixes (Fighting SyN'S Characters only)
+;=======================================================================
+[State -2, Camera focus on player for Hyper Pause]
+type = ScreenBound
+triggerall = NumEnemy
+triggerall = enemynear,authorname = "ImmortaL -SyN-"
+trigger1 = enemynear,numHelper(4999)
+value = 1
+
+;===============================================================================
+; ------- EMOTION Mode --------
+;===============================================================================
+
+
+
+[State -2, EMOTION MODE VARS - Buffer min]
+type = varset
+trigger1 = var(51) < 0
+var(51) = 0
+ignorehitpause = 1
+[State -2, EMOTION MODE VARS - Buffer max]
+type = varset
+trigger1 = var(51) >= 1000
+var(51) = 1000
+ignorehitpause = 1
+
+[State -2, EMOTION MODE VARS - Buffer Increase]
+type = null;varadd
+trigger1 = Var(51)=0
+trigger1 = var(52) < 1000
+trigger1 = MoveType !=H
+trigger1 = NumProjID(910)
+trigger1 = Vel X <0
+var(52) = 1+floor(Abs(Vel X))
+ignorehitpause = 1
+
+[State -2, EMOTION MODE VARS - Buffer Decrease]
+type = null;varadd
+trigger1 = Var(51)=1
+trigger1 = var(52) > 0
+;trigger1 = MoveType !=H
+trigger1 = P2MoveType !=H
+trigger1 = RoundState = 2
+var(52) = -1
+
+[State -2, EXIT EMOTION MODE]
+type = varset
+trigger1 = var(51) <= 0
+trigger2 = Lose
+trigger3 = MoveType = H
+trigger3 = PrevStateNo = 3400
+var(51) = 0
+ignorehitpause = 1
+
+[State -2, EXIT EMOTION MODE]
+type = varset
+trigger1 = var(51) > 0
+trigger1 = RoundState = 4
+var(51) = 1000
+ignorehitpause = 1
+
+[State -2, EMOTION MODE VARS - Zero]
+type = varset
+trigger1 = var(52)<0
+trigger2 = var(51)<1
+var(52) = 0
+ignorehitpause = 1
+
+[State -2, EMOTION MODE VARS - Flame]
+type = varset
+trigger1 = var(52)>2100
+var(52) = 2100
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(53) = 1
+var(52) = -2
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = Var(52)<=0
+var(53) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = Var(53)=1
+var(51) = 1
+
+;===============================================================================
+; COUNTER HIT (Taken from Vans, who based his on Sander's Method)
+;===============================================================================
+
+[State -2, VarSet];Checks if opponent is in attack state
+type = VarSet
+triggerall = NumEnemy
+trigger1 = enemy, movetype = A
+var(56) = 1
+ignorehitpause = 1
+
+[State -2, VarSet];This resets the condition if counter not succesful and succesful
+type = VarSet
+triggerall = NumEnemy
+trigger1 = enemy, movetype = I || var(57) >= 1  ;Enemy is Idle | Counter was Succesful
+trigger2 = var(57) > 10 && enemy, movetype = H  ;10 ticks passed & enemy is on gethit state
+var(56) = 0
+ignorehitpause = 1
+
+[State -2, VarSet];Counter Hit Succesful
+type = VarSet
+trigger1 = var(56) = 1 && movehit ;Counter Check Ok, Move Hit Succesfully.
+trigger1 = StateNo != [190,199] ;Does not activate during intros.
+trigger1 = StateNo != [800,820] ;Does not activate during throws.
+trigger1 = StateNo != [950,951] ;Don't activate during throws.
+trigger2 = var(56) = 1 && projhit = 1  ;Counter Check Ok, Projectile Hit Succesfully.
+var(57) = 1
+ignorehitpause = 1
+
+[State -2, VarAdd];Counter Hit Timer
+type = VarAdd
+trigger1 = var(57) >= 1 ;Counter was succesful
+var(57) = 1
+ignorehitpause = 1
+
+[State -2, VarSet];Counter Hit Reset
+type = VarSet
+trigger1 = var(57) >= 22 && movehit ;Reset if 22 ticks passed and move hit
+trigger2 = p2movetype != H ;Reset if P2 is no longer in gethit state
+trigger3 = movetype = H ;Reset if P1 is getting hit
+trigger4 = var(57) >= 22 && projhit = 1 ;Reset if 22 ticks passed and projectile hit
+var(57) = 0
+ignorehitpause = 1
+
+[State -2, AssertSpecial];This will award free juggles for Counter Hit.
+type = AssertSpecial
+trigger1 = var(57) > 0
+flag = nojugglecheck
+
+[State -2, EnvColor];This will produce a flash a la KOF2K2
+type = NULL;EnvColor
+triggerall = NumEnemy
+triggerall = StateNo != [190,199] ;Does not activate during intros.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+trigger1 = var(56) = 1 && movehit  ;Move hit, Ok
+trigger2 = var(56) = 1 && projhit = 1 ;Projectile hit, Ok
+value = 255,255,255
+time = 1
+under = 1
+ignorehitpause = 1
+persistent = 0
+
+[State -2, Explod];Counter Explod for P1 Side.
+type = Explod
+triggerall = NumEnemy
+triggerall = var(56) = 1 && numexplod(13000) = 0 && teamside = 1 ;Counter Ok, Explod has not played, P1 Side
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+trigger1 = movehit ;Move hits
+trigger2 = projhit = 1 ;Projectile Hits
+anim = 13000
+pos = 10,100
+postype = left  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13000
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+[State -2, Explod];Counter Explod for P2 Side.
+type = Explod
+triggerall = NumEnemy
+triggerall = var(56) = 1 && numexplod(13000) = 0 && teamside = 2 ;Counter Ok, Explod has not played, P2 Side
+triggerall = enemy, movetype = h ;Enemy was indeed HIT, otherwise this'd be retarded.
+triggerall = StateNo != [800,820] ;Does not activate during throws.
+triggerall = StateNo != [950,951] ;Don't activate during throws.
+trigger1 = movehit ;Move hits
+trigger2 = projhit = 1 ;Projectile Hits
+anim = 13001
+pos = -82,100 ;-10-69-3
+postype = right  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13000
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+
+
+;===============================================================================
+; FIRST ATTACK NOTIFICATION
+;===============================================================================
+
+[State -2, First Attack]
+type = VarSet
+triggerall = Var(27) = 0
+triggerall = RoundState = 2
+trigger1 = p2StateNo = [5000,5199]
+trigger1 = p2movetype = H
+v = 27
+value = 1
+ignorehitpause = 1
+
+[State -2, First Attack - if F1 is pressed]
+type = VarSet
+triggerall = Var(27) = 0
+triggerall = RoundState = [0,1]
+trigger1 = p2StateNo = [5000,5199]
+trigger1 = p2movetype = H
+v = 27
+value = 2
+ignorehitpause = 1
+
+[State -2, Explod];P1 Side.
+type = Explod
+trigger1 = var(27)= 1 && numexplod(13100)=0 && teamside = 1
+anim = 13100
+pos = 10,IfElse(numexplod(13000),80,100)
+postype = left  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13100
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+persistent = 0
+
+[State -2, Explod];P2 Side.
+type = Explod
+trigger1 = var(27)= 1 && numexplod(13100)=0 && teamside = 2
+anim = 13101
+pos = -117,IfElse(numexplod(13000),80,100)
+postype = right  ;p2,front,back,left,right
+removetime = -2
+
+;scale = 0.5,0.5
+sprpriority = 0
+id = 13100
+bindtime = -1
+ontop = 1
+ownpal = 1
+ignorehitpause = 1
+pausemovetime = -1
+persistent = 0
+
+[State -2, Powaa !!!]
+type = PowerAdd
+trigger1 = Var(27) = 1
+value = 200
+persistent = 0
+
+[State -2, First Attack]
+type = VarSet
+trigger1 = Var(27) = 1
+trigger2 = movetype = H && Var(27) = 0 && StateNo != [140,155]
+v = 27
+value = 2
+
+;----START COPY PASTE FOR -2 to go in chars for compatability---
+
+;this resets the var so he will go to state 5170 correctly in all instances
+ [State -2, System Variable Set]
+type = VarSet
+trigger1 = StateType = S || Statetype = C
+sysvar(0) = 0
+ignorehitpause = 1
+
+
+;HKD sounds hard knock down
+[State 5100, 10]
+type = PlaySnd
+trigger1 = NumEnemy
+trigger1 = P2StateNo = 5954
+trigger1 = P2MoveType = H
+trigger1 = enemy,Time = 1
+value = 15000,1
+[State 5100, 10]
+type = PlaySnd
+trigger1 = NumEnemy
+trigger1 = P2StateNo = 5956
+trigger1 = P2MoveType = H
+trigger1 = enemy,Time = 1
+trigger1 = !(enemy,SysVar(0))
+value = 15000,0
+;==========================================================
+[Statedef -3]
+;==========================================================
+
+;IAD changes
+[State 0, Explod]
+type = Explod
+triggerall = !AnimTime
+trigger1  = Var(53)> 0
+trigger1 = StateNo = 40
+trigger2 = StateNo = [10231,10233]
+anim = 15999
+ID = 110
+removetime = 12
+removeongethit = 1
+[state 200, velmul]
+type = velmul
+triggerall  = Var(53)> 0
+trigger1 = time<=2
+trigger1 = PrevStateNo = 111
+trigger1 = MoveType = A
+trigger1 = StateType = A
+trigger1 = Vel X >0
+x = 0.8
+
+[State -3, Wrong StateType] ;DEBUG
+type= null;superpause
+triggerall = roundstate=2
+trigger1= pos y!=0 && statetype!=A && statetype!=L
+time= 99999
+ignorehitpause= 1
+
+;guard string penalty
+[State 0, TargetPowerAdd]
+type = TargetPowerAdd
+trigger1 = NumHelper(90000005)
+trigger1 = helper(90000005),Var(2)>0
+trigger1 = NumTarget
+trigger1 = target, StateNo = [130,155]
+trigger1 = target, MoveType = H
+value = 2
+ignorehitpause = 1
+
+[State -3, TargetState]
+type = TargetState
+triggerall = RoundState = 2
+triggerall = NumTarget(5951)
+triggerall = !target,ISHelper 
+trigger1 = target(5951),StateNo != [5951,5954]
+trigger1 = target(5951),Alive
+trigger1 = MoveHit
+trigger2 = NumHelper(1429)								;Zetto Air Blast
+trigger2 = helper(1429),movecontact
+value = 5951
+ID = 5951
+;ignorehitpause = 1
+
+[State 0, Projectile]
+type = Projectile
+trigger1 = NumProjID(910)<6
+trigger1 = MoveHit = 1
+ProjID = 910
+projanim = 1
+projremovetime = 40
+
+[State -2, EMOTION MODE VARS - Buffer Increase]
+type = PowerAdd
+;trigger1 = Var(51)=0
+;trigger1 = var(52) < 1000
+trigger1 = RoundState = 2
+trigger1 = StateNo != [3000,3999]
+trigger1 = MoveType !=H
+trigger1 = NumProjID(910)
+trigger1 = Vel X <0
+value = 1+floor(Abs(Vel X-.25))
+ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = StateType = A && CTRL = 1 && NumExplod(49) <4
+trigger1 = !NumProjID(49)
+trigger1 = BackEdgeBodyDist <= 0
+trigger1 = (ifelse(Facing = 1, (NumExplod(90000009)),(NumExplod(90000007))))
+trigger1 = Pos Y < -20
+value = 49
+ctrl = 0
+
+;This controller plays a sound everytime the player lands from a jump, or from a back-dash.
+[State -3, Landing Sound]
+type = PlaySnd
+triggerall = Time = 1
+trigger1 = StateNo = 52 ;Jump land
+trigger2 = StateNo = 0 && PrevStateNo = 5120
+trigger3 = StateNo = 5201
+value = 40, 2
+
+; ------- Custom State Check --------
+[State 0, VarSet]
+type = VarSet
+trigger1 = MoveType != H
+var(49) = Var(48)
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveType = H
+trigger1 = gametime
+var(48) = 1
+
+[state 52, Land FX]
+type = helper
+triggerall = Time = 1
+trigger1 = StateNo = 52
+trigger2 = StateNo = 5201
+name = "LandFX"
+StateNo = 17100
+id = 17100
+postype = P1
+ownpal = 1
+keyctrl = 0
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 0, ]
+type = Helper
+triggerall = !numHelper(52100)
+trigger1 = StateNo = 5201
+
+name = "recoverpulser"
+ID = 52100
+StateNo = 52100
+ownpal = 1
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(991901)
+trigger1 = P2StateNo = [3000,3999]
+trigger1 = P2MoveType = H
+anim = 5939
+ID = 991901
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+removetime = -1
+removeongethit = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = P2MoveType != H
+trigger1 = enemy, Alive
+id = 991901
+
+;--------------------------------------
+
+[State -3, GetHitSnd Light]
+type = PlaySnd
+triggerall = alive && (time = 1)
+triggerall = StateNo = 5000||StateNo = 5010||StateNo = 5020||StateNo = 5070||StateNo = 5080
+trigger1 = NumEnemy > 0
+trigger1 = enemynear,hitdefattr = SCA,SA,HA
+trigger2 = GetHitVar(animtype)=0 && random<250
+value = s5000,random%4
+channel = 0
+ignorehitpause = 1
+persistent = 0
+volumescale = 200
+
+[State -3, GetHitSnd Medium]
+type = PlaySnd
+triggerall = alive && (time = 1)
+triggerall = StateNo = 5000||StateNo = 5010||StateNo = 5020||StateNo = 5070||StateNo = 5080
+trigger1 = NumEnemy > 0
+trigger1 = enemynear,hitdefattr = SCA,SA,HA
+trigger2 = GetHitVar(animtype)=1 && random<375
+value = s5000,10+random%4
+channel = 0
+ignorehitpause = 1
+persistent = 0
+volumescale = 200
+
+[State -3, GetHitSnd Hard]
+type = PlaySnd
+triggerall = alive && (time = 1)
+triggerall = StateNo = 5000||StateNo = 5010||StateNo = 5020||StateNo = 5070||StateNo = 5080
+trigger1 = NumEnemy > 0
+trigger1 = enemynear,hitdefattr = SCA,SA,HA
+trigger2 = GetHitVar(animtype)>=2 && random<500
+value = s5000,20+random%3
+channel = 0
+ignorehitpause = 1
+persistent = 0
+volumescale = 200
+
+;--------------------------------------
+
+[state -3, remove afterimage]
+type = afterimagetime
+trigger1 = Movetype = H
+trigger2 = StateNo != [10230,10233]  	;Super Jump
+trigger2 = StateNo != [110,118]  		;air dash
+trigger2 = StateNo != 50
+trigger2 = StateNo != 1150				;EX Soaring Dragon Kick
+trigger2 = StateNo != [1250,1251]		;EX Dive Kick Flurry
+trigger2 = StateNo != 1550				;EX Hurricane Kick
+trigger2 = StateNo != 1050				;EX Turtle Flip
+trigger2 = StateNo != [1105,1107]				;EX Shoulder Crusher
+trigger2 = StateNo != 1135				;EX Air Jet
+trigger2 = StateNo != 1260				;EX Ki Blast
+trigger2 = StateNo != 1265				;EX Ki Trick Blast
+trigger2 = PrevStateNo != 1399                              ;EX Whoa
+trigger2 = PrevStateNo != 1504                              ;EX Rocketman
+
+time = 0
+
+[State -3, Prevent Crossup]
+type = width
+triggerall = NumEnemy
+trigger1 = movetype != H
+trigger1 = facing != enemynear, facing
+edge = 4, 0
+ignorehitpause = 1
+
+[State -3, No walk during turning animation]
+type = VelSet
+trigger1 = anim=5
+x = 0
+
+
+[State -3, StopSND, Chou Kmh charging]
+type		= StopSND
+trigger1		= StateNo != 2400 && StateNo != 2600 && StateNo != 3225
+channel		= 5
+persistent	= 0
+
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 15
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 16
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 17
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 18
+[State -3, StopSND if intros are skipped]
+type		= StopSND
+trigger1		= RoundState != [0,1]
+channel		= 19
+
+
+;===============================================================================
+; Slashing Chop / Saving Strike code (Part B)
+;===============================================================================
+[state -3, animelem set frame 1]
+type = VarSet
+trigger1 = StateNo = 1300 && time = 1
+var(23) = 1
+ 
+[state -3, animelem set frame 2]
+type = VarSet
+trigger1 = StateNo = 1300 && animelem = 2
+var(23) = 2
+
+[state -3, animelem set frame 3]
+type = VarSet
+trigger1 = StateNo = 1300 && animelem = 3
+var(23) = 3
+ 
+[State -3, Change to second state]
+type = HitOverride
+trigger1 = StateNo = 1300
+attr = SCA,NA,SA,HA,NP,SP,HP
+slot = 0
+StateNo = 1301
+time = 1
+forceair = 0
+ignorehitpause = 1
+persistent = 1
+ 
+[state -3, VarSet for first state]
+type = VarSet
+trigger1 = StateNo = 1300
+var(20) = 1
+ 
+[state -3, VarSet for second state]
+type = VarSet
+trigger1 = StateNo = 1301
+var(20) = 0
+
+[State -3, health removal in second state]
+type = LifeAdd
+trigger1 = StateNo = 1301
+value = -(GetHitVar(damage))
+kill = 1
+
+;================================================================================
+; ------- Cheap K.O. system By Warusaki3 & POTS --------
+;===============================================================================
+
+[State -3, Cheap KO]
+type = changestate
+trigger1 = !alive && (StateNo = [5000, 5010])
+trigger1 = (PrevStateNo = [130, 131]) || (PrevStateNo = [140, 141]) || (PrevStateNo = [150, 153])
+value = 5950
+ignorehitpause = 1
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = S
+ignorehitpause = 1
+fvar(1) = 0
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = C
+ignorehitpause = 1
+fvar(1) = 1
+
+[State -2,KO]
+type = VarSet
+triggerall = StateNo = [120,159]
+trigger1 = StateType = A
+ignorehitpause = 1
+fvar(1) = 2
+
+[State -3, Variable Height]
+type= playerpush
+triggerall= statetype=A && movetype!=H && numenemy
+triggerall= p2bodydist x = [-(enemynear,const(size.ground.back) + enemynear,const(size.ground.front)), 0]; checks if both characters are within each other's width
+trigger1= p2statetype=S
+trigger1= p2dist y >= (enemynear,const(size.height) )
+trigger2= p2statetype=C
+trigger2= p2dist y >= (enemynear,const(size.height) - 48)
+trigger3= p2statetype=L
+trigger3= p2dist y >= 11
+value= 0
+ignorehitpause= 1

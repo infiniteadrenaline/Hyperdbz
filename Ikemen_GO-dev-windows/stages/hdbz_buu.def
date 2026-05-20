@@ -1,0 +1,430 @@
+;================================================================
+;MADE BY:  Alpha Proto          specially for the z2 chars!
+;================================================================
+
+[info]
+name 		= "Inside Buu"
+displayname	= "Inside Buu"
+author		= "Alpha Proto"
+
+[camera]
+startx 		= 0 ;-16
+starty 		= 0
+boundleft 	= -248
+boundright 	= 248
+boundhigh 	= -300 ;-230
+boundlow 	= 0
+tension 	= 50
+verticalfollow 	= .75
+floortension 	= 90
+
+
+;--------------------------------------------------------
+[playerinfo]
+p1startx = -70          ;starting x coordinates
+p1starty = 0            ;starting y coordinates
+p1startz = 0            ;starting z coordinates
+p1facing = 1            ;direction player faces: 1=right, -1=left
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 ;left bound (x-movement)
+rightbound =  1000 ;right bound
+topbound  =  0   ;Top bound (z-movement)
+botbound  =  0    ;Bottom bound
+
+;--------------------------------------------------------
+[scaling]
+topz     = 0       ;top z-coordinate for scaling
+botz     = 50      ;bottom z-coordinate for scaling
+topscale = 1       ;scale to use at top
+botscale = 1.2     ;scale to use at bottom
+
+;--------------------------------------------------------
+[bound]
+screenleft = 30    ;dist from left of screen that player can move to
+screenright = 30   ;right edge
+
+;--------------------------------------------------------
+[stageinfo]
+ 
+zoffset = 220
+zoffsetlink = 2
+autoturn = 1
+resetbg = 0
+
+;--------------------------------------------------------
+[shadow]
+intensity = 90
+color = 20,20,20
+fade.range = 0,-50
+yscale = 0.3
+
+
+;--------------------------------------------------------
+[music]
+
+bgmusic = sound/chars/Buu.mp3
+bgvolume = 100
+
+;looping points for Buu.mp3
+bgmloopstart = 643364
+bgmloopend = 3667430
+
+;========================================================
+; main background definition
+[bgdef]
+spr = stages/hdbz_buu.sff
+debugbg = 0
+
+;----------
+
+[bg sky 1]
+type = normal
+spriteno = 1,1
+start = 0, 160
+delta = .11,.11
+tile = 0, 0
+layerno = 0
+mask = 0
+
+[bg sky 2]
+type = normal
+spriteno = 1,2
+start = 0, 160
+delta = .14,.14
+tile = 0, 0
+layerno = 0
+mask = 1
+
+[bg sky 3]
+type = normal
+spriteno = 1,3
+start = 0, 160
+delta = .17,.17
+tile = 0, 0
+layerno = 0
+mask = 1
+
+[bg sky 4]
+type = normal
+spriteno = 1,4
+start = 0, 160
+delta = .2,.2
+tile = 0, 0
+layerno = 0
+mask = 1
+
+[bg river back]
+type  = normal
+spriteno = 2,0
+start = 0, 160
+delta = .2,.2
+mask = 0
+velocity = -0.07, 0
+tile = 1, 0
+
+[bg river back 1]
+type  = normal
+spriteno = 14,3
+start = 0, 160
+delta = .22,.2
+mask = 0
+velocity = -0.1, 0
+tile = 1, 0
+trans = addalpha
+alpha = 35,250
+
+[bg river back 2]
+type  = normal
+spriteno = 14,2
+start = 0, 160
+delta = .25,.23
+mask = 0
+velocity = -0.15, 0
+sin.y = 1.5, 900
+tile = 1, 0
+trans = addalpha
+alpha = 38,250
+
+[bg river back 2]
+type  = normal
+spriteno = 14,2
+start = 0, 175
+delta = .28,.25
+mask = 0
+velocity = -0.2, 0
+sin.y = 2, 900
+tile = 1, 0
+trans = addalpha
+alpha = 40,250
+
+;----------
+[BG waterfall back]
+type = Anim
+actionno = 3      ;This number here...
+start = 0, 160
+delta = .2,.2
+
+[Begin Action 3]  ;should be the same as this number here
+3,0, 0,0, 10
+3,1, 0,0, 10
+3,2, 0,0, 10
+3,3, 0,0, 10
+3,4, 0,0, 10
+3,5, 0,0, 10
+3,6, 0,0, 10
+3,7, 0,0, 10
+
+[bg caverns]
+type  = normal
+spriteno = 4,0
+start = 0, 150
+delta = .3,.3
+mask = 1
+
+[bg river front]
+type  = normal
+spriteno = 9,0
+start = 0, 120
+delta = .42,.42
+mask = 0
+velocity = -0.3, 0
+tile = 1, 0
+sin.y = 3, 900
+
+[bg river front 1]
+type  = normal
+spriteno = 14,1
+start = 0, 117
+delta = .44,.44
+mask = 1
+velocity = -0.4, 0
+tile = 1, 0
+sin.y = 2, 900
+trans = addalpha
+alpha = 40,250
+
+[bg river front 2]
+type  = normal
+spriteno = 14,0
+start = 0, 115
+delta = .6,.5
+mask = 1
+velocity = -0.5, 0
+tile = 1, 0
+sin.y = 4, 900
+trans = addalpha
+alpha = 50,250
+
+[bg strings]
+type  = normal
+spriteno = 10,1
+start = 0, 120
+delta = .4,.4
+mask = 1
+
+;----------
+[BG river foam]
+type = Anim
+actionno = 11      ;This number here...
+start = 0, 120
+delta = .4,.4
+
+[Begin Action 11]  ;should be the same as this number here
+11,0, 0,0, 10
+11,1, 0,0, 10
+11,2, 0,0, 10
+11,3, 0,0, 10
+11,4, 0,0, 10
+11,5, 0,0, 10
+
+[bg tube]
+type  = normal
+spriteno = 12,0
+start = -10, 125
+delta = .42,.42
+mask = 1
+
+[bg donut]
+type  = normal
+spriteno = 15,0
+start = 0, 120
+delta = .45,.45
+mask = 1
+velocity = -0.4, 0
+tile = 1, 0
+tilespacing = 700, 0
+sin.y = 2, 400
+window = 0,0, 319, 181
+windowdelta = 0,.45
+
+;----------
+[BG donut foam]
+type = Anim
+actionno = 16      ;This number here...
+start = 0, 120
+delta = .45,.45
+velocity = -0.4, 0
+tile = 1, 0
+tilespacing = 917, 0
+
+[Begin Action 16]  ;should be the same as this number here
+16,0, 0,0, 10
+16,1, 0,0, 10
+16,2, 0,0, 10
+16,3, 0,0, 10
+16,4, 0,0, 10
+16,5, 0,0, 10
+
+;----------
+[BG waterfall front]
+type = Anim
+actionno = 13      ;This number here...
+start = -10, 125
+delta = .42,.42
+
+[Begin Action 13]  ;should be the same as this number here
+13,0, 0,0, 10
+13,1, 0,0, 10
+13,2, 0,0, 10
+13,3, 0,0, 10
+13,4, 0,0, 10
+13,5, 0,0, 10
+13,6, 0,0, 10
+13,7, 0,0, 10
+
+[bg candycane]
+type  = normal
+spriteno = 19,0
+start = 900, 130
+delta = .60,.52
+mask = 1
+velocity = -0.8, 0
+tile = 1, 0
+tilespacing = 800, 0
+sin.y = 6, 400
+sin.x = -2, 400
+window = 0,0, 319, 188
+windowdelta = 0,.52
+
+;----------
+[BG candycane foam]
+type = Anim
+actionno = 20      ;This number here...
+start = 900, 124
+delta = .60,.52
+velocity = -0.8, 0
+tile = 1, 0
+tilespacing = 862, 0
+
+[Begin Action 20]  ;should be the same as this number here
+20,0, 0,0, 10
+20,1, 0,0, 10
+20,2, 0,0, 10
+20,3, 0,0, 10
+20,4, 0,0, 10
+20,5, 0,0, 10
+
+[bg kiss]
+type  = normal
+spriteno = 21,0
+start = -200, 128
+delta = .63,.54
+mask = 1
+velocity = -0.58, 0
+tile = 1, 0
+tilespacing = 700, 0
+sin.y = 2, 100
+window = 0,0, 319, 194
+windowdelta = 0,.54
+
+;----------
+[BG kiss foam]
+type = Anim
+actionno = 22
+start = -200, 133
+delta = .63,.54
+velocity = -0.58, 0
+tile = 1, 0
+tilespacing = 812, 0
+
+[bg gummybear]
+type  = normal
+spriteno = 17,0
+start = 500, 140
+delta = .63,.55
+mask = 1
+velocity = -0.7, 0
+tile = 1, 0
+tilespacing = 1200, 0
+sin.y = 3, 300
+window = 0,0, 319, 201
+windowdelta = 0,.55
+
+;----------
+[BG gummybear foam]
+type = Anim
+actionno = 18      ;This number here...
+start = 500, 140
+delta = .63,.55
+velocity = -0.7, 0
+tile = 1, 0
+tilespacing = 1288, 0
+
+[Begin Action 18]  ;should be the same as this number here
+18,0, 0,0, 10
+18,1, 0,0, 10
+18,2, 0,0, 10
+18,3, 0,0, 10
+18,4, 0,0, 10
+18,5, 0,0, 10
+
+[bg kiss 1]
+type  = normal
+spriteno = 21,0
+start = 200, 140
+delta = .65,.57
+mask = 1
+velocity = -0.6, 0
+tile = 1, 0
+tilespacing = 800, 0
+sin.y = -2, 100
+window = 0,0, 319, 206
+windowdelta = 0,.57
+
+;----------
+[BG kiss 1 foam]
+type = Anim
+actionno = 22      ;This number here...
+start = 200, 145
+delta = .65,.57
+velocity = -0.6, 0
+tile = 1, 0
+tilespacing = 912, 0
+
+[Begin Action 22]  ;should be the same as this number here
+22,0, 0,0, 10
+22,1, 0,0, 10
+22,2, 0,0, 10
+22,3, 0,0, 10
+22,4, 0,0, 10
+22,5, 0,0, 10
+
+[bg ground]
+type  = normal
+spriteno = 48,0
+start = 0, 105
+delta = 1,1
+mask = 1
+
+[bg front]
+type = normal
+spriteno = 50,1
+start = 0, 105 ;0, 110
+delta = 1.3, 1.3 ;1.2,1.2
+layerno = 1
+mask = 1

@@ -1,0 +1,74 @@
+Version: nightly
+Build Time: 2026.05.16
+Platform: windows (amd64)
+OpenGL 3.3
+RAM in Use: 65 MB / OS Reserved: 133 MB
+Active Goroutines: 2
+Timestamp: 2026-05-19 06:07:30
+
+Engine error
+
+Error: freetype: invalid TrueType format: bad TTF version
+goroutine 1 [running, locked to thread]:
+github.com/yuin/gopher-lua.(*LState).PCall.func1()
+	github.com/yuin/gopher-lua@v1.1.0/state.go:1988 +0x212
+panic({0x7ff7f48e86e0, 0x7ff7f4ae2e28})
+	runtime/panic.go:884 +0x213
+main.LoadFntTtf(0xc003eb40b0, {0xc004e6e260?, 0x7ff7f49ad559?}, {0xc00265820d?, 0x0?}, 0xffffffff)
+	github.com/ikemen-engine/Ikemen-GO/src/util_desktop.go:49 +0x2a8
+main.loadDefInfo(0xc003eb40b0, {0xc004e6e260, 0x19}, 0xa0?, 0x2fdb250?)
+	github.com/ikemen-engine/Ikemen-GO/src/font.go:368 +0x3b6
+main.loadFntV2({0xc004e6e260, 0x19}, 0xf49ad28d?)
+	github.com/ikemen-engine/Ikemen-GO/src/font.go:331 +0x249
+main.loadFnt({0xc004e6e260, 0x19}, 0x5?)
+	github.com/ikemen-engine/Ikemen-GO/src/font.go:108 +0x65
+main.(*Storyboard).loadFiles.func4({0xc004e6e260, 0x19})
+	github.com/ikemen-engine/Ikemen-GO/src/storyboard.go:389 +0xb2
+main.LoadFile(0xc0036b8c40, {0xc002fdb620?, 0x3, 0x3}, {0x7ff7f49adb2b, 0x5}, 0xc002fdb5d0)
+	github.com/ikemen-engine/Ikemen-GO/src/common.go:643 +0x144
+main.(*Storyboard).loadFiles(0xc000f09520)
+	github.com/ikemen-engine/Ikemen-GO/src/storyboard.go:383 +0x5d7
+main.loadStoryboard({0xc000526948, 0x14})
+	github.com/ikemen-engine/Ikemen-GO/src/storyboard.go:293 +0x514
+main.systemScriptInit.func140(0xc0000d8000)
+	github.com/ikemen-engine/Ikemen-GO/src/script.go:4821 +0x45
+github.com/yuin/gopher-lua.callGFunction(0xc0000d8000, 0x0)
+	github.com/yuin/gopher-lua@v1.1.0/vm.go:202 +0x37
+github.com/yuin/gopher-lua.init.3.func26(0xc0000d8000, 0x900c0400?, 0xc0004be000?)
+	github.com/yuin/gopher-lua@v1.1.0/vm.go:821 +0x379
+github.com/yuin/gopher-lua.mainLoop(0xc0000d8000, 0xc0007d2d40?)
+	github.com/yuin/gopher-lua@v1.1.0/vm.go:31 +0xfa
+github.com/yuin/gopher-lua.(*LState).callR(0xc0000d8000, 0x0, 0xffffffffffffffff, 0xc0000ca850?)
+	github.com/yuin/gopher-lua@v1.1.0/state.go:1211 +0x1b4
+github.com/yuin/gopher-lua.(*LState).Call(...)
+	github.com/yuin/gopher-lua@v1.1.0/state.go:1967
+github.com/yuin/gopher-lua.(*LState).PCall(0xc0000d8000, 0x0, 0xc0007d2d40?, 0x0)
+	github.com/yuin/gopher-lua@v1.1.0/state.go:2030 +0x145
+github.com/yuin/gopher-lua.(*LState).DoFile(0xc0000d8000, {0xc000022e21?, 0x0?})
+	github.com/yuin/gopher-lua@v1.1.0/auxlib.go:396 +0x6b
+main.realMain()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:201 +0x4ec
+main.main()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:59 +0x17
+
+stack traceback:
+	[G]: in function 'loadStoryboard'
+	external/script/main.lua:1512: in function 'f_storyboard'
+	external/script/main.lua:2383: in function 'loop'
+	external/script/main.lua:3728: in main chunk
+	[G]: ?
+
+Go stack traceback:
+goroutine 1 [running, locked to thread]:
+runtime/debug.Stack()
+	runtime/debug/stack.go:24 +0x65
+main.handlePanic({0x7ff7f48ec340?, 0xc0049d2a00})
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:362 +0x3e5
+main.realMain.func1()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:66 +0x2a
+panic({0x7ff7f48ec340, 0xc0049d2a00})
+	runtime/panic.go:884 +0x213
+main.realMain()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:206 +0x573
+main.main()
+	github.com/ikemen-engine/Ikemen-GO/src/main.go:59 +0x17

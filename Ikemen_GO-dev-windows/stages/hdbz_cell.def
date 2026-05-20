@@ -1,0 +1,485 @@
+[info]
+name 		= "Cell Arena"
+displayname	= "Cell Arena"
+author		= "Pansh & Toni"
+
+[camera]
+startx 		= 0
+starty 		= 0
+boundleft 	= -316 ;-224 ;-208
+boundright 	= 316 ;224 ;208
+boundhigh 	= -240 ;-400
+boundlow 	= 0
+tension 	= 50
+verticalfollow 	= .75
+floortension 	= 90
+
+
+;--------------------------------------------------------
+[playerinfo]
+p1startx = -70          ;starting x coordinates
+p1starty = 0            ;starting y coordinates
+p1startz = 0            ;starting z coordinates
+p1facing = 1            ;direction player faces: 1=right, -1=left
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 ;left bound (x-movement)
+rightbound =  1000 ;right bound
+topbound  =  0   ;Top bound (z-movement)
+botbound  =  0    ;Bottom bound
+
+;--------------------------------------------------------
+[scaling]
+topz     = 0       ;top z-coordinate for scaling
+botz     = 50      ;bottom z-coordinate for scaling
+topscale = 1       ;scale to use at top
+botscale = 1.2     ;scale to use at bottom
+
+;--------------------------------------------------------
+[bound]
+screenleft = 30    ;dist from left of screen that player can move to
+screenright = 30   ;right edge
+
+;--------------------------------------------------------
+[stageinfo]
+ 
+zoffset = 220
+zoffsetlink = 2
+autoturn = 1
+resetbg = 0
+
+;--------------------------------------------------------
+[shadow]
+intensity = 120
+color = 30,30,30
+fade.range = 0,-50
+yscale = 0.25 ;0.3
+
+
+;--------------------------------------------------------
+[music]
+
+bgmusic = sound/stages/hdbz_cell.mp3
+bgvolume = 100
+
+;bgmloopstart = 
+;bgmloopend = 
+
+;========================================================
+; main background definition
+[bgdef]
+spr = stages/hdbz_cell.sff
+debugbg = 0
+
+;----------
+
+[bg sky]
+type  = normal
+spriteno = 0,1
+start = 0, 182 ;166
+delta = .68,.68
+mask = 0
+
+[bg clouds]
+type  = normal
+spriteno = 1,0
+start = 0, 182 ;166
+delta = .73,.73
+mask = 1
+
+[bg hills back]
+type  = normal
+spriteno = 0,2
+start = 0, 172 ;166
+delta = .82,.82
+mask = 1
+
+[bg hills]
+type  = normal
+spriteno = 2,0
+start = 0, 172
+delta = .85,.85
+mask = 1
+
+[bg landscape back]
+type  = normal
+spriteno = 3,1
+start = 15, 162
+delta = .88,.88 ;.89,.89
+mask = 1
+
+[bg landscape mid]
+type  = normal
+spriteno = 3,2
+start = 10, 162
+delta = .91,.91
+mask = 1
+
+[bg tanks]
+type  = normal
+spriteno = 6,0
+start = 10, 162
+delta = .91,.91
+mask = 1
+
+;----------
+[BG smoke 1]
+type = Anim
+actionno = 7
+start = 10, 162
+delta = .91,.91
+
+[Begin Action 7]
+7,0, 0,0, 6, ,AS58D198
+7,1, 0,0, 6, ,AS58D198
+7,2, 0,0, 6, ,AS58D198
+7,3, 0,0, 6, ,AS58D198
+7,4, 0,0, 6, ,AS58D198
+7,5, 0,0, 6, ,AS58D198
+7,6, 0,0, 6, ,AS58D198
+7,7, 0,0, 6, ,AS58D198
+7,8, 0,0, 6, ,AS58D198
+
+;----------
+[BG smoke 2]
+type = Anim
+actionno = 8
+start = 10, 162
+delta = .91,.91
+
+[Begin Action 8]
+8,0, 0,0, 6, ,AS58D198
+8,1, 0,0, 6, ,AS58D198
+8,2, 0,0, 6, ,AS58D198
+8,3, 0,0, 6, ,AS58D198
+8,4, 0,0, 6, ,AS58D198
+8,5, 0,0, 6, ,AS58D198
+8,6, 0,0, 6, ,AS58D198
+8,7, 0,0, 6, ,AS58D198
+8,8, 0,0, 6, ,AS58D198
+
+[bg landscape front]
+type  = normal
+spriteno = 3,3
+start = 0, 162
+delta = .95,.95
+mask = 1
+
+[bg landscape]
+type  = dummy ;normal
+spriteno = 3,0
+start = 0, 162
+delta = .95,.95
+mask = 1
+
+;----------
+[BG disciples]
+type = Anim
+actionno = 10
+start = 0, 242 ;162
+delta = .95,.95
+window = 0,0,1000,200
+windowdelta = .95,.95
+id = 10
+
+[Begin Action 10]
+10,0, 0,0, 6
+10,1, 0,0, 6
+
+[bg rock]
+type  = normal
+spriteno = 4,0
+start = 0, 162
+delta = .95,.95
+mask = 1
+
+;----------
+[BG disciples 1]
+type = Anim
+actionno = 101
+start = 0, 162
+delta = .95,.95
+window = 0,0,1000,200
+windowdelta = .95,.95
+id = 101
+
+[Begin Action 101]
+10,10, 0,0, 6
+10,11, 0,0, 6
+loopstart
+10,12, 0,0, 200
+10,13, 0,0, 4
+10,12, 0,0, 180
+10,13, 0,0, 4
+10,12, 0,0, 200
+10,13, 0,0, 4
+
+;----------
+[BG cameraman]
+type = Anim
+actionno = 111
+start = -10, 170
+delta = .95,.95
+id = 11
+
+[Begin Action 111]
+11,1, 0,0, 6
+11,0, 0,0, 200
+11,1, 0,0, 6
+11,0, 0,0, 220
+11,1, 0,0, 6
+11,0, 0,0, 200
+11,1, 0,0, 6
+11,0, 0,0, 300
+11,1, 0,0, 6
+11,0, 0,0, 210
+
+[Begin Action 112]
+11,2, 0,0, 4
+11,3, 0,0, 4
+
+;----------
+[BG reporter]
+type = Anim
+actionno = 121
+start = 135, 190
+delta = .97,.97
+id = 12
+
+[Begin Action 121]
+12,1, 0,0, 8
+12,0, 0,0, 10
+12,1, 0,0, 12
+12,0, 0,0, 10
+12,1, 0,0, 6
+12,0, 0,0, 12
+12,1, 0,0, 8
+12,0, 0,0, 6
+12,1, 0,0, 8
+12,0, 0,0, 10
+
+[Begin Action 122]
+12,3, 0,0, 4
+12,4, 0,0, 4
+
+;----------
+[BG reporter blink]
+type = Anim
+actionno = 120
+start = 135, 190
+delta = .97,.97
+id = 120
+
+[Begin Action 120]
+12,2, 0,0, 16
+loopstart
+-1,0, 0,0, 250
+12,2, 0,0, 6
+-1,0, 0,0, 300
+12,2, 0,0, 6
+-1,0, 0,0, 260
+12,2, 0,0, 6
+-1,0, 0,0, 250
+12,2, 0,0, 6
+-1,0, 0,0, 210
+12,2, 0,0, 6
+-1,0, 0,0, 200
+12,2, 0,0, 6
+
+[Begin Action 1200]
+-1,0, 0,0, -1
+
+[bg pillar 1]
+type  = normal
+spriteno = 5,2
+start = 4, 162
+delta = .98,1
+mask = 1
+
+[bg pillar 2]
+type  = normal
+spriteno = 5,3
+start = 0, 162
+delta = .95,1
+mask = 1
+
+[bg pillar 3]
+type  = normal
+spriteno = 5,4
+start = 0, 162
+delta = 1,1
+mask = 1
+
+[bg floor]
+type  = parallax
+spriteno = 5,1
+start = 0, 162
+delta = .5,1
+xscale = 0.5, 1.05
+mask = 1
+
+
+
+
+
+
+
+
+;--------------------------------------------------------
+[BGCtrlDef cameraman]
+looptime = 2400
+ctrlID = 11
+
+[BGCtrl cameraman]
+type = Anim
+time = 0
+value = 111
+
+[BGCtrl cameraman]
+type = Anim
+time = 700
+value = 112
+
+[BGCtrl cameraman]
+type = Anim
+time = 800
+value = 111
+
+[BGCtrl cameraman]
+type = Anim
+time = 2300
+value = 112
+
+;--------------------------------------------------------
+[BGCtrlDef reporter]
+looptime = 2400
+ctrlID = 12
+
+[BGCtrl reporter]
+type = Anim
+time = 0
+value = 121
+
+[BGCtrl reporter]
+type = Anim
+time = 700
+value = 122
+
+[BGCtrl reporter]
+type = Anim
+time = 800
+value = 121
+
+[BGCtrl reporter]
+type = Anim
+time = 2300
+value = 122
+
+;--------------------------------------------------------
+[BGCtrlDef reporter blink]
+looptime = 2400
+ctrlID = 120
+
+[BGCtrl blink]
+type = Anim
+time = 0
+value = 120
+
+[BGCtrl blink]
+type = Anim
+time = 700
+value = 1200
+
+[BGCtrl blink]
+type = Anim
+time = 800
+value = 120
+
+[BGCtrl blink]
+type = Anim
+time = 2300
+value = 1200
+
+;--------------------------------------------------------
+[BGCtrlDef disciples]
+looptime = 2400
+ctrlID = 10
+
+[BGCtrl disciples]
+type = VelSet
+time = 0
+y = 0
+
+[BGCtrl disciples]
+type = PosAdd
+time = 700
+y = -80
+
+[BGCtrl disciples]
+type = VelSet
+time = 720
+y = 0
+
+[BGCtrl disciples]
+type = VelSet
+time = 760
+y = 4
+
+[BGCtrl disciples]
+type = VelSet
+time = 780
+y = 0
+
+[BGCtrl disciples]
+type = PosAdd
+time = 2300
+y = -80
+
+[BGCtrl disciples]
+type = VelSet
+time = 2320
+y = 0
+
+[BGCtrl disciples]
+type = VelSet
+time = 2360
+y = 4
+
+[BGCtrl disciples]
+type = VelSet
+time = 2380
+y = 0
+
+;--------------------------------------------------------
+[BGCtrlDef disciples 1]
+looptime = 2400
+ctrlID = 101
+
+[BGCtrl disciples 1]
+type = Anim
+time = 0
+value = 1200
+
+[BGCtrl disciples 1]
+type = Anim
+time = 300
+value = 101
+
+[BGCtrl disciples 1]
+type = Anim
+time = 700
+value = 1200
+
+[BGCtrl disciples 1]
+type = Anim
+time = 1400
+value = 101
+
+[BGCtrl disciples 1]
+type = Anim
+time = 2300
+value = 1200

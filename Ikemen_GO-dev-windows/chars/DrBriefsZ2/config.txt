@@ -1,0 +1,33 @@
+;====================<INITIALIZE>====================
+[StateDef 5900]
+type = S
+
+[State 5900, 1] ;Clear all int variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+value = 0
+first = 0
+last = 57 
+
+[State 5900, 2] ;Clear all float variables
+type = VarRangeSet
+trigger1 = roundsexisted = 0
+fvalue = 0
+first = 0
+last = 39 
+
+;ROUNDS TIMER (IN SECONDS)
+[State 0]
+Type=VarSet
+Trigger1=RoundState=0
+V=1
+Value=30
+;HARD = 15
+;MEDIUM = 30
+;EASY = 60+
+
+
+[State 5900, End]
+type = changestate
+trigger1 = !time
+value = ifelse(roundno = 1, 191, 192)

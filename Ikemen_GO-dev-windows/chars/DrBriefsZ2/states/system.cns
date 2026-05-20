@@ -1,0 +1,2911 @@
+;====================<STANDING>====================
+[StateDef 0]
+type = S
+physics = S
+moveType = I
+velSet = 0,0
+sprPriority = 0
+Ctrl=0
+
+[State 0]
+Type=PlayerPush
+Trigger1=1
+Value=0
+
+[State 0]
+Type=null;ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=PosSet
+Trigger1=!Time
+X=0
+Y=0
+
+[State 0]
+Type=null;PosSet
+Trigger1=Enemy(0),Vel X <= 0
+Trigger2 = Enemy(0),Facing=1
+X=Enemy,Pos X + Enemy(0),Const(Size.Ground.Front) + 20
+Y=0
+
+[State 0, Remove Explods]
+type = RemoveExplod
+trigger1 = IsHelper
+
+[State 0, Destroy Helpers]
+type = DestroySelf
+trigger1 = IsHelper
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim != 0 && Anim != 5
+trigger2 = Anim = 5 && !AnimTime
+value = 0
+
+[State 0, Dead]
+type = ChangeState
+trigger1 = !Alive
+value = 5050
+
+;---------------------------------------------------------------------------
+; Stand to Crouch
+[StateDef 10]
+type = C
+physics = C
+moveType = I
+velSet = 0,0
+sprPriority = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;Crouching
+[StateDef 11]
+type = C
+physics = C
+moveType = I
+anim = 11
+velSet = 0,0
+sprPriority = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;Crouch to Stand
+[StateDef 12]
+type = S
+physics = S
+moveType = I
+velSet = 0,0
+sprPriority = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===========================================================================
+; WALK - Sounds added
+;===========================================================================
+[Statedef 20]
+type    = S
+physics = S
+sprpriority = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===========================================================================
+;JUMP START OVERRIDE
+;===========================================================================
+;
+[Statedef 40]
+type    = S
+physics = S
+anim = 40
+ctrl = 0
+sprpriority = 1
+facep2 = 1
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===========================================================================
+;JUMP UP OVERRIDE (taking into account super jump commands)
+;===========================================================================
+
+; Jump Up
+[Statedef 50]
+type    = A
+physics = A
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===========================================================================
+;JUMP LAND
+;===========================================================================
+[Statedef 52]
+type    = S
+physics = S
+ctrl = 0
+anim = 47
+velset = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;===========================================================================
+; RUN
+;===========================================================================
+[Statedef 100]
+type    = S
+physics = S
+anim = 100
+sprpriority = 1
+velset = 0,0
+ctrl = 0
+facep2 = 1
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;RUN STOP
+[Statedef 101]
+type    = S
+physics = S
+anim = 101
+sprpriority = 1
+ctrl = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===========================================================================
+;DASH BACK
+[Statedef 105]
+type    = A
+physics = A
+ctrl = 0
+anim = 105
+sprpriority = 1
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;===================<GUARD>================
+;Guard Start
+[StateDef 120]
+type = U
+physics = U
+anim = 120 + (StateType = C) + (StateType = A) * 2
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Standing Guard
+[StateDef 130]
+type = S
+physics = S
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Crouch Guarding
+[StateDef 131]
+type = C
+physics = C
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Air Guard
+[StateDef 132]
+type = A
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Guard End
+[StateDef 140]
+type = U
+physics = U
+ctrl = 1
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Hit while Guarding (Standing)
+[StateDef 150]
+type = S
+movetype = H
+physics = N
+velSet = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Knocked Back while Guarding (Standing)
+[StateDef 151]
+type = S
+moveType = H
+physics = S
+anim = 150
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Hit while Guarding (Crouching)
+[StateDef 152]
+type = C
+moveType = H
+physics = N
+velSet = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Knocked Back while Guarding (Crouching)
+[StateDef 153]
+type = C
+moveType = H
+physics = C
+anim = 151
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+
+;Hit while Guarding (Jumping)
+[StateDef 154]
+type = A
+moveType = H
+physics = N
+velSet = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;Knocked Back while Guarding (Jumping)
+[StateDef 155]
+type = A
+moveType = H
+physics = N
+anim = 152
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Air get-hit (shaking)
+[Statedef 5020]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Air get-hit (knocked away)
+[Statedef 5030]
+type    = A
+movetype= H
+physics = N
+ctrl = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Air get-hit (transition)
+[Statedef 5035]
+type    = A
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Air get-hit (recovering in air, not falling)
+[Statedef 5040]
+type    = A
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; HITA_FALL (knocked up, falling)
+[Statedef 5050]
+type    = A
+movetype= H
+physics = N
+
+[State 5050, 3] ;Gravity
+type = null;VelAdd
+trigger1 = time > 0  ;Vans Fix !!!
+y = GetHitVar(yaccel)
+
+[State 5050, 6]
+type = ChangeState
+trigger1 =!Time
+value = 5100 ;Downed get-hit (hit ground from fall)
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (shaking)
+[Statedef 5070]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Tripped get-hit (knocked away)
+[Statedef 5071]
+type    = A
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (shaking)
+[Statedef 5080]
+type    = L
+movetype= H
+physics = N
+velset = 0,0
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (knocked back)
+[Statedef 5081]
+type    = L
+movetype= H
+physics = C
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (hit ground from fall)
+[Statedef 5100]
+type    = L
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=5150
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (bounce off ground)
+[Statedef 5101]
+type    = L
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (lying down)
+[Statedef 5110]
+type    = L
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (getting up)
+[Statedef 5120]
+type    = L
+movetype= I
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Downed get-hit (lying defeated)
+[Statedef 5150]
+type    = L
+movetype= H
+physics = N
+sprpriority = -3
+ctrl = 0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=Invisible
+
+[State 0]
+Type=AssertSpecial
+Trigger1=Time<400
+Trigger1=TeamMode!=Simul
+Flag=RoundNotOver
+Flag2=NoMusic
+
+[State 0];Good Results
+Type=PlaySND
+Trigger1=TeamMode!=Simul
+Trigger1=Time=30&&Var(58)>=2000
+Value=s901,Random%6
+Channel=0
+VolumeScale=150
+[State 0];Bad Results
+Type=PlaySND
+Trigger1=TeamMode!=Simul
+Trigger1=Time=30&&Var(58)<2000
+Value=s902,Random%9
+Channel=0
+VolumeScale=150
+
+[State 0]
+Type=Explod
+Trigger1=TeamMode!=Simul
+Trigger1=Time=30
+Anim=191
+Id=191
+BindTime=-1
+PosType=Left
+Pos = Floor(GameWidth/2),Floor(GameHeight/2)
+RemoveTime=-2
+OnTop=1
+
+[State 0]
+Type=null;ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;---------------------------------------------------------------------------
+; Air get-hit (fall recovery on ground; still falling)
+[Statedef 5200]
+type    = A
+movetype= H
+physics = N
+
+[State 0]
+Type=ChangeState
+Trigger1=1
+Value=0
+Ctrl=0
+
+;=================================================
+[StateDef 190]
+Type=S
+Anim=15999
+Ctrl=0
+VelSet=0,0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=Intro
+Flag2=NoMusic
+
+[STate 0]
+Type=ChangeState
+Trigger1=!Time
+Value=191
+
+;INTRO
+[StateDef 191]
+Type=S
+Anim=15999
+Ctrl=0
+VelSet=0,0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=Intro
+Flag2=NoMusic
+
+
+[State 0]
+Type=PlaySND
+Trigger1=Time=30
+Value=s900,3
+Channel=0
+VolumeScale=150
+
+[State 0]
+Type=Explod
+Trigger1=Time=30
+Anim=191
+Id=191
+BindTime=-1
+PosType=Left
+Pos = Floor(GameWidth/2),Floor(GameHeight/2)
+RemoveTime=-2
+OnTop=1
+[State 0]
+Type=RemoveExplod
+Trigger1=RoundState>1
+Trigger2=Time>300
+Id=191
+[STate 0]
+Type=ChangeState
+Trigger1=Time>300
+Value=0
+
+;INTRO ROUND 2
+[StateDef 192]
+Type=S
+Anim=15999
+Ctrl=0
+VelSet=0,0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=Intro
+Flag2=NoMusic
+
+[State 0]
+Type=PlaySND
+Trigger1=Time=30
+Value=s903,Random%2
+Channel=0
+VolumeScale=150
+
+[State 0]
+Type=Explod
+Trigger1=Time=30
+Anim=191
+Id=191
+BindTime=-1
+PosType=Left
+Pos = Floor(GameWidth/2),Floor(GameHeight/2)
+RemoveTime=-2
+OnTop=1
+[State 0]
+Type=RemoveExplod
+Trigger1=RoundState>1
+Trigger2=Time>300
+Id=191
+[STate 0]
+Type=ChangeState
+Trigger1=Time>300
+Value=0
+
+;DRONE DROP IN
+[StateDef 1000]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,5
+Ctrl=0
+FaceP2=1
+Anim=1000
+
+[State 0]
+Type=VarSet
+Trigger1=!Time&&IsHelper(1003)
+V=2
+Value=1
+
+[State 0, RemapPal];Base
+type =RemapPal
+trigger1 =IsHelper(1000)
+Trigger1=Time=0
+source = 1,1
+dest = 1,1
+[State 0, RemapPal];Zoner
+type = RemapPal
+trigger1 =IsHelper(1001)
+Trigger1=Time=0
+source = 1,1
+dest = 1,3
+[State 0, RemapPal];Ramming
+type = RemapPal
+trigger1 =IsHelper(1002)
+Trigger1=Time=0
+source = 1,1
+dest = 1,2
+[State 0, RemapPal];Explosive
+type = RemapPal
+trigger1 =IsHelper(1003)
+Trigger1=Time=0
+source = 1,1
+dest = 1,4
+
+
+[State 0, RemapPal];Gold
+type =RemapPal
+trigger1 =IsHelper(1004)
+Trigger1=Time=0
+source = 1,1
+dest = 1,5
+
+[State 0]
+Type=NotHitBy
+Trigger1=1
+Value=SCA
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=PlayerPush
+Trigger1=1
+Value=0
+
+[State 0]
+Type=ChangeState
+Trigger1=Random<100&&Pos Y = [-160,-100]
+Trigger2=Pos Y >=-100
+Value=1001
+Ctrl=0
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;DRONE FLOAT
+[StateDef 1001]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+FaceP2=1
+;Anim=1000
+
+[State 0, RemapPal];Gold
+type =RemapPal
+trigger1 =IsHelper(1004)
+Trigger1=Time=0
+source = 1,1
+dest = 1,5
+
+[State 0];MARKER
+type 		=null;Helper
+triggerall	=!Time&&RoundState=2
+trigger1	=IsHelper(1001)&& BackEdgeDist < -20
+name		= "CHIAOTZU MARKER"
+id		= 10050
+pos		= const(size.mid.pos.x),const(size.mid.pos.y)
+helpertype	= normal
+postype		= p1
+keyctrl		= 0
+StateNo		= 10050
+supermovetime	= 0
+pausemovetime	= 0
+ownpal		= 1
+
+[State 0]
+Type = HitOverride
+Trigger1 =IsHelper(1003)
+Attr =SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+Slot = 1
+StateNo = 1008
+Time = 1
+ForceAir = 0
+IgnoreHitPause =1
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = IsHelper(1003)=0
+Trigger2=IsHelper(1003)&&Var(2)=0
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0]	;Force Explode for Bomb PowerUp
+Type=ChangeState
+Trigger1=Root,NumExplod(9992000)
+Value=1004
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+[State 0]
+Type=VelSet
+Trigger1=!Time&&IsHelper(1004)
+X=.5
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim!=1000 && Anim!=1005
+Trigger2=Anim=1005&&!AnimTime
+Value=1000
+[State 0]
+Type=ChangeAnim
+Trigger1=P2BodyDist X <= -20
+Value=1005
+[State 0]
+Type=Turn
+Trigger1=P2BodyDist X <=-20
+
+[State 0]
+Type=PosAdd
+Trigger1=Pos Y < 0
+Y=.7*Sin(Time*.05)
+
+[State 0]
+Type=PosSet
+Trigger1=Pos Y >= -10
+Y=-20
+
+[State 0];Move
+Type=ChangeState
+TriggerAll=RoundState=2
+Trigger1=Time%60=0&&Random<800
+Trigger1=IsHelper(1000)&&P2BodyDist X > 100
+Trigger2=!Time&&IsHelper(1001)
+Trigger3=IsHelper(1002)&&P2BodyDist X >= 40
+Trigger4=Pos Y>=0
+Trigger5=IsHelper(1003)
+Trigger6=Pos X!=[-230,230]
+Value=1002
+
+[State 0];Shoot
+Type=ChangeState
+TriggerAll=RoundState=2
+TriggerAll=Pos X = [-190,190]
+Trigger1=Time%60=0&&Random>=500
+Trigger1=IsHelper(1000)&&P2BodyDist X > 100
+;Trigger2=Time%120=0&&Random>=500
+;Trigger2=IsHelper(1001)&&P2BodyDist X < 300
+;Trigger3=IsHelper(1002)&&P2BodyDist X > 50
+Value=1003
+
+[State 0];B DRONE REPOSITION
+Type=null;ChangeState
+TriggerAll=IsHelper(1001)
+Trigger1=P2BodyDist X < 60
+Value=1005
+
+[State 0];Ram
+Type=ChangeState
+TriggerAll=RoundState=2
+TriggerAll=Pos X = [-190,190]
+Trigger1=IsHelper(1002)
+Trigger1=P2BodyDist X < 50&&Random>=500
+Value=1006
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+[State 0]
+Type=DestroySelf
+Trigger1=IsHelper(1004)&&Pos X < -190
+Trigger2=Enemy,NumExplod(991901)
+
+;DRONE MOVE
+[StateDef 1002]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+FaceP2=1
+;Anim=1000
+
+[State 0];MARKER
+type 		=Helper
+triggerall	=!Time&&RoundState=2
+trigger1	=IsHelper(1001)&& BackEdgeDist < -20
+name		= "CHIAOTZU MARKER"
+id		= 10050
+pos		= const(size.mid.pos.x),const(size.mid.pos.y)
+helpertype	= normal
+postype		= p1
+keyctrl		= 0
+StateNo		= 10050
+supermovetime	= 0
+pausemovetime	= 0
+ownpal		= 1
+
+[State 0]
+Type = HitOverride
+Trigger1 =IsHelper(1003)
+Attr =SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+Slot = 1
+StateNo = 1008
+Time = 1
+ForceAir = 0
+IgnoreHitPause =1
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = IsHelper(1003)=0
+Trigger2=IsHelper(1003)&&Var(2)=0
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0]	;Force Explode for Bomb PowerUp
+Type=ChangeState
+Trigger1=Root,NumExplod(9992000)
+Value=1004
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d, X Pos = %d"
+params = P2BodyDist X, Pos X
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+;SMOKE FX
+[State 0, Explod]
+type = Explod
+TriggerAll=Pos X = [-190,190]
+triggerall = IsHelper(1003)&&Var(2)<2
+trigger1 = time%12 = 1
+anim =5931
+id=5931
+pos = 0,0
+postype = p1
+facing = 1-2*(random%2)
+vfacing = 1-2*(random%2)
+bindtime = 3
+vel =0,-1.4
+accel = 0,0.01
+random = 6+80*(statetype = L||stateno = 5150), 60-20*(statetype = C)-50*(statetype = L||stateno = 5150)
+removetime = -2
+scale = 1,1
+sprpriority = 3-4*(random%3=0)+3*(statetype = L|| stateno = 5150)
+ownpal = 1
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim!=1000 && Anim!=1005
+Trigger2=Anim=1005&&!AnimTime
+Value=1000
+[State 0]
+Type=ChangeAnim
+Trigger1=P2BodyDist X <= -20
+Value=1005
+[State 0]
+Type=Turn
+Trigger1=P2BodyDist X <=-20
+
+[State 0];BASE
+Type=PosAdd
+Trigger1=IsHelper(1000)
+Trigger1=P2BodyDist X >=100
+X=.009*(P2Dist X)
+[State 0];BASE
+Type=PosAdd
+Trigger1=IsHelper(1000)
+Trigger1=P2BodyDist X <50
+X=-.009*(P2Dist X)
+Y=.09*(P2Dist Y-100) 
+
+[State 0];RAMMING
+Type=PosAdd
+Trigger1=IsHelper(1002)
+X=.009*(P2Dist X)
+Y=.009*(P2Dist Y-100) 
+
+[State 0];SUICIDE
+Type=PosAdd
+Trigger1=IsHelper(1003)
+X=.02*(P2Dist X-80)
+Y=.03*(P2Dist Y-80) 
+
+[State 0];RANGE DRONE Run Away
+Type=PosAdd
+;TriggerAll=Pos X =[-160,160]
+Trigger1=IsHelper(1001)
+X=.02*(P2Dist X-150)
+Y=.04*(P2Dist Y-130)
+
+[State 0];Ram
+Type=ChangeState
+TriggerAll=Enemy,StateType!=L && Enemy,StateNo!=[120,155]
+TriggerAll=Pos X = [-320,320]
+Trigger1=IsHelper(1002)
+Trigger1=P2BodyDist X < 50&&Random>=500
+Value=1006
+
+[State 0];Back to SCREEN RANGED DRONE
+Type=ChangeState
+Trigger1=IsHelper(1001)=1&&Pos X != [-190,190]
+Value=1005
+
+[State 0];Back to IDLE STATE
+Type=ChangeState
+Trigger1=IsHelper(1003)=0&&Time>=15
+Value=1001
+
+[State 0];Shoot
+Type=ChangeState
+TriggerAll=RoundState=2&&IsHelper(1001)
+TriggerAll=Pos X = [-150,150]
+Trigger1=Time%240=0&&Random<=300
+Trigger1=P2BodyDist X > 150
+Value=1003
+
+[State 0];SUICIDE
+Type=ChangeState
+TriggerAll=Pos X = [-320,320]
+TriggerAll=Enemy,StateType!=L && Enemy,MoveType=H
+Trigger1=IsHelper(1003)&&(P2BodyDist X < 50 && P2BodyDist Y < 110)
+Value=1007
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;DRONE SHOOT
+[StateDef 1003]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+FaceP2=1
+
+[State 0];MARKER
+type 		=null;Helper
+triggerall	=!Time&&RoundState=2
+trigger1	=IsHelper(1001)&& BackEdgeDist < -20
+name		= "CHIAOTZU MARKER"
+id		= 10050
+pos		= const(size.mid.pos.x),const(size.mid.pos.y)
+helpertype	= normal
+postype		= p1
+keyctrl		= 0
+StateNo		= 10050
+supermovetime	= 0
+pausemovetime	= 0
+ownpal		= 1
+
+[State 0]	;Force Explode for Bomb PowerUp
+Type=ChangeState
+Trigger1=Root,NumExplod(9992000)
+Value=1004
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+[State 0, PalFXWiz];blinking general
+type = PalFX
+trigger1=time>=0&&Time<80
+trigger1 = time%10=0
+time = 1
+add = 240,50,0
+mul = 250,224,120
+sinadd = 110,55,85,0
+invertall = 0
+color = 0
+
+[State 0, Helper]
+Type =Helper
+Trigger1=IsHelper(1000)
+Trigger1 = Time=90
+Trigger2=IsHelper(1001)
+Trigger2 = Time>=90&&Time<110
+Trigger2=Time%10=0
+Helpertype = Normal;Player
+Name = "Shot"
+Id = 1010
+StateNo = 1010
+Pos = 0,0
+PosType = P1
+Facing = 1
+KeyCtrl = 0
+OwnPal = 0
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State 0]
+Type=PlaySND
+Trigger1=Time=90
+Value=10,0
+Channel=1
+VolumeScale=150
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=Turn
+Trigger1=P2BodyDist X <=-20
+
+[State 0]
+Type=ChangeState
+Trigger1=IsHelper(1000)&&Time>=100
+Trigger2=IsHelper(1001)&&Time>=130
+Value=1002
+
+[State 0];No Life Force Kill
+Type=ChangeState
+TriggerAll=RoundState=2
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;DRONE DESTROYED
+[StateDef 1004]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+Anim=1015
+FaceP2=1
+
+[State 0, Helper];PowerUp Drop
+Type =Helper
+TriggerAll=Root,NumExplod(9992000)=0 && Root,NumExplod(9992001)=0 && Root,NumExplod(9992002)=0
+TriggerAll=NumHelper(2000)=0&&RoundState=2
+Trigger1=!Time&&Random<50
+Helpertype = Normal;Player
+Name = "PowerUp"
+Id = 2000
+StateNo = 2000
+Pos = 0,0
+PosType = P1
+Facing = Enemy,Facing * -1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+[State 0];Positive Reactions
+Type=PlaySND
+Trigger1=Root,Alive=1&&(!Time&&Random<50)
+Value=850,Random%9
+Channel=0
+VolumeScale=50
+
+[State 0];SCORE +25000
+Type=ParentVarAdd
+TriggerAll=IsHelper(1004)=1
+Trigger1=!Time&&Root,Alive=1
+v=58
+Value=25000  * Cond(Root,NumExplod(9992002),2,1)
+
+[State 0];SCORE +2500
+Type=ParentVarAdd
+TriggerAll=IsHelper(1003)=1
+Trigger1=!Time&&Root,Alive=1
+v=58
+Value=2500  * Cond(Root,NumExplod(9992002),2,1)
+[State 0];SCORE +1500
+Type=ParentVarAdd
+Trigger1=!Time&&Root,Alive=1
+Trigger1=IsHelper(1001)=1 || IsHelper(1002)=1
+v=58
+Value=1500 * Cond(Root,NumExplod(9992002),2,1)
+[State 0];SCORE +1000
+Type=ParentVarAdd
+TriggerAll=IsHelper(1000)=1
+Trigger1=!Time&&Root,Alive=1
+v=58
+Value=1000 * Cond(Root,NumExplod(9992002),2,1)
+
+[State 1004, assert]
+type = assertspecial
+trigger1 = 1
+flag = noshadow
+
+[State 0]
+Type=PlaySND
+TriggerAll=Pos X = [-190,190]
+Trigger1=!Time&&Root,NumExplod(9992000)=0
+Value=720,1
+Channel=2
+VolumeScale=50
+[State 0]
+Type=PlaySND
+TriggerAll=Pos X = [-190,190]
+Trigger1=!Time&&Root,NumExplod(9992000)=0
+Value=720,0
+Channel=3
+VolumeScale=50
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+[State 0, Helper]
+Type =Helper
+TriggerAll=Root,NumHelper(9992000)=0
+TriggerAll=Pos X = [-190,190]
+Trigger1 = Time<10&&NumHelper(722)<7 && NumHelper(723)<7
+Helpertype = Normal;Player
+Name = "Debris"
+Id = 722
+StateNo = 722
+Pos = ceil(50-random/11.0),0+ceil(random/50)
+PosType = P1
+Facing = 1
+KeyCtrl = 0
+OwnPal = 0
+SuperMoveTime = 0
+PauseMoveTime = 0
+IgnoreHitPause=1
+
+[State 0]
+Type=PosAdd
+Trigger1=!Time
+X=-8
+Y=-8
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=DestroySelf
+Trigger1=!AnimTime
+Trigger2=Pos X != [-190,190]
+
+;DRONE COME BACK TO SCREEN
+[StateDef 1005]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+FaceP2=1
+;Anim=1000
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0];RANGE DRONE Run Away
+Type=VelSet
+Trigger1=!Time
+X=12
+Y=IfElse(Random<500,2,-2)
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d, Back Edge = %d, Front Edge = %d"
+params = P2BodyDist X, BackEdgeDist, FrontEdgeDist
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0];BACK TO MOVE
+Type=ChangeState
+Trigger1=Time>25
+Value=1001
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;DRONE RAMMING STRIKE
+[StateDef 1006]
+Type=A
+MoveType=I
+Physics=N
+VelSet=8,0
+Ctrl=0
+FaceP2=1
+Anim=1020
+
+[State 0]	;Force Explode for Bomb PowerUp
+Type=ChangeState
+Trigger1=Root,NumExplod(9992000)
+Value=1004
+
+[State 0];Negative Reactions
+Type=PlaySND
+Trigger1=(MoveHit=1&&Enemy,MoveType=H) && Random <600
+Value=851,1+Random%17
+Channel=0
+VolumeScale=150
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = 1
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0];SCORE -50
+Type=ParentVarAdd
+Trigger1=MoveHit=1&&Root,Alive=1
+v=58
+Value=-50
+
+;----------------------
+;Aimed projectile, based on code made by Bea
+
+;Finds the X component of the vector Player, EnemyNear
+;Formula to find the components of a given vector AB
+;V(x) = B(x) - A(x)
+;V(y) = B(y) - A(y)
+[State 1640, X]
+Type = VarSet
+Trigger1 = 1
+fvar(1) = (EnemyNear(0),Pos X - Pos X) * Facing ;Adjust the direction towards player facing
+;Finds the Y component of the vector Player, EnemyNear
+[State 1640, Y]
+Type = VarSet
+trigger1 = 1
+fvar(2) = (EnemyNear(0),pos Y - Pos Y-60)
+
+;Finds the vector length
+;Formula of the length of a given vector AB
+;|AB| = (AB(x)^2  + AB(y)^2)^1/2
+[State 1640, Vector Length 0]
+Type = VarSet
+trigger1 = 1
+fvar(3) = Exp(0.5*ln((fvar(1) * fvar(1))+(fvar(2) * fvar(2))))
+
+[State 37001, Velocity 0]
+type = VelSet
+trigger1 = Time = 45
+x = (Fvar(1)/fvar(3)) * 10.0
+y = (FVar(2)/fvar(3)) * 10.0
+;Normalizes the components
+;and multiply by the desired absolute velocity.
+[State 0, VarSet] ;angle
+type = VarSet
+trigger1 = anim = 1020 ;time=0
+fvar(4)= (180/pi)*atan((-1*(vel y))/vel x)
+;ignorehitpause =
+;persistent =
+
+[State 0, VarSet] ;angle
+type = VarSet
+trigger1 = pos y >= -7 && vel y > 0 ;time=0
+fvar(4)= -90
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = Time>=45
+value = fvar(4)
+scale = 1,1
+ignorehitpause =1
+;persistent =
+
+[State 0]
+Type=VelSet
+Trigger1=!Time
+X=-3
+y = -(FVar(2)/fvar(3)) * .5
+[State 0]
+Type=VelAdd
+Trigger1=Time>=0&&Time<45
+X=.1
+[State 0]
+Type=null;VelSet
+Trigger1=Time=45
+X=20
+[STate 0]
+Type=VelAdd
+Trigger1=Time>=45
+X=-.2
+
+[State 0]
+Type=StateTypeSet
+Trigger1=Time>=45
+MoveType=A
+
+[State 200, 1]
+type = HitDef
+trigger1 = !MoveContact
+attr = S, NA
+damage = 0,0
+animtype = Hard	
+guardflag = MA
+hitflag = MAF
+pausetime = 5,5
+guard.pausetime = 0,5
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,0
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 15
+ground.hittime  = 18
+ground.velocity = -7,-1
+guard.velocity = -9
+airguard.velocity = -2.5,-1.3
+air.type = High	
+air.velocity = -4,-4
+air.hittime = 12
+Fall=1
+Air.Fall=1
+Fall.Recover=1
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=VelSet
+Trigger1=MoveContact
+X=-8
+Y=-2
+[State 0]
+Type=VelAdd
+Trigger1=MoveContact>1
+X=.45
+[State 0]
+Type=VelSet
+Trigger1=Pos Y>=0
+Y=-5
+
+[State 0]
+Type=ChangeState
+Trigger1=Time>70
+Value=1002
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;DRONE  SUICIDE
+[StateDef 1007]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+FaceP2=1
+
+[State 0];SCORE -150
+Type=ParentVarAdd
+Trigger1=MoveHit=1&&Enemy,MoveType=H
+v=58
+Value=-150
+
+[State 0]	;Force Explode for Bomb PowerUp
+Type=ChangeState
+TriggerAll=Anim!=1016
+Trigger1=Root,NumExplod(9992000)
+Value=1004
+
+[State 0];Negative Reactions
+Type=PlaySND
+Trigger1=(MoveHit=1&&Enemy,MoveType=H) && Random < 600
+Value=851,1+Random%17
+Channel=0
+VolumeScale=150
+
+[State 0]
+Type = HitOverride
+Trigger1 =IsHelper(1003)
+Attr =SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+Slot = 1
+StateNo = 1008
+Time = 1
+ForceAir = 0
+IgnoreHitPause =1
+
+[State 0, HitOverride]
+type = HitOverride
+trigger1 = IsHelper(1003)=0
+Trigger2=IsHelper(1003)&&Var(2)=0
+attr = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = 1004
+time = 1
+forceair = 0
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "P2BodyDist X = %d"
+params = P2BodyDist X
+
+;SMOKE FX
+[State 0, Explod]
+type = Explod
+triggerall = IsHelper(1003)&&Var(2)<2
+trigger1 = time%12 = 1
+anim =5931
+id=5931
+pos = 0,0
+postype = p1
+facing = 1-2*(random%2)
+vfacing = 1-2*(random%2)
+bindtime = 3
+vel =0,-1.4
+accel = 0,0.01
+random = 6+80*(statetype = L||stateno = 5150), 60-20*(statetype = C)-50*(statetype = L||stateno = 5150)
+removetime = -2
+scale = 1,1
+sprpriority = 3-4*(random%3=0)+3*(statetype = L|| stateno = 5150)
+ownpal = 1
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0]
+Type=RemoveExplod
+Trigger1=Anim=1016
+Id=-1
+
+[State 0]
+Type=PlaySND
+TriggerAll=Anim!=1016
+trigger1=time>=0;&&Time<50
+trigger1 = time%10=0
+Value=720,2
+VolumeScale=40
+Channel=-1
+
+[State 0, PalFXWiz];blinking general
+type = PalFX
+TriggerAll=Anim!=1016
+trigger1=time>=0;&&Time<50
+trigger1 = time%10=0
+time = 1
+add = 240,50,0
+mul = 250,224,120
+sinadd = 110,55,85,0
+invertall = 0
+color = 0
+
+[State 0]
+Type=PlaySND
+Trigger1=Anim=1016
+Trigger1=AnimElem=2
+Value=720,1
+Channel=-1
+VolumeScale=200
+[State 0]
+Type=PlaySND
+Trigger1=Anim=1016
+Trigger1=AnimElem=2
+Value=720,0
+Channel=-1
+VolumeScale=150
+
+[State 0]
+Type=StateTypeSet
+Trigger1=Anim!=1016
+MoveType=I
+[State 0]
+Type=StateTypeSet
+Trigger1=Anim=1016
+MoveType=A
+
+[State 0, Helper]
+Type =Helper
+Trigger1=Anim=1016
+Trigger1 = Time>=50&&Time<80&&NumHelper(722)<8 && NumHelper(723)<8
+Helpertype = Normal;Player
+Name = "Debris"
+Id = 722
+StateNo = 722
+Pos = ceil(50-random/11.0),0+ceil(random/50)
+PosType = P1
+Facing = 1
+KeyCtrl = 0
+OwnPal = 0
+SuperMoveTime = 0
+PauseMoveTime = 0
+IgnoreHitPause=1
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Time>50&&Anim!=1016
+Trigger1=Enemy,StateType!=L
+Value=1016
+
+[State 1061, Hitdef]
+type = HitDef
+trigger1 =Anim=1016&&!MoveContact
+attr = S, SA
+animtype  = hard
+damage    =0,0
+priority  = 4,Hit
+fall = 1
+hitflag = MAFD
+pausetime = 0,10
+sparkno = s7010
+guard.sparkno = -1
+sparkxy = 0,0
+hitsound   = -1
+guardsound = S6,1
+ground.type = high
+air.type = low
+ground.slidetime = 20
+ground.hittime  = 20
+ground.velocity = -1.5,-11
+guard.velocity = -7.5
+air.velocity = -1.5,-11
+airguard.velocity = -5, -4
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+fall.envshake.time = 10
+fall.envshake.ampl = 4
+fall.envshake.freq = 176
+yaccel = 0.5
+air.fall = 1
+fall.recover = 0
+ground.cornerpush.veloff = 0
+air.cornerpush.veloff = 0
+down.cornerpush.veloff = 0
+airguard.cornerpush.veloff = 0
+guard.cornerpush.veloff = 0
+getpower = ifelse(p2movetype=H,40,140), 10
+givepower = 35,35
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 30
+id=1016
+
+[State 0]
+Type=ChangeState
+Trigger1=Anim!=1016&&P2BodyDist X != [-50,50]
+Value=1002
+
+[State 0]
+Type=DestroySelf
+Trigger1=Anim=1016&&!AnimTime
+
+[State 0];No Life Force Kill
+Type=ChangeState
+Trigger1=Anim!=1016&&Root,Life=0
+Trigger2=Enemy,NumExplod(991901)
+Value=1004
+
+;----------------------------------------
+;Armor Hit Loop
+[Statedef 1008]
+type = A
+physics = N
+movetype = I
+ctrl = 0
+VelSet=0,0
+
+[State 0]
+Type=ChangeAnim
+Trigger1=!Time
+Value=1000
+
+[State 1541, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+time = 1
+value = SCA
+
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = !Time
+time = 5
+add = 256,256,256
+mul = 256,256,256
+sinadd = 0,0,0,1
+invertall = 0
+color = 256
+
+[State 1541, VarAdd] ;Number of hits remaining
+type = VarAdd
+trigger1 = !time
+var(2) = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 0]
+Type=VelSet
+Trigger1=!Time
+X=-6
+Y=GetHitVar(YVel)*.5
+
+[State 0]
+Type=VelAdd
+Trigger1=Time>=10
+X=.5
+
+[State 2315, ChangeState]
+type =ChangeState
+trigger1 = Time>10&&Vel X>0
+value = 1001
+ctrl = 0
+
+;DEBRIS GENERATOR
+[Statedef 722]
+type = A
+movetype = I
+physics = N
+anim = 15999
+
+[State 1003, Helper]
+type = Helper
+trigger1 = !time
+helpertype = Normal
+name = "GlassEffect"
+id = 723
+pos = 0,0
+postype = p1
+facing = 1
+stateno = 723
+keyctrl = 0
+ownpal = 1
+supermovetime = 9999
+pausemovetime = 9999
+ignorehitpause = 1
+
+[State 1003, DestroySelf]
+type = DestroySelf
+trigger1 = time=2
+
+;-----------
+;DEBRIS
+[Statedef 723]
+type = A
+movetype = I
+physics = N
+anim = 720 + numhelper(723) - 1 				;Each anim appears once
+velset = 3-0.5*(random%13) , -5-0.3*(random%8)	;at various vels
+sprpriority = 3
+
+[State 1005, VarRandom]
+type = VarSet
+trigger1 = !time
+fvar(20) = random%2
+
+[State 1004, assert]
+type = angledraw
+trigger1 = 1
+value = ifelse(fvar(20)=1,10*time,-10*time)
+
+[State 1004, assert]
+type = assertspecial
+trigger1 = 1
+flag = noshadow
+
+[State 1405, No hits]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1416, Gravity]
+type = Gravity
+trigger1 = 1
+
+[State 1415, Hit Floor]
+type = DestroySelf
+trigger1 = Pos Y >= 0
+Trigger2=Enemy,NumExplod(991901)
+
+;BLAST HELPER 
+[StateDef 1010]
+Type=A
+MoveType=A
+Physics=N
+VelSet=0,0
+Ctrl=0
+Anim=1010
+SprPriority=3
+FaceP2=1
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Value=10,0
+Channel=1
+VolumeScale=20
+
+[State 1061, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 1061, NotHitBy]
+type = NotHitBy
+trigger1 = Time >= 0
+time = 1
+value = SCA, NA, SA, HA, NT, ST, HT
+ignorehitpause = 1
+
+[State 1061, HitBy]
+type = HitBy
+trigger1 = Time >= 0
+value = SCA, NP, SP, HP
+time = 1
+ignorehitpause = 1
+
+[State 1061, HitOverride]
+type = HitOverride
+trigger1 = Time >= 0
+slot = 1
+time = 1
+stateno = 1011
+;attr = SCA, NP, SP, HP
+attr = SCA, AA, AP, AT
+ignorehitpause = 1
+
+[State 0, Projectile]
+type = Projectile
+;trigger1 = 1
+trigger1 = (P2BodyDist X = [-190,190]) && (P2BodyDist Y = [-190,190])
+ProjID = 93999999999
+projanim = 1
+projremovetime = 2
+offset = -400,0
+postype = p1
+attr = A,SP        ;change this to whatever your projectile is set
+ignorehitpause = 1
+guardflag = A
+guard.dist = 1999
+projedgebound = 1600
+projstagebound = 1600
+
+
+[State 1061, Hitdef]
+type = HitDef
+trigger1 = !MoveContact
+attr = A, SP
+animtype  = light
+damage    = 0,0
+priority  = 4, Miss
+guardflag = MA
+hitflag = MAF
+pausetime = 0,5
+sparkno = s7030
+guard.sparkno = -1
+sparkxy = 0,0
+hitsound   = s10,1
+guardsound = S6,0
+ground.type = low
+air.type = low
+yaccel = 0.5
+air.fall = 1
+P2Facing=1
+fall.recover = 1
+getpower= 0,10
+givepower = 0,35
+;----------------------
+;Aimed projectile, based on code made by Bea
+
+;Finds the X component of the vector Player, EnemyNear
+;Formula to find the components of a given vector AB
+;V(x) = B(x) - A(x)
+;V(y) = B(y) - A(y)
+[State 1640, X]
+Type = VarSet
+Trigger1 = 1
+fvar(1) = (EnemyNear(0),Pos X - Pos X) * Facing ;Adjust the direction towards player facing
+;Finds the Y component of the vector Player, EnemyNear
+[State 1640, Y]
+Type = VarSet
+trigger1 = 1
+fvar(2) = (EnemyNear(0),pos Y - Pos Y-60)
+
+;Finds the vector length
+;Formula of the length of a given vector AB
+;|AB| = (AB(x)^2  + AB(y)^2)^1/2
+[State 1640, Vector Length 0]
+Type = VarSet
+trigger1 = 1
+fvar(3) = Exp(0.5*ln((fvar(1) * fvar(1))+(fvar(2) * fvar(2))))
+
+[State 37001, Velocity 0]
+type = VelSet
+trigger1 = Time = 0
+x = (Fvar(1)/fvar(3)) * 10.0
+y = (FVar(2)/fvar(3)) * 10.0
+;Normalizes the components
+;and multiply by the desired absolute velocity.
+;----------------------
+[State 0, VarSet] ;angle
+type = VarSet
+trigger1 = anim = 1010 ;time=0
+fvar(4)= (180/pi)*atan((-1*(vel y))/vel x)
+;ignorehitpause =
+;persistent =
+
+[State 0, VarSet] ;angle
+type = VarSet
+trigger1 = pos y >= -7 && vel y > 0 ;time=0
+fvar(4)= -90
+
+[State 0, AngleDraw]
+type = AngleDraw
+trigger1 = 1
+value = fvar(4)
+scale = 1,1
+;ignorehitpause =
+;persistent =
+
+[State 0]
+Type=PlaySND
+Trigger1=Anim=1011&&AnimElem=1
+Value=10,1
+Channel=1
+VolumeScale=150
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Pos Y>=0&&Vel Y>0
+Trigger2=MoveContact=1
+Value=1011
+[State 0]
+Type=VelSet
+Trigger1=Anim=1011
+X=0
+Y=0
+[State 0]
+Type=StateTypeSet
+Trigger1=Anim=1011
+MoveType=I
+[State 0]
+Type=DestroySelf
+Trigger1=Pos X != [-320,320]
+Trigger2=Anim=1011&&AnimElemTime(7)>30&&Enemy,MoveType!=H
+
+;SHOT VANISHES
+[Statedef 1011]
+type    = A
+movetype= A
+physics = N
+anim = 1011
+sprpriority = 5
+velset = -2,0
+
+[state 1013, posset]
+type = posset
+trigger1 = pos y > 0
+y = 0
+
+[State 0]
+Type=PlaySND
+TriggerAll=Pos X = [-190,190]
+Trigger1=!Time
+Value=10,1
+Channel=1
+VolumeScale=150
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 1061, End]
+type = destroyself
+trigger1 = animtime = 0
+
+;==============================================
+; MARKER
+[Statedef 10050]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+Anim = 10050
+VelSet = 0,0
+sprpriority = 5
+
+[State 30050, PosSet]
+type = PosSet
+trigger1 = 1
+;x = ifelse((Helper(30000),facing=1),-148,148)
+x = -148*(Parent,facing)
+;x = ifelse(root,facing=1,-148,148)
+y = Parent, pos y +Ifelse(TeamSide=1,-10,-60)
+
+
+[State 30050, AssertSpecial]
+type 		= AssertSpecial
+trigger1		= 1
+flag		= NoShadow
+ignorehitpause	= 1
+
+[State 30050, DestroySelf]
+type 	= DestroySelf
+trigger1	= Parent, Stateno =1004
+trigger2	= Parent, BackEdgeDist > -20
+
+;GUI
+[StateDef 1050]
+Type=S
+MoveType=I
+Physics=N
+Anim=15999
+
+[State 0]
+Type=RemoveExplod
+Trigger1=RoundState=2
+
+;======TIMER
+[State 0];DRAGON RADAR
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(202)=0
+Anim=202
+Id=202
+BindTime=-1
+PosType=Left
+pos =160,26
+RemoveTime=-1
+SprPriority=-9
+
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(203)=0
+Anim=310 + Floor(Root,Var(1)/10)%10
+Id=203
+BindTime=-1
+PosType=Left
+pos =154,25
+RemoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(204)=0
+Anim=310 + Ceil(Root,Var(1)/1)%10
+Id=204
+BindTime=-1
+PosType=Left
+pos =165,25
+RemoveTime=-1
+SprPriority=-8
+;======SCORE COUNTER
+[State 0];SCORE BAR
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(200)=0
+Anim=IfElse(TeamSide=1,200,201)
+Id=200
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,70,251),26
+RemoveTime=-1
+SprPriority=-9
+
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(300)=0
+Anim=300 + Floor(Root,Var(58)/10.0**11)%10
+Id=300
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,39,192),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(301)=0
+Anim=300 + Floor(Root,Var(58)/10.0**10)%10
+Id=301
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,47,200),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(302)=0
+Anim=300 + Floor(Root,Var(58)/10.0**9)%10
+Id=302
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,55,208),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(303)=0
+Anim=300 + Floor(Root,Var(58)/10.0**8)%10
+Id=303
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,63,216),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(304)=0
+Anim=300 + Floor(Root,Var(58)/10.0**7)%10
+Id=304
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,71,224),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(305)=0
+Anim=300 + Floor(Root,Var(58)/10.0**6)%10
+Id=305
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,79,232),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(306)=0
+Anim=300 + Floor(Root,Var(58)/10.0**5)%10
+Id=306
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,87,240),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(307)=0
+Anim=300 + Floor(Root,Var(58)/10.0**4)%10
+Id=307
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,95,248),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(308)=0
+Anim=300 + Floor(Root,Var(58)/10.0**3)%10
+Id=308
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,103,256),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(309)=0
+Anim=300 + Floor(Root,Var(58)/10.0**2)%10
+Id=309
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,111,264),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(310)=0
+Anim=300 + Floor(Root,Var(58)/10.0)%10
+Id=310
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,119,272),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+[State 0]
+Type=Explod
+Trigger1=RoundState=2&&NumExplod(311)=0
+Anim=300 + Ceil(Root,Var(58)/1.0)%10
+Id=311
+BindTime=-1
+PosType=Left
+pos = IfElse(TeamSide=1,127,280),24
+Facing=1
+PauseMoveTime=-1
+SuperMoveTime=-1
+SprPriority=-8
+
+[State 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=NoBarDisplay
+Flag2=NoKOSlow
+Flag3=TimerFreeze
+
+;POWERUP
+[StateDef 2000]
+Type=A
+MoveType=I
+Physics=N
+VelSet=0,0
+Ctrl=0
+;Anim=2000;+Random%3
+
+
+[State 0]
+Type=ChangeAnim
+Trigger1=!Time&&Root,TeamMode=Simul
+Trigger1=Anim!=2000
+Value=2000
+
+[State 0]
+Type=ChangeAnim
+Trigger1=!Time&&Root,TeamMode!=Simul
+Value=2000+Random%3
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=NoShadow
+
+[State 0]
+Type=Turn
+Trigger1=Anim=2002&&Facing=-1
+Persistent=0
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Value=2000,0
+Channel=-1
+VolumeScale=200
+
+[State 0]
+Type=VelSet
+Trigger1=!Time
+X=1
+Y=-6
+[State 0]
+Type=VelAdd
+Trigger1=1
+Y=.45
+
+
+[State 0]
+Type=DestroySelf
+Trigger1=Pos X !=[-190,190]
+Trigger2=TeamMode=Simul
+
+[State 0]
+Type=ChangeState
+Trigger1=Pos Y>=0&&Vel Y>0
+Value=2001
+
+
+;POWERUP Bounce
+[StateDef 2001]
+Type=A
+MoveType=I
+Physics=N
+Ctrl=0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=NoShadow
+
+[State 0]
+Type=Turn
+Trigger1=Anim=2002&&Facing=-1
+Persistent=0
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Value=2000,1
+Channel=-1
+VolumeScale=200
+
+[State 0]
+Type=VelMul
+Trigger1=!Time
+X=.75
+[State 0]
+Type=VelSet
+Trigger1=!Time
+Y=-3
+[State 0]
+Type=VelAdd
+Trigger1=Time>5
+Y=.45
+
+[State 0]
+Type=ChangeState
+Trigger1=Time>10
+Trigger1=Pos Y>=0&&Vel Y>0
+Value=2002
+
+[State 0]
+Type=DestroySelf
+Trigger1=Pos X !=[-190,190]
+Trigger2=Anim!=2000
+Trigger2=TeamMode=Simul
+Trigger2=Partner,Name="DrBriefs Z2" && Partner,AuthorName="Team Z2"
+;POWERUP Bounce2
+[StateDef 2002]
+Type=A
+MoveType=I
+Physics=N
+Ctrl=0
+
+[State 0]
+Type=AssertSpecial
+Trigger1=1
+Flag=NoShadow
+
+[State 0]
+Type=Turn
+Trigger1=Anim=2002&&Facing=-1
+Persistent=0
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Trigger2=Time=15&&Pos Y=0
+Value=2000,1
+Channel=-1
+VolumeScale=200
+
+[State 0]
+Type=VelMul
+Trigger1=!Time
+X=.75
+[State 0]
+Type=VelSet
+Trigger1=!Time
+Y=-1
+[State 0]
+Type=VelAdd
+Trigger1=Time>5
+Y=.45
+
+[State 0]
+Type=VelSet
+Trigger1=Pos Y>=0&&Vel Y>0
+X=0
+Y=0
+
+[State 0]
+Type=PlaySND
+Trigger1=Root,NumExplod(9992000) || Root,NumExplod(9992001)|| Root,NumExplod(9992002)
+Value=2000,2
+VolumeScale=200
+Persistent=0
+[State 0];BOMB SFX
+Type=PlaySND
+Trigger1=Root,NumExplod(9992000)
+Value=2000,3
+VolumeScale=200
+Persistent=0
+[State 0]
+Type=EnvShake
+Trigger1=Root,NumExplod(9992000)
+Time=60
+Freq=60
+Ampl=7
+
+[State 0]
+Type=DestroySelf
+Trigger1=Root,NumExplod(9992000) || Root,NumExplod(9992001)|| Root,NumExplod(9992002)
+Trigger2=Time>300
+Trigger3=Pos X != [-190,190]
+
+[State 0]
+Type=PosSet
+Trigger1=Time>10
+Y=0
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Time=200
+Value=Anim+50
+
+[State 0]
+Type=DestroySelf
+Trigger1=Pos X !=[-190,190]
+Trigger2=Anim!=2000
+Trigger2=TeamMode=Simul
+Trigger2=Partner,Name="DrBriefs Z2" && Partner,AuthorName="Team Z2"
+;==========================================================
+[Statedef -2]
+
+[State 0, DisplayToClipboard]
+type = DisplayToClipboard
+trigger1 = 1
+text = "Time Left = %d Score = %d, Drones = %d, Golden Drone = %d"
+params = var(1), Var(58), NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)), Var(57)
+;ignorehitpause = 
+;persistent = 
+
+;Allow the player to turn mid stage
+[State -2]
+type       = PosSet
+triggerall = !IsHelper
+TriggerAll=TeamMode!=Simul
+triggerall = roundstate=2
+trigger1   = enemy,anim=21&&enemy,time>5
+x          = enemy,pos x-120+240 * (enemy,facing=-1)
+
+[State -2]
+type       = PosSet
+triggerall = !IsHelper
+TriggerAll=TeamMode!=Simul
+trigger1   = enemy,anim=20&&enemy,time>5
+trigger1   = roundstate=2
+x          = enemy,pos x+120-240 * (enemy,facing=-1)
+
+;==========================================================
+
+[State 0]	;Bomb PowerUp
+Type=Explod
+TriggerAll=NumExplod(9992000)=0
+TriggerAll=NumHelper(2000)
+TriggerAll=Helper(2000),StateNo=2002
+Trigger1=(Helper(2000),P2BodyDist X = [-20,20]) && (Enemy,StateType=S)
+Trigger1=Helper(2000),Anim=2000 || Helper(2000),Anim=2050
+Anim=0
+Id=9992000
+BindTime=-1
+PosType=P1
+pos =0,0
+RemoveTime=60
+SprPriority=4
+Persistent=0
+[State 0];;BOOM
+Type=null;PlaySND
+Trigger1=NumExplod(9992000)=1
+Value=2000,3
+Channel=-1
+VolumeScale=100
+Persistent=0
+
+[State 0]	;Time PowerUp
+Type=Explod
+TriggerAll=TeamMode!=Simul
+TriggerAll=NumExplod(9992001)=0
+TriggerAll=NumHelper(2000)
+TriggerAll=Helper(2000),StateNo=2002
+Trigger1=(Helper(2000),P2BodyDist X = [-20,20]) && (Enemy,StateType=S)
+Trigger1=Helper(2000),Anim=2001 || Helper(2000),Anim=2051
+Anim=0
+Id=9992001
+BindTime=-1
+PosType=P1
+pos =0,0
+RemoveTime=1
+SprPriority=4
+[State 0];TIME ADD
+Type=VarAdd
+Trigger1=NumExplod(9992001)
+v=1
+Value=5
+Persistent=0
+[State 0]	;2X PowerUp
+Type=Explod
+TriggerAll=TeamMode!=Simul
+TriggerAll=NumExplod(9992002)=0
+TriggerAll=NumHelper(2000)
+TriggerAll=Helper(2000),StateNo=2002
+Trigger1=(Helper(2000),P2BodyDist X = [-20,20]) && (Enemy,StateType=S)
+Trigger1=Helper(2000),Anim=2002 || Helper(2000),Anim=2052
+Anim=2010
+Id=9992002
+BindTime=-1
+PosType=Left
+pos =IfElse(TeamSide=1,25,295),60
+RemoveTime=240
+SprPriority=4
+
+[State 0]
+Type=StopSND
+Trigger1=RoundState=2&&!Time
+Channel=0
+
+[State 0];SCORE
+Type=VarSet
+Trigger1=RoundNo=1&&(RoundState=2&&!Time)
+v=58
+Value=0
+[State 0];SCORE
+Type=VarSet
+Trigger1=Var(58)<0
+v=58
+Value=0
+
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="holdfwd"
+v=58
+Value=999
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="back"
+v=58
+Value=-1000
+
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="a"
+v=58
+Value=100
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="x"
+v=58
+Value=-100
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="b"
+v=58
+Value=5
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="y"
+v=58
+Value=-5
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="c"
+v=58
+Value=1
+[State 0];DEBUG SCORE
+Type=null;VarAdd
+Trigger1=Command="z"
+v=58
+Value=-1
+
+[State 0, Helper]
+Type =Helper
+TriggerAll=!Time&&NumHelper(1050)=0
+Trigger1=TeamMode!=Simul
+Trigger2=TeamMode=Simul
+Trigger2=NumPartner
+Trigger2=Partner,Name = "DrBriefs Z2" && Partner,AuthorName = "Team Z2"
+Trigger2=Partner,NumHelper(1050)=0
+Helpertype = Normal;Player
+Name = "GUI"
+Id = 1050
+StateNo = 1050
+Pos = 0,0
+PosType = P1
+Facing = 1
+KeyCtrl = 0
+OwnPal = 0
+SuperMoveTime = 99999
+PauseMoveTime = 99999
+
+;===========DRONES
+[State 0, Helper]
+Type = Helper
+;TriggerAll=TeamMode!=Simul
+;TriggerAll=EnemyNear,TeamMode!=Simul
+TriggerAll=Enemy,NumExplod(991901)=0
+TriggerAll=NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)) < 25
+TriggerAll=RoundState=2&&NumExplod(9992000)=0
+Trigger1=RoundNo=1
+Trigger1=Time>=0&&Time%60=0&&NumHelper(1000)<4
+Trigger2=RoundNo>1
+Trigger2=Time>=0&&Time%30=0&&NumHelper(1000)<3
+Helpertype = Normal
+Name = "DroneA"
+Id = 1000
+StateNo = 1000
+Pos = Random%250,-350
+PosType = Left
+Facing = 1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State 0, Helper]
+Type =Helper
+;TriggerAll=TeamMode!=Simul
+;TriggerAll=EnemyNear,TeamMode!=Simul
+TriggerAll=Enemy,NumExplod(991901)=0
+TriggerAll=NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)) < 25
+TriggerAll=RoundState=2
+Trigger1=RoundNo=1
+Trigger1=Time>=0&&Time%60=0&&NumHelper(1001)<1
+Trigger2=RoundNo>1
+Trigger2=Time>=0&&Time%45=0&&NumHelper(1001)<2
+Helpertype = Normal;Player
+Name = "DroneB"
+Id = 1001
+StateNo = 1000
+Pos = Random%250,-350
+PosType = Left
+Facing = 1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State 0, Helper]
+Type =Helper
+;TriggerAll=TeamMode!=Simul
+;TriggerAll=EnemyNear,TeamMode!=Simul
+TriggerAll=Enemy,NumExplod(991901)=0
+TriggerAll=NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)) < 25
+TriggerAll=RoundState=2
+Trigger1=RoundNo>1&&Var(58)>2500
+Trigger1=Time>=300&&Time%300=0&&NumHelper(1002)<1
+Helpertype = Normal;Player
+Name = "DroneC"
+Id = 1002
+StateNo = 1000
+Pos = Random%250,-350
+PosType = Left
+Facing = 1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+[State 0, Helper]
+Type =Helper
+;TriggerAll=TeamMode!=Simul
+;TriggerAll=EnemyNear,TeamMode!=Simul
+TriggerAll=Enemy,NumExplod(991901)=0
+TriggerAll=NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)) < 25
+TriggerAll=RoundState=2
+Trigger1=RoundNo>1
+Trigger1=Time>=300&&Time%300=0&&NumHelper(1003)<2
+Trigger2=RoundNo=1&&Var(58)>2500
+Trigger2=Time>=300&&Time%300=0&&NumHelper(1003)<1
+Helpertype = Normal;Player
+Name = "DroneD"
+Id = 1003
+StateNo = 1000
+Pos = Random%250,-350
+PosType = Left
+Facing = 1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+
+
+[State 0];Gold Drone
+Type=VarSet
+Trigger1=NumHelper(1004)
+v=57
+Value=1
+[State 0, Helper]
+Type =Helper
+;TriggerAll=TeamMode!=Simul
+;TriggerAll=EnemyNear,TeamMode!=Simul
+TriggerAll=Enemy,NumExplod(991901)=0
+TriggerAll=NumHelper-(NumHelper(1050) + NumHelper(2771) + NumHelper(27771) + NumHelper(2000)) < 25
+TriggerAll=RoundState=2&&Var(57)=0
+TriggerAll=NumHelper(1004)<1
+Trigger1=Time%300=0&&Random<=10
+Helpertype = Normal;Player
+Name = "DroneGold"
+Id = 1004
+StateNo = 1001
+Pos = 350,-150
+PosType = Left
+Facing = 1
+KeyCtrl = 0
+OwnPal = 1
+SuperMoveTime = 0
+PauseMoveTime = 0
+;==========================================================
+[Statedef -3]
+;==========================================================
+
+;TIMER STUFF
+[State 0];Decrease time
+Type=VarAdd
+TriggerAll=RoundState=2&&Time%60=0
+Trigger1=TeamMode!=Simul
+Trigger2=TeamMode=Simul
+Trigger2=NumPartner
+Trigger2=Partner,Name = "DrBriefs Z2" && Partner,AuthorName = "Team Z2"
+V=1
+Value=-1
+
+
+;---[TIMER]---
+[State 0];Max limit
+Type=VarSet
+Trigger1=Var(1)>99
+V=1
+Value=99
+[State 0];Min limit
+Type=VarSet
+Trigger1=Var(1)<0
+Trigger2=Life=0 || Alive = 0
+V=1
+Value=0
+
+[State 0];End the round
+Type=LifeSet
+Trigger1=RoundState=2
+Value=1
+
+[State 0];End the round
+Type=LifeSet
+Trigger1=RoundState=2&&Var(1)=0
+Trigger2=RoundState>2;&&Enemy,Alive=1
+Trigger3=NumPartner
+Trigger3=Partner,Alive=0&&TeamMode=SImul
+Value=0
+
+
+;Lock camera helper codes. Thanks Maistral!
+[State 2700, Helper] ;Locker 1
+type = helper
+triggerall = numhelper(2771)=0
+TriggerAll=TeamMode!=Simul
+trigger1 = time = 0
+helpertype = normal
+name = "1"
+postype = back
+pos = 0,0
+stateno = 2771
+ID = 2771
+
+[State 2700, Helper] ;Locker 2
+type = helper
+triggerall = numhelper(27771)=0
+TriggerAll=TeamMode!=Simul
+trigger1 = time = 0
+helpertype = normal
+name = "2"
+postype = front
+pos = 0,0
+stateno = 27771
+ID = 27771
+
+;---------------------------------------------------------------------------
+; Lock Left
+[Statedef 2771]
+type    = S
+physics = S
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 2771
+poweradd = 0
+sprpriority = 2
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+x = 160
+y = 0
+
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 1
+movecamera = 1,1
+
+;---------------------------------------------------------------------------
+; Lock Right
+[Statedef 27771]
+type    = S
+physics = S
+juggle  = 1
+velset = 0,0
+ctrl = 0
+anim = 2771
+poweradd = 0
+sprpriority = 2
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+x = -160
+y = 0
+
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+value = 1
+movecamera = 1,1

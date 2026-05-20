@@ -1,0 +1,911 @@
+;Hyper DragonBall Z - The Husk of Humanity Stage
+
+;by Alpha Proto & XGargoyle & Toni
+
+[info]
+name 		= "The Husk of Humanity"
+displayname	= "Husk of Humanity"
+author		= "Alpha Proto & XGargoyle & Toni, oh my."
+
+[camera]
+startx 		= 0 ;-16
+starty 		= 0
+boundleft 	= -295 ;-208
+boundright 	= 295 ;208
+boundhigh 	= -300 ;-400
+boundlow 	= 0
+tension 	= 50
+verticalfollow 	= .75
+floortension 	= 90
+
+
+;--------------------------------------------------------
+[playerinfo]
+p1startx = -70          ;starting x coordinates
+p1starty = 0            ;starting y coordinates
+p1startz = 0            ;starting z coordinates
+p1facing = 1            ;direction player faces: 1=right, -1=left
+
+p2startx = 70
+p2starty = 0
+p2startz = 0
+p2facing = -1
+
+leftbound  = -1000 ;left bound (x-movement)
+rightbound =  1000 ;right bound
+topbound  =  0   ;Top bound (z-movement)
+botbound  =  0    ;Bottom bound
+
+;--------------------------------------------------------
+[scaling]
+topz     = 0       ;top z-coordinate for scaling
+botz     = 50      ;bottom z-coordinate for scaling
+topscale = 1       ;scale to use at top
+botscale = 1.2     ;scale to use at bottom
+
+;--------------------------------------------------------
+[bound]
+screenleft = 30    ;dist from left of screen that player can move to
+screenright = 30   ;right edge
+
+;--------------------------------------------------------
+[stageinfo]
+ 
+zoffset = 220 ;-28 ;220
+zoffsetlink = 2 ;10
+autoturn = 1
+resetbg = 0
+
+;--------------------------------------------------------
+[shadow]
+intensity = 40
+color = 20,10,10
+fade.range = 0,-50
+yscale = 0.4
+
+
+;--------------------------------------------------------
+[music]
+
+bgmusic = sound/stages/hdbz_husk.mp3
+bgvolume = 100
+
+;looping points for hdbz_husk.mp3
+bgmloopstart = 276288
+bgmloopend = 4168153
+
+;========================================================
+; main background definition
+[bgdef]
+spr = stages/hdbz_husk.sff
+debugbg = 0
+
+;----------
+
+[bg sky]
+type = normal
+spriteno = 0,0
+start = 0, 0
+tile = 1,1
+delta = .01,.01
+velocity = .05 ,0
+sin.y = 4, 720
+
+[bg sky 1]
+type = normal
+spriteno = 0,1
+start = 0, 0
+tile = 1,0
+delta = .05,.05
+velocity = .28 ,0
+sin.y = 3, 720
+mask = 1
+
+[bg sky 2]
+type = normal
+spriteno = 0,2
+start = 0, 0
+tile = 1,0
+delta = .1,.1
+velocity = .3 ,0
+sin.y = 3.3, 720
+mask = 1
+
+[bg moon glow]
+type = anim
+actionno = 1
+spriteno = 1,0
+start = 0, 250
+delta = .05,.15
+mask = 1
+
+[Begin action 1]
+
+1,0, 0,0, -1, ,AS256D256
+
+[bg moon]
+type = normal
+spriteno = 2,0
+start = 0, 250
+delta = .05,.15
+mask = 1
+
+[bg green city heat] ;animated
+type  = anim
+actionno = 22
+start = 0, 340
+delta = 0.1,0.1
+mask = 1
+id = 22
+
+[Begin action 22]
+22,0, 0,0, 4
+22,1, 0,0, 4
+22,2, 0,0, 4
+22,3, 0,0, 4
+22,4, 0,0, 4
+22,5, 0,0, 4
+22,6, 0,0, 4
+22,7, 0,0, 4
+22,8, 0,0, 4
+22,9, 0,0, 4
+
+[bg red city heat] ;animated
+type  = anim
+actionno = 3
+start = 0, 290
+delta = 0.2,0.2
+mask = 1
+id = 3
+
+[Begin action 3]
+3,0, 0,0, 4
+3,1, 0,0, 4
+3,2, 0,0, 4
+3,3, 0,0, 4
+3,4, 0,0, 4
+3,5, 0,0, 4
+3,6, 0,0, 4
+3,7, 0,0, 4
+3,8, 0,0, 4
+3,9, 0,0, 4
+3,10, 0,0, 4
+3,11, 0,0, 4
+3,12, 0,0, 4
+3,13, 0,0, 4
+3,14, 0,0, 4
+3,15, 0,0, 4
+3,16, 0,0, 4
+3,17, 0,0, 4
+3,18, 0,0, 4
+3,19, 0,0, 4
+3,20, 0,0, 4
+3,21, 0,0, 4
+3,22, 0,0, 4
+3,23, 0,0, 4
+3,24, 0,0, 4
+3,25, 0,0, 4
+3,26, 0,0, 4
+3,27, 0,0, 4
+3,28, 0,0, 4
+3,29, 0,0, 4
+3,30, 0,0, 4
+3,31, 0,0, 4
+3,32, 0,0, 4
+3,33, 0,0, 4
+3,34, 0,0, 4
+3,35, 0,0, 4
+
+[bg gray city]
+type = normal
+spriteno = 4,0
+start = 0, 300
+delta = 0.3, 0.3;0.45,0.45
+mask = 1
+id = 4
+
+[bg Mushroom R]
+type = normal
+spriteno = 5,0
+start = 0, 240
+delta = 0.6,0.6
+
+mask = 1
+id = 5
+
+[bg Mushroom L]
+type = normal
+spriteno = 6,0
+start = 0, 240
+delta = 0.6,0.6
+mask = 1
+id = 6
+
+[bg Domino L]
+type = normal
+spriteno = 7,0
+start = 0, 240
+delta = 0.7,0.7
+mask = 1
+id = 7
+
+[bg Domino R]
+type = normal
+spriteno = 8,0
+start = 0, 240
+delta = 0.7,0.7
+mask = 1
+id = 8
+
+[bg parking back]
+type  = normal
+spriteno = 9,10
+start = -10, 248
+delta = 0.77,0.77
+mask = 1
+id = 9
+
+[bg parking]
+type  = normal
+spriteno = 9,11
+start = 0, 240
+delta = 0.8,0.8
+mask = 1
+id = 9
+
+[bg parking car]
+type  = anim
+
+actionno = 91
+start = 0, 240
+delta = 0.8,0.8
+mask = 1
+id = 9
+
+[Begin action 91]
+9,13, 0,0, 300
+9,12, 0,0, 2
+9,13, 0,0, 2
+9,12, 0,0, 2
+9,13, 0,0, 2
+9,12, 0,0, 2
+9,13, 0,0, 2
+9,12, 0,0, 6
+9,13, 0,0, 4
+9,12, 0,0, 6
+9,13, 0,0, 4
+9,12, 0,0, 90
+9,13, 0,0, 2
+9,12, 0,0, 2
+9,13, 0,0, 2
+9,12, 0,0, 2
+9,13, 0,0, 2
+9,12, 0,0, 6
+
+[bg ember]
+type = normal
+spriteno = 21,0
+start = 0, 0
+delta = .9, .9
+mask = 1
+tile = 1, 1
+sin.x = 20, 100
+sin.y = 10, 400
+velocity = -0.07, -3
+
+[bg ember 1]
+type = normal
+spriteno = 21,0
+start = 200, 200
+delta = .9, .9
+mask = 1
+tile = 1, 1
+sin.x = -20, 100
+sin.y = 10, 300
+velocity = -0.07, -3
+
+[bg ground]
+type = normal
+spriteno = 10,0
+start = 0, 248
+delta = 1, 1
+mask = 1
+id = 10
+
+[bg fire]
+type  = anim
+actionno = 20
+start = -30, 220
+delta = 1,1
+mask = 1
+sin.y = 7, 500
+id = 20
+
+[bg fire 1]
+type  = anim
+actionno = 20
+start = 400, 200
+delta = 1,1
+mask = 1
+sin.y = -7, 500
+id = 20
+
+[bg fire 2]
+type  = anim
+actionno = 20
+start = -400, 200 ;180
+delta = 1,1
+mask = 1
+sin.y = -7, 500
+id = 20
+
+;--------------------------------------------
+[Begin action 20] ;fire
+20,0, 0,0, 4
+20,1, 0,0, 4
+20,2, 0,0, 4
+20,3, 0,0, 4
+
+[bg ground]
+type = normal
+spriteno = 10,1
+start = 0, 248
+delta = 1, 1
+mask = 1
+id = 10
+
+;----------
+[bg position]
+type  = dummy
+spriteno = -1,0
+start = 0, 0
+delta = 1,1
+mask = 1
+id = 10
+
+[BG Dummy] ;Dummy object for player's zoffset to be bound to
+type  = dummy
+id = 2 ;10
+start = 0,0
+positionlink = 1
+
+
+
+
+
+;------------------------------------------
+[BGCtrlDef Domino L]
+looptime =  -1
+ctrlID = 7
+
+[BGCtrl 7.1] ;start trembling
+type = SinX
+time = 2100 ;300 
+value = 1, 10, 0 
+[BGCtrl 7.1] ;start trembling
+type = SinY
+time = 2130 ;330 
+value = 1, 20, 0 
+[BGCtrl 7.1] ;stop trembling
+type = SinX
+time = 2135 ;335 
+value = 0, 0, 0 
+[BGCtrl 7.1] ;fall
+type = PosAdd
+time = 2140 ;340 
+x = 2
+y = 5
+[BGCtrl 7.1] ;end trembling
+type = SinY
+time = 2145 ;345 
+value = 0, 0, 0 
+;---------------------------------
+[BGCtrl 7.1] ;start trembling
+type = SinX
+time = 2280 ;480 
+value = 1, 10, 0 
+[BGCtrl 7.1] ;start trembling
+type = SinY
+time = 2310 ;510 
+value = 1, 20, 0 
+[BGCtrl 7.1] ;stop trembling
+type = SinX
+time = 2315 ;515 
+value = 0, 0, 0 
+[BGCtrl 7.1] ;fall
+type = PosAdd
+time = 2320 ;520 
+x = 2
+y = 8
+[BGCtrl 7.1] ;end trembling
+type = SinY
+time = 2325 ;525 
+value = 0, 0, 0 
+;-------------------------------
+[BGCtrl 7.1] ;start trembling
+type = SinX
+time = 2460 ;660 
+value = 1, 5, 0 
+[BGCtrl 7.1] ;start sinking
+type = VelSet
+time = 2490
+x = .1
+y = .4
+[BGCtrl 7.1]
+type = VelAdd
+time = 2760 ;2700 ;900 
+x = 0.05
+y = -0.05 ;0.3
+[BGCtrl 7.1]
+type = Enable
+time = 4000 ;3120 ;1320
+value = 0
+
+
+
+
+;------------------------------------------
+[BGCtrlDef Domino R]
+looptime =  -1
+ctrlID = 8
+
+[BGCtrl 8.1] ;start trembling
+type = SinX
+time = 2880 ;300 
+value = 1, 10, 0 
+[BGCtrl 8.1] ;start trembling
+type = SinY
+time = 2910 ;330 
+value = 1, 20, 0 
+[BGCtrl 7.1] ;stop trembling
+type = SinX
+time = 2915 ;335 
+value = 0, 0, 0 
+[BGCtrl 8.1] ;fall
+type = PosAdd
+time = 2920 ;340 
+x = -1
+y = 2.5
+[BGCtrl 8.1] ;end trembling
+type = SinY
+time = 2925 ;345 
+value = 0, 0, 0 
+;---------------------------------
+[BGCtrl 8.1] ;start trembling
+type = SinX
+time = 3060 ;480 
+value = 1, 10, 0 
+[BGCtrl 8.1] ;start trembling
+type = SinY
+time = 3090 ;510 
+value = 1, 20, 0 
+[BGCtrl 8.1] ;stop trembling
+type = SinX
+time = 3095 ;515 
+value = 0, 0, 0 
+[BGCtrl 8.1] ;fall
+type = PosAdd
+time = 3100 ;520 
+x = -1
+y = 4
+[BGCtrl 8.1] ;end trembling
+type = SinY
+time = 3105 ;525 
+value = 0, 0, 0 
+;-------------------------------
+[BGCtrl 8.1] ;start trembling
+type = SinX
+time = 3240 ;660 
+value = 1, 5, 0 
+;[BGCtrl 8.1] ;start trembling
+;type = SinY
+;time = 3270 ;690 
+;value = 300, 3072, 0 
+[BGCtrl 8.1] ;start sinking
+type = VelSet
+time = 2490
+x = -.075
+y = .3
+[BGCtrl 8.1]
+type = VelAdd
+time = 3450 ;870 
+x = -0.05
+y = -0.1 ;0.3
+[BGCtrl 8.1]
+type = Enable
+time = 4200 ;1320
+value = 0
+
+
+
+
+
+;------------------------------------------
+[BGCtrlDef Mushroom R]
+looptime =  -1
+ctrlID = 5
+
+[BGCtrl 5.1] ;start trembling
+type = SinX
+time = 5040 ;300 
+value = 1, 10, 0 
+[BGCtrl 5.1] ;start trembling
+type = SinY
+time = 5070 ;330 
+value = 2, 20, 0 
+[BGCtrl 5.1] ;stop trembling
+type = SinX
+time = 5075 ;335 
+value = 0, 0, 0 
+[BGCtrl 5.1] ;fall
+type = PosAdd
+time = 5080 ;340 
+x = -1
+y = 10
+[BGCtrl 5.1] ;end trembling
+type = SinY
+time = 5085 ;345 
+value = 0, 0, 0 
+;---------------------------------
+[BGCtrl 5.1] ;start trembling
+type = SinX
+time = 5085 ;345 
+value = -3, 1024, 0 
+[BGCtrl 5.1]
+type = VelAdd
+time = 5090 ;350
+x = -0.05
+y = 0.1
+;[BGCtrl 5.1] ;fall
+;type = SinX
+;time = 5160 ;420 
+;value = -100, 2048, 0 
+;[BGCtrl 5.1] ;fall
+;type = SinY
+;time = 5160 ;420 
+;value = 200, 2048, 0 
+[BGCtrl 5.1] ;start sinking
+type = VelSet
+time = 5160
+x = -.06
+y = .25
+[BGCtrl 5.1]
+type = VelAdd
+time = 5240 ;500 
+x = 0.05
+y = 0.15
+[BGCtrl 5.1]
+type = Enable
+time = 6540 ;800
+value = 0
+
+
+
+
+
+;------------------------------------------
+[BGCtrlDef Mushroom L]
+looptime =  -1
+ctrlID = 6
+
+[BGCtrl 6.1]
+type = SinX
+time = 2560
+value = .5, 5, 0 
+[BGCtrl 9.2]
+type = SinX
+time = 2900
+value = 0, 5, 0
+
+[BGCtrl 6.1] ;start trembling
+type = SinX
+time = 5400 ;300 
+value = 1, 10, 0 
+[BGCtrl 6.1] ;start trembling
+type = SinY
+time = 5430 ;330 
+value = 2, 20, 0 
+[BGCtrl 6.1] ;stop trembling
+type = SinX
+time = 5435 ;335 
+value = 0, 0, 0 
+[BGCtrl 6.1] ;fall
+type = PosAdd
+time = 5440 ;340 
+x = 1
+y = 10
+[BGCtrl 6.1] ;end trembling
+type = SinY
+time = 5445 ;345 
+value = 0, 0, 0 
+;---------------------------------
+[BGCtrl 6.1] ;start trembling
+type = SinX
+time = 5445 ;345 
+value = 3, 1024, 0 
+[BGCtrl 6.1]
+type = VelAdd
+time = 5450 ;350
+x = 0.05
+y = 0.1
+[BGCtrl 6.1] ;fall
+type = SinX
+time = 5520 ;420 
+value = 100, 2048, 0 
+[BGCtrl 6.1] ;fall
+type = SinY
+time = 5520 ;420 
+value = 200, 2048, 0 
+[BGCtrl 6.1]
+type = VelAdd
+time = 5600 ;500 
+x = 0.1
+y = 0.3
+[BGCtrl 6.1]
+type = VelAdd
+time = 6000 ;500 
+x = -0.1
+[BGCtrl 6.1]
+type = Enable
+time = 6000 ;900
+value = 0
+
+
+
+
+
+;------------------------------------------
+[BGCtrlDef Parking]
+looptime =  -1 
+ctrlID = 9
+
+[BGCtrl 9.1]
+type = SinX
+time = 2460
+value = .5, 5, 0 
+[BGCtrl 9.2]
+type = SinX
+time = 3400
+value = 0, 5, 0
+
+[BGCtrl 9.1]
+type = SinX
+time = 5520
+value = .5, 5, 0 
+[BGCtrl 9.1]
+type = SinX
+time = 5600
+value = 1, 5, 0 
+[BGCtrl 9.1]
+type = SinX
+time = 5900
+value = 1, 5, 0 
+[BGCtrl 9.2]
+type = SinX
+time = 6200
+value = 0, 5, 0
+
+
+[BGCtrl 9.1] ;start trembling
+type = SinX
+time = 6720 ;300 
+value = 1, 16, 0 
+[BGCtrl 9.1] ;start trembling
+type = SinY
+time = 6750 ;330 
+value = 1, 20, 0 
+[BGCtrl 9.1] ;stop trembling
+type = SinX
+time = 6755 ;335 
+value = 0, 0, 0 
+[BGCtrl 9.1] ;fall
+type = PosAdd
+time = 6760 ;340 
+x = -2
+y = 5
+[BGCtrl 9.1] ;end trembling
+type = SinY
+time = 6765 ;345 
+value = 0, 0, 0 
+;---------------------------------
+[BGCtrl 9.1] ;start trembling
+type = SinX
+time = 6800 ;380 
+value = 1, 10, 0 
+[BGCtrl 9.1] ;start trembling
+type = SinY
+time = 6830 ;410 
+value = 1, 20, 0 
+[BGCtrl 9.1] ;stop trembling
+type = SinX
+time = 6835 ;415 
+value = 0, 0, 0 
+[BGCtrl 9.1] ;fall
+type = PosAdd
+time = 6840 ;420 
+x = -2
+y = 8
+[BGCtrl 9.1] ;end trembling
+type = SinY
+time = 6845 ;425 
+value = 0, 0, 0 
+;-------------------------------
+[BGCtrl 9.1] ;start trembling
+type = SinX
+time = 6880 ;460 
+value = 1, 5, 0 
+;[BGCtrl 9.1] ;start trembling
+;type = SinY
+;time = 6910 ;490 
+;value = 500, 2248, 0 
+[BGCtrl 9.1] ;start sinking
+type = VelSet
+time = 6910
+x = -.1
+y = .5
+[BGCtrl 9.1]
+type = VelAdd
+time = 6940 ;520 
+x = -0.05
+y = -0.1 
+[BGCtrl 9.1]
+type = VelAdd
+time = 6980 ;560 
+x = -0.1
+y = -0.2
+[BGCtrl 9.1]
+type = VelAdd
+time = 7100 ;560 
+x = 0.1
+y = 0.1
+
+[BGCtrl 9.1]
+type = Enable
+time = 10280 ;1000
+value = 0
+
+
+
+
+
+;-----
+[BGCtrlDef background City]
+looptime =  -1
+ctrlID = 4
+
+[BGCtrl 10.1]
+type = SinX
+time = 2445
+value = .5, 10, 0 
+
+[BGCtrl 10.2]
+type = SinX
+time = 2720
+value = 0, 5, 0
+
+[BGCtrl 10.3]
+type = SinX
+time = 5000
+value = .5, 10, 0
+
+[BGCtrl 10.4]
+type = SinX
+time = 5200
+value = 0, 5, 0
+
+[BGCtrl 10.5]
+type = SinX
+time = 5550
+value = .5, 10, 0
+
+[BGCtrl 10.6]
+type = SinX
+time = 5800
+value = 0, 5, 0
+
+
+
+;-----
+[BGCtrlDef floor]
+looptime =  -1
+ctrlID = 10
+
+[BGCtrl 10.1]
+type = SinY
+time = 2140
+value = 1, 5, 0 
+
+[BGCtrl 10.2]
+type = SinY
+time = 2145
+value = 0, 5, 0
+
+[BGCtrl 10.3]
+type = SinY
+time = 2320
+value = 1, 5, 0
+
+[BGCtrl 10.4]
+type = SinY
+time = 2325
+value = 0, 5, 0
+
+[BGCtrl 10.6]
+type = SinY
+time = 2500
+value = .5, 5, 0
+
+[BGCtrl 10.6]
+type = SinY
+time = 2660
+value = 1, 5, 0
+
+[BGCtrl 10.6]
+type = SinY
+time = 2720
+value = .5, 5, 0
+
+[BGCtrl 10.7]
+type = SinY
+time = 3500
+value = 0, 5, 0
+
+[BGCtrl 10.10]
+type = SinY
+time = 5160
+value = .5, 5, 0
+
+[BGCtrl 10.11]
+type = SinY
+time = 5200
+value = 1, 5, 0
+
+[BGCtrl 10.10]
+type = SinY
+time = 5380
+value = .5, 5, 0
+
+[BGCtrl 10.11]
+type = SinY
+time = 5400
+value = 0, 5, 0
+
+[BGCtrl 10.10]
+type = SinY
+time = 5520
+value = .5, 5, 0
+
+[BGCtrl 10.11]
+type = SinY
+time = 5600
+value = 1, 5, 0
+
+[BGCtrl 10.10]
+type = SinY
+time = 5680
+value = .5, 5, 0
+
+[BGCtrl 10.11]
+type = SinY
+time = 5900
+value = 0, 5, 0
+
+[BGCtrl 10.30]
+type = SinY
+time = 6880
+value = .5, 5, 0
+
+[BGCtrl 10.31]
+type = SinY
+time = 6910
+value = 1, 5, 0
+
+[BGCtrl 10.32]
+type = SinY
+time = 7100
+value = .5, 5, 0
+
+[BGCtrl 10.33]
+type = SinY
+time = 8500
+value = 0, 5, 0

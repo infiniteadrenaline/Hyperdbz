@@ -1,0 +1,1097 @@
+; Definition of KFM's stage
+; *** denotes values you should change/check for each stage.
+; The term "background" is used to mean both backgrounds and foregrounds.
+
+;--------------------------------------------------------
+[Info]
+ ;Name of the stage.
+name = "Enma's Desk"
+displayname = "Enma's Desk" ;Name to display
+versiondate = 01,14,2018    ;Version date of stage (MM,DD,YYYY or X.XX)
+mugenversion = 1.0          ;Version of M.U.G.E.N stage works on (X.XX)
+author = "AlexSin"         ;Stage author name
+;spriter = Gate
+
+;--------------------------------------------------------
+[Camera]
+ ;Camera starting position: Usually 0 for both
+startx = 0
+starty = 0
+
+ ;Left and right bound of camera
+ ;You may want to fiddle a bit with these values to make sure the
+ ;background doesn't move too far or too little
+ ;***
+boundleft = -220
+boundright = 220
+
+ ;High and low bound of camera
+ ;High is a negative number. Make is more negative if you want to
+ ;camera to be able to move higher.
+ ;Low should usually be 0.
+ ;If omitted, defaults to -25 and 0 respectively
+ ;***
+boundhigh = -300 ;-100
+boundlow = 0
+
+ ;This is how much the camera will move vertically towards the
+ ;highest player. Valid values are from 0 to 1. A value of 0 will mean
+ ;the camera does not move up at all. A value of 1 will makes the camera
+ ;follow the highest player.
+ ;Typically .2 for normal-sized backgrounds. You may need to pull this
+ ;value up for taller backgrounds.
+verticalfollow = .75 ;.75
+
+ ;Minimum vertical distance the highest player has to be from the floor,
+ ;before the camera starts to move up to follow him. For extremely
+ ;tall stages, a floor tension of about 20-30 coupled with a
+ ;vertical-follow of .8 allows the camera to follow the action.
+floortension = 90 ;90
+
+ ;Horizontal distance player is from edge before camera starts to move
+ ;left or right. Typically 50 or 60.
+tension = 50 ;50
+
+ ;Number of pixels beyond the top and bottom of the screen that may
+ ;be drawn.  Overdraw specifies the how much can be seen during an
+ ;EnvShake.  Overdraw pixels will also be used when the screen aspect
+ ;is taller than the stage aspect.
+overdrawhigh = 0 ;10
+overdrawlow = 0 ;10
+
+ ;Number of pixels into the top and bottom of the screen that may be
+ ;cut from drawing when the screen aspect is shorter than the stage
+ ;aspect.  These parameters suggest a guideline, and the actual
+ ;number of pixels cut depends on the difference in aspect.
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+ ;Player 1 starting coordinates.
+ ;p1startx is typically -70 and p2startx is 70.
+ ;p1starty should be 0.
+p1startx = -70          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+
+;--- Player 2 ---
+p2startx = 70
+p2starty = 0
+p2facing = -1
+
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 30 ;15 ;Dist from left of screen that player can move to
+screenright = 30 ;15   ;Right edge
+
+;--------------------------------------------------------
+[StageInfo]
+ ;"Ground" level where players stand at, measured in pixels from the
+ ;top of the screen.
+ ;Adjust this value to move the ground level up/down in the screen.
+ ;***
+zoffset = 225
+zoffsetlink = 20
+
+ ;Leave this at 1. It makes the players face each other
+autoturn = 1
+
+ ;Set the following to 1 to have the background be reset between
+ ;rounds.
+resetBG = 1
+
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+ ;This controls the darkness of the shadow. Valid values range
+ ;from 0 (lightest) to 256 (darkest). Defaults to 128 if omitted.
+intensity = 64
+
+ ;This is the shadow color given in r,g,b. Valid values for each
+ ;range from 0 (lightest) to 255 (darkest).
+ ;Defaults to 0,0,0 if omitted.
+ ;intensity and color's effects add up to give the final shadow
+ ;result.
+color = 0,0,0; 17,34,29; 40,40,100
+
+ ;This is the scale factor of the shadow. Use a big scale factor
+ ;to make the shadow longer. You can use a NEGATIVE scale factor
+ ;to make the shadow fall INTO the screen.
+ ;Defaults to 0.4 if omitted.
+yscale = .1 ;-.12
+
+ ;This parameter lets you set the range over which the shadow is
+ ;visible. The first value is the high level, and the second is
+ ;the middle level. Both represent y-coordinates of the player.
+ ;A shadow is invisible if the player is above the high level,
+ ;and fully visible if below the middle level. The shadow is
+ ;faded in between the two levels. This gives an effect of the
+ ;shadow fading away as the player gets farther away from the
+ ;ground. If omitted, defaults to no level effects (shadow is
+ ;always fully visible).
+fade.range = -400,-100 ;-250,- 175;-50
+
+;--------------------------------------------------------
+[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+intensity = 0;128
+
+;--------------------------------------------------------
+[Music]
+ ;Put a filename for a MOD, MP3 or MIDI here, or just leave it
+ ;blank if you don't want music. If an invalid filename is
+ ;given, then no music will play. To play CD audio, put
+ ;the track number followed by ".da". Using a track number of
+ ;0 will play a random audio track. For example, to play
+ ;track 3 from a music CD, use:
+ ;  bgmusic = 3.da
+bgmusic = sound/chars/Piccolo.mp3
+
+;looping points for Piccolo.mp3
+bgmloopstart = 2940885
+bgmloopend = 7880095
+
+ ;Adjust the volume. 100 is for 100%.
+bgmvolume = 100
+
+;========================================================
+;--------------------------------------------------------
+; Background definition
+; ***
+;-------------------------------------
+; [BG x]
+; type = ?       "Normal"/"Parallax"  (def: "normal")
+; spriteno = ?, ? Sprite group and number: groupno, imgno  (req'd)
+; start = ?, ?   Starting location (integer)  (def: 0, 0)
+; delta = ?, ?   Change in location per camera unit moved (float)  (def: 1,1)
+; trans = ?      Transparency settings: "none"/"add"/"add1"/"sub"/"addalpha" (def: "none")
+; alpha = ?, ?   (only for trans=addalpha) Source,dest alpha (def: 256,0)
+; mask = ?       Masking (int): 0 - off, 1 - on  (def: 0)
+; velocity = ?, ? Velocity: x, y (float): speed background moves (def: 0, 0)
+; tile = ?, ?    Tiling: xtile, ytile (int): 0 - off, 1 - infinite,
+;                        >1 - tile that number of times  (def: 0, 0) - only for Normal BG
+; tilespacing = ?, ? Tiling: x, y (int) : space between tiles (def: 0, 0)
+;  Parallax-only:
+; xscale = ?, ?    Top xscale, bottom xscale (float)
+; width = ?, ?     Top width, bottom width (int)  (use either this or above, but not both)
+; yscalestart = ?  Starting y-scale (float, in percent)  (def: 100)
+; yscaledelta = ?  Change in y-scale per unit (float, in percent)  (def: 0)
+;-------------------------------------
+
+;-------------------------------------
+; Main background definition
+[BGdef]
+ ;Filename of sprite data
+spr = hdbz_enma.sff
+
+ ;Set to 1 if you want to clear the screen to magenta before
+ ;drawing layer 0 (the default background). Good for spotting "holes"
+ ;in your background.
+ ;Remember to turn this off when you are done debugging the background,
+ ;because it slows down performance.
+debugbg = 0
+
+;----------
+; Start each background element with the following:
+; Make sure it's "[BG n]", where n is anything you like (it's only used to
+; report errors.) For example, you could use:  [BG TheFloor]
+; Specify as many as you like. This is an example of a normal background:
+[BG 0]
+
+ ;The background type goes here: for now, only NORMAL and PARALLAX
+ ;If this line is omitted, the type will be assumed to be normal.
+type  = normal
+
+ ;The sprite number to use for the background (from the SFF specified above)
+ ;It's the group-number, followed by a comma, then the sprite-number
+ ;*** Do not omit this line.
+spriteno = 0, 0
+
+ ;This is the layer number, which determines where the sprite is drawn to.
+ ;Valid values are 0 and 1.
+ ;0 for background (behind characters), 1 for foreground (in front)
+ ;If this line is omitted, the default value of 0 will be assumed.
+layerno = 0
+
+ ;This is the starting location of the background in the format
+ ;x, y
+ ;If this line is omitted, the default value of 0,0 will be assumed.
+start = 0, 176 ;300
+
+ ;These are the number of pixels the background moves for every single unit
+ ;of camera movement, in the format
+ ;x, y
+ ;For the main background (eg. the floor the players stand on) you'll want
+ ;to use a delta of 1,1. Things farther away should have a smaller delta,
+ ;like 0.5 for example. Things near the camera should have a larget delta.
+ ;If this line is omitted, the default value of 1,1 will be assumed.
+delta = .25,.25
+
+ ;Here is the transparency setting of the background.
+ ;Valid values are:
+ ;"none" for normal drawing
+ ;"add" for colour addition (like a spotlight effect)
+ ;"add1" for colour addition with background dimmed to 50% brightness
+ ;"addalpha" for colour addition with control over alpha values (you need
+ ;    an "alpha" parameter if you use this)
+ ;"sub" for colour subtraction (like a shadow effect)
+ ;If this line is omitted, it's assumed that there will be no transparency.
+trans = none
+
+ ;Use this parameter only if "trans = addalpha". First value is the alpha
+ ;of the source (sprite), and the second is the alpha of the destination
+ ;(background). The values range from 0 to 256.
+ ;Uncomment the line below to use it:
+;alpha = 256,0
+
+ ;Mask means whether or not to draw colour zero of a sprite.
+ ;If you turn masking off, the background will take less CPU power to draw,
+ ;so remember to turn it off on sprites that don't use it.
+ ;If this line is omitted, it's assumed that there will be no masking.
+mask  = 0
+
+ ;The format for tiling is x,y. For each of them, the value is:
+ ;0 to use no tiling, 1 to tile, n where (n>1) to tile n times.
+ ;If this line is omitted, it's assumed that there will be no tiling.
+tile  = 1, 0
+
+ ;This is the x and y space between each tile, for tiled backgrounds
+ ;If omitted, default value is 0,0
+tilespacing = 0,0
+
+ ;This defines the drawing space, or "window" of the background. It's
+ ;given in the form
+ ;x1,y1, x2,y2
+ ;where (x1,y1)-(x2,y2) define a rectangular box.
+ ;Make the window smaller if you only want to draw part of the background.
+ ;You normally do not have to use this setting. Value values range from
+ ;0-319 for x, and 0-239 for y. The values are 0,0, 319,239 by default (full
+ ;screen).
+ ;Uncomment the line below to use it:
+;window = 0,0, 319, 239
+
+ ;Similar to the delta parameter, this one affects the movement of
+ ;the window. Defaults to 0,0
+ ;Uncomment the line below to use it:
+;windowdelta = 0,0
+;----------
+
+;----------
+[BG 1 Wall - Windows]
+type  = Normal		;Normal, Anim, Parallax; omitted to normal.
+spriteno = 1, 0		;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0		;0= background; 1=foreground; omitted to background.
+start = 0,95;85		 ;100;x,y starting position; omitted to 0,0
+delta = .5,.5		;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none		;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+tile  = 0, 0		;x, y; 0=no tiling; n= number of tiling; omitted to no tiling.
+tilespacing = 0,0	;space between each tiling (x and y); omitted to no space.
+
+;----------
+[BG Desk Floor]
+type  = parallax
+spriteno = 4,0
+start = 0, 174
+delta = .78, .75
+xscale = 1, 1.4
+yscalestart = 105
+yscaledelta = 0.5
+mask  = 1
+id = 10
+
+;----------
+[BG 9 Mug Shadow]
+type  = Normal	;Normal, Anim, Parallax; omitted to normal.
+spriteno = 9,1	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 160, 220 ;-100, 220
+delta = .93, .93 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+
+;----------
+[BG 3 Enma - Shadow]
+type  = Anim	;Normal, Anim, Parallax; omitted to normal.
+actionno = 3	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 0, 174	;x,y starting position; omitted to 0,0
+delta = .78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+alpha = 
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+
+[BG 4 Enma - Character]
+type  = Anim	;Normal, Anim, Parallax; omitted to normal.
+actionno = 2	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 0, 174	;x,y starting position; omitted to 0,0
+delta = .78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+
+;Enma - Character
+[Begin Action 2]
+2,0, 0,0, 30
+2,1, 0,0, 8
+2,2, 0,0, 7
+2,1, 0,0, 6
+2,0, 0,0, 35
+2,1, 0,0, 7
+2,2, 0,0, 4
+2,1, 0,0, 6
+2,0, 0,0, 25
+2,3, 0,0, 4
+2,4, 0,0, 4
+2,5, 0,0, 4
+2,6, 0,0, 5
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 40
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 40
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 40
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 40
+2,14, 0,0, 50
+2,3, 0,0, 75
+2,5, 0,0, 50
+2,3, 0,0, 6
+2,0, 0,0, 6
+2,1, 0,0, 6
+2,2, 0,0, 6
+2,1, 0,0, 6
+2,0, 0,0, 30
+2,1, 0,0, 8
+2,2, 0,0, 7
+2,1, 0,0, 6
+2,0, 0,0, 30
+2,1, 0,0, 6
+2,2, 0,0, 8
+2,3, 0,0, 4
+2,4, 0,0, 5
+2,5, 0,0, 5
+2,6, 0,0, 5
+2,7, 0,0, 4
+2,8, 0,0, 4
+2,9, 0,0, 4
+2,10, 0,0, 4
+2,11, 0,0, 4
+2,12, 0,0, 25
+2,13, 0,0, 50
+2,14, 0,0, 6
+2,15, 0,0, 6
+2,16, 0,0, 5
+2,17, 0,0, 3
+2,18, 0,0, 2
+2,19, 0,0, 4
+2,20, 0,0, 4
+2,21, 0,0, 40
+2,22, 0,0, 4
+2,23, 0,0, 4
+2,24, 0,0, 35
+2,25, 0,0, 40
+2,26, 0,0, 4
+
+2,0, 0,0, 30
+2,1, 0,0, 8
+2,2, 0,0, 7
+2,1, 0,0, 6
+2,0, 0,0, 35
+2,3, 0,0, 5
+2,4, 0,0, 4
+2,5, 0,0, 4
+2,6, 0,0, 5
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 4
+2,6, 0,0, 40
+2,4, 0,0, 40
+2,13, 0,0, 25
+2,14, 0,0, 6
+2,15, 0,0, 6
+2,16, 0,0, 5
+2,17, 0,0, 3
+2,18, 0,0, 2
+2,19, 0,0, 4
+2,18, 0,0, 4
+2,17, 0,0, 5
+2,20, 0,0, 4
+2,21, 0,0, 40
+2,22, 0,0, 4
+2,23, 0,0, 4
+2,24, 0,0, 35
+2,25, 0,0, 40
+2,26, 0,0, 4
+2,13, 0,0, 10
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 5
+2,7, 0,0, 5
+2,8, 0,0, 5
+2,9, 0,0, 5
+2,10, 0,0, 5
+2,11, 0,0, 5
+2,12, 0,0, 5
+2,3, 0,0, 75
+
+; Enma - Shadow
+[Begin Action 3]
+3,0, 0,0, 30
+3,1, 0,0, 8
+3,2, 0,0, 7
+3,1, 0,0, 6
+3,0, 0,0, 35
+3,1, 0,0, 7
+3,2, 0,0, 4
+3,1, 0,0, 6
+3,0, 0,0, 25
+3,3, 0,0, 4
+3,4, 0,0, 4
+3,5, 0,0, 4
+3,6, 0,0, 5
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 40
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 40
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 40
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 40
+3,14, 0,0, 50
+3,3, 0,0, 75
+3,5, 0,0, 50
+3,3, 0,0, 6
+3,0, 0,0, 6
+3,1, 0,0, 6
+3,2, 0,0, 6
+3,1, 0,0, 6
+3,0, 0,0, 30
+3,1, 0,0, 8
+3,2, 0,0, 7
+3,1, 0,0, 6
+3,0, 0,0, 30
+3,1, 0,0, 6
+3,2, 0,0, 8
+3,3, 0,0, 4
+3,4, 0,0, 5
+3,5, 0,0, 5
+3,6, 0,0, 5
+3,7, 0,0, 4
+3,8, 0,0, 4
+3,9, 0,0, 4
+3,10, 0,0, 4
+3,11, 0,0, 4
+3,12, 0,0, 25
+3,13, 0,0, 50
+3,14, 0,0, 6
+3,15, 0,0, 6
+3,16, 0,0, 5
+3,17, 0,0, 3
+3,18, 0,0, 2
+3,19, 0,0, 4
+3,20, 0,0, 4
+3,21, 0,0, 40
+3,22, 0,0, 4
+3,23, 0,0, 4
+3,24, 0,0, 35
+3,25, 0,0, 40
+3,26, 0,0, 4
+
+3,0, 0,0, 30
+3,1, 0,0, 8
+3,2, 0,0, 7
+3,1, 0,0, 6
+3,0, 0,0, 35
+3,3, 0,0, 5
+3,4, 0,0, 4
+3,5, 0,0, 4
+3,6, 0,0, 5
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 4
+3,6, 0,0, 40
+3,4, 0,0, 40
+3,13, 0,0, 25
+3,14, 0,0, 6
+3,15, 0,0, 6
+3,16, 0,0, 5
+3,17, 0,0, 3
+3,18, 0,0, 2
+3,19, 0,0, 4
+3,18, 0,0, 4
+3,17, 0,0, 5
+3,20, 0,0, 4
+3,21, 0,0, 40
+3,22, 0,0, 4
+3,23, 0,0, 4
+3,24, 0,0, 35
+3,25, 0,0, 40
+3,26, 0,0, 4
+3,13, 0,0, 10
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 5
+3,7, 0,0, 5
+3,8, 0,0, 5
+3,9, 0,0, 5
+3,10, 0,0, 5
+3,11, 0,0, 5
+3,12, 0,0, 5
+3,3, 0,0, 75
+
+;-------------------------------------------------------------------
+[BG 15 bustin]
+type = anim
+actionno = 15
+;tile = 1,0
+;tilespacing = 7600,0 
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 0,0	;x,y starting position; omitted to 0,0
+;start = -14, 194	;x,y starting position; omitted to 0,0
+delta = .96, .96 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 13
+;velocity = -4, 0
+
+;-------------------------------------------------------------------
+[BG 13 bustin]
+type = anim
+actionno = 13
+tile = 1,0
+tilespacing = 80,0 
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 24, 153	;x,y starting position; omitted to 0,0
+delta = .96, .96 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+;id = 13
+sin.y = -15,240,0
+velocity = 0.666, 0
+;-----------------------------------------------------------------------
+[BG 14 bustin]
+type = anim
+actionno = 13
+tile = 1,0
+tilespacing = 80,0 
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 64, 153	;x,y starting position; omitted to 0,0
+delta = .96, .96 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+;id = 14
+velocity = 0.666, 0
+sin.y = 15,240,0
+
+;----------
+[BG 5 Telephone]
+type  = Normal	;Normal, Anim, Parallax; omitted to normal.
+spriteno = 5,0	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = -14, 164 ;-36, 172
+delta = .94, .94 ;.95, .95 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+;--------------------------------------------------------------------
+[BG 6 Plants]
+type  = Anim	;Normal, Anim, Parallax; omitted to normal.
+actionno = 6	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 24, 174	;x,y starting position; omitted to 0,0
+delta = .96, .96 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+;------------------------------------------------------------------------
+
+[BG 7 Name Tag]
+type  = Normal	;Normal, Anim, Parallax; omitted to normal.
+spriteno = 7,1	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = -270, 174 ;0, 174
+delta = .94, .94 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+;---------------------------------------------------------------------
+
+[BG 9 Mug]
+type  = Normal	;Normal, Anim, Parallax; omitted to normal.
+spriteno = 9,2	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 160, 220 ;-100, 220
+delta = .93, .93 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+
+;---------------------------------------------------------------------
+
+
+[BG 30 Oni]
+type  = Anim	;Normal, Anim, Parallax; omitted to normal.
+actionno = 30	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 160, 220
+delta = .93, .93
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 30
+
+[Begin Action 30]
+30, 0, 0, 0, 300
+30, 1, 0, 0, 4
+30, 0, 0, 0, 350
+30, 1, 0, 0, 4
+30, 0, 0, 0, 300
+30, 1, 0, 0, 4
+
+[Begin Action 31]
+30, 2, 0, 0, 30
+
+
+;---------------------------------------------------------------------
+
+[BG 9 Mug front]
+type  = Normal	;Normal, Anim, Parallax; omitted to normal.
+spriteno = 9,3	;sprite number (group, index); change to actionno = n, where n is the number of the animation.
+layerno = 0	;0= background; 1=foreground; omitted to background.
+start = 160, 220 ;-100, 220
+delta = .93, .93 ;.78, .75	;x,y; amount of pixel movement of the object for every unit of camera movement; default to 1,1
+trans = none	;none, add, add1, addalpha*, sub; omitted to none.	*you need alpha
+mask  = 1		;0= colour 0 enabled; 1= colour 0 disabled. Omitted to no masking.
+id = 10
+;----------------------------------------------------------------------------------
+; Plants - Animation
+[Begin Action 6]
+6,1, 0,0, 837
+6,2, 0,0, 3
+6,4, 0,0, 3
+6,1, 0,0, 391
+6,2, 0,0, 3
+6,3, 0,0, 3
+6,2, 0,0, 3
+6,4, 0,0, 3
+6,1, 0,0, 3
+6,4, 0,0, 3
+6,1, 0,0, 273
+
+
+[BG Position]
+type  = Normal
+spriteno = 30,0
+start = 1000, 0
+delta = 1, 1
+id = 10
+
+[BG Dummy] ;Dummy object for player's zoffset to be bound to
+type  = dummy
+id = 20
+start = 0,0
+positionlink = 1
+
+
+
+;-----
+[BGCtrlDef floor]
+looptime =  1525
+ctrlID = 10
+
+[BGCtrl 10.1]
+type = SinY
+time = 837
+value = 1, 5, 0 
+
+[BGCtrl 10.2]
+type = SinY
+time = 843
+value = 0, 5, 0
+
+[BGCtrl 10.3]
+type = SinY
+time = 1234
+value = 1, 5, 0
+
+[BGCtrl 10.4]
+type = SinY
+time = 1240
+value = 0, 5, 0
+
+
+;-----
+[BGCtrlDef soul flee right]
+looptime =  1525
+ctrlID = 5
+
+[BGCtrl 5.0]
+type = VelSet
+time = 0
+x = 0
+
+[BGCtrl 5.0 a]
+type = SinY
+time = 0
+value = 0, 5, 0 
+
+[BGCtrl 5.1]
+type = VelSet
+time = 832
+x = 4 
+
+[BGCtrl 5.1 a]
+type = SinY
+time = 832
+value = 2, 5, 0 
+
+[BGCtrl 5.2 a]
+type = SinY
+time = 842
+value = 0, 5, 0 
+
+[BGCtrl 5.2]
+type = VelSet
+time = 852
+x = 0
+
+[BGCtrl 5.3]
+type = VelSet
+time = 1005
+x = -0.5
+
+[BGCtrl 5.4]
+type = VelSet
+time = 1165
+x = 0
+
+
+[BGCtrl 5.5]
+type = VelSet
+time = 1229
+x = 4
+
+[BGCtrl 5.5 a]
+type = SinY
+time = 1229
+value = 2, 5, 0
+
+[BGCtrl 5.6 a]
+type = SinY
+time = 1243
+value = 0, 5, 0
+
+[BGCtrl 5.6]
+type = VelSet
+time = 1251
+x = 0
+
+[BGCtrl 5.7]
+type = VelSet
+time = 1349
+x = -0.5
+
+[BGCtrl 5.8]
+type = VelSet
+time = 1525
+x = 0
+
+;-----
+[BGCtrlDef Ogre Running back and forth]
+looptime =  4000
+ctrlID = 13
+
+[BGCtrl UpLeft]
+type = VelSet
+time = 0
+x = -4
+;y = 0.1
+
+[BGCtrl ResetPos1]
+type = PosSet
+time = 0
+x = 500
+y = 194
+[BGCtrl ResetAnim1]
+type = Anim
+time = 0
+value = 15
+
+[BGCtrl DownRight]
+type = VelSet
+time = 2000
+x = 4
+;y = -0.1
+
+[BGCtrl ResetPos2]
+type = PosSet
+time = 2000
+x = -500
+y = 194
+[BGCtrl ResetAnim2]
+type = Anim
+time = 2000
+value = 16
+
+;-----
+[BGCtrlDef soul flee left]
+looptime =  1525
+ctrlID = 7
+
+[BGCtrl 7.0]
+type = VelSet
+time = 0
+x = 0
+
+[BGCtrl 7.0 a]
+type = SinY
+time = 0
+value = 0, 5, 0 
+
+[BGCtrl 7.1]
+type = VelSet
+time = 832
+x = -4 
+
+[BGCtrl 7.1 a]
+type = SinY
+time = 832
+value = 2, 5, 0 
+
+[BGCtrl 7.2 a]
+type = SinY
+time = 842
+value = 0, 5, 0 
+
+[BGCtrl 7.2]
+type = VelSet
+time = 852
+x = 0
+
+[BGCtrl 7.3]
+type = VelSet
+time = 1005
+x = 0.5
+
+[BGCtrl 7.4]
+type = VelSet
+time = 1165
+x = 0
+
+
+[BGCtrl 7.5]
+type = VelSet
+time = 1229
+x = -4
+
+[BGCtrl 7.5 a]
+type = SinY
+time = 1229
+value = 2, 5, 0 
+
+[BGCtrl 7.6 a]
+type = SinY
+time = 1243
+value = 0, 5, 0 
+
+[BGCtrl 7.6]
+type = VelSet
+time = 1251
+x = 0
+
+[BGCtrl 7.7]
+type = VelSet
+time = 1349
+x = 0.5
+
+[BGCtrl 7.8]
+type = VelSet
+time = 1525
+x = 0
+
+; whiff
+[Begin Action 13]
+13,0, 0,0, 7
+13,1, 0,0, 7,
+13,2, 0,0, 7,
+13,3, 0,0, 7,
+13,4, 0,0, 7,
+13,5, 0,0, 7,
+13,6, 0,0, 7,
+
+
+[Begin Action 15]
+15,0, 0,0, 4
+15,1, 0,0, 4
+15,2, 0,0, 4
+15,3, 0,0, 4
+15,4, 0,0, 4
+15,5, 0,1, 4
+15,6, 0,0, 4
+
+; Reverse Ogre
+[Begin Action 16]
+15,0, 0,0, 4, H
+15,1, 0,0, 4, H
+15,2, 0,0, 4, H
+15,3, 0,0, 4, H
+15,4, 0,0, 4, H
+15,5, 0,1, 4, H
+15,6, 0,0, 4, H
+
+
+;-------------------------------------------------------------------
+
+
+[BGCtrlDef Oni Animation]
+looptime =  1525
+ctrlID = 30
+
+[BGCtrl STAGE ON]
+type = Enable
+value = 1
+time = 0
+ctrlid = 20
+[BGCtrl Oni 1]
+type = Anim
+value = 30
+time = 0
+ctrlid = 30
+[BGCtrl Oni 2]
+type = Anim
+value = 31
+time = 838
+ctrlid = 30
+[BGCtrl Oni 3]
+type = Anim
+value = 30
+time = 888
+ctrlid = 30
+[BGCtrl Oni 4]
+type = Anim
+value = 31
+time = 1235
+ctrlid = 30
+[BGCtrl Oni 5]
+type = Anim
+value = 30
+time = 1285
+ctrlid = 30
+
+
+[BGCtrlDef Oni Movement]
+looptime =  1525
+ctrlID = 30
+
+[BGCtrl Oni 01]
+type = VelSet
+time = 0
+y = 0
+[BGCtrl Oni 02]
+type = VelSet
+time = 300
+y = -.5
+[BGCtrl Oni 03]
+type = VelSet
+time = 380
+y = 0
+[BGCtrl Oni Shake]
+type = SinY
+time = 838
+value = 2, 5, 0 
+[BGCtrl Oni Stop Shake]
+type = SinY
+time = 848
+value = 0, 5, 0 
+[BGCtrl Oni 04]
+type = VelSet
+time = 858
+y = 4
+[BGCtrl Oni 05]
+type = VelSet
+time = 868
+y = 0
+[BGCtrl Oni 06]
+type = VelSet
+time = 1000
+y = -.25
+[BGCtrl Oni 07]
+type = VelSet
+time = 1080
+y = 0
+[BGCtrl Oni Shake 1]
+type = SinY
+time = 1235
+value = 2, 5, 0 
+[BGCtrl Oni Stop Shake 1]
+type = SinY
+time = 1245
+value = 0, 5, 0
+[BGCtrl Oni 08]
+type = VelSet
+time = 1250
+y = 4
+[BGCtrl Oni 09]
+type = VelSet
+time = 1255
+y = 0

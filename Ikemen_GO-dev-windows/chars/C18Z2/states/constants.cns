@@ -1,0 +1,174 @@
+;=============================================
+;Vars (may not be up to date)
+;=============================================
+;0: Tech Throw [18]
+;1: air basics juggle limiter(system)
+;2:
+;3: Violence Hold buffer command / IB and CO hitcount
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5:
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Button press detection/Specific Move Variables [18]
+;10: Air dash limiter
+;11: f+s.MK button combo [18]
+;12: Hold button charge (c.SP)
+;13: Super BG choice (config)
+;14: Magic Series limiter [18]
+;15: Magic Series max hits (config)
+;16:
+;17: Zero Counter command
+;18: Juggle Safety
+;19:
+;20: varset for 1st/2nd state of Focus Attack
+;21:
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: Fashion
+;26: 
+;27: First attack notification
+;28:
+;29:
+;30: Dash Collision count - Beam Collision count
+;31: Ticks Back is held down (Charge char)
+;32: Back Charge Buffer (Charge char)
+;33: Ticks Down is held down (Charge char)
+;34: Down Charge Buffer (Charge char)
+;35:
+;36:
+;37: Super Jump AI direction
+;38: throw check
+;39:
+;40: Blitz fireball Cancel flag
+;41: Blitz Deadend hitcount
+;42:
+;43:
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48:
+;49:
+;50: VISM buffer TEMP 1 [18]
+;51: VISM buffer TEMP 2 [18]
+;52: EMO mode active+Level [18]
+;53:
+;54: Temp VISM EXIT [18]
+;55: Powerbar freeze under EMO
+;56: counter system notification
+;57: counter system notification
+;58: Bike flag (1337: ON)
+;59: Real Time Clock (detect enemy superpause)
+
+
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(8)  : JZ DeffenceMulSet fix
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Damage Dampener
+;fvar(12) : Damage Dampener
+;fvar(13) : Damage Dampener
+;fvar(14) : X start position (for intros)  [18]
+;fvar(15) : Y position in state 0 (for explods)  [18]
+;fvar(20) : doom lazer limit
+
+;=============================================
+; CNS File for C18 Z2 by Nico_18 & XGargoyle
+; Constants file
+;=============================================
+
+[Data]
+life = 1000
+power = 3000
+attack = 90 ;100
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2
+guard.sparkno = -1
+KO.echo = 0
+volume = 150
+IntPersistIndex = 48
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1				;Horizontal scaling factor.
+yscale = 1				;Vertical scaling factor.
+ground.back = 20		;Player width (back, ground)
+ground.front = 20		;Player width (front, ground)
+air.back = 18			;Player width (back, air)
+air.front = 18			;Player width (front, air)
+height = 60				;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too
+head.pos = 6,-83   		;Approximate position of head
+mid.pos = 2,-54   		;Approximate position of midsection
+shadowoffset = 0		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 2.8 ;2.2			;Walk forward
+walk.back = -3.2		;Walk backward
+run.fwd  = 6.5, 0			;Run forward (x, y)
+run.back = -4.3,0	;Hop backward (x, y)
+jump.neu = 0,-10		;Neutral jumping velocity (x, y)
+jump.back = -3.25		;Jump back Speed (x, y)
+jump.fwd = 3.25			;Jump forward Speed (x, y)
+runjump.back = -7.5,-8.5		;Running jump speeds (opt)
+runjump.fwd = 6,-8.5	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0			;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .51        	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+air.gethit.groundrecover.groundlevel = 0
+
+[Quotes]
+victory63 = "Can we take the kid's gloves off next time, then?!"
+victory64 = "That curiosity is gonna get you killed."
+victory65 = "If you drag me into a fight, you're gonna pay a hefty price."
+victory66 = "What the hell are you even wearing, did mommy dress you up?"
+victory67 = "You delayed me, how do you plan on compensating me for this nuisance?!"
+victory68 = "I'm putting a dent on you, and I don't mean your ego."
+victory69 = "Ahahahah! Oh, you were serious?! That's even funnier! Ahahahah!"
+victory70 = "That was your last in a series of very unfortunate mistakes."
+victory71 = "Try to touch me again and you are pulling back a stump."
+victory72 = "Looks like I've won, pay up."
+victory73 = "Scurry back to your corner and lick your wounds."
+victory74 = "Power and control, I'm gonna make you fall."
+victory75 = "I'm trouble."
+victory76 = "Fine, fine, you had your fight, was it all you had dreamed of?"
+victory77 = "Maybe you should keep your pretty mouth shut."
+victory78 = "You disgust me, crawl away and out of my sight!"
+victory79 = "I'm bored now. Cya bonehead!"
+victory80 = "Frenzied destruction is so lame, I need some flavour."
+victory81 = "Hey stupid, had enough yet?"
+victory82 = "There are no strings on me."
+victory83 = "Cyborg, android, whatever you want to call it."
+victory84 = "Heavy metal kiss."
+victory85 = "Let's dial it down to zero, shall we?"
+victory86 = "Are you ready to respect me?"
+victory87 = "It's like you don't care about anyone but yourself."
+victory88 = "Hello, temptation, nice to meet you."
+victory89 = "Do you do this on purpose to piss me off?"
+victory90 = "Guess I'm just a bad apple."
+victory91 = "Down on your knees."
+victory92 = "People never change. Stay down, freak!"
+victory93 = "I'd brag, but look at you, who'd want to brag over that?"
+victory94 = "Postage stamped, packaged and sealed with a Glasgow kiss."
+victory95 = "My touch will mark you in ways that no one else has done. And by touch I mean punch."
+victory96 = "Hmph, the fun part is over... This is starting to bore me."
+victory97 = "How sad, so much work and so little to show for it."
+victory98 = "I feel sorry for you... I mean, 'cause of your face."
+victory99 = "I'm kinda impressed, too bad you're such a meathead."

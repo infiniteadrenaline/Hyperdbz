@@ -1,0 +1,429 @@
+;Hyper DragonBall Z - Baba's Palace at Night
+;by EthanTheHuman
+
+
+;--------------------------------------------------------
+[Info]
+
+name = "Baba's Palace - Night"
+displayname = "Baba's Palace - Night" 
+versiondate = 03,12,2017 
+mugenversion = 1.0
+author = "EthanTheHuman"
+
+;--------------------------------------------------------
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -220 
+boundright = 220  
+boundhigh = -300 ;-198 
+boundlow = 0
+verticalfollow = .75 ;0.2 
+floortension = 90
+tension = 50
+
+ ;Number of pixels beyond the top and bottom of the screen that may
+ ;be drawn.  Overdraw specifies the how much can be seen during an
+ ;EnvShake.  Overdraw pixels will also be used when the screen aspect
+ ;is taller than the stage aspect.
+overdrawhigh = 0
+overdrawlow = 0
+
+ ;Number of pixels into the top and bottom of the screen that may be
+ ;cut from drawing when the screen aspect is shorter than the stage
+ ;aspect.  These parameters suggest a guideline, and the actual
+ ;number of pixels cut depends on the difference in aspect.
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70 ;-80          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+;--- Player 2 ---
+p2startx = 70 ;80
+p2starty = 0
+p2facing = -1
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 30 ;15    ;Dist from left of screen that player can move to
+screenright = 30 ;15   ;Right edge
+
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 213
+autoturn = 1
+resetBG = 0
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+ ;This controls the darkness of the shadow. Valid values range
+ ;from 0 (lightest) to 256 (darkest). Defaults to 128 if omitted.
+intensity = 40
+
+ ;This is the shadow color given in r,g,b. Valid values for each
+ ;range from 0 (lightest) to 255 (darkest).
+ ;Defaults to 0,0,0 if omitted.
+ ;intensity and color's effects add up to give the final shadow
+ ;result.
+color = 20,10,10
+
+ ;This is the scale factor of the shadow. Use a big scale factor
+ ;to make the shadow longer. You can use a NEGATIVE scale factor
+ ;to make the shadow fall INTO the screen.
+ ;Defaults to 0.4 if omitted.
+yscale = .4
+
+ ;This parameter lets you set the range over which the shadow is
+ ;visible. The first value is the high level, and the second is
+ ;the middle level. Both represent y-coordinates of the player.
+ ;A shadow is invisible if the player is above the high level,
+ ;and fully visible if below the middle level. The shadow is
+ ;faded in between the two levels. This gives an effect of the
+ ;shadow fading away as the player gets farther away from the
+ ;ground. If omitted, defaults to no level effects (shadow is
+ ;always fully visible).
+;fade.range = -400,-100
+fade.range = 0,-50
+
+;--------------------------------------------------------
+[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+intensity = 0
+
+;--------------------------------------------------------
+[Music]
+bgmusic = sound/chars/Golden_Freeza.mp3
+bgmvolume = 100
+
+;looping points for Golden_Freeza.mp3
+bgmloopstart = 964264
+bgmloopend = 4812953
+
+[BGdef]
+spr = hdbz_palace2.sff
+debugbg = 0
+
+[BG Sky 00]
+type  = normal
+spriteno = 0,1000
+start = 0, 0
+mask = 0
+delta = 0, 0
+
+[BG Sky 00]
+type  = normal
+spriteno = 3,2
+start = 0, 0
+mask = 1
+delta = 0.1, 0.1
+
+[BG Sky 00]
+type  = normal
+spriteno = 3,1
+start = 0, 0
+mask = 1
+delta = 0.25, 0.25
+
+[BG Sky 00]
+type  = normal
+spriteno = 2,3
+start = 0, 0
+delta = 0.3, 0.3
+mask = 1
+
+[BG Sky 00]
+type  = normal
+spriteno = 2,2
+start = 0, 0
+mask = 1
+delta = 0.4, 0.4
+
+[BG Sky 00]
+type  = normal
+spriteno = 2,1
+start = 0, 0
+mask = 1
+delta = 0.5, 0.5
+
+[BG Bridge]
+type = parallax
+spriteno = 1, 2
+start = 0, 116
+mask = 1
+delta = 0.5, 0.5
+xscale = 1, 1.4
+yscaledelta = 0.4
+
+[BG Floor]
+type  = parallax
+spriteno = 1,1
+start = 0, 166
+mask = 1
+delta = .75, .65
+xscale = 1, 1.5
+yscaledelta = 0.5
+
+;-----------------------------------------------------
+[BG AssassinsBig1]
+type = normal
+spriteno = 4,11
+start = 0,0
+mask = 1
+delta = 0.7, 0.7
+sin.y = 5,200,0
+sin.x = 5,500,0
+
+[BG AssassinsBig2]
+type = normal
+spriteno = 4,12
+start = 0,0
+mask = 1
+delta = 0.7, 0.7
+sin.y = 7,500,0
+sin.x = 7,600,0
+
+[BG AssassinsBig3]
+type = normal
+spriteno = 4,13
+start = 0,0
+mask = 1
+delta = 0.7, 0.7
+sin.y = 2,100,0
+sin.x = 4,450,0
+
+[BG AssassinsBig4]
+type = normal
+spriteno = 4,14
+start = 0,0
+mask = 1
+delta = 0.7, 0.7
+sin.y = 5,250,0
+sin.x = 10,700,0
+
+[BG AssassinsBig4]
+type = normal
+spriteno = 4,24
+start = 0,0
+mask = 1
+delta = 0.7, 0.7
+sin.y = 5,410,0
+sin.x = 10,650,0
+
+;-----------------------------------------------------
+[BG AssassinsMed1]
+type = normal
+spriteno = 4,15
+start = 0,0
+mask = 1
+delta = 0.65, 0.65
+sin.y = 3,200,0
+sin.x = 3,500,0
+
+[BG AssassinsMed2]
+type = normal
+spriteno = 4,16
+start = 0,0
+mask = 1
+delta = 0.65, 0.65
+sin.y = 4,350,0
+sin.x = 2,400,0
+
+[BG AssassinsMed3]
+type = normal
+spriteno = 4,17
+start = 0,0
+mask = 1
+delta = 0.65, 0.65
+sin.y = 2,150,0
+sin.x = 4,600,0
+
+[BG AssassinsMed4]
+type = normal
+spriteno = 4,18
+start = 0,0
+mask = 1
+delta = 0.65, 0.65
+sin.y = 5,600,0
+sin.x = 6,800,0
+
+[BG AssassinsMed5]
+type = normal
+spriteno = 4,23
+start = 0,0
+mask = 1
+delta = 0.65, 0.65
+sin.y = 5,320,0
+sin.x = 6,710,0
+
+
+;-----------------------------------------------------
+[BG AssassinsSml1]
+type = normal
+spriteno = 4,19
+start = 0,0
+mask = 1
+delta = 0.6, 0.6
+sin.y = 2,200,0
+sin.x = 2,500,0
+
+[BG AssassinsSml2]
+type = normal
+spriteno = 4,20
+start = 0,0
+mask = 1
+delta = 0.6, 0.6
+sin.y = 2,350,0
+sin.x = 2,400,0
+
+[BG AssassinsSml3]
+type = normal
+spriteno = 4,21
+start = 0,0
+mask = 1
+delta = 0.6, 0.6
+sin.y = 2,150,0
+sin.x = 2,600,0
+
+[BG AssassinsSml4]
+type = normal
+spriteno = 4,22
+start = 0,0
+mask = 1
+delta = 0.6, 0.6
+sin.y = 2,300,0
+sin.x = 2,700,0
+
+;-----------------------------------------------------
+;[BG Assassin9]
+;type = normal
+;spriteno = -1,0;4,1
+;start = 40,50
+;mask = 1
+;tile = 1,0
+;delta = 0.5, 0.5
+;tilespacing = 177,0
+;sin.y = 3,280,0
+;
+;[BG Assassin10]
+;type = normal
+;spriteno = -1,0;4,2
+;start = 110,50
+;mask = 1
+;tile = 1,0
+;delta = 0.5, 0.5
+;tilespacing = 177,0
+;sin.y = 3,290,0
+;
+;[BG Assassin11]
+;type = normal
+;spriteno = -1,0;4,10
+;start = 180,50
+;mask = 1
+;tile = 1,0
+;delta = 0.5, 0.5
+;tilespacing = 179,0
+;sin.y = 3,300,0
+
+;-----------------------------------------------------
+;[BG Assassin4]
+;type = normal
+;spriteno = -1,0;4,5
+;start = 20,90
+;mask = 1
+;tile = 1,0
+;delta = 0.65, 0.65
+;tilespacing = 308,0
+;sin.y = 4,230,0
+;
+;[BG Assassin5]
+;type = normal
+;spriteno = -1,6
+;start = 90,90
+;mask = 1
+;tile = 1,0
+;delta = 0.65, 0.65
+;tilespacing = 310,0
+;sin.y = 4,240,0
+;
+;[BG Assassin6]
+;type = normal
+;spriteno = -1,0;4,7
+;start = 160,90
+;mask = 1
+;tile = 1,0
+;delta = 0.65, 0.65
+;tilespacing = 303,0
+;sin.y = 4,250,0
+;
+;[BG Assassin7]
+;type = normal
+;spriteno = -1,0;4,8
+;start = 230,90
+;mask = 1
+;tile = 1,0
+;delta = 0.65, 0.65
+;tilespacing = 311,0
+;sin.y = 4,260,0
+;
+;[BG Assassin8]
+;type = normal
+;spriteno = -1,0;4,9
+;start = 300,90
+;mask = 1
+;tile = 1,0
+;delta = 0.65, 0.65
+;tilespacing = 309,0
+;sin.y = 4,270,0
+
+;-----------------------------------------------------
+;[BG Assassin1]
+;type = normal
+;spriteno = -1,0;4,3
+;start = 0,130
+;mask = 1
+;tile = 1,0
+;delta = 0.8, 0.8
+;tilespacing = 167,0
+;sin.y = 5,200,0
+;
+;[BG Assassin2]
+;type = normal
+;spriteno = -1,0;4,4
+;start = 70,130
+;mask = 1
+;tile = 1,0
+;delta = 0.8, 0.8
+;tilespacing = 163,0
+;sin.y = 5,210,0
+;
+;[BG Assassin3]
+;type = normal
+;spriteno = -1,0;4,0
+;start = 140,130
+;mask = 1
+;tile = 1,0
+;delta = 0.8, 0.8
+;tilespacing = 163,0
+;sin.y = 5,220,0
+
+
+

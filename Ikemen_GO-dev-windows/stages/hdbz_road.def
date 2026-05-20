@@ -1,0 +1,556 @@
+;Hyper DragonBall Z - Mountain Road Stage
+;by Daeron & XGargoyle
+
+[info]
+name = "Mountain Road"
+displayname = "Mountain Road" 
+versiondate = 06,13,2018 
+mugenversion = 1.0
+author = "Daeron & XGargoyle"
+
+;--------------------------------------------------------
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -224
+boundright = 224 
+boundhigh = -300 ;-150 
+boundlow = 0
+verticalfollow = .75 ;0.2 
+floortension = 90 ;0
+tension = 50
+
+ ;Number of pixels beyond the top and bottom of the screen that may
+ ;be drawn.  Overdraw specifies the how much can be seen during an
+ ;EnvShake.  Overdraw pixels will also be used when the screen aspect
+ ;is taller than the stage aspect.
+overdrawhigh = 0
+overdrawlow = 0
+
+ ;Number of pixels into the top and bottom of the screen that may be
+ ;cut from drawing when the screen aspect is shorter than the stage
+ ;aspect.  These parameters suggest a guideline, and the actual
+ ;number of pixels cut depends on the difference in aspect.
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70 ;-80          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+;--- Player 2 ---
+p2startx = 70 ;80
+p2starty = 0
+p2facing = -1
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1000 ;Left bound (x-movement)
+rightbound =  1000 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 30 ;15    ;Dist from left of screen that player can move to
+screenright = 30 ;15   ;Right edge
+
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 215 ;0;215
+zoffsetlink = 200 ;10
+autoturn = 1
+resetBG = 1
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+ ;This controls the darkness of the shadow. Valid values range
+ ;from 0 (lightest) to 256 (darkest). Defaults to 128 if omitted.
+intensity = 40
+
+ ;This is the shadow color given in r,g,b. Valid values for each
+ ;range from 0 (lightest) to 255 (darkest).
+ ;Defaults to 0,0,0 if omitted.
+ ;intensity and color's effects add up to give the final shadow
+ ;result.
+color = 20,10,10
+
+ ;This is the scale factor of the shadow. Use a big scale factor
+ ;to make the shadow longer. You can use a NEGATIVE scale factor
+ ;to make the shadow fall INTO the screen.
+ ;Defaults to 0.4 if omitted.
+yscale = .4
+
+ ;This parameter lets you set the range over which the shadow is
+ ;visible. The first value is the high level, and the second is
+ ;the middle level. Both represent y-coordinates of the player.
+ ;A shadow is invisible if the player is above the high level,
+ ;and fully visible if below the middle level. The shadow is
+ ;faded in between the two levels. This gives an effect of the
+ ;shadow fading away as the player gets farther away from the
+ ;ground. If omitted, defaults to no level effects (shadow is
+ ;always fully visible).
+;fade.range = -400,-100
+fade.range = 0,-50
+
+;--------------------------------------------------------
+[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+intensity = 0
+
+;--------------------------------------------------------
+[music]
+
+bgmusic = sound/chars/Android_18.mp3
+bgvolume = 100
+
+;looping points for Android_18.mp3
+bgmloopstart = 606785
+bgmloopend = 4235535
+
+;========================================================
+; main background definition
+[bgdef]
+spr = stages/hdbz_road.sff
+debugbg = 0
+
+;----------
+
+
+[bg sky]
+type = normal
+spriteno = 0,0
+start = 0, 220
+delta = 0.1,0.4
+mask = 1
+velocity = -0.4, 0
+tile = 1,0
+
+[bg mountain]
+type = normal
+spriteno = 1,0
+start = 0, 220
+delta = 0.3,0.5
+mask = 1
+velocity = -0.6, 0
+tile = 1,0
+sin.y = 3,2048,0
+
+[bg bushes]
+type = normal
+spriteno = 5,0
+start = 0, 220
+delta = 0.4,0.6
+mask = 1
+tile = 1,0
+sin.y = 5,1024,0
+id = 5
+
+[bg hill]
+type = normal
+spriteno = 2,0
+start = 1500, 230
+delta = 0.5,0.7
+mask = 1
+;velocity = 0.3,0
+id = 2
+
+[bg billboard Soda]
+type = normal
+spriteno = 3,0
+start = 0, 220
+delta = 0.7,0.7
+mask = 1
+id = 3
+[bg billboard HDBZ]
+type = normal
+spriteno = 4,0
+start = 1000, 220
+delta = 0.7,0.7
+mask = 1
+id = 4
+
+[bg road]
+type = normal
+spriteno = 7,0
+start = 0, 220
+delta = 0.9,0.9
+mask = 1
+tile = 1,0
+id = 7
+
+[bg leaves]
+type = normal
+spriteno = 9,0
+start = 333, 220
+delta = 0.9,0.9
+mask = 1
+id = 9
+
+[bg signpost]
+type = normal
+spriteno = 8,0
+start = 0, 220
+delta = 0.9,0.9
+mask = 1
+id = 8
+
+[bg fence]
+type = normal
+spriteno = 11,0
+start = 0, 220
+delta = 0.9,0.9
+mask = 1
+id = 11
+
+[bg tunnel BG]
+type = normal
+spriteno = 12,0
+start = 2000, 222
+delta = 0.9,0.9
+mask = 1
+id = 12
+
+[bg vehicle]
+type = normal
+spriteno = 20,0
+start = 0, 210
+delta = 0.9,0.9
+mask = 1
+id = 20
+
+[bg truck back]
+type = normal
+spriteno = 14,0
+start = 0, 224 ;220
+delta = 1,1
+mask = 1
+id = 10
+
+[bg floor]
+type = normal
+spriteno = 10,0
+start = 0, 224 ;220
+delta = 1,1
+mask = 1
+id = 10
+
+[bg tunnel FG]
+type  = anim
+actionno = 13
+start = 2000, 222
+delta = 0.9,0.9
+mask = 1
+layerno = 1
+id = 12
+
+[Begin action 13]
+13,0, 0,0, -1, ,AS256D256
+
+;----------
+[bg position]
+type  = dummy
+spriteno = -1,0
+start = 0, 0
+delta = 1,1
+mask = 1
+id = 10
+
+[BG Dummy] ;Dummy object for player's zoffset to be bound to
+type  = dummy
+id = 200 ;10
+start = 0,0
+positionlink = 1
+
+[BGCtrlDef hill]
+looptime =  1800
+ctrlID = 2
+[BGCtrl 3.1];billboard
+type = Enable
+time = 0 
+value = 1
+[BGCtrl Pos];billboard Soda
+type = PosSet
+time = 0 
+x = 500
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -3.2 ;-4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.035 ;-0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -6.7 ;-9
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.05 ;-0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -12.14 ;-16
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.089 ;0.115
+
+
+[BGCtrlDef billboard]
+looptime =  1800
+ctrlID = 3,4
+[BGCtrl 3.1];billboard
+type = Enable
+time = 0 
+value = 1
+[BGCtrl Pos];billboard Soda
+type = PosSet
+time = 0 
+x = 500
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -3.5 ;-4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.035 ;-0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -7 ;-9
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.05 ;-0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -12.44 ;-16
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.089 ;0.115
+
+
+[BGCtrlDef bushes]
+looptime =  1800
+ctrlID = 5
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -2 ;-4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.020 ;-0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -4 ;-9
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.03 ;-0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -7.1 ;-16
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.05 ;0.115
+
+
+[BGCtrlDef road]
+looptime =  1800
+ctrlID = 7
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -9
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -16
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.115
+
+[BGCtrlDef signpost]
+looptime =  1800
+ctrlID = 8,9
+[BGCtrl 3.1]
+type = Enable
+time = 0 
+value = 1
+[BGCtrl Pos];signpost
+type = PosSet
+time = 0 
+x = 300
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -9
+[BGCtrl Pos];signpost
+type = PosSet
+time = 700 
+x = 300
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -16
+[BGCtrl Pos];signpost
+type = PosSet
+time = 1700 
+x = 300
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.115
+
+
+[BGCtrlDef floor]
+looptime =  1800
+ctrlID = 10
+
+[BGCtrl 10.1]
+type = SinY
+time = 1
+value = 1, 20, 0 
+
+[BGCtrl 10.1]
+type = SinY
+time = 600
+value = 3, 20, 0
+
+[BGCtrl 10.1]
+type = SinY
+time = 1200
+value = 4, 40, 0
+
+[BGCtrlDef fence]
+looptime =  3600
+ctrlID = 11
+[BGCtrl 3.1]
+type = Enable
+time = 0 
+value = 1
+[BGCtrl Pos];fence
+type = PosSet
+time = 0 
+x = 1300
+[BGCtrl 7.1]
+type = VelSet
+time = 1
+x = -4.5
+[BGCtrl 7.1]
+type = VelAdd
+time = 500,599
+x = -0.045
+[BGCtrl 7.1]
+type = VelSet
+time = 600
+x = -9
+[BGCtrl 7.1]
+type = VelAdd
+time = 1100,1199
+x = -0.07
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = -16
+[BGCtrl 7.1]
+type = VelAdd
+time = 1700,1799
+x = 0.115
+
+[BGCtrlDef Tunnel]
+looptime =  7200
+ctrlID = 12
+[BGCtrl 3.1]
+type = Enable
+time = 0
+value = 0
+[BGCtrl 3.1]
+type = Enable
+time = 4800 
+value = 1
+[BGCtrl 7.1]
+type = VelSet
+time = 4800
+x = -16
+
+[BGCtrlDef vehicle]
+looptime =  3600
+ctrlID = 20
+
+[BGCtrl 3.1]
+type = Enable
+time = 0 
+value = 1
+[BGCtrl Pos]
+type = PosSet
+time = 0 
+x = 1000
+[BGCtrl 10.1]
+type = SinX
+time = 0
+value = 10, 120, 0
+[BGCtrl 10.1]
+type = SinY
+time = 0
+value = 5, 60, 0 
+[BGCtrl 7.1]
+type = VelSet
+time = 0
+x = -3
+[BGCtrl Pos]
+type = PosSet
+time = 1200 
+x = -1000
+[BGCtrl 7.1]
+type = VelSet
+time = 1200
+x = 4
+[BGCtrl 3.1]
+type = Enable
+time = 2400 
+value = 0

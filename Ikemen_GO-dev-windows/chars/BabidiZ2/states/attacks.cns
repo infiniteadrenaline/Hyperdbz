@@ -1,0 +1,7183 @@
+;================================
+; CNS File for Babidi Z2 by Balthazar, Daeron & XGargoyle
+; Babidi attacks
+;================================
+
+;---------------------------------------------------------------------------
+; TAUNT
+[Statedef 195]
+type = S
+ctrl = 0
+anim = 0
+velset = 0,0
+movetype = I
+physics = S
+sprpriority = 1
+
+[State 200, laugh]
+type = PlaySnd
+trigger1 = !time
+value = 9100,0
+channel = 4
+volume = 300
+
+[State 0, Face]
+type = Explod
+trigger1 = !time && !NumExplod(195)
+anim = 195;+2*(random%2)
+ID = 195
+pos = 0,0
+postype = p1
+supermovetime = 0
+pausemovetime = 0
+removetime = 114 ;-2
+sprpriority = 2
+ownpal = 1
+bindtime = -1
+scale = 1,1
+shadow = -1
+removeongethit = 1
+ignorehitpause = 0
+
+[State 195, 2]
+type = ChangeState
+trigger1 = !NumExplod(195) ;AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND LIGHT PUNCH
+[StateDef 200]
+type = S
+movetype = A
+physics = S
+anim = 200
+ctrl = 0
+velset = 0,0
+poweradd = 0
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6801
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=15 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; f.s.LP - Launcher
+[StateDef 205]
+type = S
+movetype = A
+physics = S
+anim = 1200
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = animelemtime(9)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6851
+pos = floor(screenpos X)+20*facing,0
+postype = left  ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+
+[State 200, 5]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND MEDIUM PUNCH
+[StateDef 210]
+type = S
+movetype = A
+physics = S
+anim = 210
+ctrl = 0
+velset = 0,0
+;poweradd = 10
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<350
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6802
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=20 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; f.s.MP - Tornado
+[StateDef 215]
+type = S
+movetype = A
+physics = S
+anim = 1400
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<400
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = animelemtime(5)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6852
+pos = floor(screenpos X)+10*facing,0
+postype = left  ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+
+[State 200, 5]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+;---------------------------------------------------------------------------
+; STAND STRONG PUNCH
+[StateDef 220]
+type = S
+movetype = A
+physics = S
+anim = 220
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<300
+value = 3,20+random%5
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6803
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=25 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; f.s.SP  Rockfall
+[StateDef 225]
+type = S
+movetype = A
+physics = S
+anim = 1200
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time
+value = 6853,0
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = animelemtime(9)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6853
+;pos = floor(ScreenPos X),0
+pos = 0,-300
+postype = p2    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+
+[State 3020, Sparks]
+type=explod
+trigger1= animelemtime(9)=0
+anim=17100
+sprpriority=-7
+postype=left
+pos = floor(ScreenPos X),var(54)
+removetime=-2
+ownpal=1
+facing=1
+ignorehitpause=1
+persistent=0
+pausemovetime=100
+supermovetime=100
+scale = 0.5,0.5
+
+
+[State 200, 5]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND LIGHT KICK
+[StateDef 230]
+type = S
+movetype = A
+physics = S
+anim = 200
+ctrl = 0
+velset = 0,0
+poweradd = 0
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6804
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=15 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; f.s.LK - Fireworks
+[StateDef 235]
+type = S
+movetype = A
+physics = S
+anim = 1400
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = time = 5 ;animelemtime(5)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6854
+pos = 0,-50 ;-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+
+[State 200, 5]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; STAND MEDIUM KICK
+[StateDef 240]
+type = S
+movetype = A
+physics = S
+anim = 210
+ctrl = 0
+velset = 0,0
+;poweradd = 10
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<350
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6805
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=20 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; f.s.MK Lightning Strike
+[StateDef 245]
+type = S
+movetype = A
+physics = S
+anim = 1200
+ctrl = 0
+velset = 0,0
+;poweradd = 10
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = animelemtime(8)=0 && random<200
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = animelemtime(9)=0 ;!time ;
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6855
+pos = floor(ScreenPos X),0
+postype = left    ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND STRONG KICK
+[StateDef 250]
+type = S
+movetype = A
+physics = S
+anim = 220
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time && random<300
+value = 3,20+random%5
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6806
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = time=25 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0+11*(command="holddown")
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; f.s.SK Freeze Ball
+[StateDef 255]
+type = S
+movetype = A
+physics = S
+anim = 1010
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+facep2 = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = animelemtime(3)=5 && random<200
+value = 3,20+random%5
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+;triggerall = !Numhelper(6800)
+trigger1 = animelemtime(3)=5
+helpertype = normal
+name = "Crystal Ball"
+ID =   6850
+stateno = 6856
+;pos = floor(ScreenPos X),0
+pos = 35,-35
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 200, 5]
+type = ChangeState
+trigger1 = !animtime ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; JUMP LIGHT PUNCH
+[StateDef 600]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+poweradd = 0
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6801
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=20 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP MEDIUM PUNCH
+[StateDef 610]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+;poweradd = 10
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<350
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6802
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=25 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP STRONG PUNCH
+[StateDef 620]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<300
+value = 3,20+random%5
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6803
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=30 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP LIGHT KICK
+[StateDef 630]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+poweradd = 0
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<400
+value = 3,random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6804
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=20 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP MEDIUM KICK
+[StateDef 640]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+;poweradd = 10
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<350
+value = 3,10+random%3
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6805
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=25 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP STRONG KICK
+[StateDef 650]
+type = A
+movetype = A
+physics = N
+anim = 600
+ctrl = 0
+velset = 0,0
+;poweradd = 20
+sprpriority = 2
+juggle = 7
+
+[State 0, VelSet]
+type = VelSet
+triggerall = Anim=600
+triggerall = pos Y <-80
+trigger1 = !time
+y = 0.4
+
+[State 200, snd]
+type = playsnd
+triggerall = Anim=600
+trigger1 = !time && random<300
+value = 3,20+random%5
+channel = 0
+volume = 300
+
+[State 3010, Helper]
+type = Helper
+triggerall = Anim=600
+triggerall = !Numhelper(6800)
+trigger1 = !time ;animelemtime(4)=0
+helpertype = normal
+name = "Crystal Ball"
+ID =   6800
+stateno = 6806
+;pos = floor(ScreenPos X),0
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim=600
+trigger1 = !animtime
+value = 0
+
+[State 200, 5]
+type = ChangeState
+triggerall = Anim=0
+trigger1 = time=30 ;time>0 && !Numhelper(6800) ;AnimTime = 0
+value = 50
+ctrl = 0
+
+
+
+;===========================================================================
+; <<<<< LAMP RAY >>>>>
+; Grab state : 800
+; Babidi throws : 801
+; P2 thrown state : 802
+;===========================================================================
+;Forward Throw
+[Statedef 800]
+type = S
+movetype = A
+physics = S
+juggle = 15
+velset = 0,0
+ctrl = 0
+anim = 800
+sprpriority = 1
+facep2 = 1
+poweradd = 20
+
+[State 800, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=5 && !var(38)
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 801
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)=0;5.1new
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 801
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)>0;5.1new
+attr = S,NT
+hitflag = M-
+priority = 1,Hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 801
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumTarget;updated
+trigger1 = !(target, ishelper);updated
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800) || (NumTarget(800) && enemy, AuthorName != "Team Z2") ;AlexSin fix
+trigger2 = MoveHit=1
+value = 801
+ignorehitpause = 1
+persistent = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 0, 1
+
+[State 200, missed voice]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 9100,10+random%2
+channel = 0
+
+[State Idle]
+type = statetypeset
+trigger1 = animelemtime(6)>=0
+movetype = I
+
+[State 800, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;Babidi's State (lamp ray)
+[Statedef 801]
+type = S
+movetype = A
+physics = S
+anim = 801
+ctrl = 0
+sprpriority = 1
+
+[State Throw]
+type = targetstate
+trigger1 = !time
+value = 802
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = !time
+fvar(13) = 2
+
+[State 1900, Power Lamp explod]
+type = explod
+triggerall = !NumExplod(910)
+trigger1 = !time
+anim = 910
+id = 910
+pos = 0,0
+sprpriority = 6
+bindtime = -1
+ownpal = 0
+removeongethit = 1
+ignorehitpause = 1
+facing = 1
+removetime = -1 ;-2
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !time
+value = 2400,10
+volume = 0
+channel = -1
+
+[State 1000]
+type = width
+trigger1 = anim = 801
+value = 55,30
+
+[State 0, Remove Lamp]
+type = RemoveExplod
+trigger1 = time=24
+id =910
+;ignorehitpause =
+;persistent =
+
+[State 1900, Lamp]
+type = explod
+triggerall = !NumExplod(805)
+trigger1 = time = 24
+anim = 805
+id = 805
+pos = 0,0
+sprpriority = 6
+bindtime = -1
+ownpal = 0
+removeongethit = 1
+ignorehitpause = 1
+facing = 1
+removetime = -1
+
+[State 1900, Lamp Ray explod]
+type = explod
+triggerall = !NumExplod(8800)
+trigger1 = time = 24
+anim = 8800
+id = 8800
+pos = 0,0
+sprpriority = 7
+bindtime = -1
+ownpal = 0
+removeongethit = 1
+ignorehitpause = 1
+facing = 1
+removetime = -2
+
+[State 0, VarAdd]
+type = ParentVarAdd
+trigger1 = time=24
+fvar(13) = 2
+
+[State 182, 1]
+type = screenbound
+trigger1 = 1
+movecamera = 1,0
+value = 1
+
+[State 810, Normal throw]
+type = TargetLifeAdd
+trigger1 = time<24
+value = -1
+
+[State 13100, explosion sound]
+type = playsnd
+trigger1 = time = 24
+value = 2400,11
+volume = 355
+
+[State 810, Normal throw]
+type = TargetLifeAdd
+trigger1 = time=30
+value = -66
+
+[State 810, Throw 11]
+type = TargetState
+trigger1 = time = 30
+value = 803
+
+[State 810, hurt]
+type = poweradd
+trigger1 = time<24
+value = 7
+
+
+[State 0, Remove Lamp]
+type = RemoveExplod
+trigger1 = !animtime
+id =805
+;ignorehitpause =
+;persistent =
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;Enemy Thrown State
+[Statedef 802]
+type = S
+movetype = H
+physics = N
+velset = 0,0
+sprpriority = 0
+
+[State 182, 1]
+type = screenbound
+trigger1 = 1
+movecamera = 1,0
+value = 1
+
+[State 802, anim]
+type = changeanim2
+trigger1 = !time
+value = 802
+
+[State 0, PalFX]
+type = PalFX
+trigger1 = time<=24
+time = 1
+add = 0-time,0-ceil(time/0.24),0+ceil(time/0.5)
+mul = 256-ceil(time/4),256-ceil(time/0.75),256-ceil(time/0.22)
+sinadd = -10,-10,-10,1
+invertall = 0
+color = 256-10*time
+
+[State 820, 2]
+type = null ;SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 801, end]
+type = selfstate
+trigger1 = time = 30 ;!animtime
+value = 5100
+ctrl = 0
+
+;----------------------------
+;Enemy Thrown State 2 - in air
+[Statedef 803]
+type    = A
+movetype= H
+physics = N
+velset = -8,-5
+poweradd = 35
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 802, anim]
+type = changeanim2
+trigger1 = !time
+value = 803
+
+[State 821, 1] ;Gravity
+type = VelAdd
+Trigger1 = 1
+y = .4
+
+[State 810, Hurt 11]
+type = PowerAdd
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 35
+
+[State 821, 4] ;Hit ground
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 5954 ;Hit ground
+
+;===========================================================================
+; <<<<< MAGICIAN'S BACKSTAB >>>>>
+; Grab state : 810
+; Babidi throws : 811
+; P2 thrown state : 812
+;===========================================================================
+;Backward Throw
+[Statedef 810]
+type = S
+movetype = A
+physics = S
+juggle = 15
+velset = 0,0
+ctrl = 0
+anim = 800
+sprpriority = 1
+facep2 = 1
+poweradd = 20
+
+[State 800, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=5 && !var(38)
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 811
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)=0;5.1new
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 811
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+[State 800, hit]
+type = hitdef
+triggerall = p2bodydist x<35
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)>0;5.1new
+attr = S,NT
+hitflag = M-
+priority = 1,Hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+;p1stateno = 811
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+numhits = 0
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumTarget;updated
+trigger1 = !(target, ishelper);updated
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800) || (NumTarget(800) && enemy, AuthorName != "Team Z2") ;AlexSin fix
+trigger2 = MoveHit=1
+value = 811
+ignorehitpause = 1
+persistent = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 0, 1
+
+[State 200, missed voice]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 9100,10+random%2
+channel = 0
+
+[State Idle]
+type = statetypeset
+trigger1 = animelemtime(6)>=0
+movetype = I
+
+[State 800, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;Babidi's State (backstab)
+[Statedef 811]
+type = S
+movetype = A
+physics = S
+anim = 811
+ctrl = 0
+sprpriority = 1
+
+[State Throw]
+type = targetstate
+trigger1 = !time
+value = 812
+
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = !time
+fvar(13) = 2
+
+
+[State 0, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+;ignorehitpause =
+;persistent =
+
+[State 3020, Sparks]
+type=explod
+trigger1= !time
+anim=2430
+sprpriority=7
+postype=p2
+pos= -10, -40 ;(target,const(size.ground.front)-2),0 ;-62 ;-77;floor(p2dist y)
+removetime=59
+ownpal=1
+facing=-1
+ignorehitpause=1
+persistent=0
+pausemovetime=100
+supermovetime=100
+
+[State 200, shocked]
+type = PlaySnd
+trigger1= time=10
+value = 2400,2
+volume = 300
+persistent = 0
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = time=20
+value = 185,random%3
+volume = 0
+channel = -1
+
+
+[State 3010, Helper]
+type = Helper
+trigger1 = time=60
+helpertype = normal
+name = "Floating Bomb"
+ID =   2950
+stateno = 2950
+pos = -40,-65
+postype = p2    ;p2,front,back,left,right
+facing = facing ;1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 182, 1]
+type = screenbound
+trigger1 = 1
+movecamera = 1,0
+value = 1
+
+[State 810, hurt]
+type = poweradd
+trigger1 = time=60
+value = 180
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;Enemy Thrown State
+[Statedef 812]
+type = S
+movetype = H
+physics = N
+velset = 0,0
+sprpriority = 0
+
+[State 182, 1]
+type = screenbound
+trigger1 = 1
+movecamera = 1,0
+value = 1
+
+[State 802, anim]
+type = changeanim2
+trigger1 = !time
+value = 812
+
+[State 820, 2]
+type = null ;SelfState
+trigger1 = !gethitvar(isbound)
+value = 5050
+
+[State 801, end]
+type = Changestate
+trigger1 = time=84 ;!animtime
+value = 5954
+ctrl = 0
+
+;----------------------------
+;Enemy Grabbed
+[Statedef 899]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+ 
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = !Time
+value = 899
+ 
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+ 
+[State 0, SelfState]
+type = SelfState
+trigger1 = !AILEVEL
+trigger1 = ((NumExplod(90000800) ||(NumExplod(800)))|| (command = "x" && command = "a")) && command != "up"
+trigger2 = AILEVEL > 0 
+trigger2 = Cond(AILevel = 8, 1,random < 470*(AIlevel ** 2 / 64.0))
+value = Cond(enemynear,Var(0)=1,950,5940)
+ 
+[State 0, SelfState]
+type = SelfState
+trigger1 = Time >= 9
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;PUI-PUI Special punch
+[Statedef 1000]
+type    = S
+movetype= A
+physics = S
+juggle  = 7
+velset = 0,0
+anim = 1000
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+facep2 = 1
+
+[State 1500, VarSet]
+type=VarSet
+trigger1 = AILevel>0 && !time
+var(15)=cond(random<300,1,cond(random<500,2,3))
+ignorehitpause=1
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time ;AnimElemTime(4)=0
+value = 7777,random%2
+volume = 300
+channel = 0
+
+
+[State 3010, Helper]
+type = Helper
+trigger1 = AnimElemTime(4)=0
+helpertype = normal
+name = "Pui-Pui"
+ID =   2200
+stateno = 2200
+pos = cond(FrontEdgeDist<165,floor(screenpos X)+55*facing,floor(screenpos X)+55*var(15)*facing),0
+postype = left    ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !animtime
+var(15) = 0
+ignorehitpause = 1
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;EX PUI-PUI Special punch
+[Statedef 1100]
+type    = S
+movetype= A
+physics = S
+juggle  = 7
+velset = 0,0
+anim = 1500
+ctrl = 0
+sprpriority = 2
+poweradd = -500
+facep2 = 1
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time ;AnimElemTime(4)=0
+value = 7777,random%2
+volume = 300
+channel = 0
+
+
+[State 3010, Helper]
+type = Helper
+trigger1 = AnimElemTime(4)=0
+helpertype = normal
+name = "Pui-Pui"
+ID =   2200
+stateno = 2210
+pos = floor(screenpos X)+55*facing,0
+postype = left  ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;Gravity Trap
+[Statedef 1200]
+type    = S
+movetype= A
+physics = S
+juggle  = 7
+velset = 0,0
+anim = 1200
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+facep2 = 1
+
+[State 1500, VarSet]
+type=VarSet
+trigger1 = AILevel>0 && !time
+var(15)=cond(random<300,1,cond(random<500,2,3))
+ignorehitpause=1
+
+[State 3010, Helper]
+type = Helper
+trigger1 = AnimElemTime(9)=0
+helpertype = normal
+name = "Gravity Trap"
+ID =   6200
+stateno = 6200
+;pos = floor(ScreenPos X),0
+pos = cond(FrontEdgeDist<150,floor(screenpos X)+50*facing,floor(screenpos X)+50*var(15)*facing),0
+postype = left    ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !animtime
+var(15) = 0
+ignorehitpause = 1
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;Sticky Bomb
+[Statedef 1400]
+type    = S
+movetype= A
+physics = S
+juggle  = 7
+velset = 0,0
+anim = 1000
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+facep2 = 1
+
+[State 1500, VarSet]
+type=VarSet
+trigger1 = AILevel>0 && !time
+var(15)=cond(random<300,1,cond(random<500,2,3))
+ignorehitpause=1
+
+[State 3010, Helper]
+type = Helper
+trigger1 = AnimElemTime(4)=0
+helpertype = normal
+name = "Sticky Bomb"
+ID =   2400
+stateno = 2400
+pos = 25,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !animtime
+var(15) = 0
+ignorehitpause = 1
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;Sticky Bomb Detonation
+[Statedef 1450]
+type    = S
+movetype= A
+physics = S
+juggle  = 7
+velset = 0,0
+anim = 1450
+ctrl = 0
+sprpriority = 2
+poweradd = 0
+
+[State 200, snd]
+type = playsnd
+trigger1 = !time
+value = 1450,0
+channel = 0
+volume = 300
+
+[State 1900, Power Lamp explod]
+type = explod
+triggerall = !NumExplod(1455)
+trigger1 = animelemtime(3)=0
+anim = 1455
+id = 1455
+pos = 0,0
+sprpriority = 6
+bindtime = -1
+ownpal = 0
+removeongethit = 1
+ignorehitpause = 1
+facing = 1
+removetime = -2
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;Teleport Disappear
+[Statedef 1800]
+type    = U ;S
+movetype= I
+physics = N ;S
+juggle  = 7
+velset = 0,0
+anim = 1800
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+facep2 = 1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+;value2 = S,NA
+time = 1
+ignorehitpause = 1
+;persistent =
+
+
+[State 0, Warp sound]
+type = PlaySnd
+trigger1 = !time ;AnimElemTime(4)=0
+value = 1800,0 ;2000,10
+volume = 300
+channel = 0
+
+[State 1500, VarSet]
+type=VarSet
+trigger1 = AILevel>0 && !time
+;var(15)=cond(backedgedist<100,3,cond(frontedgedist<100,1,2))
+var(15)=cond(backedgedist<150,1,2)
+ignorehitpause=1
+
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 1805
+ctrl = 0
+
+;Teleport Appear
+[Statedef 1805]
+type    = U ;S
+movetype= I
+physics = N ;S
+juggle  = 7
+velset = 0,0
+anim = 1801
+ctrl = 0
+sprpriority = 2
+poweradd = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+;value2 = S,NA
+time = 1
+ignorehitpause = 1
+;persistent =
+
+[State 0, AutoTurn]
+type = Turn
+trigger1 = facing = enemy,facing
+;ignorehitpause =
+;persistent =
+
+
+[State 0, PosSet]
+type = null ;PosSet
+triggerall = var(15)=2
+trigger1 = !time
+x = 0
+;y = 0
+;ignorehitpause =
+;persistent =
+
+
+[State 0, PosAdd]
+type = PosAdd
+;triggerall = var(15)!=2
+trigger1 = !time
+x = cond(var(15)=1,200,-200)
+y = 0
+;ignorehitpause =
+;persistent =
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !animtime
+var(15) = 0
+ignorehitpause = 1
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 50 ;0
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;Floating Bomb
+[Statedef 1900]
+type    = U
+movetype= A
+physics = N
+juggle  = 7
+velset = 0,0
+anim = 1000
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+facep2 = 1
+
+
+[State 3010, Helper]
+type = Helper
+triggerall = !NumHelper(2960)
+triggerall = NumHelper(2950)<2
+trigger1 = AnimElemTime(4)=0
+helpertype = normal
+name = "Floating Bomb"
+ID =   2950
+stateno = 2950
+pos = 35,-35
+postype = p1    ;p2,front,back,left,right
+facing = facing ;1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, VelSet]
+type = VelSet
+triggerall = statetype = A
+triggerall = pos Y <-80
+trigger1 = AnimElemTime(5)=0
+y = 0.4
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0+50*(statetype=A)
+ctrl = 1
+
+;Floating Bomb Fail
+[Statedef 1910]
+type    = U
+movetype= I
+physics = N
+velset = 0,0
+anim = 1090
+ctrl = 0
+sprpriority = 2
+poweradd = 0
+facep2 = 1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = !time
+x = -1.5
+
+[State 170, voice]
+type = PlaySnd
+trigger1 = !time
+value = 9100,10+random%2
+channel = 0
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0+50*(statetype=A)
+ctrl = 1
+
+;-------------------------------------------------------------------------------
+;EX Floating Bomb
+[Statedef 1950]
+type    = U
+movetype= A
+physics = N
+juggle  = 7
+velset = 0,0
+anim = 1900
+ctrl = 0
+sprpriority = 2
+poweradd = -500
+facep2 = 1
+
+[State 3120, snd]
+type = playsnd
+trigger1 = !time
+value = 7,0
+channel = 1
+
+[State 3120, flash]
+type = PalFX
+trigger1 = 1
+add = 40, 30, -40
+time=1
+ignorehitpause = 1
+
+[State 3120, Train]
+type = AfterImage
+trigger1 = Time = 0
+time = 100 ;20
+palbright = 40,30,-40
+palcontrast = 256,206,206
+trans = add1
+ignorehitpause = 1
+
+
+[State 3010, Helper]
+type = Helper
+triggerall = !NumHelper(2950)
+triggerall = !NumHelper(2960)
+trigger1 = AnimElemTime(3)=0
+helpertype = normal
+name = "EX Floating Bomb"
+ID =   2960
+stateno = 2960
+pos = 35,-35
+postype = p1    ;p2,front,back,left,right
+facing = facing ;1
+keyctrl = 0
+ownpal = 1
+;size.shadowoffset = 0
+supermovetime = 0
+pausemovetime = 0
+
+[State 0, VelSet]
+type = VelSet
+triggerall = statetype = A
+triggerall = pos Y <-80
+trigger1 = AnimElemTime(5)=0
+y = 0.4
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 0+50*(statetype=A)
+ctrl = 1
+
+
+;YAKON Lv.1
+[Statedef 2000]
+type = S
+movetype = A
+physics = S
+anim = 2000 ;1400 ;1500
+ctrl = 0
+velset = 0,0
+sprpriority = -9
+poweradd = -1000
+facep2 = 1
+
+[State 3320, nhb]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 3320, AssertSpecial]
+type = null;AssertSpecial
+trigger1 = time >= 5
+flag = noBG
+flag2 = noFG
+
+[State 3320, superpause]
+type = superpause
+trigger1 = time = 5
+time = 80 ;40
+p2defmul = 1
+unhittable = 1
+anim = -1
+darken = 0
+movetime = 80 ;40
+
+[State 0, Super FX]
+type = Explod
+trigger1 = time = 5
+anim = 6100
+id = 6100
+pos = -108,25 ;-80,70
+postype = p1
+supermovetime = 9999
+pausemovetime = 9999
+supermove = 1
+removetime = -2
+sprpriority = 2
+ownpal = 1
+bindtime = -1
+scale = 1,1
+persistent = 0
+
+
+
+[State 3320, Superpause charge sound]
+type = PlaySnd
+trigger1 = time = 5
+value = 2350,0
+
+
+[State 3320, bgpalfx1]
+type = null;bgpalfx
+trigger1 = !time
+time = 45 ;35 ;30
+color=0
+mul=0,0,0
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time && (random<800) ;time=45
+value = 7777,2+random%2
+volume = 300
+channel = 0
+
+[State 3121, PlaySnd]  ;Yakon Groar
+type = PlaySnd
+trigger1 = !time
+value = 2100,2
+channel = 5
+
+[State 0, Easter]
+type = PlaySnd
+trigger1 = time=1
+value = 7777,10+random%6
+volume = 300
+channel = 0
+lowpriority = 1
+
+[State 0, Yakon BG]
+type = Helper
+triggerall = !NumHelper(2110)
+trigger1 = time = 5
+helpertype = normal ;player
+name = "Yakon BG"
+ID = 2110
+stateno = 2110
+pos = 160,-120
+postype = back    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 9999
+pausemovetime = 9999
+
+[State 0, Yakon BG Chars]
+type = Helper
+triggerall = !NumHelper(2111)
+trigger1 = time = 5
+helpertype = normal ;player
+name = "Yakon BG Chars"
+ID = 2111
+stateno = 2111
+pos = 160,-120
+postype = back    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 9999
+pausemovetime = 9999
+
+;Lock camera helper codes. Thanks Maistral!
+[State 2700, Helper] ;Locker 1
+type = helper
+triggerall = NumHelper(2100)
+triggerall = numhelper(2771)=0
+Trigger1=TeamMode!=Simul
+;trigger1 = time = 46
+helpertype = normal
+name = "1"
+postype = back
+pos = 0,0
+stateno = 2771
+ID = 2771
+
+[State 2700, Helper] ;Locker 2
+type = helper
+triggerall = NumHelper(2100)
+triggerall = numhelper(27771)=0
+Trigger1=TeamMode!=Simul
+;trigger1 = time = 46
+helpertype = normal
+name = "2"
+postype = front
+pos = 0,0
+stateno = 27771
+ID = 27771
+
+[State 0, Yakon Helper]
+type = Helper
+triggerall = !NumHelper(2100)
+trigger1 = time = 45
+helpertype = normal ;player
+name = "Yakon"
+ID = 2100
+stateno = 2100
+pos = 160,0
+postype = back    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 9999 ;0
+pausemovetime = 9999 ;0
+;size.xscale =
+;size.yscale =
+;size.ground.back =
+;size.ground.front =
+;size.air.back =
+;size.air.front =
+;size.height =
+;size.proj.doscale =
+;size.head.pos = ,
+;size.mid.pos = ,
+;size.shadowoffset =
+;ignorehitpause =
+;persistent =
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = !Animtime
+trigger1 = Anim=2000
+trigger2 = Anim=1500
+value = 0
+;elem = 1
+;ignorehitpause =
+;persistent =
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = NumHelper(2100)
+triggerall = Helper(2100),movehit=1
+trigger1 = Anim=0
+value = 1500
+;elem = 1
+;ignorehitpause =
+;persistent =
+
+[State 200, snd]
+type = null;playsnd
+trigger1 = NumHelper(2100)
+trigger1 = Helper(2100),movehit=1
+value = 3,10+random%3
+channel = 0
+lowpriority = 1
+volume = 300
+
+[State 3320, ChangeState]
+type = ChangeState
+trigger1 = time>45
+;trigger1 = NumHelper(2100)=0 ;!animtime
+value = 0
+ctrl = 1
+
+;DARBURA Lv.1
+[Statedef 2300]
+type = S
+movetype = A
+physics = S
+anim = 1400 ;1500
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+poweradd = -1000
+facep2 = 1
+
+
+[State 3320, AssertSpecial]
+type = AssertSpecial
+trigger1 = time>= 5
+flag = noBG
+flag2 = noFG
+
+
+[State 3320, nhb]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 3320, superpause]
+type = superpause
+trigger1 = time = 5
+time = 40
+p2defmul = 1
+unhittable = 1
+anim = -1
+darken = 0
+movetime = 40
+
+[State 0, Super FX]
+type = Explod
+trigger1 = time = 5
+anim = 6100
+id = 6100
+pos = -108,25 ;-80,70
+postype = p1
+supermovetime = 9999
+pausemovetime = 9999
+supermove = 1
+removetime = -2
+sprpriority = 2
+ownpal = 1
+bindtime = -1
+scale = 1,1
+persistent = 0
+
+
+
+[State 3320, Superpause charge sound]
+type = PlaySnd
+trigger1 = time = 5
+value = 2350,0
+
+
+[State 3320, bgpalfx1]
+type = bgpalfx
+trigger1 = !time
+time = 45 ;35 ;30
+color=0
+mul=0,0,0
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time && (random<800);time=45
+value = 7777,4+random%3
+volume = 300
+channel = 0
+
+[State 0, Easter]
+type = PlaySnd
+trigger1 = time=1
+value = 7777,10+random%6
+volume = 300
+channel = 0
+lowpriority = 1
+
+[State 0, Darbura Helper]
+type = Helper
+triggerall = !NumHelper(2300)
+trigger1 = time = 45
+helpertype = normal ;player
+name = "Darbura"
+ID = 2300
+stateno = 2301
+pos = 0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale =
+;size.yscale =
+;size.ground.back =
+;size.ground.front =
+;size.air.back =
+;size.air.front =
+;size.height =
+;size.proj.doscale =
+;size.head.pos = ,
+;size.mid.pos = ,
+;size.shadowoffset =
+;ignorehitpause =
+;persistent =
+
+
+
+[State 3320, ChangeState]
+type = ChangeState
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;DARBURA Lv.2
+[Statedef 2350]
+type = S
+movetype = A
+physics = S
+anim = 1400 ;1500
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+poweradd = -2000
+facep2 = 1
+
+
+[State 3320, AssertSpecial]
+type = AssertSpecial
+trigger1 = time=[5,50] ;>= 5
+flag = noBG
+flag2 = noFG
+
+
+[State 3320, nhb]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 3320, superpause]
+type = superpause
+trigger1 = time = 5
+time = 40
+p2defmul = 1
+unhittable = 1
+anim = -1
+darken = 0
+movetime = 40
+
+[State 3320, Hyper Charge FX]
+type = Explod
+trigger1 = time = 5
+anim = 2442 ;2440
+id = 2440
+pos = 5,-77
+postype = p1
+supermovetime = 9999
+pausemovetime = 9999
+supermove = 1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+bindtime = -1
+scale = 1,1
+removeongethit = 1
+persistent = 0
+
+
+[State 3320, Superpause charge sound]
+type = PlaySnd
+trigger1 = time = 5
+value = 2350,0
+
+
+[State 3320, bgpalfx1]
+type = bgpalfx
+trigger1 = !time
+time = 45 ;35 ;30
+color=0
+mul=0,0,0
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time && (random<800);time=45
+value = 7777,4+random%3
+volume = 300
+channel = 0
+
+[State 0, Easter]
+type = PlaySnd
+trigger1 = time=1
+value = 7777,10+random%6
+volume = 300
+channel = 0
+lowpriority = 1
+
+[State 0, Darbura Helper]
+type = Helper
+triggerall = !NumHelper(2300)
+trigger1 = time = 45
+helpertype = normal ;player
+name = "Darbura"
+ID = 2300
+stateno = 2351
+pos = -150,-100
+postype = back    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale =
+;size.yscale =
+;size.ground.back =
+;size.ground.front =
+;size.air.back =
+;size.air.front =
+;size.height =
+;size.proj.doscale =
+;size.head.pos = ,
+;size.mid.pos = ,
+;size.shadowoffset =
+;ignorehitpause =
+;persistent =
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = Anim=1400 ;1500
+trigger1 = !animtime
+value = 1300
+;elem = 1
+ignorehitpause = 0
+;persistent =
+
+[State 1900, Shield helper]
+type = Helper
+trigger1 = Anim=1300
+trigger1 = animElemtime(1)=0
+id = 2352
+name = "Shield"
+pos = 0,0
+postype = P1
+stateno = 2352
+helpertype = normal
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+
+[State 3320, ChangeState]
+type = ChangeState
+triggerall = Anim=1300
+trigger1 = NumHelper(2300)=0 ;!animtime
+value = 0
+ctrl = 1
+
+;PUI-PUI Lv.1
+[Statedef 2600]
+type = S
+movetype = A
+physics = S
+anim = 1400 ;1500
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+poweradd = -1000
+facep2 = 1
+
+
+[State 3320, AssertSpecial]
+type = AssertSpecial
+trigger1 = time >= 5
+flag = noBG
+flag2 = noFG
+
+
+[State 3320, nhb]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 3320, superpause]
+type = superpause
+trigger1 = time = 5
+time = 40
+p2defmul = 1
+unhittable = 1
+anim = -1
+darken = 0
+movetime = 40
+
+[State 0, Super FX]
+type = Explod
+trigger1 = time = 5
+anim = 6100
+id = 6100
+pos = -108,25 ;-80,70
+postype = p1
+supermovetime = 9999
+pausemovetime = 9999
+supermove = 1
+removetime = -2
+sprpriority = 2
+ownpal = 1
+bindtime = -1
+scale = 1,1
+persistent = 0
+
+[State 3320, Superpause charge sound]
+type = PlaySnd
+trigger1 = time = 5
+value = 2350,0
+
+[State 3320, bgpalfx1]
+type = bgpalfx
+trigger1 = !time
+time = 45 ;35 ;30
+color=0
+mul=0,0,0
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time && (random<800);time=45
+value = 7777,random%2
+volume = 300
+channel = 0
+
+[State 0, Easter]
+type = PlaySnd
+trigger1 = time=1
+value = 7777,10+random%6
+volume = 300
+channel = 0
+lowpriority = 1
+
+[State 0, Pui-Pui Helper]
+type = Helper
+triggerall = !NumHelper(2200)
+trigger1 = time = 45
+helpertype = normal ;player
+name = "Pui-Pui"
+ID = 2200
+stateno = 2601
+pos = floor(screenpos X)+45*facing,0
+postype = left    ;p2,front,back,left,right
+facing = facing
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale =
+;size.yscale =
+;size.ground.back =
+;size.ground.front =
+;size.air.back =
+;size.air.front =
+;size.height =
+;size.proj.doscale =
+;size.head.pos = ,
+;size.mid.pos = ,
+size.shadowoffset = 0
+;ignorehitpause =
+;persistent =
+
+
+[State 3320, ChangeState]
+type = ChangeState
+triggerall = time>45
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;PONG Lv.3
+[Statedef 2900]
+type = U
+movetype = A
+physics = N
+anim = 1900
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+poweradd = -3000
+facep2 = 1
+
+
+[State 3320, AssertSpecial]
+type = AssertSpecial
+trigger1 = time >= 5
+flag = noBG
+flag2 = noFG
+
+
+[State 3320, nhb]
+type = nothitby
+trigger1 = 1
+value = SCA
+
+[State 3320, superpause]
+type = superpause
+trigger1 = time = 5
+time = 40
+p2defmul = 1
+unhittable = 1
+anim = -1
+darken = 0
+movetime = 40
+
+[State 3320, Hyper Charge FX]
+type = Explod
+trigger1 = time = 5
+anim = 2440
+id = 2440
+pos = 35,-37
+postype = p1
+supermovetime = 9999
+pausemovetime = 9999
+supermove = 1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+bindtime = -1
+scale = 1,1
+removeongethit = 1
+persistent = 0
+
+[State 3320, Superpause charge sound]
+type = PlaySnd
+trigger1 = time = 5
+value = 2350,1
+
+
+[State 3320, bgpalfx1]
+type = bgpalfx
+trigger1 = !time
+time = 45 ;35 ;30
+color=0
+mul=0,0,0
+
+[State 0, Helper Name]
+type = PlaySnd
+trigger1 = !time & (random<800);time=45
+value = 7777,7
+volume = 300
+channel = 0
+
+[State 0, Easter]
+type = PlaySnd
+trigger1 = time=1
+value = 7777,10+random%6
+volume = 300
+channel = 0
+lowpriority = 1
+
+
+[State 0, Pong Helper]
+type = Helper
+triggerall = !NumHelper(6800)
+trigger1 = time = 45
+helpertype = normal ;player
+name = "Cursed Pong"
+ID =   6800
+stateno = 6900
+pos = 35,-37 ;0,-30
+postype = p1    ;p2,front,back,left,right
+facing = 1
+keyctrl = 0
+ownpal = 1
+supermovetime = 0
+pausemovetime = 0
+;size.xscale =
+;size.yscale =
+;size.ground.back =
+;size.ground.front =
+;size.air.back =
+;size.air.front =
+;size.height =
+;size.proj.doscale =
+;size.head.pos = ,
+;size.mid.pos = ,
+;size.shadowoffset =
+;ignorehitpause =
+;persistent =
+
+
+
+[State 3320, ChangeState]
+type = ChangeState
+trigger1 = !animtime
+value = 0+50*(statetype=A)
+ctrl = 1
+
+
+;===========================================================================
+; <<<<< SLASHING CHOP >>>>>
+; Charge state 1 = 1300
+; Charge state 2 (when hit) = 1301
+; Actual attack = 1302
+; Helper for repel = 1305
+; Destroyed helper = 1306
+; Reflect with random projectile = 1308
+; Reflected projectile = 1315
+; Reflected projectile explods = 1316
+; Custom state when hit by slashing chop max charge = 1320
+;===========================================================================
+
+;Focus Strike - charge state 1
+;This state covers the charging aspect of the Focus Strike attack at the start.
+[Statedef 1300]
+type = S
+movetype = I
+physics = S
+juggle = 10
+anim = 1300
+ctrl = 0
+poweradd = 0
+velset = 0,0
+
+[State 1900, Shield helper]
+type = Helper
+trigger1 = !time
+id = 6130
+name = "Shield"
+pos = 0,0
+postype = P1
+stateno = 6130
+helpertype = normal
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+
+[State 0, Explod]
+type = null ;Explod
+trigger1 = !time
+;trigger1 = time=10
+anim = 7300
+ID = 7300
+pos = 0,-35
+postype = p1  ;p2,front,back,left,right
+facing = 1
+vfacing = 1
+bindtime = -1
+vel = 0,0
+accel = 0,0
+random = 0,0
+removetime = -1
+pausemovetime = 0
+scale = 0.5,0.5 ;1,1
+sprpriority = 8
+ontop = 0
+shadow = 0,0,0
+ownpal = 1
+removeongethit = 1
+;ignorehitpause =
+;trans =
+;persistent =
+;supermove = 0
+;pausemove = 0
+
+[State 0, HitOverride];5.1
+type = HitOverride
+;triggerall = PrevStateNo != 8452
+trigger1 = !Time
+attr = SCA, AA,AP   ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+stateno = 1301
+time = 1
+ 
+[State 900, starting value]
+type = VarSet
+triggerall = PrevStateNo != 9000
+trigger1 =! time
+fvar(9) = 0
+
+[State 0, HitOverride];5.1
+type = HitOverride
+trigger1 = !Time
+attr = SCA, AA,AP   ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+stateno = 1301
+time = 1
+ 
+[State 900, adding to value]
+type = VarAdd
+trigger1 = time >= 1
+fv = 9
+value = 1
+persistent = 1
+
+[State 0, PlaySnd] ; Charge sound
+type = PlaySnd
+trigger1 = time=5
+value = 1300,0
+channel = 1
+
+[State 8000, flash]
+type = PalFX
+trigger1 = time =10 
+add = 40, 30, -40
+sinadd = 50,50,50,16
+time = 40
+ 
+; These change states control dash cancels and moving into the attack portion
+[State 900, dash cancel back]
+type = ChangeState
+trigger1 = time>=8 && AILevel<=0 && command = "BB"
+trigger2 = time >= 8 && AILevel>0 && numenemy && (enemynear,vel x>0) &&random<200
+trigger3 = time >= 8 && AILevel>0 && numenemy && (P2Dist X >50) && P2MoveType = A && P2StateType = A &&random<200
+value = Cond(P2Dist X < -12, 100, 105)
+
+ 
+[State 900, dash cancel forward]
+type = ChangeState
+trigger1 = time>=8 && AILevel<=0 && command = "FF"
+trigger2 = time >= 8 && AILevel>0 && numenemy && (enemynear,vel x<0) &&random<200
+value = Cond(P2Dist X < -12, 105, 100)
+ 
+[State 900, stopping early]
+type = ChangeState
+trigger1 = time>=8 && AILevel<=0 && command != "holdc" && command !="holdz"
+trigger2 = time>=8 && AILevel>0 &&numenemy&&(enemynear,inguarddist)&&Movetype=A
+trigger2 = (enemynear,stateno != [120, 155]) && enemynear,statetype != L 
+value = 1302
+ 
+[State 900, fully charged]
+type = ChangeState
+trigger1 = fvar(9)>=60
+value = 1302
+ 
+;---------------------------------------------
+;Focus Strike - charge state 2
+;This state covers the charging aspect of the Focus Strike attack if hit
+[Statedef 1301]
+type = S
+movetype = I
+physics = S
+juggle = 10
+ctrl = 0
+poweradd = 0
+velset = 0,0
+
+[State grabgethitvar]
+type = null
+triggerall = gethitvar(hitshaketime)
+trigger1 = 1 || fvar(34) := floor(gethitvar(hitshaketime)*0.5)
+persistent = 0
+
+;[State 901, life removal]
+;type = LifeAdd
+;trigger1 = 1 || var(20) := 0
+;value = -(gethitvar(damage))
+;kill = 1
+;persistent = 0
+
+;[State puase]
+;type = pause
+;triggerall = alive
+;trigger1 = time < fvar(34)
+;time = 1
+;movetime = 1
+
+; This part covers the after effects of getting hit from earlier.
+;[state 901, no more saving hit]
+;type = varset
+;trigger1 = time = 1
+;var(20) = 0
+
+[State 8000, hitsnd]
+type = Playsnd
+trigger1 = time <= 0
+trigger1 = 1||var(20) := 0 ;No more saving hit
+value = 1301,0
+persistent = 0
+
+[State hit palfx#]
+type = palfx
+trigger1 = time < fvar(34)
+time = 1
+add = 256-floor(time*floor(256/fvar(34))),256-floor(time*floor(256/fvar(34))),256-floor(time*floor(256/fvar(34)))
+
+[State 8000, flash]
+type = PalFX
+trigger1 = time >= fvar(34)
+trigger1 = time%10=0
+add = 150, 30, 30
+sinadd = 50,50,50,16
+time = 10
+
+[State 901, Killed]
+type = ChangeState
+trigger1 = life <= 0
+value = 5950
+ 
+; This ctrl changes the animframe back to the last active one
+[State 901, ChangeAnim]
+type = ChangeAnim
+trigger1 = time < fvar(34)
+value = 1300
+elem = var(23)
+ 
+; This varset is the continuation of charging
+[State 901, adding to charge]
+type = VarAdd
+trigger1 = time >= fvar(34)
+fv = 9
+value = 1
+persistent = 1
+ 
+; These change states control dash cancels and moving into the attack portion
+[State 900, dash cancel back]
+type = ChangeState
+trigger1 = time >= fvar(34)+8 && !AILevel && (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90001064)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90001016)) && !AILevel
+trigger2 = time >= fvar(34)+8 && AILevel>0 && numenemy && (enemynear,vel x>=1)
+trigger3 = time >= fvar(34)+8 && AILevel>0 && numenemy && (P2Dist X >50) && P2MoveType = A && P2StateType = A
+value = Cond(P2Dist X < -12, 100, 105)
+ 
+[State 900, dash cancel forward]
+type = ChangeState
+trigger1 = time >= fvar(34)+8 && !AILevel && (ifElse(P2DisT x < -12, Facing = -1, Facing = 1) && NumExplod(90001016)) || (ifElse(P2DisT x < -12, Facing = 1, Facing = -1) && NumExplod(90001064)) && !AILevel
+trigger2 = time >= fvar(34)+8 && AILevel>0 && numenemy && (enemynear,vel x<=1) 
+value = Cond(P2Dist X < -12, 105, 100)
+ 
+[State 901, early release]
+type = ChangeState
+trigger1 = time >= fvar(34)+8 && command != "holdc" && command !="holdz" && !AILevel
+trigger2 = AILevel && numenemy && (enemynear,inguarddist) || (enemynear, hitdefattr = SCA, NP, SP)
+value = 1302
+ 
+[State 901, fully charged]
+type = ChangeState
+trigger1 = fvar(9)>=60
+value = 1302
+ 
+;----------------------------------------
+;Focus Attack - actual attack
+[Statedef 1302]
+type = S
+movetype = A
+physics = S
+juggle = 10
+anim = 1301
+ctrl = 0
+velset = 0,0
+ 
+;PalFX sctrls; the first removes any earlier stuff, and the second the white flash that appears if you have maxed out focus
+[state 901, cancel earlier fx flash]
+type = PalFx
+trigger1 = time = 0
+add = 0,0,0
+time = 0
+ 
+[state 901, bright flash if maxed out]
+type = PalFx
+triggerall = FVar(9) = 60
+trigger1 = time = 1
+add = 128,128,128
+sinadd = -128,-128,-128,32
+time = 8
+
+[State 1302, voice]
+type = PlaySnd
+triggerall = var(55)=0		;Voice=English
+trigger1 = AnimElem = 3
+value = 3,10+6*(Var(1)=2)
+channel = 0
+
+[State 200, Jap "Take it" voice]
+type = PlaySnd
+triggerall = var(55)=1		;Voice=Japan
+trigger1 = AnimElem = 3
+value = 1002,1
+channel = 0
+volume = 300
+
+[State 200, Jap "Eat this" voice]
+type = PlaySnd
+triggerall = var(55)=2		;Voice=Eng Sabbat
+trigger1 = AnimElem = 3
+value = 1003,0
+channel = 0
+volume = 300
+
+[State 1302, 2]
+type = PlaySnd
+trigger1 = AnimElem = 3 && (FVar(9) < 60)
+value = 6851,0 ;0,2 ;20,1
+
+[State 1302, 2]
+type = PlaySnd
+trigger1 = AnimElem = 3 && (FVar(9) = 60)
+value = 6851,0 ;0,2 ;20,2
+
+[State 4000, Invincible]
+type = NotHitBy
+trigger1 = animelemtime(3) >= 0 && animelemtime(8) < 0
+value = ,NP, SP
+
+[State 1300, repel helper]
+type = helper
+trigger1 = animelemtime(3) = 0
+helpertype = normal
+stateno = 1305
+ID = 1305
+name = "repel"
+postype = p1
+pos = 50, -40
+
+[state 1215, Smoke FX]
+type = explod
+trigger1 = animelemtime(3)=1
+anim = 1208;+(var(2)=0)
+id = 1206
+pos = floor(ScreenPos X),var(54) ;floor(ScreenPos Y)
+postype = left    ;p2,front,back,left,right
+;pos = 0,0  ;30,0
+;postype = P1
+sprpriority = -3
+ownpal = 1
+removetime = -2
+persistent = 0
+ignorehitpause = 0
+
+[state 1215, Slash FX front]
+type = null ;explod
+trigger1 = animelemtime(2)=0
+anim = 1302
+id = 1302
+pos = 0,0
+postype = P1
+sprpriority = 3
+ownpal = 1
+removetime = -2
+persistent = 0
+ignorehitpause = 0
+;bindtime = -1
+
+[state 1215, Slash FX back]
+type = null ;explod
+trigger1 = animelemtime(3)=0
+anim = 1303
+id = 1302
+pos = 0,0
+postype = P1
+sprpriority = -3
+ownpal = 1
+removetime = -2
+persistent = 0
+ignorehitpause = 0
+
+[state 1215, Launch ball]
+type = explod
+trigger1 = animelemtime(3)=0
+anim = 6131
+id = 6131
+pos = 52, -40
+postype = P1
+bindtime = -1
+sprpriority = 3
+ownpal = 1
+removetime = -2
+removeongethit = 1
+persistent = 0
+ignorehitpause = 1
+
+; The hitdef used depends on the how long you've been charging. In case you are wondering why there are 2 versions of each lvl's
+; hitdef, the second one has been refined to compensate for hitting air opponents.
+; LV 1
+[State 902, 0-30]
+type = HitDef
+triggerall = !MoveContact && !MoveReversed
+triggerall = P2stateno != [5020,5040]
+triggerall = p2stateno != [154,155]
+triggerall = p2stateno != 5300 ;Checks if the opponent is in the dizzy state
+triggerall = cond(enemy,time <= 10,enemy, prevstateno != 5300,1) ;Checks if the opponent has been in the dizzy state for the past 10 ticks
+trigger1 = (FVar(9) < 60)
+attr = S, NA
+;damage = 32,0
+damage = ceil(cond(fvar(11) * 32 < 7, 7, fvar(11) * 32)), 0
+animtype = Hard
+guardflag = M
+hitflag = M
+priority = 4, Hit
+pausetime = 9, 9
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -20,-35 ;-65
+hitsound   = s6851,1 ;s5, 2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20  ;14
+ground.hittime  = 20   ;14
+ground.velocity = -8.95
+guard.slidetime = 18
+guard.hittime = 18
+guard.ctrltime = 12
+airguard.velocity = -3.5,-4
+air.type = High
+air.velocity = -3.5,-6
+air.hittime = 9
+getpower = 101,101
+givepower = 35,35
+ground.cornerpush.veloff = -7.25
+air.cornerpush.veloff = 0
+yaccel = .55
+air.fall = 1
+air.juggle = 15
+fall = (p2movetype=H)
+palfx.time = 45
+palfx.mul = 120,20,124
+palfx.add = 100,0,100
+palfx.sinadd = 85,110,55,30
+palfx.color = 256
+
+[State 902, 0-30]
+type = HitDef
+triggerall = !MoveContact && !MoveReversed
+triggerall = P2stateno != [5020,5040]
+triggerall = p2stateno != [154,155]
+triggerall = p2statetype = A
+trigger1 = (FVar(9) < 60)
+attr = S, NA
+;damage = 32,0
+damage = ceil(cond(fvar(11) * 32 < 7, 7, fvar(11) * 32)), 0
+animtype = Hard
+guardflag = A
+hitflag = A
+priority = 4, Hit
+pausetime = 9, 9
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -20,-35 ;-65
+hitsound   = s5, 2
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20  ;14
+ground.hittime  = 20   ;14
+ground.velocity = -6.95
+guard.slidetime = 18
+guard.hittime = 18
+guard.ctrltime = 12
+airguard.velocity = -3.5,-4
+air.type = High
+air.velocity = -3.5,-6
+air.hittime = 9
+getpower = 101,101
+givepower = 35,35
+ground.cornerpush.veloff = -7.25
+air.cornerpush.veloff = 0
+yaccel = .55
+air.fall = 1
+air.juggle = 15
+fall = (p2movetype=H)
+palfx.time = 45
+palfx.mul = 120,20,124
+palfx.add = 100,0,100
+palfx.sinadd = 85,110,55,30
+palfx.color = 256
+ 
+;LV 2 MAX 1-limiter
+[State 902, max-charge]
+type = HitDef
+triggerall = !MoveContact && !MoveReversed
+triggerall = P2stateno != [5020,5040]
+triggerall = p2stateno != [154,155]
+triggerall = p2stateno != 5300 ;Checks if the opponent is in the dizzy state
+triggerall = cond(enemy,time <= 10,enemy, prevstateno != 5300,1) ;Checks if the opponent has been in the dizzy state for the past 10 ticks
+trigger1 =  FVar(9) = 60
+attr = S, NA
+;damage = 59,0
+damage = ceil(cond(fvar(11) * 59 < 7, 7, fvar(11) * 59)), 0
+animtype = Hard
+;guardflag = MA ;<-- Commented out as you will not be blocking this. This will hurt, and you will fall!
+hitflag = MAF
+priority = 4, Hit
+pausetime = 14, 14
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-35 ;-65
+hitsound   = s5, 6
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20  ;14
+ground.hittime  = 20   ;14
+ground.velocity = -4.95
+guard.slidetime = 18
+guard.hittime = 18
+guard.ctrltime = 12
+airguard.velocity = -3.5,-4
+air.type = High
+air.velocity = -3.5,-6
+air.hittime = 9
+getpower = 101,101
+givepower = 35,35
+ground.cornerpush.veloff = -7.25
+air.cornerpush.veloff = 0
+yaccel = .55
+air.fall = 1
+air.juggle = 15
+palfx.time = 45
+palfx.mul = 120,20,124
+palfx.add = 100,0,100
+palfx.sinadd = 85,110,55,30
+palfx.color = 256
+ID = 1302   
+fall.envshake.ampl = ID ;Done for the Cond Exploit later
+
+; LV 2 MAX 
+[State 902, max-charge]
+type = HitDef
+triggerall = P2stateno != [5020,5040]
+triggerall = p2stateno != [154,155]
+triggerall = !MoveContact && !MoveReversed
+triggerall = FVar(9) = 60
+trigger1 = p2stateno = 5300 ;Checks if the opponent is in the dizzy state
+trigger2 = cond(enemy,time <= 10,enemy, prevstateno = 5300,0)
+trigger3 = NumExplod(1302)
+trigger4 = P2MoveType = H 
+attr = S, NA
+;damage = 59,0
+damage = ceil(cond(fvar(11) * 59 < 7, 7, fvar(11) * 59)), 0
+animtype = Hard
+hitflag = MAF
+;guardflag = MA ;<-- Commented out as you will not be blocking this. This will hurt, and you will fall!
+priority = 6, Hit
+pausetime = 14, 14
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-35 ;-65
+hitsound   = s5, 6
+guardsound = S6,1
+ground.type = Low
+ground.slidetime = 20
+ground.hittime  = 20
+ground.velocity = -4.95
+guard.slidetime = 18
+guard.hittime = 18
+guard.ctrltime = 12
+airguard.velocity = -3.5,-4
+air.type = High
+air.velocity = -3.5,-6
+air.hittime = 9
+getpower = 101,101
+givepower = 35,35
+ground.cornerpush.veloff = -7.25
+air.cornerpush.veloff = 0
+yaccel = .55
+air.fall = 1
+air.juggle = 15
+palfx.time = 45
+palfx.mul = 120,20,124
+palfx.add = 100,0,100
+palfx.sinadd = 85,110,55,30
+palfx.color = 256
+ID = 1322
+
+[State 0, RemoveExplod] ;Launch ball
+type = RemoveExplod
+trigger1 = movecontact
+id = 6131
+ignorehitpause = 1
+;persistent =
+
+[state 1215, Impact ball]
+type = explod
+triggerall = !NumExplod(6132)
+trigger1 = movecontact
+anim = 6132
+id = 6132
+pos = 52, -40
+postype = P1
+bindtime = -1
+sprpriority = 3
+ownpal = 1
+removetime = -2
+removeongethit = 1
+persistent = 0
+ignorehitpause = 1
+
+[State 0, TargetState]  ;Limiter state
+type = TargetState
+triggerall = Numtarget(1322)
+trigger1 = !(Target,ishelper)
+trigger1 = movehit = 1
+value = 1322
+ID = 1322
+ignorehitpause = 1
+persistent = 0
+
+[State 0, TargetState]  ;New state
+type = TargetState
+triggerall = Numtarget(1302)
+trigger1 = !(Target,ishelper)
+trigger1 = movehit = 1
+value = 1320
+ID = 1302
+ignorehitpause = 1
+persistent = 0
+
+;Focus Limiter 2 Limiter
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(1302)
+trigger1 = NumTarget(1302)
+anim = 9999
+ID = 1302
+removetime = -1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 902, fvar reset]
+type = VarSet
+trigger1 = !AnimTime
+fvar(9) = 0
+ 
+;Dash Cancels upon movecontact
+[State 902, dash cancel]
+type = ChangeState
+trigger1 = MoveContact && command = "BB"
+trigger2 = time >= 8 && AILevel>0 && movehit && random < 200*(AIlevel ** 2 / 64.0)
+value = 105
+
+[State 902, dash cancel]
+type = ChangeState
+trigger1 = MoveHit && command = "FF"
+trigger2 = time >= 8 && AILevel>0 && moveguarded && random < 150*(AIlevel ** 2 / 64.0)
+value = 100
+
+ 
+[State 902, end]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;-------------------------------------
+[Statedef 1320]
+type = A
+movetype = H
+physics = N
+anim = cond(selfanimexist(5937),5937,5030)
+ctrl = 0
+velset = 0,0 ;-7, -5
+facep2 = 1
+
+[State 9011, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[state 1320, velset]
+type = velset    ;Add this
+trigger1 = time = 1
+x = -20
+
+[state 1320, ScreenBound]
+type = ScreenBound ;Falling out of the screen
+trigger1 = !alive
+value  = 0
+
+[State 9011, ChangeState]
+type = changeState
+triggerall = alive
+triggerall = Vel X != 0 ;Update
+trigger1 = BackEdgeBodyDist <= 20
+trigger2 = FrontEdgeBodyDist <= 20
+value = 1321
+
+[State 9011, ChangeState]
+type = changeState
+triggerall = !alive
+triggerall = Vel X != 0 ;Update
+trigger1 = BackEdgeBodyDist <= 20
+trigger2 = FrontEdgeBodyDist <= 20
+value = 1323
+
+;-------------------------------------
+;Hit Wall
+[Statedef 1321]
+type = A
+movetype = H
+physics = N
+velset = 0,0
+ctrl = 0
+facep2 = 1
+
+[State Play SND]
+type = null
+triggerall = playeridexist(floor(gethitvar(fall.envshake.ampl)))
+triggerall = playerid(floor(gethitvar(fall.envshake.ampl))),cond(1,numhelper(90000005),0)
+;Enemy 0
+trigger1 = playerid(floor(gethitvar(fall.envshake.ampl))),cond(1,enemy(0),id,0) = ID
+trigger1 = 1 || playerid(floor(gethitvar(fall.envshake.ampl))),cond(1,helper(90000005),cond(1,var(7) := 1,0),0)
+;Enemy 1
+trigger2 = playerid(floor(gethitvar(fall.envshake.ampl))),cond(1,enemy(numenemy=2),id,0) = ID
+trigger2 = 1 || playerid(floor(gethitvar(fall.envshake.ampl))),cond(1,helper(90000005),cond(1,var(8) := 1,0),0)
+persistent = 0
+
+
+
+
+[state 1321, envshake]
+type = envshake
+trigger1 = !time
+time = 10
+ampl = 4
+freq = 60
+
+
+[state 1321, changeanim]
+type = changeanim
+trigger1 = time = 2
+value = 5051
+
+[state 1321, changeanim]
+type = changeanim
+triggerall = anim = 5051
+trigger1 = animtime = -1 ;Freezes opponent in last frame of animation
+value = anim
+elem = animelemno(0)
+
+[state 1321, velset]
+type = velset
+trigger1 = time = 3
+x = 1
+y = -5
+
+[state 1321, veladd]
+type = veladd
+trigger1 = time >= 3
+y = .35
+
+[state 1321, posset]
+type = posset
+trigger1 = pos y > 0
+y = 0
+
+[State 9011, SelfState]
+type = ChangeState
+triggerall = !alive
+trigger1 = Pos X !=[-640,640]
+trigger2 = pos y >= 0 && vel y > 0 
+trigger3 = Time >= 70
+value = 5150
+
+[State 9011, ChangeState]
+type = changeState
+triggerall = anim = 5051
+trigger1 = pos y >= 0 && vel y > 0
+value = 5300
+
+;-------------------------------------
+;Focus Limiter
+[Statedef 1322]
+type = A
+movetype = H
+physics = N
+anim = cond(selfanimexist(5937),5937,5030)
+ctrl = 0
+velset = -6, -5
+facep2 = 1
+
+
+[State 0, SelfState]
+type = SelfState
+trigger1 = Time >= 10
+trigger1 = command = "recovery"
+value = 5210
+
+[State 0, SelfState]
+type = SelfState
+trigger1 = (Vel y > 0) && (Pos y >= -3)
+trigger1 = command = "recovery"
+value = 5200
+
+[State 9011, VelAdd]
+type = VelAdd
+trigger1 = (Pos Y < 0)
+y = 0.55
+
+[State 9011, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 9011, ChangeState]
+type = SelfState
+trigger1 = (Pos Y >= 0) && (Vel Y > 0)
+value = 5100
+;---------------------------------------------------------------------
+;Wallbounce Kill
+[Statedef 1323]
+type = A
+movetype = H
+physics = N
+
+[state 1323, nothitby]
+type = nothitby
+trigger1 = 1
+value = SCA
+ignorehitpause = 1
+
+[State 0, Turn]
+type = Turn
+trigger1 = FrontEdgeBodyDist <20
+persistent = 0
+
+[state 1320, ScreenBound]
+type = ScreenBound ;Falling out of the screen
+trigger1 = Pos X =[-640,640]
+value  = 0
+
+;----------------Prevent Freezing after Ko----------------------------
+[state 1321, envshake]
+type = envshake
+triggerall = !alive
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+time = 20
+ampl = 6
+freq = 60
+
+[State 182, 1]
+type = screenbound
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+movecamera = 0,0
+value = 1
+
+[State 49999, 1]
+type = LifeSet
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+value = 0
+
+[State 49999, 1]
+type = PosSet
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+y = 9000
+
+[State 49999, 5]
+type = ChangeAnim2
+triggerall = anim != 15999
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+value = 15999
+
+[State 182, 1]
+type = screenbound
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+movecamera = 0,0
+value = 1
+
+[State 49999, 1]
+type = PosSet
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+y = 9000
+
+[State 49999, 5]
+type = ChangeAnim2
+trigger1 = Pos X !=[-360,360]
+trigger2 = pos y >= 0 && vel y > 0
+value = 15999
+
+[State 9011, SelfState]
+type = ChangeState
+triggerall = !IsHelper
+triggerall = !alive
+trigger1 = Pos X !=[-640,640]
+trigger2 = pos y >= 0 && vel y > 0 
+trigger3 = Time >= 70
+value = 5150
+ 
+[State 9011, SelfState]
+type = selfState
+triggerall = IsHelper
+triggerall = !alive
+trigger1 = Pos X !=[-640,640]
+trigger2 = pos y >= 0 && vel y > 0 
+trigger3 = Time >= 70
+value = 5150
+
+;Royal Judgement/Retro Mutagen
+;Original code by Thomas Hsieh & DCat Power, based on their Anakaris and Shredder, respectively.
+;CURSED
+[Statedef 1550]
+type    = A ;S
+movetype= A
+physics = N ;S
+juggle  = 7
+velset = 0,0
+anim = 1000
+ctrl = 0
+sprpriority = 2
+poweradd = 35
+
+[State 9100, Babidi voice]
+type = PlaySnd
+trigger1 = !time
+value = 1550,random%4
+channel = 0
+
+[State -2, HELPER]
+type=Helper
+;trigger1=anim=1010&&animelemtime(13)=0&&movetype!=I
+trigger1 = AnimElemTime(4)=0
+name="Cursed Skull"
+pos = 32,-40
+postype = p1    ;p2,front,back,left,right
+stateno=1500
+id     =1500
+ownpal=1
+keyctrl=0
+persistent=0
+ignorehitpause = 1
+
+
+[State 3011, end]
+type = changestate
+trigger1 = !animtime
+value = 50;0
+ctrl = 1
+;---------------------------------------------------------------------------
+; CURSED - Projectile Helper
+[Statedef 1500]
+type    = A
+movetype= A
+physics = N
+anim=6500 ;cond((Parent,NumHelper(3301)=0),1012,3341)
+velset=0,0
+sprpriority=9
+
+[State 0, AssertSpecial]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 898, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+ignorehitpause=1
+
+[State 1500, NotHitBY]
+type = NotHitBy
+Trigger1 = 1
+value = SCA
+Time = 1
+
+[State 1500, RETROMUTAGEN RAY HIT 1]
+type = HitDef
+trigger1= !root,var(5)
+attr = S, HA
+ID=1500
+animtype  = Medium
+;damage    = 30,3
+damage = ceil(cond(fvar(11) * 30 < 7, 7, fvar(11) * 30)), 3
+priority  = 1,Miss
+hitflag=MAF;D
+guardflag= M
+pausetime = 0,5
+guard.pausetime=0,1
+sparkno= s4302
+sparkxy = -15,-40
+;P1sprpriority=-3
+guard.sparkno = s8000
+hitsound   = s1000,0
+getpower=0
+givepower=100
+guardsound = s1, 0
+air.type=Low
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 1
+ground.velocity= 0,0
+air.velocity   = 0,0
+air.hittime=1
+down.hittime= 1
+down.bounce=1
+down.velocity  = 0,0
+fall=1
+air.fall=1
+fall.recover=0
+fall.recovertime=200
+kill =0
+fall.kill=0
+y.accel=.9
+ground.cornerpush.veloff  = 0
+air.cornerpush.veloff     = 0
+down.cornerpush.veloff    = 0
+guard.cornerpush.veloff   = 0
+airguard.cornerpush.veloff= 0
+;mindist=-400,cond(((Enemynear(0),ishelper)||(Enemynear(0),name="Abyss")||moveguarded||movereversed),floor(EnemyNear(0),Pos Y),cond((random>333),-30,-50))
+;maxdist= 400,cond(((Enemynear(0),ishelper)||(Enemynear(0),name="Abyss")||moveguarded||movereversed),floor(EnemyNear(0),Pos Y),cond((random>333),-30,-50))
+numhits=0
+hitonce=1
+
+[State 1500, Idle]
+type= null;statetypeset
+trigger1= Parent,movetype=I
+movetype= I
+
+[State 1500, AngleSet]
+type = AngleSet
+;triggerall=anim=3341
+trigger1 =Time=0
+value=0
+
+[State 1500, AngleDraw]
+type = AngleDraw
+;triggerall=anim=3341
+trigger1 =1
+scale=1,1;3*const(size.xscale),3*const(size.yscale)
+ignorehitpause=1
+
+[State 1500, NotHitBy]
+type = NotHitBy
+;triggerall= anim=3341
+trigger1  = Time >= 0
+time = 1
+value = SCA, NA, SA, HA, NT, ST, HT
+
+[State 1500,Hitoverride]
+type=hitoverride
+;triggerall=anim=3341
+trigger1=1
+time=-1
+attr= SCA,AA,AP,AT
+stateno=1500;1015
+ignorehitpause=1
+
+[State 1500,HitBy]
+type = HitBy
+;triggerall= anim=3341
+trigger1 =1
+time =-1
+value = SCA,NP, SP, HP
+ignorehitpause = 1
+
+[State 1500,RETROMUTAGEN BLAST VELSET] ;HORIZONTAL
+type = VelSet
+;triggerall = anim=3341
+trigger1 = animelemtime(2)=0 ;animelemtime(1)>=1&&animelemtime(4)<=3
+x = 4 ;2
+y = 5 ;3 ;0
+
+[State 1501, Launch SND]
+type = PlaySnd
+trigger1 = animelemtime(2)=0
+value = 1550,4; 2875,0 ;bones
+
+[State 1500, HitSound]
+type = playsnd
+;triggerall=anim=3341
+trigger1 = movehit && numtarget
+trigger1 = !(target, time) && target, movetype = H
+;trigger2 = movecontact
+value =1550,5 ; scond((movehit=1),802,cond((movereversed=1),1000,1)),cond((movehit=1),1,cond((movereversed=1),1,0))
+channel = 3
+volumescale=100
+persistent = 0
+ignorehitpause = 1
+
+[State -2, TargetState]
+type= targetstate
+ID=1500
+triggerall= numtarget(1500)>0
+trigger1= !root,var(5)
+trigger1 = !moveguarded&& !movereversed&&MoveHit
+trigger1 = NumTarget > 0&&!(target,ishelper)
+trigger1 = Target, MoveType = H
+trigger1 = Target, StateTime <= 0
+ignorehitpause=1
+value= 1520
+
+[State -2, ParentVarSet]
+Type= ParentVarSet
+triggerall= numtarget(1500)>0
+triggerall= !moveguarded&& !movereversed&&movehit
+triggerall= !(target,ishelper)
+trigger1= !root,var(5)
+trigger1=Enemy(0),stateno=1520
+trigger2=TeamMode = Simul
+trigger2=Enemy(1),stateno=1520
+trigger3=(Enemy(Enemy, TeamMode = Simul),stateno=1520)
+ignorehitpause=1
+v=18
+value= 1
+persistent=0
+
+[State 1500, Changestate]
+type=Changestate
+triggerall= numtarget(1500)>0
+triggerall= !moveguarded&& !movereversed&&movehit
+triggerall= !(target,ishelper)
+trigger1= !root,var(5)
+trigger1=Enemy(0),stateno=1520
+trigger2=TeamMode = Simul
+trigger2=Enemy(1),stateno=1520
+trigger3=(Enemy(Enemy, TeamMode = Simul),stateno=1520)
+value = 1501
+ignorehitpause=1
+
+[State 1061, Fade]
+type = changestate
+trigger1 = pos Y >= -15
+value = 1504
+ignorehitpause=1
+
+[State 1500]
+type = DestroySelf
+triggerall=numtarget(1500)=0
+trigger1=(Parent,prevstateno=1550)&&(Parent, StateNo = 5000)&&Parent,time=0
+trigger2=(Parent,prevstateno=1550)&&(Parent, StateNo = 5010)&&Parent,time=0
+trigger3=(Parent,prevstateno=1550)&&(Parent, StateNo = 5020)&&Parent,time=0
+trigger4=(Parent,prevstateno=1550)&&(Parent, StateNo = 5070)&&Parent,time=0
+trigger5=(Parent,prevstateno=1550)&&(Parent, StateNo = 5080)&&Parent,time=0
+trigger6=(Parent,prevstateno=1550)&&(Parent, StateNo = 5100)&&Parent,time=0
+trigger7=movetype=I
+;trigger8=anim=6500
+trigger8=pos x != [-240,240]
+;trigger9=anim=6500
+trigger9=Frontedgedist<=-40
+trigger10 = root,var(5)
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+;CURSED - Projectile Helper - VarSet Time Left
+[Statedef 1501]
+type    = A
+movetype= A
+anim= 1514
+
+[state 3020, Skull overlay]
+type = helper
+triggerall = !NumHelper(6501)
+trigger1= !time
+pos = 0,0
+postype = p2
+ID = 6501
+stateno = 6501
+helpertype = normal
+name = "Cursed Status"
+sprpriority = 5
+ownpal = 1
+ignorehitpause = 1
+
+[State -2, Time Display helper]
+type = Helper
+trigger1 = !time
+trigger1 = !NumHelper(8888)
+id = 8888
+name = "Time display"
+pos = 0,-50
+postype = p2
+stateno = 8888
+pausemovetime = 999999
+supermovetime = 999999
+helpertype = normal
+keyctrl = 0
+ownpal = 1
+ignorehitpause = 1
+
+
+[State 1501, PlayerPush]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1501, NotHitBY]
+type = NotHitBy
+Trigger1 = 1
+value = SCA
+Time = 1
+
+[State 1501, PosSet]
+type = PosSet
+trigger1=1
+x = target, pos X
+y = target, pos Y
+
+[State 1501, 1] ; Target dies early
+type = ChangeState
+triggerall = target, life = 0
+trigger1 = target, stateno = 1520
+trigger2 = target, stateno = 1542
+trigger3 = target, stateno = 1543
+value = 1516
+
+[State -3, FLYING]
+type = TargetState
+;triggerall =1
+triggerall = Time = 0
+trigger1 = target,stateno=1520;&&Var(0)<0
+trigger1 = target,SelfAnimExist(19050)= 1
+ignorehitpause=1
+value = 1542
+
+[State 1501, 4]
+type = PosAdd
+trigger1 = target, stateno = 1542
+trigger1 = target, Anim = 1520
+trigger1 = target, AnimTime = 0
+y = -51
+
+[State 1501, 5]
+type = Turn
+trigger1 = ParentDist X < 0
+trigger1 = target, StateType != A
+
+[State 1501, 6]
+type = TargetFacing
+trigger1 = target, facing != facing
+value = 1
+
+[State 1501, HitAdd]
+type = HitAdd
+trigger1 = target, stateno = [5000,5099]
+value = -1
+
+[State 1501, Opponent GetHurt Sound]
+type = PlaySnd
+triggerall=!(target,name="DcatDonatello")&&!(target,SelfAnimexist(19040)=1)
+triggerall=!(target,name="DcatLeonardo")&&!(target,SelfAnimexist(19040)=1)
+triggerall=!(target,name="DcatMichelangelo")&&!(target,SelfAnimexist(19040)=1)
+triggerall=!(target,name="DcatRaphael")&&!(target,SelfAnimexist(19040)=1)
+triggerall=(target,name!="DcatKrang")&&(target,name!="DcatShredder")
+trigger1 =(target,stateno=1520)&&(target,Time=49)
+trigger2 =(target,stateno=1543)&&(target,Time=49)
+trigger3 =(target, stateno =[5000,5099])&&(target,Time=0)
+channel = 10
+value = 19500,0
+
+
+[state 1501]
+type = null ;varset
+trigger1 = time = 0
+v = 3
+value = 300
+
+[state 1501, Counter Set]
+type = ParentVarAdd ;ParentVarSet
+triggerall = root,var(35)=0
+trigger1 = time = 0 && numtarget
+var(35)=300
+;ignorehitpause =
+;persistent =
+
+
+[State 1501, Decrement Time Left]
+type = null ;VarAdd
+trigger1 = Time > 1
+v = 3
+value = -1
+
+[State 1501, Decrement Time Left]
+type = null ;ParentVarAdd  ;moved to -2 states
+trigger1 = Time > 1
+var(35) = -1
+;ignorehitpause =
+;persistent =
+
+
+[state 1501]
+type = varset
+trigger1 = prevstateno=1502
+trigger1 = time = 0
+v = 14
+value = 300
+
+[State 1501, Decrement Time Left]
+type = VarAdd
+trigger1 = var(14)>0
+trigger1 = Time > 1
+v = 14
+value = -1
+
+
+[State -3, Scaling]; DEFAULT MONKEY
+type=AngleDraw
+trigger1 =var(0)=0
+trigger1 =anim=[50000,50008]
+trigger1 =1
+scale=1,1.25
+value = 0
+ignorehitpause=1
+
+[State -3, Scaling]; DARKSTALKERS & CAPCOM SCALING
+type=AngleDraw
+trigger1 =var(0)<=32
+trigger1 =anim=[49000,49999]
+trigger1 =1
+scale=.75,.85
+value = 0
+ignorehitpause=1
+
+[State -3, Scaling]; DARKSTALKERS & CAPCOM SCALING
+type=AngleDraw
+trigger1 =var(0)<=32
+trigger1 =anim=[50010,59999]
+trigger1 =1
+scale=.75,.85
+;ceil(.735*(Parent,const(size.xscale))),ceil(.738*(Parent,const(size.xscale)))
+value = 0
+ignorehitpause=1
+
+[State -3, Scaling]; TMNT & TOKKA SCALING
+type=AngleDraw
+trigger1 =var(0)=33
+trigger1 =anim=[49000,59999]
+trigger1 =1
+trigger2 =var(0)=41
+trigger2 =anim=[50410,50418]
+trigger2 =1
+scale=1.5,1.5
+value = 0
+ignorehitpause=1
+
+[State -3, Scaling]; JINMEN, KOOPA, & RAHZAR SCALING
+type=AngleDraw
+trigger1 =var(0)=34
+trigger1 =anim=[49000,59999]
+trigger1 =1
+trigger2 =var(0)=35
+trigger2 =anim=[50350,50359]
+trigger2 =1
+trigger3 =var(0)=36
+trigger3 =anim=[50360,50369]
+trigger3 =1
+scale=1.3,1.4
+value = 0
+ignorehitpause=1
+
+
+[State 1501, 7]   ;grounded get hit
+type = TargetState
+;triggerall=var(0)>=0
+trigger1 = target, stateno = [5000,5099]
+trigger1 = target,prevstateno != [1531,1539]
+trigger1 = target,prevstateno != [1542,1543]
+trigger1 = target, life != 0
+ignorehitpause=1
+value = 1528+10*(target,SelfAnimExist(19050)) ;grounded and flying
+
+
+;[State 1501, 7b]
+;type = TargetState
+;trigger1 = target, stateno = [5000,5099]
+;trigger1 = target,prevstateno = [1531,1539]
+;trigger1 = target,prevstateno = [1542,1543]
+;trigger1 = target, life != 0
+;ignorehitpause=1
+;value = 1538
+
+
+
+[State 1501, Assert]
+type = AssertSpecial
+trigger1 =Target,stateno=1520
+trigger1 =Target,Time>=23&&Target,Time<=49
+trigger2 =Target,stateno=1543
+trigger2 =Target,time>=23&&Target,Time<=49
+flag =invisible
+
+[State 1501, NotHitBy]
+type = NotHitBy
+;trigger1=var(3)=0
+trigger1=root,var(35)=0
+trigger1 = 1
+value = SCA
+ignorehitpause=1
+
+;;+++++++++++++++++++++++
+
+[State 1501, Default]
+type = VarSet
+trigger1 = 1
+v = 0     ;Character animation
+value = 0 ;Default animation
+
+[State 1501, Anakaris]
+type = null; VarSet
+trigger1 = target, name = "Anakaris"
+trigger2 = target, name = "Anakaris By Third"
+trigger3 = target, name = "cvsanakaris"
+v = 0
+value = 1
+
+[State 1501, Morrigan]
+type = null; VarSet
+trigger1 = target, name = "Morrigan"
+trigger2 = target, name = "Morrigan Aensland"
+trigger3 = target, name = "cvsmorrigan"
+trigger4 = target, name = "Ultimate Morrigan"
+v = 0
+value = -1
+
+[State 1501, Demitri]
+type = null; VarSet
+trigger1 = target, name = "Demitri"
+trigger2 = target, name = "Demitri Maximoff"
+trigger3 = target, name = "Demitri(DS)"
+trigger4 = target, name = "Demitri-Ex"
+trigger5 = target, name = "cvsdemitri"
+trigger6 = target,name="DKR Batman"
+trigger7 = target,name="infinitybatman"
+trigger8 = target,name="Batman Beyond"
+trigger9 = target,name="Iron Batman"
+trigger10= target,name="Batman"
+trigger11= target,name="CN_Batman"
+trigger12= target,name="Goddamn_Batman"
+trigger13= target,name="Normal_Batman"
+trigger14= target,name="Batman_West"
+v = 0
+value = -2
+
+[State 1501, Pyron]
+type = null; VarSet
+trigger1 = target, name = "Pyron"
+trigger2 = target, name = "cvspyron"
+trigger3 = target, name = "Portgas D. Ace"
+trigger4 = target, name = "Dragon Claw"||target,name="Phoenix (Jean Grey)"||target,name="Sunfire"
+trigger5 = target, name = "Ken" || target, name = "Evil Ken" || target, name = "Dark Ken"
+trigger6 = target, name = "Sennou Ken" || target, name = "Violent Ken" || target, name = "ViolentKen_MVC" || target, name = "psykyopath"
+trigger7 = target, name = "Kyo Kusanagi" || target, name = " Kyo" || target, name = "Kusanagi" || target, name = "KUSANAGIXIII"
+trigger8 = target, name = "Evil Ken SF'2" || target, name = "Ken Masters" && target, authorname = "Phantom.of.the.Server&Jmorphman"
+trigger9 = target, name = "Kyo_WLS" || target, name ="Sunforce's Kyo-1" || target, name ="CvS2AKyo" || target, name ="KyoXIII"
+trigger10= target,name="Sol Badguy" || target,name="Sol=Badguy" || target,name="badguy" || target,name="solengrenado"
+trigger11= target,name="darkordersol" || target,name="sol" || target,name="order-Sol=Badguy" || target,name="osol"
+trigger12= target,name="Satan"|| target, name ="Ex Kyo" || target, name ="Saint-Kyo" || target, name ="Kyo XIII Plus" || target, name ="Nests style Kyo"
+trigger13= target,name="BURNIE" 	;Alien Challenge
+trigger14= target,name="DCvsMGhostRider" || target,name="Ghost Rider"
+trigger15= target,name="Terry"||target,name="[Ketra]'s Jin Saotome"||target,name="Jin Saotome"||target,name="Jin"
+trigger16= target,name="cvsterry"
+trigger17= target,name="Terry Bogard"
+trigger18= target,name="Terry_WLS"
+trigger19= target,name="Wild Wolf"
+trigger20= target,name="mini Terry"
+trigger21= target,name="Ultimate Terry"
+trigger22 = target,name="firestorm"||target,name="Quasar"||target,name="Human Torch"
+trigger23 = target,name="Firestar" || target,name="Starfire" || target,name="HCF Starfire"
+v = 0
+value = -3
+
+[State 1501, Lilith]
+type = null; VarSet
+trigger1 = target, name = "Lilith"
+trigger2 = target, name = "cvslilith"
+trigger3 = target,name="BloodRayne"
+v = 0
+value = -4
+
+[State 1501, Q-Bee]
+type = null; VarSet
+trigger1 = target, name = "Q-Bee"
+trigger2 = target, name = "QBee"
+trigger3 = target, name = "Q Bee"
+trigger4 = target, name = "cvsqbee"||target,name="Wasp"
+v = 0
+value = -5
+
+[State 1501, Jedah]
+type = null; VarSet
+trigger1 = target, name = "Jedah"
+trigger2 = target, name = "cvsjedah"
+trigger3 = target,name="Mr.Sinister"
+trigger4 = target,name="Shadow DIO" || target,name="dio" || target,name="Dio Brando" || target,name="DIO-ShadowFace" || target,name="ƒUEƒ[ƒ‹ƒh" || target,name="1st DIO"
+trigger5 = target,name="Final" && enemy,authorname="Andres Borghi"
+v = 0
+value = -6
+
+[State 1501, Vega]
+type = null; VarSet
+trigger1 = target, name = "Vega" && target, authorname!="N64Mario84"
+trigger2 = target, name = "M. Bison"||target, name = "SNES-M.Bison"
+trigger3 = target, name = "M.Bison"||target, name = "Bison"
+trigger4 = target, name = "MBison"
+trigger5 = target, name = "[Necromancer's] M. Bison"
+trigger6 = target, name = "cvsvega"
+trigger7 = target, name = "cvsmbison"
+trigger8 = target, name = "svcvega"
+trigger9 = target, name = "wacker" && target,authorname="NGI"
+trigger10= target, name = "vega_mx"
+trigger11= target, name = "SSF2HD_Bison"
+trigger12= target, name = "Kaiser Vega SSF'2 Plus"
+trigger13 = target,name="Sevil Nahte"
+v = 0
+value = -7
+
+[State 1501, Kenji]
+type = null; VarSet
+trigger1 = target, name = "Kenji"
+trigger2 = target, name = "cvskenji"
+trigger3 = target, name = "Sisi"
+trigger4 = target, name = "Sisyphus"
+v = 0
+value = -8
+
+[State 1501, Pterodactyl]
+type = null; VarSet
+trigger1 = target, name = "Gozu"
+trigger2 = target, name = "Geon"
+trigger3 = target, name = "Hellstinger"
+trigger4 = target, name = "Lucifeller"
+trigger5 = target, name = "Red Arremer" || target, name = "Arremer"||target, name = "Firebrand"
+v = 0
+value = -9
+
+[State 1501, Wingnut]
+type = null; VarSet
+trigger1 = target, name = "WingNut"
+v = 0
+value = -10
+
+[State 1501, Bird]
+type = null; VarSet
+trigger1 = target, name = "Hawk"||target,name="Angel"||target,name="Archangel"
+trigger2 = target, name = "Vulture"||target,name="Songbird"||target,name="Captain Agent"||target,name="Ultimate Cap"
+trigger3 = target, name = "Hawkman"||target,name="CaptainAmerica" || target,name="Captain America" || target,name="Ultimate Cap" || target,name="Captain Bucky" || target,name="KoldCap"
+trigger4 = target, name = "Hawkgirl"||target,name="Thunder Hawk"||target,name="THawk"||target,name="T.Hawk"||target,name="T.Hawk_MvC"||target,name="cvsthawk"||target,name="Mexican Typhoon"
+trigger5 = target, name = "Hawkeye"||target,name="Griffon"||target,name="The Griffon"
+trigger6 = target, name = "HawkEyes"
+v = 0
+value = -11
+
+[State 1501, Undead]
+type = null; VarSet
+trigger1 = target,name="Deadpool" || target,name="DeadPoolx"||target,name="Gentleman Ghost"
+trigger2 = target, name = "Deathmask"
+trigger3 = target,name="Kenpachi" || target,name="awoken Ichigo" || target,name="Kurosaki Ichigo" || target,name="Byakuya Kuchiki by Websta"
+trigger4 = target,name="Undead Hero By Ryon"
+trigger5 = target,name="DGeese" || target,name="geese_mmx" || target,name="Nightmare Geese"
+trigger6 = target,name="Geese" || target,name="Geese Howard" || target,name="cvsgeese"
+trigger7 = target,name="Crazy Laughing Geese" || target,name="Mini_Geese"
+v = 0
+value = -12
+
+[State 1501, Gallon]
+type = null; VarSet
+trigger1 = target, name = "Gallon"
+trigger2 = target, name = "Jon Talbain"
+trigger3 = target, name = "Talbain"
+trigger4 = target, name = "J. Talbain"
+trigger5 = target, name = "cvsgallon"
+trigger6 = target, name = "cvstalbain"
+trigger7 = target, name = "cvsjtalbain"
+trigger8 = target, name = "John Talbain"
+v = 0
+value = 2
+
+[State 1501, Zabel]
+type = null; VarSet
+trigger1 = target, name = "Zabel"
+trigger2 = target, name = "Zabel Zarock"
+trigger3 = target, name = "Lord Raptor"
+trigger4 = target, name = "cvsraptor"||target,name="Billy Kane" || target,name="Billy Karn" || target,name="ffsp_billy"
+trigger5 = target, name = "cvszabel"||target,name="Lobo"
+v = 0
+value = 3
+
+[State 1501, Felicia]
+type = null; VarSet
+trigger1 = target, name = "Felicia"
+trigger2 = target, name = "Felicia MvC2 Style by MGBenz"
+trigger3 = target, name = "cvsfelicia"
+trigger4 = target, name = "Black Cat"||target,name="Shadowcat"||target,name="Catwoman"
+v = 0
+value = 4
+
+[State 1501, Bishamon]
+type = null; VarSet
+trigger1 = target, name = "Bishamon"
+trigger2 = target, name = "Oboro"||target,name="Jaoh"||target,name="Silver Samurai"
+trigger3 = target, name = "cvsbishamon"
+trigger4 = target, name = "cvsoboro"||target,name="Sodom by Splode"||target,name="Sodom"||target,name="Sodom with Samurai Sword"
+trigger5 = target,name="Spawn" || target,name="CVG_Spawn"
+trigger6 = target,name="[o_O]'s Blackheart" || target,name="Blackheart"
+trigger7 = target,name="DCvsMEtrigan" || target,name="Etrigan" || target,name="Etrigan the Demon"
+trigger8 = target,name="dante"||target,name="nero_DMC4"
+trigger9 = target,name="Shao Kahn" || target,name="shaokahn"
+trigger10= target,name="Hellboy"||target,name="Daredevil"
+trigger11= target,name="H.spawn" || target,name="HellSpawn"||target,name="Nightcrawler"
+trigger12= target,name="Cvshaohmaru" || target,name="cvshaohmaru" || target,name="cvshaohmaru_normal" || target,name="cvshaohmaru_ex"
+trigger13= target,name="Haohmaru" || target,name="HaohmaruMG" || target,name="ZeroHaohmaru"
+trigger14= target,name="Dabura"
+trigger15= target,name="Dabura by DZGTEAM"
+trigger16= target,name="Boa_Hancock"
+v = 0
+value = 5
+
+[State 1501, Victor]
+type = null; VarSet
+trigger1 = target, name = "Victor"
+trigger2 = target, name = "cvsvictor"
+v = 0
+value = 6
+
+[State 1501, Aulbath]
+type = null; VarSet
+trigger1 = target, name = "Aulbath"
+trigger2 = target, name = "Rikuo"
+trigger3 = target, name = "cvsaulbath"
+trigger4 = target, name = "cvsrikuo"
+v = 0
+value = 7
+
+[State 1501, Sasquatch]
+type = null; VarSet
+trigger1 = target, name = "Sasquatch"
+trigger2 = target, name = "cvssasquatch"
+trigger3 = target,name="Coola" || target,name="Cooler" || target,name="M-Kooler" || target,name="coola by Franciynaldo"
+trigger4 = target,name="Freeza" || target,name="Frieza" || target,name="Freezer" || target,name="Freeza by OverMind"
+trigger5 = target,name="Disciple's Freeza" || target,name="Freezer 4th Form OS" || target,name="frz"
+trigger6 = target,name="CS-Freezer'AS"||target,name="MvDC Iceman" || target,name="Iceman by Splode" || target,name="Iceman"
+v = 0
+value = 8
+
+[State 1501, Phobos]
+type = null; VarSet
+trigger1 = target, name = "Phobos"
+trigger2 = target, name = "Huitzel"
+trigger3 = target, name = "Deimos"
+trigger4 = target, name = "cvsphobos"
+trigger5 = target, name = "cvshuitzel"
+trigger6 = target, name = "cvsdeimos"
+v = 0
+value = 9
+
+[State 1501, Lei-Lei]
+type = null; VarSet
+trigger1 = target, name = "Lei-Lei"
+trigger2 = target, name = "Lei Lei"
+trigger3 = target, name = "LeiLei"
+trigger4 = target, name = "Hsien-Ko"
+trigger5 = target, name = "Hsien Ko"
+trigger6 = target, name = "HsienKo"
+trigger7 = target, name = "cvsleilei"
+trigger8 = target, name = "cvshsienko"
+trigger9 = target, name = "Pocket LeiLei"
+trigger10= target, name = "Pocket Lei Lei"||target, name = "Pocket Lei-Lei"
+v = 0
+value = 10
+
+[State 1501, Donovan]
+type = null; VarSet
+trigger1 = target, name = "Donovan"
+v = 0
+value = 11
+
+[State 1501, Bulleta]
+type = null; VarSet
+trigger1 = target, name = "Bulleta"
+trigger2 = target, name = "B.B. Hood"
+trigger3 = target, name = "BB Hood"
+trigger4 = target, name = "B.B.Hood"
+trigger5 = target, name = "BBHood"
+trigger6 = target, name = "Baby Bonnie Hood"
+trigger7 = target, name = "Bulleta SXP"
+trigger8 = target, name = "cvsbulleta"
+trigger9 = target, name = "cvsbbhood"
+v = 0
+value = 12
+
+[State 1501, Alex]
+type = null; VarSet
+trigger1 = target, name = "Alex"
+trigger2 = target, name = "cvsalex"
+v = 0
+value = 13
+
+[State 1501, Yun]
+type = null; VarSet
+trigger1 = target, name = "Yun"
+trigger2 = target, name = "cvsyun"
+v = 0
+value = 14
+
+[State 1501, Urien]
+type = null; VarSet
+trigger1 = target, name = "Urien"||target,name="Street Fighter 3's Urien" || target,name="urien_mx"
+trigger2 = target, name = "cvsurien"||target,name="The Thing" || target,name="Thing" || target,name="Mole" || target,name="La Mole"
+trigger3 = target,name="Mukai" || target,name = "Tin's Mukai"||target,name="Clayface"||target,name="Marrow" || target,name="ZeroMarrow"
+trigger4 = target,name="Darkseid" || target,name="JLTF_DARKSEID" || target,name="Darkseid 16 bits" || target,name="Darksied"||target,name="Apocalypse"
+trigger5 = target,name="Kintaro" || target,name="Motaro" || target,name="Goro"||target,name="Sandman"
+trigger6 = target,name="Cocodrilo" || target,name="CS-Doflamingo'AS" || target,name="Crocodile"
+trigger7 = target,name="Thanos" || target,name="Thanos of Titan"||target,name="Doomsday"|| target, name="santaurus"
+trigger8 = target,name="Rock"||target,name="Rock Howard"||target,name="Golem"||target,name="Goliath"||target,name="Goliath-o"
+v = 0
+value = 15
+
+[State 1501, Ryu]
+type = null; VarSet
+trigger1 = target, name = "Ryu" || target, name = "Riot Ryu by Dark Roken & Evo"
+trigger2 = target, name = "Evil Ryu" || target, name = "Evil Ryu SF'2" || target, name = "ERyu" || target, name = "CVSEvilRyu" || target, name = "Destruido Ryu"
+trigger3 = target, name = "Ryu Hoshi"|| target, name = "eRYU-SvsC" || target, name = "C Evil Ryu" || target, name = "Evil Ryu Hoshi" || target, name = "EvilRyu"
+trigger4 = target, name = "Ryu-X"
+trigger5 = target, name = "Ryu Houji"
+trigger6 = target, name = "cvsryu"
+trigger7 = target, name = "cvsryu_normal"
+trigger8 = target, name = "ryusnk"
+trigger9 = target, name = "MvC-EoH Evil Ryu"
+trigger10= target, name = "RyuDG"
+trigger11= target, name = "RyuSFA"
+trigger12= target, name = "Koryu"&& target, authorname = "N-Mario"
+trigger13= target, name = "Cvs2ryu"
+trigger14= target, name = "ryusnk"
+trigger15= target, name = "Ryu SF'2"
+trigger16= target, name = "NXC Ryu"
+trigger17= target, name = "Ryu mvc1"
+trigger18= target, name = "MvC2 Ryu By Kamekaze"
+trigger19= target, name = "MvC-EoH Ryu"
+trigger29= target, name = "Ryulee"
+trigger21= target, name = "Marvel Ryu Zero"
+trigger22= target, name = "Ryu Plus"
+trigger23= target, name = "RyuSF"
+trigger24= target, name = "Ryu_SS"
+trigger25= target, name = "Bootleg Ryu"
+trigger26= target, name = "SSF2HD_Ryu"
+trigger27= target, name = "Ryu Lv2"
+trigger28= target, name = "RyuKOP"
+trigger29= target, name = "mini ryu"
+trigger30= target, name = "MvcRyu"
+trigger31= target, name = "Mvc2Ryu"
+trigger32= target, name = "SfaRyu"
+trigger33= target, name = "Ryu [CVS-C]"
+trigger34= target, name = "Ryu_cvs"
+trigger35= target, name = "Ryu_MvC"
+trigger36= target, name = "Young Ryu"
+trigger37= target, name = "Classic Ryu"
+trigger38= target, name = "Master Ryu"
+trigger39= target, name = "Chotto-Ko Ryu"
+trigger40= target, name = "ryu-R"
+trigger41= target, name = "RyuEX-by-Shingo-Yabuki"
+trigger42= target, name = "RyuEX"
+trigger43= target, name = "RyuSFA"
+trigger44= target, name = "Marvel vs Capcom - Eternity of Heroes Ryu"
+trigger45= target, name = "Ryu_Veanko"
+trigger46= target, name = "Pocket Ryu"
+v = 0
+value = 16
+
+[State 1501, Chun-Li]
+type = null; VarSet
+trigger1 = target, name = "Chun-Li"&&target, authorname!="Jmorphman"
+trigger2 = target, name = "Chun Li"||target,name="Dark Bolt"
+trigger3 = target, name = "ChunLi"
+trigger4 = target, name = "Dark Chun Li" || target, name = "Dark Chun-Ki R" || target, name = "Shadow Lady"
+trigger5 = target, name = "cvschunli"
+trigger6 = target, name = "Pocket Chun Li"
+v = 0
+value = 17
+
+[State 1501, Guile]
+type = null; VarSet
+trigger1 = target, name = "Guile"&&target, authorname!="Jmorphman"
+trigger2 = target, name = "Guile-XI"||target, name = "Sonic Machine"
+trigger3 = target, name = "Guile-XI Remix"
+trigger4 = target, name = "cvsguile"
+trigger5 = target, name = "EVIL GUIRE!!111"
+v = 0
+value = 18
+
+[State 1501, Zangief]
+type = null; VarSet
+trigger1 = target, name = "Zangief"
+trigger2 = target, name = "cvszangief"
+trigger3 = target, name = "Mecha Zangief"
+trigger4 = target, name = "Mecha-Zangief"
+trigger5 = target, name = "MechaZangief"
+trigger6 = target, name = "[KoYotae]'s Zangief"
+trigger7 = target, name = "Zangeese"
+trigger8 = target, name = "Zangyura"
+trigger9 = target, name = "Pocket Zangief"
+v = 0
+value = 19
+
+[State 1501, Sakura]
+type = null; VarSet
+trigger1 = target, name = "Sakura"
+trigger2 = target, name = "Sakura Kasugano"
+trigger3 = target, name = "cvssakura"||target,name="Power Girl"||target,name="RajaaSupergirl"||target,name="Supergirl"
+trigger4 = target,name="Dark Sakura" || target,name="Marvel vs Capcom - Eternity of Heroes: Sakura"
+trigger5 = target,name="Pneophen's pissed off Sakura" || target,name="E-Sakura"
+trigger6 = target,name="Rogue"
+trigger7 = target,name="Rogue by Splode"
+trigger8 = target,name="Iron Fist"
+v = 0
+value = 20
+
+[State 1501, Gouki]
+type = null; VarSet
+trigger1 = target, name = "Gouki"
+trigger2 = target, name = "Akuma"
+trigger3 = target, name = "Shin Gouki"
+trigger4 = target, name = "Shin Akuma"
+trigger5 = target, name = "ShinGouki"
+trigger6 = target, name = "ShinAkuma"
+trigger7 = target, name = "Pocket Shin Gouki"
+trigger8 = target, name = "cvsgouki"
+trigger9 = target, name = "cvsakuma"
+trigger10 = target, name = "Gouki by M.M.R."
+trigger11 = target, name = "MvC-EoH Gouki"
+trigger12 = target, name = "Zero-Akuma"
+trigger13= target,name="Shin Gouki SF'2"
+trigger14= target,name="Rare Akuma"
+trigger15= target,name="Shin Akuma"
+trigger16= target,name="Gouki CVS 3"
+trigger17= target,name="Tin's S_Gouki"
+trigger18= target,name="SF3Gouki"
+trigger19= target,name="Gouki_Cota"
+trigger20= target,name="Eternity of Heroes: Gouki"
+trigger21= target,name="Ogre"|| target,name="CvS_Ogre"
+trigger22= target,name="Gouki Lv2"
+trigger23= target,name="SHINJIN GOUKI"
+trigger24= target,name="Anti-Gouki #07" || target,name="Anti-Gouki #08"
+v = 0
+value = 21
+
+[State 1501, Leo]
+type = null; VarSet
+trigger1 = target, name = "Leo"
+trigger2 = target, name = "cvsleo"
+trigger3 = target, name = "Leo (Leo)"
+trigger4 = target,name="[Wx2]"
+trigger5 = target,name="logan"
+trigger6 = target,name="Wolvenom"
+trigger7 = target,name="Maskless Wolverine"
+trigger8 = target,name="Wolverine2"
+trigger9 = target,name="Sabretooth" || target,name="MvC2 Sabretooth By Kamekaze" || target,name="Sabre Tooth"
+trigger10= target,name="Wolverine 71113"
+trigger11= target,name="WOLVERINE-MC2"
+trigger12= target,name="WOLVERINE-Xvsf"
+trigger13= target,name="Wolverine"
+trigger14= target,name="MvC-EoH Wolverine"
+trigger15= target,name="WxDCvsMC"||target,name="Beastboy" || target,name="Beast Boy"||target,name="Animal Man"
+trigger16= target,name="Tony Tony Chopper"||target,name="Bishop"|| target,name="Beast"
+v = 0
+value = 22
+
+[State 1501, Hauzer]
+type = null; VarSet
+trigger1 = target, name = "Hauzer"
+trigger2 = target, name = "cvshauzer"
+v = 0
+value = 23
+
+[State 1501, Hydron]
+type = null; VarSet
+trigger1 = target, name = "Hydron"
+trigger2 = target, name = "Nool"
+trigger3 = target, name = "cvshydron"
+trigger4 = target, name = "cvsnool"
+trigger5 = target, name = "Ray"
+trigger6 = target, name = "Ray Fillet"||target,name="Shuma Gorath"
+trigger7 = target, name = "Franky"||target,name="Namor"||target, name ="Aquaman"
+v = 0
+value = 24
+
+[State 1501, Guy]
+type = null; VarSet
+trigger1 = target, name = "Guy"
+trigger2 = target, name = "cvsguy"
+trigger3 = target, name = "Ibuki"
+trigger4 = target, name = "Rokurouta"
+trigger5 = target, name = "Kakashi"
+trigger6 = target, name = "Naruto"||target, name ="Galford"
+trigger7 = target, name = "Ryu Hayabusa"||target, name ="Aska"||target, name ="Aska by BEK"
+trigger8 = target, name = "Joe Musashi"||target, name = "Jyazu"
+v = 0
+value = 25
+
+[State 1501, Rose]
+type = null; VarSet
+trigger1 = target, name = "Rose"
+trigger2 = target, name = "cvsrose"
+v = 0
+value = 26
+
+[State 1501, Karin]
+type = null; VarSet
+trigger1 = target, name = "Karin"
+trigger2 = target, name = "Karin Kanzuki"
+trigger3 = target, name = "cvskarin"
+v = 0
+value = 27
+
+[State 1501, Ingrid]
+type = null; VarSet
+trigger1 = target, name = "Ingrid"
+trigger2 = target, name = "Ingrid SXP"
+trigger3 = target, name = "cvsingrid"
+v = 0
+value = 28
+
+[State 1501, Super Mario]
+type = null; VarSet
+trigger1 = target, name = "Super Mario"
+trigger2 = target, name = "Mario"
+trigger3 = target, name = "SuperMario"
+trigger4 = target, name = "Old School Mario"
+trigger5 = target, name = "NGPC Mario"
+trigger6 = target, name = "NGPC Metal Mario"
+trigger7 = target, name = "Mario Kart Fighter"
+v = 0
+value = 29
+
+[State 1501, Super Luigi]
+type = null; VarSet
+trigger1 = target, name = "Super Luigi"
+trigger2 = target, name = "Luigi"
+trigger3 = target, name = "SuperLuigi"
+trigger5 = target, name = "NGPC Luigi"
+trigger6 = target, name = "NGPC Metal Luigi"
+trigger7 = target, name = "Luigi Kart Fighter"
+v = 0
+value = 30
+
+[State 1501, Megaman]
+type = null; VarSet
+trigger1 = target, name = "Megaman"
+trigger2 = target, name = "Rockman"
+trigger3 = target, name = "Megaman Plus"
+trigger4 = target, name = "Megaman X"
+trigger5 = target, name = "MegamanX"
+trigger6 = target, name = "Marvel vs Capcom - Eternity of Heroes: Rockman Copy"
+trigger7 = target, name = "Megaman.exe"
+trigger8 = target, name = "B-Megaman"
+trigger9 = target, name = "Rock Volnutt"
+trigger10= target, name = "Bad Megaman"
+trigger11= target, name = "Helmetless MegaMan"
+v = 0
+value = 31
+
+[State 1501, Sonic]
+type = null; VarSet
+trigger1 = target, name = "Sonic"
+trigger2 = target, name = "Sonic The Hedgehog"
+trigger3 = target, name = "Classic Sonic"
+trigger4 = target, name = "Neo Sonic by MS"
+trigger5 = target, name = "That Darn Hedgehog"
+v = 0
+value = 32
+
+[State 1501, TMNT]
+type = null; VarSet
+trigger1 = target, name = "Leonardo"
+trigger2 = target, name = "T_ninja"
+trigger3 = target, name = "Don" && target, authorname = "Pioupiou"
+trigger4 = target, name = "leo" && target, authorname = "Pioupiou"
+trigger5 = target, name = "mike" && target, authorname = "Pioupiou"
+trigger6 = target, name = "Raph" && target, authorname = "Pioupiou"
+trigger7 = target, name = "DcatDonatello"
+trigger8 = target, name = "DcatLeonardo"
+trigger9 = target, name = "DcatMichelangelo"
+trigger10= target, name = "DcatRaphael"
+trigger11= target, name = "Donatello"
+trigger12= target, name = "Michelangelo"
+trigger13= target, name = "Michaelangelo"
+trigger14= target, name = "Raphael"
+v = 0
+value = 33
+
+[State 1501, Jinmen]
+type = null; VarSet
+trigger1 = target, name = "jinmen"
+v = 0
+value = 34
+
+
+[State 1501, Orange Turtle]
+type = null; VarSet
+trigger1 = target, name = "Koopa"
+trigger2 = target, name = "Koopa Troopa Kart Fighter"
+v = 0
+value = 35
+
+[State 1501, Rahzar]
+type = null; VarSet
+trigger1 = target, name = "Rahzar"
+v = 0
+value = 36
+
+[State 1501, Spider];SPIDERMAN
+type = null; VarSet
+trigger1 = target, name = "Spider-man"
+trigger2 = target, name = "Spiderman"
+trigger3 = target, name = "Venom"
+trigger4 = target, name = "Viuda Negra"
+trigger5 = target, name = "Ananzi"
+trigger6 = target, name = "Symbiote Spider-Man"
+trigger7 = target, name = "Spider-Man 2099"
+trigger8 = target, name = "Scarlet Spider"
+trigger9 = target, name = "SPY-DAMA"
+trigger10= target, name = "mutantspidey"
+trigger11= target,name="Venom" || target,name="Venom_MMV"||target,name="VenomScorp"
+trigger12= target,name="Scarlet Spider"
+trigger13= target,name="Spider-Woman"
+trigger14= target,name="Black Widow"
+v = 0
+value = 37
+
+[State 1501, Duck King]
+type = null; VarSet
+trigger1 = target, name = "Duck King"
+trigger2 = target, name = "Duck_WLS"
+trigger3 = target, name = "Birdie"
+v = 0
+value = 38
+
+[State 1501, Rat King]
+type = null; VarSet
+trigger1 = target, name = "Rat King"
+trigger2 = target, name = "RatKing"
+trigger3 = target, name = "Splinter"
+v = 0
+value = 39
+
+
+[State 1501, Mouser] ;MOUSERS used for SENTINEL AND OTHER ROBOTS
+type = null; VarSet
+trigger1 = target, name = "Baxter Stockman"
+trigger2 = target, name = "Baxter" || target, name="Algol"||target, name="Char's Zaku"
+trigger3 = target, name = "Mouser" || target, name ="Boss Mouser"|| target, name ="Mother Mouser"
+trigger4 = target, name = "Sentinel"
+trigger5 = target, name = "Perfect Weapon MB-02"
+trigger6 = target, name = "Prime Sentinels"
+trigger7 = target, name = "Cyborg"
+trigger8 = target, name = "ShotoBorg Mk. II"
+trigger9 = target, name = "MechaSpaghettio"
+;---------CYBERBOTS-------------
+trigger10= target, name = "Karakuri Hei" || target,name="Cyclone" || target,name="G_Cyclone" || target,name="Reptos" || target,name="B.Swordsman"
+trigger11= target, name = "Jage" || target,name="Vlade" || target,name="Swordsman" || target,name="Toatus" || target,name="UVA-02_Helion" || target,name="Lightning" || target,name="R.Lightning"
+trigger12= target, name = "BWorker" || target,name="Blodia" || target,name="Blodia-k" || target,name="Fordy" || target,name="Gaits" || target,name="Guldin"
+trigger13= target, name = "Helion" || target, name = "Jackal" || target, name = "R.Jackal" || target, name = "KillerBee" || target, name = "F.KillerBee" || target, name = "Reptos"
+trigger14= target, name = "Atlas" || target, name = "Valimes" || target, name = "Warlock" || target, name = "Warlock-k" || target, name = "Riot" || target, name = "Tarantula" || target, name = "F.Tarantula"
+trigger15= target, name = "Super-8" || target, name = "Super-8-k" || target, name = "Vise" || target, name = "G.Vise" || target, name = "RAD" || target, name = "Insect" || target, name = "Cyberbots_Sculd"
+;-----------MEGAMAN-------------
+trigger16= target, name = "Saber Zero" || target, name = "Zero by Fusion" || target, name = "Zero" || target, name = "ZeroAnthem"
+trigger17= target, name = "Shadow_Man_PB" || target, name = "Snakeman_PB" || target, name = "Bass / Forte"
+trigger18= target, name = "EDDIE" || target, name = "Wea" ;Mad Grinder by Basara-kun
+trigger19= target, name = "DESTROYOUS" || target, name = "Blizzard Wolfang"
+;-------------------------------
+trigger20= target, name = "Ultron"
+trigger21= target, name = "Bastion"
+trigger22= target, name = "ROBO-LEN" || target, name = "ROBO-KY" || target, name = "ROBO-JAM" || target, name = "ROBO-KY MK-‡U"
+trigger23= target, name = "ROBO-KY3" || target, name = "ROBO-SOL" || target, name = "ROBO-KY2" || target, name = "ZAGI"
+trigger24= target, name = "”p� ü•¨@440�� "   ;Name of Wasteno 440
+trigger25= target, name = "Robo Rock" || target, name = "Robo Rock Type-2"
+trigger26= target, name = "Q" || target,name= "Dr Gero"|| target,name="Android 16"|| target,name="Android19 by Szowel"|| target,name="Android 20"|| target,name="Android 18"
+trigger27= target, name = "ochamaro"|| target,name="Android 17"|| target,name="17"|| target,name="androide17"|| target,name="Juuhachigou" || target,name="Androide 18 by _Vision" || target,name="18" || target,name="C-18"
+trigger28= target, name = "Taros"
+trigger29= target, name = "Politank Z"
+trigger30= target, name = "juano`s cyborg guy"
+trigger31= target, name = "cyrax" || target, name = "Sektor"
+trigger32= target, name = "Maxima"
+trigger33= target, name = "RajaaMech-Hisui" || target, name = "Maximum_Cute_Hisui"
+;-----------OMF 2097-------------
+trigger34= target, name = "Ming-Vase" || target, name = "Chronos" || target, name = "Shadow"
+;--------------------------------
+trigger35= target, name = "GLaDOS"
+trigger36= target, name = "Bender Rodriguez"
+trigger37= target, name = "Mega Tigerzord" || target, name = "Mecha-gorilla"
+trigger38= target, name = "Fulgore"
+trigger39= target, name = "t8p" || target, name = "Arnold Schwarzenegger"
+trigger40= target, name = "Fio" && target,authorname="3ha"
+trigger41= target, name = "Astroboy OmegaFactor"
+trigger42= target, name = "Dis Astranagant" || target, name = "Dai Rai Oh"
+trigger43= target, name = "Honda Tadakatsu"
+;-----------GUNDAM-------------
+trigger44= target, name = "God Gundam" || target, name = "god_gundom" || target, name = "Gundam Nataku" || target, name = "Wing Gundam"
+trigger45= target, name = "Wing Gundam Zero" || target, name = "Devil Gundam" || target, name = "Gundum Death-Scythe"
+trigger46= target, name = "Mercurius" || target, name = "Freedom Gundam" || target, name = "HeavyArmsCustom" || target, name = "GundamX_SD"
+trigger47= target, name = "Char's Zugock" || target, name = "Char's Zaku" || target, name = "Char's Acguy"
+trigger48= target, name = "Zphiroude" || target, name = "Granzon" || target, name = "TKGD7K" || target, name = "sazabi" || target, name = "zaku"
+trigger49= target, name = "WingGundam-Z2" || target, name = "Gyan" || target, name = "GundamExia_SD" || target, name = "ZZ_Gundam"
+trigger50= target, name = "Gaogaigar" || target, name = "zeorymer"
+trigger51= target, name = "SF4Seth" || target, name = "Seth" || target, name = "SF4 Omni"
+trigger52= target,name="Super 17 by Szowel" || target,name="Androide13 By Team DBZ OS"
+trigger53= target,name="Metallo" || target,name="Servbot" || target,name="Kobun 43"
+trigger54= target,name="BROKKEN" || target,name="RYUKO-ROBO"
+trigger55= target,name="alteisen" || target,name="GarmRaid" || target,name="VaiSaga" || target,name="R-2"
+trigger56= target,name="souryu" || target,name="VAVA"
+trigger57= target,name="Politank Z"
+trigger58= target,name="CyberSKELETON"
+trigger59= target,name="METALGEAR REX"
+trigger60= target,name="Bergamot"		;Maple Story
+trigger61= target,name="Robot Guard" || target,name="SuperBot"
+trigger62= target,name="Dangaioh" || target,name="bloody" || target,name="Getter1"
+v = 0
+value = 40
+
+[State 1501, Tokka]
+type = null; VarSet
+trigger1 = target, name = "Tokka"
+trigger2 = target, name = "Slash"
+v = 0
+value = 41
+
+[State 1501, Triceraton]
+type = null; VarSet
+trigger1 = target, name = "Triceraton"
+v = 0
+value = 42
+
+[State 1501, Foot Soldier]
+type = null; VarSet
+trigger1 = target, name = "Foot Soldier"||target,name="ninja"||target,name="Foot Ninja"||target,name="Hanzou"||target,name="Hanzo Hattori"
+trigger2 = target, name = "Foot Clan"||target,name="mezu"||target,name="Eiji Kisaragi"||target,name="Hanzou Kotarou"||target,name="Hanzo"
+trigger3 = target, name = "Karai"||target,name="Shinobi"||target,name="Shadow Dancer"||target,name="Fuuma"||target,name="Fuuma Kotarou"
+trigger4 = target,name="Ninja_NWA"||target,name="Kunoichi"||target,name="Kunoichi_NWA"||target,name="Kamaitachi"||target,name="Kamaitachi_NWA"
+v = 0
+value = 43
+
+[State 1501, Casey Jones]
+type = null; VarSet
+trigger1 = target, name = "Casey"
+trigger2 = target, name = "Casey Jones"
+v = 0
+value = 44
+
+[State 1501, Rocksteady]
+type = null; VarSet
+trigger1 = target, name = "Rocksteady"
+trigger2 = target, name = "Rock Steady"
+trigger3 = target, name = "Rhino"
+v = 0
+value = 45
+
+
+[State 1501, Shredder]
+type = null; VarSet
+trigger1 = target, name = "Shredder"
+trigger2 = target, name = "Cyber Shredder"
+trigger3 = target, name = "Psycho Shredder"
+v = 0
+value = 47
+
+
+[State 1501, Snake]
+type = null; VarSet
+trigger1 = target, name = "Balrog by M.M.R."||target, name ="SNES-Vega"
+trigger2 = target, name = "Fallen Balrog"||target, name ="Balrogsf2"
+trigger3 = target, name = "Vega" && target, authorname="N64Mario84"
+v = 0
+value = 50
+
+
+[State 1501, Frog]
+type = null; VarSet
+trigger1 = target, name = "Zitz"||target, name = "Rash"||target, name = "Pimple"
+trigger2 = target, name = "Mowgli"
+v = 0
+value = 51
+
+[State 1501, Cell]
+type = null; VarSet
+trigger1 = target, name = "Cell"|| target, name = "Perfect Cell"|| target, name="Insect Cell" || target, name ="Imperfect Cell"
+trigger2 = target, name ="Cell por Ssonic" || target, name ="Cell Imperfecto"
+trigger3 = target, name ="PunchCell! Bonus Game"
+trigger4 = target, name ="Cell UB22"
+trigger5 = target, name ="cell_2nd_Form"
+trigger6 = target, name ="[Necromancer's] Cell"
+trigger7 = target, name ="Ultimate_Cell"
+v = 0
+value = 70
+;;+++++++++++++++++++++++
+
+[State 1501, ChangeAnim Off]
+type = ChangeAnim
+trigger1 = target, anim = [19030,19060]
+trigger1 = Anim != 1514
+value = 1514
+
+[State 1501, ChangeAnim 1]
+type = ChangeAnim
+trigger1 = target, anim = 1521
+trigger1 = Anim != 50000 + 10*Var(0)
+trigger2 = target, anim = 1520
+trigger2 = target, AnimTime = 0
+value = 50000 + 10*Var(0)
+
+[State 1501, ChangeAnim 2]
+type = ChangeAnim
+trigger1 = target, anim = 1522
+trigger1 = Anim != 50001 + 10*Var(0)
+value = 50001 + 10*Var(0)
+
+[State 1501, ChangeAnim 3]
+type = ChangeAnim
+triggerall = Anim != 50002 + 10*Var(0)
+trigger1 = target, Anim = 1523
+trigger2 = target, Anim = 1524
+trigger2 = SelfAnimExist(50003 + 10*Var(0)) = 0
+value = 50002 + 10*Var(0)
+
+;[State 1501, AngleDraw 3]
+;type = AngleDraw
+;trigger1 = Anim = 50002 + 10*Var(0)
+;trigger1 = target, anim = 1524
+;trigger1 = SelfAnimExist(50003 + 10*Var(0)) = 0
+;scale = -1,1
+
+[State 1501, ChangeAnim 4]
+type = ChangeAnim
+trigger1 = target, anim = 1524
+trigger1 = SelfAnimExist(50003 + 10*Var(0))
+trigger1 = Anim != 50003 + 10*Var(0)
+value = 50003 + 10*Var(0)
+
+[State 1501, ChangeAnim 5]
+type = ChangeAnim
+triggerall = Anim != 50004 + 10*Var(0)
+trigger1 = target, anim = 1525
+trigger2 = target, anim = 1531
+value = 50004 + 10*Var(0)
+
+;[State 1501, AngleDraw 5]
+;type = AngleDraw
+;trigger1 = Anim = 50004 + 10*Var(0)
+;trigger1 = target, anim = 1531
+;scale = -1,1
+
+[State 1501, ChangeAnim 6]
+type = ChangeAnim
+triggerall = Anim != 50005 + 10*Var(0)
+trigger1 = target, anim = 1526
+trigger2 = target, anim = 1532
+trigger2 = SelfAnimExist(50006 + 10*Var(0)) = 0
+value = 50005 + 10*Var(0)
+
+;[State 1501, AngleDraw 6]
+;type = AngleDraw
+;trigger1 = Anim = 50005 + 10*Var(0)
+;trigger1 = target, anim = 1532
+;trigger1 = SelfAnimExist(50006 + 10*Var(0)) = 0
+;scale = -1,1
+
+[State 1501, ChangeAnim 6b]
+type = ChangeAnim
+trigger1 = target, anim = 1532
+trigger1 = Anim != 50006 + 10*Var(0)
+trigger1 = SelfAnimExist(50006 + 10*Var(0))
+value = 50006 + 10*Var(0)
+
+[State 1501, PlaySnd 7] ;Jump land sound
+type = PlaySnd
+triggerall = Anim != 50007 + 10*Var(0)
+trigger1 = target, stateno = 1527
+trigger1 = target, anim = 1527
+trigger2 = target, stateno = 1547
+trigger2 = target, anim = 1533
+value = 19200,0
+
+[State 1501, ChangeAnim 7]
+type = ChangeAnim
+triggerall = Anim != 50007 + 10*Var(0)
+trigger1 = target, anim = 1527
+trigger2 = target, anim = 1533
+value = 50007 + 10*Var(0)
+
+;[State 1501, AngleDraw 7]
+;type = AngleDraw
+;triggerall = Anim = 50007 + 10*Var(0)
+;trigger1 = target, anim = 1533
+;scale = -1,1
+
+[State 1501, ChangeAnim 8]
+type = ChangeAnim
+triggerall = Anim != 50008 + 10*Var(0)
+trigger1 = target, anim = 1528
+trigger2 = target, stateno = 1530
+value = 50008 + 10*Var(0)
+
+[State 1501, ChangeAnim 8]
+type = ChangeAnim
+trigger1 = target, stateno = 1520
+trigger1 = target, anim = 1528
+value = 50008 + 10*Var(0)
+
+
+[State 1501, PlaySnd 1a] ;Transformation Sound
+type = PlaySnd
+trigger1 = Time = 5
+trigger1 = parent, Var(4) = 1
+value = 2774,0 ;1200,0
+
+[State 1501, PlaySnd 1b] ;Transformation Sound
+type = PlaySnd
+trigger1 = Time = 5
+trigger1 = parent, Var(4) != 1
+value = 2774,0 ;1200,2
+
+[State 1501, Cloud Explod 1] ;Cloud
+type = Explod
+triggerall = !NumExplod(6000)
+triggerall=target, time = 0 ;7;13
+trigger1 = target, stateno = 1520
+trigger2 = target, stateno = 1542
+trigger3 = target, stateno = 1543
+anim = 6000 ;1600
+ID = 6000
+pos = 0,-20
+postype = p1
+sprpriority = 5
+scale=1,1 ;1.5,1.5
+
+[State 1501, Offset] ;P2 avoid dust
+type = Offset
+trigger1 = target, stateno = [1521,1528]
+y = 1
+
+[State 1501, Offset] ;P2 avoid dust
+type = Offset
+trigger1 = target, stateno != [1521,1528]
+y = 0
+
+[State 1501, End Transform 1]
+type = TargetState
+;trigger1 = Var(3) <= 0
+trigger1 = root,Var(35) <= 0
+trigger1 = (target, stateno = [1521,1525]) || (target, stateno = 1527)
+trigger2 = prevstateno =1502
+trigger2 = Var(14) <= 0
+trigger2 = (target, stateno = [1521,1525]) || (target, stateno = 1527)
+value = 1529
+
+[State 1501, End Transform 1b]
+type = TargetState
+;trigger1 = Var(3) <= 0
+trigger1 = root,Var(35) <= 0
+trigger1 = (target, stateno = [1531,1535]) || (target, stateno = 1537)
+;trigger2 = var(3) <= 0
+trigger2 = root,Var(35) <= 0
+trigger2 = target,stateno = 1528
+trigger3 = prevstateno=1502
+trigger3 = Var(14) <= 0
+trigger3 = (target, stateno = [1531,1535]) || (target, stateno = 1537)
+trigger4 = prevstateno = 1502
+trigger4 = var(14) <= 0
+trigger4 = target,stateno = 1528
+value = 1539
+
+[State 1501, End Transform 2]
+type = ChangeState
+;trigger1 = Var(3) <= 0
+trigger1 = root,Var(35) <= 0
+trigger1 = target, stateno = 1529
+trigger2 = target, stateno = 1530
+trigger2 = target, Time >= 6
+;trigger3 = Var(3) <= 0
+trigger3 = root,Var(35) <= 0
+trigger3 = target, stateno = 1539
+trigger4 = prevstateno=1502
+trigger4 = Var(14) <= 0
+trigger4 = target, stateno = 1529
+trigger5 = prevstateno=1502
+trigger5 = Var(14) <= 0
+trigger5 = target, stateno = 1539
+value = 1513
+
+;Skull Vanish
+[Statedef 1504]
+type    = A
+movetype= A
+physics = N
+anim = 6302
+sprpriority = 5
+velset = 0,0
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = !time
+y = 0
+;ignorehitpause =
+;persistent =
+
+[State 1501, Bones] ;Bones Sound
+type = PlaySnd
+trigger1 = !time
+value = 2875,0
+
+[State 1061, Turn]
+type = null ;AngleDraw
+trigger1 = 1
+value = -90
+
+[State 1061, NoShadow]
+type = Trans
+trigger1 = root,var(2)=0
+trans = none
+ignorehitpause = 1
+
+[State 1002, NoShadow]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+ignorehitpause = 1
+
+[State 1061, End]
+type = destroyself
+trigger1 = animtime = 0
+;---------------------------------------------------------------------------
+;CURSED - Projectile Helper - End Transformed
+[Statedef 1513]
+type    = A
+movetype= A
+
+[State 1513, 1]
+type = PosSet
+triggerall=numtarget
+trigger1 = Anim != 1514
+x = target, Pos X
+y = target, Pos Y
+
+[State 1513, 2]
+type = ChangeAnim
+triggerall=numtarget
+trigger1 = Time = 0
+trigger1 = target, stateno != 1530
+trigger1 = target, anim != [19030,19060]
+value = 50000 + 10*Var(0)
+
+[State 1513, 3]
+type = ChangeAnim
+triggerall=numtarget
+trigger1 = Time = 0;14
+trigger1 = target, stateno = 1529
+trigger2 = Time = 12
+trigger2 = target, stateno = 1530
+trigger3 = Time = 14
+trigger3 = target, stateno = 1539
+trigger4 = numtarget > 0
+trigger4 = target, anim = [19030,19060]
+value = 1514
+
+[State 1513, EndSnd 1a] ;Transformation Sound
+type = PlaySnd
+trigger1 = Time = 0
+trigger1 = parent, Var(4) = 1
+value = 2774,0 ;1200,0
+
+[State 1513, EndSnd 1b] ;Transformation Sound
+type = PlaySnd
+trigger1 = Time = 0
+trigger1 = parent, Var(4) != 1
+value = 2774,0 ;1200,2
+
+[State 1513, Cloud Explod 1] ;Cloud
+type = Explod
+trigger1 =Time=0
+anim = 6000 ;1601
+ID = 6000
+pos = 0,-20
+postype = p1
+sprpriority = 5
+scale=1,1 ;1.5,1.5
+
+[State 1501, Explosion] ;Transformation Sound
+type = PlaySnd
+trigger1 = !time
+value = 1000,0
+
+[State 1513, 4]
+type = DestroySelf
+trigger1 = Time = 45
+
+
+;---------------------------------------------------------------------------
+;CURSED - Projectile Helper - Miss
+[Statedef 1514]
+type    = A
+movetype= A
+
+[State 1514, 1]
+type = DestroySelf
+trigger1 = Time > 0
+
+;---------------------------------------------------------------------------
+;CURSED - Projectile Helper - Target Dies Early
+[Statedef 1516]
+type    = A
+movetype= A
+sprpriority = -1
+
+[State 1516, 1] ; Target dies early
+type = TargetState
+trigger1 = 1
+value = 1544
+
+[State 1516, 2]
+type = DestroySelf
+trigger1 = 1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Transforming
+[Statedef 1520]
+movetype= H
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1520, Assert]
+type = AssertSpecial
+trigger1 = SelfAnimExist(19040) = 1
+trigger1 =stateno=1520
+trigger1 =Time>=23 ;&&Time<=49
+flag =invisible
+
+[State 1520, 1]
+type = ChangeAnim2
+trigger1 = Pos Y >= 0
+trigger1 = Time = 0
+value = 1520
+
+[State 1520, 2]
+type = ChangeAnim2
+trigger1 = Pos Y < 0
+trigger1 = Time = 0
+value = 1530
+
+[State 1520, 3]   ;get hit  sound
+type = PlaySnd
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19040) = 1
+value = 19030,0
+
+[State 1520, 4]      ;standing
+type = ChangeAnim
+trigger1 = Anim = 1520
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19030) = 1
+value = 19030
+
+[State 1520, 4]     ;standing
+type = ChangeAnim2
+trigger1 = Anim = 1520
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19030) = 0
+value = 1521
+
+[State 1520, 5]    ;get hit
+type = ChangeAnim
+trigger1 = Anim = 1530
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19040) = 1
+value = 19040
+
+[State 1520, 5]   ;get hit
+type = ChangeAnim2
+trigger1 = Anim = 1530
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19040) = 0
+value = 1528
+
+[State 1520, 6]
+type = HitFallSet
+trigger1 = Time = 0
+value = 0
+
+[State 1520, 7]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1520, 8]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1520, 8]
+type = ChangeState
+trigger1 = Pos Y < 0
+trigger1 = Time>23 ;Time=49
+value = 1528
+
+[State 1520, 9]
+type = ChangeState
+trigger1 = Time>23 ;Time = 49
+value = 1521
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Stand
+[Statedef 1521]
+type    = S
+movetype= H
+physics = S
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1521, 5] ;Sticky Bomb
+type = null ;ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=4
+value = 2405
+
+[State 1521, NotHitBY]
+type = null ;NotHitBy
+Trigger1 = 1
+value = SCA,AT ;,,AT
+Time = 1
+
+
+[State 1521, 1]   ;standing
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19030) = 1
+value = 19030
+
+[State 1521, 1]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19030)=0
+value = 1521
+
+[State 1521, 2] ;Avoid dust on ground
+type = PosSet
+trigger1 = 1
+y = -1
+
+[State 1521, 3] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1521, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1521, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1521, 6] ;Crouch
+type = ChangeState
+trigger1 = command = "holddown"
+value = 1522
+
+[State 1521, 7] ;Walk
+type = ChangeState
+trigger1 = command = "holdfwd"
+trigger2 = command = "holdback"
+value = 1523
+
+[State 1521, 8] ;Jump
+type = ChangeState
+trigger1 = command = "holdup"
+value = 1525
+
+[State 1521,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Crouch
+[Statedef 1522]
+type    = C
+movetype= H
+physics = S
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1522, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19032) = 1
+value = 19032
+
+[State 1522, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19032) = 0
+value = 1522
+
+[State 1522, 2] ;Avoid dust on ground
+type = PosSet
+trigger1 = 1
+y = -1
+
+[State 1522, 3] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1522, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1522, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1522, 6] ;Stand
+type = ChangeState
+trigger1 = command != "holddown"
+value = 1521
+
+[State 1522,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Walk
+[Statedef 1523]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1523, 1]
+type = ChangeAnim
+trigger1 = command = "holdfwd"
+trigger1 = command != "holdback"
+trigger1 = SelfAnimExist(19034) = 1
+trigger1 = Anim != 19034
+value = 19034
+
+[State 1523, 1b]
+type = ChangeAnim2
+trigger1 = command = "holdfwd"
+trigger1 = command != "holdback"
+trigger1 = SelfAnimExist(19034) = 0
+trigger1 = Anim != 1523
+value = 1523
+
+[State 1523, 2]
+type = ChangeAnim
+trigger1 = command = "holdback"
+trigger1 = SelfAnimExist(19035) = 1
+trigger1 = Anim != 19035
+value = 19035
+
+;[State 1523, 2]
+;type = AngleDraw
+;trigger1 = command = "holdback"
+;trigger1 = Anim = 19034
+;scale = -1,1
+
+[State 1523, 2b]
+type = ChangeAnim2
+trigger1 = command = "holdback"
+trigger1 = SelfAnimExist(19035) = 0
+trigger1 = Anim != 1524
+value = 1524
+
+[State 1523, 3]
+type = VelSet
+trigger1 = command = "holdfwd"
+x = 2
+y = 0
+
+[State 1523, 4]
+type = VelSet
+trigger1 = command = "holdback"
+x = -2
+y = 0
+
+[State 1523, 5] ;Avoid dust on ground
+type = PosSet
+trigger1 = 1
+y = -1
+
+[State 1523, 6] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1523, 7]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1523, 8] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1523, 9] ;Crouch
+type = ChangeState
+trigger1 = command = "holddown"
+value = 1522
+
+[State 1523, 10] ;Jump
+type = ChangeState
+trigger1 = command = "holdup"
+value = 1525
+
+[State 1523, 11] ;Stand
+type = ChangeState
+trigger1 = command != "holdfwd"
+trigger1 = command != "holdback"
+value = 1521
+
+
+[State 1523,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Start
+[Statedef 1525]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1525, 1]
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = command = "holdback"
+value = 1545
+
+[State 1525, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19038) = 1
+value = 19038
+
+[State 1525, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19038) = 0&&SelfAnimExist(19030) = 1
+value = 19030
+
+[State 1525, 2b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19038) = 0&&SelfAnimExist(19030) = 0
+value = 1525
+
+[State 1525, 3] ;Avoid dust on ground
+type = PosSet
+trigger1 = 1
+y = -1
+
+[State 1525, 4] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1525, 5]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1525, 6]
+type = ChangeState
+trigger1 = Time >= 2
+;trigger1 = AnimTime = 0
+;trigger2 = AnimTime > 0
+;trigger2 = Time >= 2
+value = 1526
+
+[State 1525,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump
+[Statedef 1526]
+type    = A
+movetype= H
+physics = N
+velset = 0,-9
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1526, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19036) = 1
+value = 19036
+
+[State 1526, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19036) = 0
+value = 1526
+
+[State 1526, 2]
+type = VelSet
+trigger1 = Time = 0
+trigger1 = command = "holdfwd"
+x = 2
+
+[State 1526, 3] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 1526, 4] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1526, 5]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1526, 6]
+type = ChangeState
+trigger1 = Pos Y >= -1
+trigger1 = Vel Y > 0
+value = 1527
+
+[State 1526,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Land
+[Statedef 1527]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1527, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19039) = 1
+value = 19039
+
+[State 1527, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19039) = 0&&SelfAnimExist(19030) = 1
+value = 19030
+
+[State 1527, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19039) = 0&&SelfAnimExist(19030) = 0
+value = 1527
+
+[State 1527, 2] ;Avoid dust on ground
+type = PosSet
+trigger1 = Time = 0
+y = -1
+
+[State 1527, 3] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1527, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1527, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1527, 6] ;Stand
+type = ChangeState
+trigger1 = Time >= 9
+;trigger1 = AnimTime = 0
+;trigger2 = AnimTime > 0
+;trigger2 = Time >= 9
+value = 1521
+
+[State 1527,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+
+;CURSED - Jump Start Backwards
+[Statedef 1545]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1545, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19038) = 1
+value = 19038
+
+;[State 1545, 2]
+;type = AngleDraw
+;trigger1 = Anim = 19038
+;scale = -1,1
+
+[State 1545, 2b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19038) = 0
+value = 1531
+
+[State 1545, 3] ;Avoid dust on ground
+type = PosSet
+trigger1 = 1
+y = -1
+
+[State 1545, 4] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1545, 5]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1545, 6]
+type = ChangeState
+trigger1 = Time >= 2
+;trigger1 = AnimTime = 0
+;trigger2 = AnimTime > 0
+;trigger2 = Time >= 2
+value = 1546
+
+[State 1545,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Backwards
+[Statedef 1546]
+type    = A
+movetype= H
+physics = N
+velset = 0,-9
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1546, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19036) = 1
+value = 19036
+
+;[State 1546, 2]
+;type = AngleDraw
+;trigger1 = Vel X < 0
+;trigger1 = Anim = 19036
+;scale = -1,1
+
+[State 1546, 2b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19036) = 0
+value = 1532
+
+[State 1546, 3]
+type = VelSet
+trigger1 = Time = 0
+x = -2
+
+[State 1546, 4] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 1546, 5] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1546, 6]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1546, 7]
+type = ChangeState
+trigger1 = Pos Y >= -1
+trigger1 = Vel Y > 0
+value = 1547
+
+[State 1546,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Land Backwards
+[Statedef 1547]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1547, 1] ;Backwards
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19039) = 1
+value = 19039
+
+;[State 1547, 1]
+;type = AngleDraw
+;trigger1 =Anim = 19039
+;scale = -1,1
+
+[State 1547, 1b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19039) = 0
+value = 1533
+
+[State 1547, 2] ;Avoid dust on ground
+type = PosSet
+trigger1 = Time = 0
+y = -1
+
+[State 1547, 3] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1547, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1547, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1547, 6] ;Stand
+type = ChangeState
+trigger1 = Time >= 9
+;trigger1 = AnimTime = 0
+;trigger2 = AnimTime > 0
+;trigger2 = Time >= 9
+value = 1521
+
+[State 1547,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Get Hit
+[Statedef 1528]
+type    = A
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1528, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19040) = 1
+value = 19040
+
+[State 1528, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19040) = 0
+value = 1528
+
+[State 1528, 2]
+type = PlaySnd
+trigger1 = SelfAnimExist(19040) = 1
+trigger1 = Time = 0
+value = 19030,0
+
+[State 1528, 4]
+type = VelSet
+trigger1 =!Time;Time = 0
+x=-2.5
+y=-6
+
+[State 1528, 3] ;Gravity
+type = VelAdd
+trigger1 = Time>=1
+y = .5
+
+[State 1528, 4]
+type = HitFallSet
+trigger1 = Time = 0
+value = 0
+
+[State 1528, 5] ;Avoid dust on ground
+type = OffSet
+trigger1 = 1
+y = 1
+
+[State 1528, 6]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1528, 7]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1528, 8] ;Die
+type = ChangeState
+trigger1 = Pos Y >= -1
+trigger1 = Vel Y > 0
+trigger1 = Life = 0
+value = 1530
+
+[State 1528, 9]
+type = ChangeState
+trigger1 = Pos Y >= -1
+trigger1 = Vel Y > 0
+value = 1521
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - End
+[Statedef 1529]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1529, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1529, 2]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1529, 3]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = anim!=19030&&SelfAnimExist(19030) = 1
+value = 19030
+
+[State 1529, 3]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = anim!=1521&&SelfAnimExist(19030) = 0
+value = 1521
+
+[State 1529, 4]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 1529, 5]
+type = Offset
+trigger1 = Time = 0
+y = 0
+
+[State 1529, 6]
+type = ChangeAnim
+trigger1 = Time = 14
+value = 0
+
+[State 1529, 7]
+type = SelfState
+trigger1 = Time >= 24
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Die
+[Statedef 1530]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1530, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1530, 2]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1530, 3]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 1530, Dramatic PalFX 1]
+type = PalFx
+trigger1 = GameTime % 16 = [0,1]
+time = 1
+add = 0,16,48
+mul = 168,216,256
+color = 16
+ignorehitpause = 1
+
+[State 1530, 4]
+type = ChangeAnim
+trigger1 = Anim != 1528
+trigger1 = SelfAnimExist(19040) = 1
+value = 19040
+
+[State 1530, 4]
+type = ChangeAnim2
+trigger1 = Anim != 1528
+trigger1 = SelfAnimExist(19040) = 0
+value = 1528
+
+[State 1530, 5]
+type = SelfState
+trigger1 = Time >= 18
+value = 5100
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Stand - Flying
+[Statedef 1531]
+type    = S
+movetype= H
+physics = S
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1531, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19050) = 1
+value = 19050
+
+[State 1531, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19050) = 0
+value = 1521
+
+[State 1532, 2]
+type = PosAdd
+trigger1 = Pos Y > -51
+y = -4
+
+[State 1531, 3]
+type = PosSet
+trigger1 = Pos Y < -51
+y = -51
+
+[State 1531, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1531, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1531, 6] ;Crouch
+type = ChangeState
+trigger1 = command = "holddown"
+value = 1532
+
+[State 1531, 7] ;Walk
+type = ChangeState
+trigger1 = command = "holdfwd"
+trigger2 = command = "holdback"
+value = 1533
+
+[State 1531, 8] ;Jump
+type = ChangeState
+trigger1 = command = "holdup"
+value = 1535
+
+[State 1531,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Crouch - Flying
+[Statedef 1532]
+type    = C
+movetype= H
+physics = S
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1532, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19052) = 1
+value = 19052
+
+[State 1532, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19052) = 0
+value = 1522
+
+[State 1532, 2]
+type = PosAdd
+trigger1 = Pos Y < -21
+y = 4
+
+[State 1532, 3]
+type = PosSet
+trigger1 = Pos Y > -21
+y = -21
+
+[State 1532, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1532, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1532, 6] ;Stand
+type = ChangeState
+trigger1 = command != "holddown"
+value = 1531
+
+[State 1532,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Walk - Flying
+[Statedef 1533]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1533, 1]
+type = ChangeAnim
+triggerall = SelfAnimExist(19054) = 1
+triggerall = Anim != 19054
+trigger1 = command = "holdfwd"
+trigger2 = command = "holdback"
+trigger2 = SelfAnimExist(19055) = 0
+value = 19054
+
+[State 1533, 1b]
+type = ChangeAnim2
+trigger1 = command = "holdfwd"
+trigger1 = command != "holdback"
+trigger1 = SelfAnimExist(19054) = 0
+trigger1 = Anim != 1523
+value = 1523
+
+[State 1533, 2]
+type = ChangeAnim
+trigger1 = command = "holdback"
+trigger1 = SelfAnimExist(19055) = 1
+trigger1 = Anim != 19055
+value = 19055
+
+;[State 1533, 2]
+;type = AngleDraw
+;trigger1 = command = "holdback"
+;trigger1 = Anim = 19054
+;scale = -1,1
+
+[State 1533, 2b]
+type = ChangeAnim2
+trigger1 = command = "holdback"
+trigger1 = SelfAnimExist(19054) = 0
+trigger1 = SelfAnimExist(19055) = 0
+trigger1 = Anim != 1524
+value = 1524
+
+[State 1533, 3]
+type = VelSet
+trigger1 = command = "holdfwd"
+x = 2
+y = 0
+
+[State 1533, 4]
+type = VelSet
+trigger1 = command = "holdback"
+x = -2
+y = 0
+
+[State 1533, 5]
+type = PosAdd
+trigger1 = Pos Y > -51
+y = -4
+
+[State 1533, 6]
+type = PosSet
+trigger1 = Pos Y < -51
+y = -51
+
+[State 1533, 7]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1533, 8] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1533, 9] ;Crouch
+type = ChangeState
+trigger1 = command = "holddown"
+value = 1532
+
+[State 1533, 10] ;Jump
+type = ChangeState
+trigger1 = command = "holdup"
+value = 1535
+
+[State 1533, 11] ;Stand
+type = ChangeState
+trigger1 = command != "holdfwd"
+trigger1 = command != "holdback"
+value = 1531
+
+[State 1533,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Start - Flying
+[Statedef 1535]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1535, 1]
+type = ChangeState
+trigger1 = Time = 0
+trigger1 = command = "holdback"
+value = 1555
+
+[State 1535, 2]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19058) = 1
+value = 19058
+
+[State 1535, 2b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19058) = 0
+value = 1525
+
+[State 1535, 3]
+type = PosSet
+trigger1 = Time = 0
+y = -51
+
+[State 1535, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1535, 5]
+type = ChangeState
+trigger1 = Time >= 2
+;trigger1 = AnimTime = 0
+value = 1536
+
+[State 1535,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump - Flying
+[Statedef 1536]
+type    = A
+movetype= H
+physics = N
+velset = 0,-9
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1536, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19056) = 1
+value = 19056
+
+[State 1536, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19056) = 0
+value = 1526
+
+[State 1536, 2] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = Anim = 1531
+value = 1532
+
+[State 1536, 3]
+type = VelSet
+trigger1 = Time = 0
+trigger1 = command = "holdfwd"
+x = 2
+
+[State 1536, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1536, 5] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 1536, 6]
+type = ChangeState
+trigger1 = Pos Y >= -51
+trigger1 = Vel Y > 0
+value = 1537
+
+[State 1536,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Land - Flying
+[Statedef 1537]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1537, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19059) = 1
+value = 19059
+
+[State 1537, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19059) = 0
+value = 1527
+
+[State 1537, 2]
+type = PosSet
+trigger1 =Time = 0
+y = -51
+
+[State 1537, 3]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1537, 4] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1537, 5] ;Stand
+type = ChangeState
+trigger1 = Time >= 9
+;trigger1 = AnimTime = 0
+value = 1531
+
+[State 1537,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Start - Backwards - Flying
+[Statedef 1555]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1555, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19058) = 1
+value = 19058
+
+[State 1555, 2b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19058) = 0
+value = 1531
+
+[State 1555, 3]
+type = PosSet
+trigger1 = Time = 0
+y = -51
+
+[State 1555, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1555, 5]
+type = ChangeState
+trigger1 = Time >= 2
+;trigger1 = AnimTime = 0
+value = 1556
+
+[State 1555,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump - Backwards - Flying
+[Statedef 1556]
+type    = A
+movetype= H
+physics = N
+velset = 0,-9
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1556, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19056) = 1
+value = 19056
+
+[State 1556, 2b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19056) = 0
+value = 1532
+
+[State 1556, 3]
+type = VelSet
+trigger1 = Time = 0
+x = -2
+
+[State 1556, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1556, 5] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 1556, 6]
+type = ChangeState
+trigger1 = Pos Y >= -51
+trigger1 = Vel Y > 0
+value = 1557
+
+[State 1556,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Jump Land - Backwards - Flying
+[Statedef 1557]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1557, 1] ;Backwards
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19059) = 1
+value = 19059
+
+[State 1557, 1]
+type = AngleDraw
+trigger1 = Anim = 19059
+scale = -1,1
+
+[State 1557, 1b] ;Backwards
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19059) = 0
+value = 1533
+
+[State 1557, 3]
+type = PosSet
+trigger1 = Time = 0
+y = -51
+
+[State 1557, 4]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1557, 5] ;Die
+type = ChangeState
+trigger1 = Life = 0
+value = 1530
+
+[State 1557, 6] ;Stand
+type = ChangeState
+trigger1 = Time >= 9
+;trigger1 = AnimTime = 0
+value = 1531
+
+[State 1557,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Get Hit - Flying
+[Statedef 1538]
+type    = A
+movetype= H
+physics = N
+velset = -2.5,-6
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1538, 1]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19060) = 1
+value = 19060
+
+[State 1538, 1b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19060) = 0
+value = 1528
+
+[State 1538, 2]
+type = PlaySnd
+trigger1 = SelfAnimExist(19060) = 1
+trigger1 = Time = 0
+value = 19030,0
+
+[State 1538, 3] ;Gravity
+type = VelAdd
+trigger1 = 1
+y = .5
+
+[State 1538, 4]
+type = HitFallSet
+trigger1 = Time = 0
+value = 0
+
+[State 1538, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1538, 6]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1538, 7] ;Die
+type = ChangeState
+trigger1 = Pos Y >= -51
+trigger1 = Vel Y > 0
+trigger1 = Life = 0
+value = 1530
+
+[State 1538, 8]
+type = ChangeState
+trigger1 = Pos Y >= -51
+trigger1 = Vel Y > 0
+value = 1537
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - End - Flying
+[Statedef 1539]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = null ;ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1539, 1]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1539, 2]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1539, 3]
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19050) = 1
+value = 19050
+
+[State 1539, 3b]
+type = ChangeAnim2
+trigger1 = Time = 0
+trigger1 = SelfAnimExist(19050) = 0
+value = 1521
+
+[State 1539, 4]
+type = PosSet
+trigger1 = Time = 14
+y = 0
+
+[State 1539, 5]
+type = ChangeAnim
+trigger1 = Time = 14
+value = 0
+
+[State 1539, 6]
+type = SelfState
+trigger1 = Time >= 24
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Transforming - On Ground - Flying
+[Statedef 1542]
+movetype= H
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1542, 1]
+type = ChangeState
+trigger1 = Pos Y < 0
+trigger1 = Time = 0
+value = 1543
+
+[State 1542, 2]
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 1520
+
+[State 1542, 3]
+type = PlaySnd
+trigger1 = SelfAnimExist(19060) = 1
+trigger1 = Time = 0
+value = 19030,0
+
+[State 1542, 4]
+type = PosSet
+trigger1 = Anim = 1520
+trigger1 = AnimTime = 0
+y = -51
+
+[State 1542, 5]
+type = ChangeAnim
+trigger1 = Anim = 1520
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19050) = 1
+value = 19050
+
+[State 1542, 5b]
+type = ChangeAnim2
+trigger1 = Anim = 1520
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19050) = 0
+value = 1521
+
+
+[State 1542, 6]
+type = HitFallSet
+trigger1 = Time = 0
+value = 0
+
+[State 1542, 7]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1542, 8]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1542, 9]
+type = ChangeState
+trigger1 = Time = 49
+value = 1531
+
+[State 1542,Hitoverride]
+type=hitoverride
+trigger1=1
+slot=1
+time=1
+attr=SCA,AA,AP,AT
+stateno=5000
+ignorehitpause=1
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Transforming - In Air - Flying
+[Statedef 1543]
+movetype= H
+velset = 0,0
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1543, Assert]
+type = AssertSpecial
+trigger1 = SelfAnimExist(19060) = 1
+trigger1 =stateno=1543
+trigger1 =Time>=23&&Time<=49
+flag =invisible
+
+[State 1543, 1]
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 1530
+
+[State 1543, 2]
+type = PosAdd
+trigger1 = Anim = 1530
+trigger1 = AnimTime = 0
+y = -51
+
+[State 1543, 3]
+type = ChangeAnim
+trigger1 = Anim = 1530
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19060) = 1
+value = 19060
+
+[State 1543, 3b]
+type = ChangeAnim2
+trigger1 = Anim = 1530
+trigger1 = AnimTime = 0
+trigger1 = SelfAnimExist(19060) = 0
+value = 1528
+
+[State 1543, 4]
+type = HitFallSet
+trigger1 = Time = 0
+value = 0
+
+[State 1543, 5]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+
+[State 1543, 6]
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+[State 1543, 7]
+type = ChangeState
+trigger1 = Time = 49
+value = 1538
+
+;---------------------------------------------------------------------------
+; (a custom gethit state)
+;CURSED - Interrrupted
+[Statedef 1544]
+movetype = H
+
+[State 1521, 5] ;Frozen
+type = ChangeState
+triggerall = enemy,name = "Babidi Z2"
+trigger1 = enemy,var(49)=2
+value = 6876
+
+[State 1544, 1]
+type = SelfState
+trigger1 = Pos Y < 0
+value = 5020
+
+[State 1544, 1]
+type = SelfState
+trigger1 = 1
+value = 5000
+
+
+

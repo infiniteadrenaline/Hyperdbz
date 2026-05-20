@@ -1,0 +1,290 @@
+;pilaf drawn (and voiced!) by Alpha Proto. coded by Rawk
+
+;=============================================
+;Vars
+;=============================================
+;0: throw tech options
+;1: air basics juggle limiter(system)
+;2: Armor State
+;3: Armor Animelem Count
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5: Allows player to use directions to change Pal (config)
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Specific Move Variables
+;10: Drill armor 
+;11: in the moment random value. used mais voice and probably other stuff
+;12: armor dmg
+;13: Super BG choice (config)
+;14: hit by spikes super
+;15: TEMP VAR (Animate blur through hitpause)
+;16: jump timer
+;17: Zero Counter command
+;18: Juggle System (Juggle on)
+;19: Drill Var
+;20: varset for 1st/2nd state of Focus Attack
+;21: Air Stall
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: TEMP VAR
+;26: Mai machinegun
+;27: First attack notification
+;28: jumping bomb knockback dampener
+;29: shu knockback dampener
+;30: Dash Collision count - Beam Collision count
+;31: Ticks Back is held down (Charge char)
+;32: Back Charge Buffer (Charge char)
+;33: Ticks Down is held down (Charge char)
+;34: Down Charge Buffer (Charge char)
+;35: TEMP VAR
+;36: get hit talking variable
+;37: superjump ai var (state 40)
+;38: throw check
+;39: Check Enemy Z2
+;BITWISE BOOLEAN LIST
+;These Bits are for checking who you're fighting
+;Sum 		- -1
+;0011 1111 1111 1111 1111 0000 0000 0000
+;VS Saiyans 	- 458260480
+;0001 1011 0101 0000 1000 0000 0000 0000
+;VS Humans	- 537333760
+;0010 1000 0000 1110 0001 0000 0000 0000
+;VS Aliens	- 11034624
+;0000 0000 1010 1000 0110 0000 0000 0000
+	;	1	;var(x)&1  		=
+	;	2	;var(x)&2  		=
+	;	3	;var(x)&4  		=
+	;	4	;var(x)&8  		=
+	;	5	;var(x)&16  		=
+	;	6	;var(x)&32  		=
+	;	7	;var(x)&64  		=
+	;	8	;var(x)&128  		=
+	;	9	;var(x)&256  		=
+	;	10	;var(x)&512  		=
+	;	11	;var(x)&1024  	= 
+	;	12	;var(x)&2048  	=
+	;	13	;var(x)&4096  	= VS C18
+	;	14	;var(x)&8192  	= VS Piccolo
+	;	15	;var(x)&16384       = VS Babidi
+	;	16	;var(x)&32768  	= VS Vegetto
+	;	17	;var(x)&65536 	= VS Satan
+	;	18	;var(x)&131072 	= VS Tien
+	;	19	;var(x)&262144 	= VS Krillin
+	;	20	;var(x)&524288 	= VS Jiren
+	;	21	;var(x)&1048576 	= VS Gohan
+	;	22	;var(x)&2097152 	= VS Freeza
+	;	23	;var(x)&4194304 	= VS Gotenks
+	;	24	;var(x)&8388608 	= VS Buu
+	;	25	;var(x)&16777216 	= VS Goku
+	;	26	;var(x)&33554432 	= VS Vegeta
+	;	27	;var(x)&67108864 	= VS Mini-Game Character
+	;	28	;var(x)&134217728 	= VS Broly
+	;	29	;var(x)&268435456 	= VS Goku Black
+	;	30	;var(x)&536870912 	= VS Pilaf
+	;	31	;var(x)&1073741824 	=
+	;	32	;var(x)&-2147483648	=
+;40: Armor Hit Counter
+;41: Set Helper data (For when spawning Helpers like the Satellite that track the player)
+		;Animno (0 - 1048575)
+	;0-19  - 00000000000011111111111111111111 - 1048575 - 1
+		;Sprpriority (0-15)
+	;20-23 - 00000000111100000000000000000000 - 15728640 - 1048576
+		;Anim Mode
+	;24-25 - 00000011000000000000000000000000 - 50331648 - 16777216
+			;(0 - End with !Animtime, 1 - Match Parent, 2 - Play Forever (Mainly for Winposes)
+		;Track Parent Flag
+	;26 	- 00000100000000000000000000000000 - 67108864 - 67108864
+		;Disable Shadow Flag
+	;27 	- 00001000000000000000000000000000 - 134217728 - 134217728
+		;End Flags (If different from the parent)
+	;28-29 - 00110000000000000000000000000000 - 805306368 - 268435456
+			;0 - None, Bit1 = Anim, Bit2 = Stateno
+		;Invisible Flag
+	;30 	- 01000000000000000000000000000000 - 1073741824 - 1073741824
+		;Explod Flag (Represent Helper via an explod as opposed to Helper Anim)
+	;31 	- 10000000000000000000000000000000 - -2147483648 - -2147483648
+;EXAMPLE TRIGGER
+			   ;Set Anim     Sprpriority   AnimMode	     Track Parent	Disable Shadow  End Flags
+;trigger1 = 1 || var(41) := 23542 + (1048576*0) + (16777216*0) + (67108864*0) + (134217728*0) + (268435456*0)
+;trigger1 = 1 || fvar(21) := 0 || fvar(22) := -22 ;Set Offsets
+
+;42: lvl 3 facing value
+;43: TEMP VAR
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48: Winpose Container
+;49: emo exit
+;50: ground ball counter 
+;51: air ball counter
+;52: EMOTION MODE - Buffer variable. 1000 and goes down
+;53: EMOTION MODE - Flames variable. 0 to 2100
+;54: emo dragonball x range
+;55: emo dragonball y range
+;56: counter system notification
+;57: counter system notification
+;58: Pal Color used with Var 5
+;59:  AI
+
+
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(5)  : Mai Gunner Guard Scaling
+;fvar(6)	: Mai Gunner Guard Scaling Timer
+;fvar(8)  : Counter Hit
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Root Dampener
+;fvar(12) : Marker Pos X
+;fvar(13) : Hit Count Reset
+;fvar(14) : Marker Pos Y
+;fvar(15) : Emo Vel Aimer
+;fvar(16) : collected marker?
+;fvar(17) : Pick the marker to aim at
+;fvar(18) : Mai limiter
+;fvar(19)	: Claw Free Juggling
+;fvar(20) : emo dash miss limiter
+;fvar(21) : TEMP VAR (X Offset for Bound Helper)
+;fvar(22) : TEMP VAR (Y Offset for Bound Helper)
+
+;Explod limiter ID's
+;numexpod(4900);250 S.Hk lmit
+;numexpod(4901);420 C.Hp lmit
+;numexpod(4902);650 J.Hk lmit
+;numexpod(4903);650 C.Hk lmit
+
+
+;=============================================
+; CNS File for Name Z2 by Team Z2
+; Constants file
+;=============================================
+
+[Data]
+life = 1000
+power = 3000
+attack = 100
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2	
+guard.sparkno = -1
+KO.echo = 0	
+volumescale = 90
+IntPersistIndex = 49
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1				;Horizontal scaling factor.
+yscale = 1				;Vertical scaling factor.
+ground.back = 40		;Player width (back, ground)
+ground.front = 35		;Player width (front, ground)
+air.back = 15			;Player width (back, air)
+air.front = 15			;Player width (front, air)
+height = 85				;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too   
+head.pos = 0,-75   ;-5, -90		;Approximate position of head
+mid.pos = 0,-45   ;-5, -60		;Approximate position of midsection
+shadowoffset = 0		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 2.0			;Walk forward
+walk.back = -1.0		;Walk backward
+run.fwd  = 6.5, 0			;Run forward (x, y)
+run.back = -8.5,-4.8	;Hop backward (x, y)
+jump.neu = 0,-8		;Neutral jumping velocity (x, y)
+jump.back = -3.25		;Jump back Speed (x, y)
+jump.fwd = 3.25			;Jump forward Speed (x, y)
+runjump.back = -7.5,-8.5		;Running jump speeds (opt)
+runjump.fwd = 6,-8.5	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0			;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .51        	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+air.gethit.groundrecover.groundlevel = 0
+
+
+[Quotes]
+
+
+victory34 = "You mess with the Pilaffer and you get what you deserve!!!"
+victory35 = "The tables sure have turned. Just like those turning tables at the Chinese restaurant, you know, those where you can sit on and make a carousel."
+victory36 = "Dread the wrath of the almighty pious and brave Pila- Shu, stop laughing!"
+victory37 = "You thought you were hot stuff but it is I that is the hot stuff. I'm scalding, practically burning, boiling even. I think I have a fever."
+victory38 = "I have made a footnote on my biography about today, and it DOESN'T mention you. It mostly talks about what I had for lunch."
+
+victory39 = "Look at that dumb face of yours, gosh you're pathetic."
+victory40 = "Indeed, Pilaf has many enemies, The tacolady, that guy at the froyo place... They all shall rue the day they did not give me more guac. RUE!"
+victory41 = "You believed yourself the champion, but I'm the champion, lifting weights and writing books on marine life, painting fences and whatever else champions do. I do not know what they do, I shouldn't have used that analogy."
+victory42 = "You thought you were the cool cat, but I, Pilaf, am the cool cat, purring and scratching up the furniture, coughing up fur balls!! Yes."
+victory43 = "Hah! Put a jester outfit on this bozo, we shall have the clown dance for our amusement!!"
+victory44 = "Well this would've gone better if SOME of us were focused on this instead of slowing us down. Don't look at me like that, you know who you are and what you did! I expect a written apology letter."
+victory45 = "Victorious, alone and by myself, and I did it by beating up this rascal, and by that I mean that they were not enjoying the beating but couldn't stop me because of my superiority."
+victory46 = "This is but one of the stories of the greatest conqueror that ever existed. The Great Overlord Pilaf."
+victory47 = "I've had it with your sassy mouth! Now I'm the one with the sass!!"
+victory48 = "You shall learn not to disrespect the great and beautiful Pilaf!!!"
+victory49 = "I've compiled a list of things to add to our arsenal. Shu, prepare a win button."
+victory50 = "Your luck ran out! And by that I mean that it wasn't lucky to have fought me today. Not that it literally ran outside. That would be silly."
+victory51 = "Your OPPONENT WAS ME!!!! ME!!! PILAF!! The victorious overlord in front of you! Not anyone else."
+victory52 = "I've observed your methods and I have notes. Sit down, this will take a while. I prepared a presentation."
+victory53 = "Quickly, get me a marker, I have a face to draw on!!!"
+victory54 = "Mai take dictation. AND THUS the Great One single handedly took down the most hateful villain with nothing but his genius and pure heart. What? No Mai, I am the one with the pure heart, not the hateful opponent."
+victory55 = "MAI, SHU! Search this fool for balls! DRAGON balls."
+victory56 = "Fess up! Where are the balls?!"
+victory57 = "I have a mighty CRAVING! A craving for POWER and sometimes food, but mostly POWER!"
+victory58 = "The Pilaf Machine is the greatest technological advancement since sliced bread. Imagine, having to eat a whole bread everytime you wanted a bit."
+victory59 = "Watch your language you vandal!!! You better behave or I'll refuse to be around that potty mouth!"
+victory60 = "Shu, try to find their smartphone, we can order food on their account!! The PERFECT Crime!"
+victory61 = "This could've been a lovely moment for all of us but you'd to go and act all high and mighty."
+victory62 = "Are you surprised?! You shouldn't be! This was all planned and executed marvelously by the greatest genius of our era!! Me, I'm the greatest genius of our era!!"
+victory63 = "I think it's fair to say what we're all thinking. That you're a HATER and you got what you deserved! A beating!"
+victory64 = "Now you have certainly seen who was the superior between you and I, and alas you are no longer under illusions that you are the one that is superior!!"
+victory65 = "RUN AWAY BEFORE THEY GET BACK UP!"
+victory66 = "Insolent brat!!! Respect my authority!"
+victory67 = "SHU! MAI! To me!"
+victory68 = "The lord of this place is me and not you!"
+victory69 = "Hogtie this loser in comical fashion!"
+victory70 = "There comes a time in everyone's life when they must face adversity, rejoice, for you have faced the strongest of them all. PILAFFFF!!!!!!"
+victory71 = "For you, the day you faced Pilaf was the worst of your life, but for me it was... was... LINE!"
+victory72 = "Behold, for now you have... have... heck my hand got smudged, I can't read this and it was so good, I had like a whole speech ready and..."
+victory73 = "I'm hecking tough!"
+victory74 = "I know what you are, a hater! Filled with malice, evilness and poo."
+victory75 = "This world is mine and mine alone!!"
+victory76 = "Bow down to the one that rules the world! That would be me, bow down to me. Sorry if I wasn't specific."
+victory77 = "Pilaf has it all! Including your house keys."
+victory78 = "Pilaf has it all!"
+victory79 = "Brawn, bravery, humility, height, Pilaf sure has it all."
+victory80 = "Do not weep, simpleton. It's normal to be overwhelmed when the apex predator that is Pilaf steps into the fray."
+victory81 = "How RUFF for you, hope there's no pup-arazzi around! Shu, this is terrible, why did I let you write these."
+victory82 = "I am the smartest, I even know bark-eology. Shu, why did I let you write those, I don't even understand them."
+victory83 = "You tried to punch a little above your paygrade, history will remember you sided with the losing side."
+victory84 = "MAI, BONK HIM OVER THE HEAD BEFORE HE GETS UP!"
+victory85 = "YES, this is the power of PILAF robotics! Fear and cower! FEAR AND COWER!"
+victory86 = "And now to watch from the shadows like a total creep."
+victory87 = "You dared to dream!"
+victory88 = "Confess, you underestimated the Great Pilaf even though you were given fair warnings!"
+victory89 = "You shall hand me your balls!"
+victory90 = "You need to eat a lot more soup before you are fat enough to sit on Pilaf and immobilize him as you take his belongings. N-not that ever has happened. This is conjecture."
+victory91 = "I am stealing your shoes now."
+victory92 = "You better watch out or I'll blow you a kiss!"
+victory93 = "The Great Pilaf defeated you without suffering a scratch! Now, for unrelated reasons, Pilaf shall depart to the hospital."
+victory94 = "Synergy is just a fancy name for codependence."
+victory95 = "God I love my job... wait, this isn't my job. God I love beating up people with robotic gadgets."
+victory96 = "Why do I have minions if I have to beat up the riff raff myself?"
+victory97 = "Ahahah! Look at your stupid face, defeated and laying there while I'm here, victorious and having chocolate milk with my not stupid undefeated face. Yes."
+victory98 = "Z2 it that this fool doesn't get back up!"
+victory99 = "Did you feel the immeasurable force of my newly installed Rawk-em MkII Comedy Punch Glove?"
+

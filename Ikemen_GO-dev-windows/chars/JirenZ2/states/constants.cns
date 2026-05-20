@@ -1,0 +1,194 @@
+;=============================================
+;Vars
+;=============================================
+;0: 
+;1: air basics juggle limiter(system)
+;2: 
+;3: ai
+;4: Jump variable (from normal or super jump) - Ki Blast Charge Variable
+;5: Allows player to use directions to change Pal (config)
+;6:  System var. (OTG Juggling)
+;7: System var. (for juggle limits)
+;8: KO Voice choice
+;9: Specific Move Variables
+;10: Air dash limiter
+;11: armor palfx timer
+;12:
+;13: Super BG choice (config)
+;14: emo hit throw
+;15: Animate blur through hitpause
+;16: 
+;17: Zero Counter command
+;18: Juggle Safety
+;19: 
+;20: varset for 1st/2nd state of Focus Attack
+;21: 
+;22: Super jump var
+;23: Focus Attack animelem set
+;24: Focus Attack repel
+;25: Emo Exit hit
+;26: Armor Points for SSJ3
+;27: First attack notification
+;28: Armor Get Hit Var
+;29: armor animelemno
+;30:  dash collision 
+;31: Ticks Back is held down
+;32: Back Charge Buffer
+;33: dash allow for testing
+;34: Mash LP or MP
+;35: Mash Timer
+;36: Mash EX
+;37: Mash SP
+;38: throw check
+;39: animelemno
+;40: StateNo Saving
+;41: Saves value of Ctrl
+;42: armor timer
+;43: Armor loop safeguard
+;44: Repel Projectile choice (config)
+;45: X axis Rage Gauge (config)
+;46: Y axis Rage Gauge (config)
+;47: flip knockout bounce
+;48: easy command config
+;49:white flash config
+;50: 
+;51: EMOTION MODE - Buffer variable. 1000 and goes down
+;52: EMOTION MODE - Flames variable. 0 to 2100
+;53: 
+;54: 
+;55: 
+;56: counter system notification
+;57: counter system notification
+;58: Pal Color used with Var 5
+;59:  AI
+
+
+;fvar(1)  : Cheap KO
+;fvar(2)  : Damage Detection variable
+;fvar(3)  : Specific Move Variabls (Velocities and such)
+;fvar(4)  : Specific Move Variabls (Velocities and such) Magneton
+;fvar(5)  : special var (brose addition)
+;fvar(6)  : glare
+;fvar(8)  : Counter Hit
+;fvar(9)  : Focus Attack Strength
+;fvar(10) : Damage Dampener
+;fvar(11) : Root Dampener
+;fvar(13) : Hit Count Reset
+;fvar(14) : Has he been in armor yet?
+;fvar(15) : Power Up multiplier
+;fvar(16) : Glare Hyper no turning
+;fvar(28) : facing for armor
+
+;=============================================
+; CNS File for Name Z2 by Team Z2
+; Constants file
+;=============================================
+
+[Data]
+life = 1200
+power = 3000
+attack = 135
+defence = 100
+fall.defence_up = 50
+liedown.time = 15
+airjuggle = 15
+sparkno = 2	
+guard.sparkno = -1
+KO.echo = 0	
+;volumescale = 15
+IntPersistIndex = 49
+FloatPersistIndex = 20
+
+[Size]
+xscale = 1				;Horizontal scaling factor.
+yscale = 1				;Vertical scaling factor.
+ground.back = 25		;Player width (back, ground)
+ground.front = 20		;Player width (front, ground)
+air.back = 15			;Player width (back, air)
+air.front = 15			;Player width (front, air)
+height = 60				;Height of player (for opponent to jump over)
+attack.dist = 160		;Default attack distance
+proj.attack.dist = 90	;Default attack distance for projectiles
+proj.doscale = 0		;Set to 1 to scale projectiles too   
+head.pos = 0,-110   ;-5, -90		;Approximate position of head
+mid.pos = 1,-66   ;-5, -60		;Approximate position of midsection
+shadowoffset = 0		;Number of pixels to vertically offset the shadow
+draw.offset = 0,0		;Player drawing offset in pixels (x, y)
+
+[Velocity]
+walk.fwd  = 1.8 ;1.9			;Walk forward
+walk.back = -1.7 ;-1.9		;Walk backward
+run.fwd  = 5, 0			;Run forward (x, y)
+run.back = -6.0,0	;Hop backward (x, y)
+jump.neu = 0,-10		;Neutral jumping velocity (x, y)
+jump.back = -3.25		;Jump back Speed (x, y)
+jump.fwd = 3.25			;Jump forward Speed (x, y)
+runjump.back = -7.5,-8.5		;Running jump speeds (opt)
+runjump.fwd = 6,-8.5	;.
+airjump.neu = 0,-8.1	;.
+airjump.back = -2.55	;Air jump speeds (opt)
+airjump.fwd = 2.5		;.
+
+[Movement]
+airjump.num = 0			;Number of air jumps allowed (opt)
+airjump.height = 35		;Minimum distance from ground before you can air jump (opt)
+yaccel = .51        	;Vertical acceleration
+stand.friction = .85	;Friction coefficient when standing
+crouch.friction = .85	;Friction coefficient when crouching
+
+
+[Quotes]
+
+
+victory01 = "Get lost."
+victory02 = "Without strength, you have nothing."
+victory03 = "It's over."
+victory04 = "Might controls all."
+victory05 = "Justice prevails."
+victory06 = "I guess this was your best shot."
+victory07 = "I should've let Dyspo handle this."
+victory08 = "With all your strength, you still failed."
+victory09 = "... Walk away."
+victory10 = "Whatever is beyond strength... I shall attain it."
+
+victory11 = "Your strength... its arrogance is its downfall."
+victory12 = "If fate wishes us destroyed then so be it."
+victory13 = "It ends in fire."
+victory14 = "Lord Vermoud, was it worth it?"
+victory15 = "What? No, I have no interest in your leader."
+victory16 = "You lack the strength to face me."
+victory17 = "You are not worthy of my time."
+victory18 = "Is this your determination?"
+victory19 = "Begone."
+victory20 = "I respect your strength. We should hold a bout again, once you're healed."
+
+victory21 = "Remember this fist."
+victory22 = "I remain unmoved by your plight."
+victory23 = "You have faced no tempest, no deprivation, you want for nothing and you come before me holding your bravery in your fists..."
+victory24 = "Why do you fight?"
+victory25 = "Warrior, sleep."
+victory26 = "One punch? I wouldn't stop at one."
+victory27 = "No more tricks under your sleeve? Time manipulation, speed, pyrokinetics?"
+victory28 = "Your soul is like that of a baby, crying at its own weakness."
+victory29 = "Friendship is easily destroyed... just like your body."
+victory30 = "There isn't a speck of purity in the self-righteous way you fight."
+
+victory31 = "Was this all that you strived for?"
+victory32 = "If your Gods stand in my way, I'll topple them as well."
+victory33 = "Do you think the Gods look from above in fear of what they've created?"
+victory34 = "Exploiting weaknesses is not true strength!"
+victory35 = "This is my overwhelming fist. The strength of the just."
+victory36 = "True power is born out of sacrifice."
+victory37 = "But, what lies beyond this victory?"
+victory38 = "Even if the energy of the gods might permeate your muscles, I'll grind you down."
+victory39 = "One more battle, one more brick in the temple of your soul."
+victory40 = "There is strength behind your eyes... Next time make sure it's behind your fists as well."
+
+victory41 = "I have no need for allies. Limp away."
+victory42 = "This is the apex of strenght, you might not enjoy it, but this is what it looks like."
+victory43 = "Strength carried by love and friendship sounds awfully precarious to me."
+victory44 = "Impressive as your strength might be, remember that the universe is a large place and someone larger than you lurks around the corner."
+victory45 = "I've measured your brawn and found it to be wanting."
+victory46 = "Why do your strikes feel so weak?"
+victory47 = "Did a dragon put you up to this?"
+victory48 = "You people rely too much on wishing Dragons."

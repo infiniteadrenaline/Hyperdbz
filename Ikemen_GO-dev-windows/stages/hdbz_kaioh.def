@@ -1,0 +1,501 @@
+;Hyper DragonBall Z - King Kai Stage
+;by Alpha Proto & XGargoyle
+
+[info]
+name = "King Kai planet"
+displayname = "King Kai planet"
+versiondate = 10,20,2019 
+mugenversion = 1.0
+author = "Alpha Proto & XGargoyle"
+
+;--------------------------------------------------------
+
+[Camera]
+startx = 0
+starty = 0
+boundleft = -560 
+boundright = 560 
+boundhigh = -200 
+boundlow = 0
+verticalfollow = .75 ;0.2 
+floortension = 90 ;0
+tension = 50
+
+ ;Number of pixels beyond the top and bottom of the screen that may
+ ;be drawn.  Overdraw specifies the how much can be seen during an
+ ;EnvShake.  Overdraw pixels will also be used when the screen aspect
+ ;is taller than the stage aspect.
+overdrawhigh = 0
+overdrawlow = 0
+
+ ;Number of pixels into the top and bottom of the screen that may be
+ ;cut from drawing when the screen aspect is shorter than the stage
+ ;aspect.  These parameters suggest a guideline, and the actual
+ ;number of pixels cut depends on the difference in aspect.
+cuthigh = 35
+cutlow = 25
+
+;--------------------------------------------------------
+[PlayerInfo]
+;--- Player 1 ---
+p1startx = -70 ;-80          ;Starting x coordinates
+p1starty = 0            ;Starting y coordinates
+p1facing = 1            ;Direction player faces: 1=right, -1=left
+;--- Player 2 ---
+p2startx = 70 ;80
+p2starty = 0
+p2facing = -1
+;--- Common ---
+ ;Don't change these values.
+leftbound  = -1300 ;Left bound (x-movement)
+rightbound =  1300 ;Right bound
+
+;--------------------------------------------------------
+[Bound]
+ ;Distance from left/right edge of screen that player can move to
+ ;Typically 15
+screenleft = 30 ;15    ;Dist from left of screen that player can move to
+screenright = 30 ;15   ;Right edge
+
+
+;--------------------------------------------------------
+[StageInfo]
+zoffset = 220
+autoturn = 1
+resetBG = 1
+ ;Width and height of the local coordinate space of the stage.
+localcoord = 320, 240
+ ;Horizontal and vertical scaling factor for drawing.
+xscale = 1
+yscale = 1
+
+;--------------------------------------------------------
+[Shadow]
+ ;This controls the darkness of the shadow. Valid values range
+ ;from 0 (lightest) to 256 (darkest). Defaults to 128 if omitted.
+intensity = 40
+
+ ;This is the shadow color given in r,g,b. Valid values for each
+ ;range from 0 (lightest) to 255 (darkest).
+ ;Defaults to 0,0,0 if omitted.
+ ;intensity and color's effects add up to give the final shadow
+ ;result.
+color = 20,10,10
+
+ ;This is the scale factor of the shadow. Use a big scale factor
+ ;to make the shadow longer. You can use a NEGATIVE scale factor
+ ;to make the shadow fall INTO the screen.
+ ;Defaults to 0.4 if omitted.
+yscale = .4
+
+ ;This parameter lets you set the range over which the shadow is
+ ;visible. The first value is the high level, and the second is
+ ;the middle level. Both represent y-coordinates of the player.
+ ;A shadow is invisible if the player is above the high level,
+ ;and fully visible if below the middle level. The shadow is
+ ;faded in between the two levels. This gives an effect of the
+ ;shadow fading away as the player gets farther away from the
+ ;ground. If omitted, defaults to no level effects (shadow is
+ ;always fully visible).
+;fade.range = -400,-100
+fade.range = 0,-50
+
+;--------------------------------------------------------
+[Reflection]
+ ;Intensity of reflection (from 0 to 256). Set to 0 to have no
+ ;reflection. Defaults to 0.
+intensity = 0
+
+;--------------------------------------------------------
+[music]
+bgmusic = sound/chars/SSJ_Goku.mp3
+bgvolume = 100
+
+;looping points for SSJ_Goku.mp3
+bgmloopstart = 428981
+bgmloopend = 5078601
+
+;========================================================
+; main background definition
+[bgdef]
+spr = stages/hdbz_kaioh.sff
+debugbg = 0
+
+;----------
+
+
+[bg sky]
+type = normal
+spriteno = 0,0
+start = 0, 220
+delta = 0.6,0.6 
+mask = 1
+tile = 1,0
+
+[bg clouds]
+type = normal
+spriteno = 1,0
+start = 0, 300 
+delta = 0.7,0.7 
+mask = 1
+tile = 0,0
+
+[bg bushes]
+type = normal
+spriteno = 2,0
+start = 0, 220
+delta = 0.9,0.9 
+mask = 1
+tile = 0,0
+
+[bg trees]
+type = normal
+spriteno = 4,0
+start = -20, 220
+delta = 0.9,0.9 
+mask = 1
+tile = 0,0
+
+[bg grass]
+type = normal
+spriteno = 3,0
+start = 0, 220
+delta = 0.95,0.95 
+mask = 1
+tile = 0,0
+
+[BG kaioh]
+type = anim
+actionno = 10
+start = -720, -240
+delta = 0.95,0.95 
+id = 10
+tile = 0,0
+
+[BG gregory]
+type = anim
+actionno = 20
+start = -720, -253
+delta = 0.95,0.95
+id = 20
+tile = 0,0
+
+[BG bubbles]
+type = anim
+actionno = 32 ;30
+start = -720, -235
+;start = 800, -235
+delta = 0.95,0.95 
+id = 30
+tile = 0,0
+
+[bg house]
+type = normal
+spriteno = 5,0
+start = 0, 220
+delta = 0.95,0.95
+mask = 1
+tile = 0,0
+
+[BG smoke]
+type = anim
+actionno = 9
+start = -720, -233
+delta = 0.95,0.95
+tile = 0,0
+
+[bg well]
+type = normal
+spriteno = 6,0
+start = 0, 220
+delta = 0.95,0.95
+mask = 1
+tile = 0,0
+
+[bg road]
+type = normal
+spriteno = 7,0
+start = 0, 220
+delta = 1,1
+mask = 1
+tile = 0,0
+
+[bg car]
+type = normal
+spriteno = 8,0
+start = 0, 220
+delta = 1,1
+mask = 1
+tile = 0,0
+
+[bg road_front]
+type = normal
+spriteno = 7,1
+start = 0, 220
+delta = 1,1
+mask = 1
+tile = 0,0
+layerno = 1
+
+[Begin Action 9]
+9,0,0,0,8, ,AS128D128
+9,1,0,0,8, ,AS128D128
+9,2,0,0,8, ,AS128D128
+9,3,0,0,8, ,AS128D128
+9,4,0,0,6, ,AS128D128
+9,5,0,0,6, ,AS128D128
+9,6,0,0,6, ,AS128D128
+9,7,0,0,4, ,AS128D128
+9,8,0,0,4, ,AS128D128
+9,9,0,0,4, ,AS128D128
+9,10,0,0,4, ,AS128D128
+9,11,0,0,4, ,AS128D128
+9,12,0,0,4, ,AS128D128
+9,13,0,0,4, ,AS128D128
+
+;Kaioh
+[Begin Action 10] ;idle
+10,6,0,0,40,
+10,10,0,0,8,
+;Kaioh
+[Begin Action 11] ;talk
+10,7,0,0,8,
+10,6,0,0,8,
+10,8,0,0,8,
+10,9,0,0,8,
+10,7,0,0,8,
+10,6,0,0,8,
+10,8,0,0,8,
+10,7,0,0,8,
+10,6,0,0,8,
+[Begin Action 12] ;laugh
+10,10,0,0,8,
+10,11,0,0,8,
+10,12,0,0,8,
+10,13,0,0,8,
+[Begin Action 13] ;laugh loop
+10,14,0,0,8,
+10,15,0,0,8,
+[Begin Action 14] ;laugh back
+10,13,0,0,8,
+10,12,0,0,8,
+10,11,0,0,8,
+10,10,0,0,8,
+[Begin Action 15] ;raise arm
+10,5,0,0,8,
+10,4,0,0,8,
+10,3,0,0,8,
+[Begin Action 16] ;arm talk
+10,0,0,0,8,
+10,1,0,0,8,
+10,2,0,0,8,
+10,3,0,0,8,
+10,2,0,0,8,
+10,1,0,0,8,
+10,0,0,0,8,
+10,3,0,0,8,
+10,1,0,0,8,
+10,3,0,0,8,
+10,1,0,0,8,
+[Begin Action 17] ;lower arm
+10,3,0,0,8,
+10,4,0,0,8,
+10,5,0,0,8,
+
+[BGCtrlDef Kaioh]
+looptime = 496 
+ctrlID = 10
+[BGCtrl ON]
+type = Enable
+value = 1
+time = 0
+ctrlid = 10
+[BGCtrl Idle]
+type = Anim
+value = 10
+time = 0
+ctrlid = 10
+[BGCtrl talk]
+type = Anim
+value = 11
+time = 88
+ctrlid = 10
+[BGCtrl Idle]
+type = Anim
+value = 10
+time = 160
+ctrlid = 10
+[BGCtrl laugh]
+type = Anim
+value = 12
+time = 176
+ctrlid = 10
+[BGCtrl laugh loop]
+type = Anim
+value = 13
+time = 208
+ctrlid = 10
+[BGCtrl laugh back]
+type = Anim
+value = 14
+time = 272
+ctrlid = 10
+[BGCtrl Idle]
+type = Anim
+value = 10
+time = 304
+ctrlid = 10
+[BGCtrl arm raise]
+type = Anim
+value = 15
+time = 360
+ctrlid = 10
+[BGCtrl arm talk]
+type = Anim
+value = 16
+time = 384
+ctrlid = 10
+[BGCtrl arm lower]
+type = Anim
+value = 17
+time = 472
+ctrlid = 10
+[BGCtrl OFF] 
+type = Enable
+value = 0
+time = 496 
+ctrlid = 10
+
+
+;Gregory
+[Begin Action 20] ;idle
+20,3,0,0,8,
+[Begin Action 21] ;laugh
+20,1,0,0,8,
+20,2,0,0,8,
+
+[BGCtrlDef Gregory]
+looptime = 496
+ctrlID = 20
+[BGCtrl float]
+type = SinX
+time = 0
+value = 2, 40, 0
+ctrlid = 20  
+[BGCtrl float]
+type = SinY
+time = 0
+value = 4, 60, 0 
+ctrlid = 20 
+[BGCtrl Idle]
+type = Anim
+value = 20
+time = 0
+ctrlid = 20
+[BGCtrl Laugh]
+type = Anim
+value = 21
+time = 208
+ctrlid = 20
+[BGCtrl float]
+type = SinY
+time = 208 
+value = 2, 40, 0
+ctrlid = 20
+[BGCtrl Idle]
+type = Anim
+value = 20
+time = 272
+ctrlid = 20
+[BGCtrl float]
+type = SinX
+time = 384
+value = 8, 88, 0
+ctrlid = 20
+[BGCtrl float]
+type = SinX
+time = 472
+value = 2, 40, 0
+ctrlid = 20  
+ 
+
+;Bubbles
+[Begin Action 30] ;idle
+30,3,0,0,10,
+30,4,0,0,10,
+[Begin Action 31] ;jump
+30,5,0,0,6,
+30,6,0,0,4,
+30,7,0,0,4,
+30,8,0,0,6,
+30,9,0,0,6,
+30,0,0,0,8,
+30,1,0,0,8,
+30,2,0,0,8,
+30,3,0,0,8,
+30,4,0,0,8,
+[Begin Action 320] ;No anim
+30,0,0,0,8,
+30,1,0,0,8,
+30,2,0,0,8,
+30,3,0,0,8,
+30,4,0,0,8,
+30,5,0,0,6,
+30,6,0,0,4,
+30,7,0,0,4,
+30,8,0,0,6,
+30,9,0,0,6,
+
+[Begin Action 32] ;Bubbles
+30,0,0,0,8, 
+30,1,0,0,8, 
+30,2,0,0,8,
+30,3,0,0,8,
+30,0,0,0,8, 
+30,1,0,0,8, 
+30,2,0,0,8,
+30,3,0,0,8,
+30,0,0,0,8, 
+30,1,0,0,8, 
+30,2,0,0,8,
+30,3,0,0,8,
+30,0,0,0,8, 
+30,1,0,0,8, 
+30,2,0,0,8,
+30,3,0,0,8,
+30,4,0,0,8,
+30,5,0,0,6,
+30,6,0,0,4,
+30,7,0,0,4,
+30,8,0,0,6,
+30,9,0,0,6,
+30,4,0,0,8,
+30,5,0,0,6,
+30,6,0,0,4,
+30,7,0,0,4,
+30,8,0,0,6,
+30,9,0,0,6,
+30,4,0,0,8,
+30,5,0,0,6,
+30,6,0,0,4,
+30,7,0,0,4,
+30,8,0,0,6,
+30,9,0,0,6,
+
+;[BGCtrlDef Bubbles]
+;looptime = 280
+;ctrlID = 30
+;[BGCtrl Idle]
+;type = Anim
+;value = 30
+;time = 0
+;ctrlid = 30
+;[BGCtrl jump]
+;type = Anim
+;value = 31
+;time = 214
+;ctrlid = 30
+
+
+
+

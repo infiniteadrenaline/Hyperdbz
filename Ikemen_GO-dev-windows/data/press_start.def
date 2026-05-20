@@ -1,0 +1,1652 @@
+;HDBZ INTRO
+;==================================================================================================
+[Info]
+name = "HDBZ PRESS START"
+author = "NoZ"
+versiondate = 05-01-2011
+mugenversion = 1.0
+localcoord = 640,480
+
+[SceneDef]
+spr = press_start.sff
+snd = press_start.snd
+font0 = font/f-6x10.fnt
+
+startscene = 1 ;1         ;Starting scene number (for debugging)
+;------------------------------------
+[Scene 0]
+fadein.time = 0       ;Time to take for fading in
+fadein.col = 240,240,240     ;Use 255,255,255 for white-fade
+fadeout.time = 0
+fadeout.col = 0,0,0
+clearcolor = 255,255,255 ;0,0,0
+;bgm = Hyper Dragonball Z OST - Title Theme - DaMarcus008.mp3 ;press_start.mp3
+;bgm.loop = 0
+;layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  0       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+end.time = 1;120
+
+;------------------------------------
+[Scene 1]
+bg.name = SkyBG
+fadein.time = 60       ;Time to take for fading in
+fadein.col = 240,240,240     ;Use 255,255,255 for white-fade
+fadeout.time = 0
+fadeout.col = 0,0,0
+clearcolor = 72,138,239
+bgm = press_start.mp3
+bgm.loop = 0
+Sound0.value = 3,0
+Sound0.starttime = 30
+Sound1.value = 3,1
+Sound1.starttime = 76
+Sound2.value = 3,1
+Sound2.starttime = 122
+Sound3.value = 3,2
+Sound3.starttime = 168
+Sound4.value = 3,3
+Sound4.starttime = 214
+Sound5.value = 3,7
+Sound5.starttime = 0
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  100       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+end.time = 240 ;260
+
+[SkyBGDef]
+[SkyBG]
+type  = anim
+actionno = 100
+start = -200, 0
+mask = 0
+id = 1
+
+[Begin Action 100]
+3,0, 0,0, 4
+3,1, 0,0, 4
+3,2, 0,0, 4
+3,3, 0,0, 4
+3,4, 0,0, 4
+3,5, 0,0, 4
+
+[SkyBG Goku]
+type  = anim
+actionno = 101
+start = 40, 250
+mask = 1
+id = 101
+sin.y = 3, 60
+velocity = -.1,0
+
+[Begin Action 101]
+3,20, 0,0, 30
+3,21, 0,0, 4
+3,22, 0,0, 4
+3,23, 0,0, 4
+3,24, 0,0, 4
+
+[SkyBGCtrlDef Camera Pan]
+looptime =  -1 
+ctrlID = 1
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 200 ;220
+y = 10 
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 210 ;230
+y = 10 
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 220 ;240
+y = 10 
+
+[SkyBGCtrlDef Goku Pan]
+looptime =  -1 
+ctrlID = 101
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 180
+y = 10 
+x = 2 
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 185
+y = 10 
+x = 5
+
+[SkyBGCtrl 1]
+type = VelAdd
+time = 190
+y = 10 
+x = 10
+
+;------------------------------------
+[Scene 2]
+bg.name = CanyonBG
+fadein.time = 0       ;Time to take for fading in
+fadein.col = 240,240,240     ;Use 255,255,255 for white-fade
+fadeout.time = 0
+fadeout.col = 0,0,0
+clearcolor = 0,0,0 ;72,138,239
+;Sound0.value = 3,5
+;Sound0.starttime = 0
+Sound1.value = 3,6
+Sound1.starttime = 310
+Sound2.value = 4,0
+Sound2.starttime = 465
+Sound3.value = 4,1
+Sound3.starttime = 489
+Sound4.value = 4,2
+Sound4.starttime = 465
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  100       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+end.time = 494 ;500 ;470
+
+[CanyonBGDef]
+
+[CanyonBG Sky]
+type = normal
+spriteno = 4,0
+start = 0, -30
+velocity = -8,0
+tile = 1,0
+mask = 0
+id = 201
+
+[CanyonBG Canyon BG]
+type = normal
+spriteno = 6,0
+start = 0, 1250
+velocity = -16,0
+tile = 1,0
+mask = 1
+id = 203
+
+[CanyonBG Canyon Cast]
+type = normal
+spriteno = 6,10
+start = 300, 300
+mask = 1
+id = 204
+
+[CanyonBG Canyon Cast-less]
+type = normal
+spriteno = 6,1
+start = 300, 300
+mask = 1
+id = 204
+
+[CanyonBG Vegeta]
+type  = anim
+actionno = 207
+start = -455, 250
+sin.x = 10, 400
+sin.y = 2, 120
+id = 207
+
+[Begin Action 207]
+7,12, 0,0, 4
+7,13, 0,0, 4
+
+[Begin Action 2071]
+7,20, 0,0, 4
+7,21, 0,0, 4
+7,22, 0,0, 4
+7,23, 0,0, 4
+loopstart
+7,24, 0,0, 4
+7,25, 0,0, 4
+7,26, 0,0, 4
+7,27, 0,0, 4
+
+
+[CanyonBG Goku1]
+type  = anim
+actionno = 2021
+start = 600, 460
+sin.x = -10, 400
+sin.y = -3, 120
+id = 2021
+
+[Begin Action 2021]
+5,100, 0,0, 4
+5,101, 0,0, 4
+5,102, 0,0, 4
+5,103, 0,0, 4
+5,104, 0,0, 4
+5,105, 0,0, 4
+5,106, 0,0, 4
+5,107, 0,0, 4
+5,108, 0,0, 4
+5,109, 0,0, 4
+5,110, 0,0, 4
+5,111, 0,0, 4
+
+[CanyonBG Goku2]
+type  = anim
+actionno = 2022
+start = 600, 460
+sin.x = -10, 400
+sin.y = -3, 120
+id = 2022
+
+[Begin Action 2022]
+5,150, 0,0, 4
+5,151, 0,0, 4
+5,152, 0,0, 4
+5,153, 0,0, 4
+5,154, 0,0, 4
+5,155, 0,0, 4
+5,156, 0,0, 4
+5,157, 0,0, 4
+5,158, 0,0, 4
+5,159, 0,0, 4
+5,160, 0,0, 4
+5,161, 0,0, 4
+
+
+
+[CanyonBG Goku]
+type  = anim
+actionno = 202
+start = 600, 460
+sin.x = -10, 400
+sin.y = -3, 120
+id = 202
+
+[Begin Action 202]
+5,20, 0,0, 2
+5,21, 0,0, 2
+5,22, 0,0, 2
+5,23, 0,0, 2
+5,24, 0,0, 2
+5,25, 0,0, 2
+5,26, 0,0, 2
+5,27, 0,0, 2
+5,28, 0,0, 2
+5,29, 0,0, 2
+5,30, 0,0, 2
+5,31, 0,0, 2
+5,32, 0,0, 2
+5,33, 0,0, 2
+5,34, 0,0, 2
+5,35, 0,0, 2
+loopstart
+5,40, 0,0, 4
+5,41, 0,0, 4
+5,42, 0,0, 4
+5,43, 0,0, 4
+5,44, 0,0, 4
+5,45, 0,0, 4
+5,46, 0,0, 4
+5,47, 0,0, 4
+5,48, 0,0, 4
+5,49, 0,0, 4
+5,50, 0,0, 4
+5,51, 0,0, 4
+
+
+[CanyonBG Jiren Shadow]
+type  = anim
+actionno = 208
+start = 500, 100
+id = 208
+
+[Begin Action 208]
+8,20, 0,0, -1
+
+
+
+[CanyonBGCtrlDef Camera Pan Sky]
+looptime =  -1 
+ctrlID = 201
+
+[CanyonBGCtrl 1]
+type = VelSet
+time = 4
+y = -18 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 20
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 25
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 30
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 35
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 40
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 45
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 50
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelAdd
+time = 55
+y = 2 
+
+[CanyonBGCtrl 1]
+type = VelSet
+time = 60
+y = 0 
+
+[CanyonBGCtrlDef Camera Pan Canyon]
+looptime =  -1 
+ctrlID = 203
+
+[CanyonBGCtrl 3]
+type = VelSet
+time = 4
+y = -27 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 20
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 25
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 30
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 35
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 40
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 45
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 50
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelAdd
+time = 55
+y = 3 
+
+[CanyonBGCtrl 3]
+type = VelSet
+time = 60
+y = 0 
+
+
+[CanyonBGCtrlDef Vegeta]
+looptime =  -1 
+ctrlID = 207
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 320
+x = 40
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 330
+x = 20
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 335
+x = 10
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 340
+x = 0
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 345
+x = -2
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 385
+x = 0
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 390
+x = 5
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 395
+x = 10
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 400
+x = 20
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 405
+x = 30
+
+[CanyonBGCtrl 7]
+type = VelSet
+time = 410
+x = 40
+
+[CanyonBGCtrl Vegeta transform]
+type = Anim
+time = 390
+value = 2071
+
+
+[CanyonBGCtrlDef Goku]
+looptime =  -1 
+ctrlID = 202, 2021, 2022
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 0
+x = -60
+y = -20 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 5
+x = -50
+y = -16 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 10
+x = -20
+y = -11 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 15
+x = -5
+y = -6 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 20
+x = 0
+y = -2 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 25
+x = 1
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 135
+x = .5
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 140
+x = 0
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 145
+x = -.3
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 420
+x = 0
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 425
+x = .5
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 430
+x = 1
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 435
+x = 3
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 440
+x = 6
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 445
+x = 12
+y = -0 
+
+[CanyonBGCtrl 2]
+type = VelSet
+time = 450
+x = 40
+y = -0 
+
+[CanyonBGCtrlDef Goku Visibility]
+looptime =  -1 
+ctrlID = 202
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 340
+value = 0
+
+[CanyonBGCtrlDef Goku 1 Visibility]
+looptime =  -1 
+ctrlID = 2021
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 0
+value = 0
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 340
+value = 1
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 420
+value = 0
+
+[CanyonBGCtrlDef Goku 2 Visibility]
+looptime =  -1 
+ctrlID = 2022
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 0
+value = 0
+
+[CanyonBGCtrl 2]
+type = Visible
+time = 420
+value = 1
+
+
+
+
+[CanyonBGCtrlDef Camera Pan Cast]
+looptime =  -1 
+ctrlID = 204
+
+[CanyonBGCtrl 4]
+type = VelSet
+time = 120
+x = -16 
+
+[CanyonBGCtrlDef Jiren Shadow]
+looptime =  -1 
+ctrlID = 208
+
+[CanyonBGCtrl 1]
+type = VelSet
+time = 1000 ;470
+x = -40
+
+
+
+[CanyonBG Transition BG]
+type  = anim
+actionno = 311
+start = -320, 0
+
+[Begin Action 311]
+-1,0, 0,0, 489 ;110
+30,2, 0,0, -1
+
+[CanyonBG Transition Tenshinhan]
+type  = anim
+actionno = 312
+start = -310, 28
+
+[Begin Action 312]
+-1,0, 0,0, 489 ;110
+32,0, 0,0, -1
+
+[CanyonBG Transition]
+type = normal
+spriteno = 30,0
+start = -1200, 0
+mask = 1
+id = 310
+
+[CanyonBGCtrlDef Transition]
+looptime =  -1 
+ctrlID = 310
+
+[CanyonBGCtrl 1]
+type = VelSet
+time = 464 ;100
+x = 30
+
+
+
+
+;------------------------------------
+[Scene 4]
+bg.name = GroupBG
+fadein.time = 0       ;Time to take for fading in
+fadein.col = 240,240,240     ;Use 255,255,255 for white-fade
+fadeout.time = 20
+fadeout.col = 255,255,255
+clearcolor = 0,0,0 ;72,138,239
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  100       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+Sound0.value = 5,1
+Sound0.starttime = 30
+Sound1.value = 5,2
+Sound1.starttime = 55 ;74
+Sound2.value = 5,3
+Sound2.starttime = 90
+Sound3.value = 5,4
+Sound3.starttime = 144
+Sound4.value = 5,5
+Sound4.starttime = 176
+Sound5.value = 5,6
+Sound5.starttime = 210
+Sound6.value = 5,7
+Sound6.starttime = 240
+end.time = 295 ;130
+
+[GroupBGDef]
+
+[GroupBG Sky]
+type = normal
+spriteno = 30,1
+start = -320, 0
+mask = 0
+
+[GroupBG C18]
+type  = anim
+actionno = 4001
+start = -60, 90
+id = 4001
+
+[Begin Action 4001]
+31,0, 0,0, 30
+31,1, 0,0, 7
+31,2, 0,0, 4
+31,3, 0,0, 4
+31,4, 0,0, -1
+
+[GroupBG Krillin]
+type  = anim
+actionno = 4002
+start = -100, 120
+id = 4002
+
+[Begin Action 4002]
+37,0, 0,0, 28
+37,1, 0,0, 4
+37,2, 0,0, 5
+37,3, 0,0, 4
+37,4, 0,0, -1
+
+
+[GroupBG Tenshinhan]
+type  = anim
+actionno = 4003
+start = -310, 28
+id = 4003
+
+[Begin Action 4003]
+32,0, 0,0, 40
+32,1, 0,0, 5
+32,2, 0,0, 4
+32,3, 0,0, 2
+32,4, 0,0, 4
+32,5, 0,0, -1
+
+
+[GroupBG Piccolo]
+type  = anim
+actionno = 4004
+start = 80, 116
+id = 4004
+
+[Begin Action 4004]
+34,0, 0,0, 35
+34,1, 0,0, 6
+34,2, 0,0, 5
+34,3, 0,0, 6
+34,4, 0,0, 4
+34,5, 0,0, 6
+34,6, 0,0, -1
+
+[GroupBG Gohan]
+type  = anim
+actionno = 4005
+start = -74, 136
+id = 4005
+
+[Begin Action 4005]
+-1,0, 0,0, 60
+35,0, 0,0, 2
+35,1, 0,0, 2
+35,2, 0,0, 10
+35,3, 0,0, 6
+35,4, 0,0, 14
+35,5, 0,0, 3
+35,6, 0,0, 3
+35,7, 0,0, 3
+35,8, 0,0, 3
+35,9, 0,0, 3
+35,10, 0,0, 3
+35,11, 0,0, 3
+35,12, 0,0, 3
+35,13, 0,0, 3
+35,14, 0,0, 3
+loopstart
+35,15, 0,0, 3
+35,16, 0,0, 3
+35,17, 0,0, 3
+
+[GroupBG Gotenks]
+type  = anim
+actionno = 4006
+start = -280, -26
+id = 4006
+
+[Begin Action 4006]
+-1,0, 0,0, 110
+33,0, 0,0, 3
+33,1, 0,0, 3
+33,2, 0,0, 3
+33,3, 0,0, 3
+33,4, 0,0, 3
+33,5, 0,0, 3
+33,6, 0,0, 3
+33,7, 0,0, 3
+33,8, 0,0, 3
+33,9, 0,0, 3
+33,10, 0,0, 3
+33,11, 0,0, 3
+33,12, 0,0, 3
+33,13, 0,0, 3
+loopstart
+33,14, 0,0, 3
+33,15, 0,0, 3
+33,16, 0,0, 3
+33,17, 0,0, 3
+33,18, 0,0, 3
+33,19, 0,0, 3
+33,20, 0,0, 3
+33,21, 0,0, 3
+33,22, 0,0, 3
+33,23, 0,0, 3
+33,24, 0,0, 3
+33,25, 0,0, 3
+33,26, 0,0, 3
+33,27, 0,0, 3
+33,28, 0,0, 3
+33,29, 0,0, 3
+33,30, 0,0, 3
+33,31, 0,0, 3
+33,32, 0,0, 3
+33,33, 0,0, 3
+
+[GroupBG Satan]
+type  = anim
+actionno = 4007
+start = -320, 0
+id = 4007
+
+[Begin Action 4007]
+-1,0, 0,0, 176
+36,0, 0,0, 2
+36,1, 0,0, 2
+36,2, 0,0, 2
+36,3, 0,0, 2
+36,4, 0,0, 2
+36,5, 0,0, 2
+36,6, 0,0, 2
+36,7, 0,0, 2
+36,8, 0,0, 2
+36,9, 0,0, 2
+36,10, 0,0, 2
+36,11, 0,0, 2
+36,12, 0,0, 2
+36,13, 0,0, 2
+36,14, 0,0, 2
+36,15, 0,0, 2
+36,16, 0,0, 2
+36,17, 0,0, 2
+36,18, 0,0, 2
+36,19, 0,0, 2
+36,20, 0,0, 2
+36,21, 0,0, 2
+36,22, 0,0, 2
+36,23, 0,0, 2
+36,24, 0,0, 2
+36,25, 0,0, 2
+36,26, 0,0, 2
+36,27, 0,0, 2
+36,28, 0,0, 2
+36,29, 0,0, 2
+36,30, 0,0, 2
+36,31, 0,0, 2
+36,32, 0,0, 2
+loopstart
+36,33, 0,0, 2
+36,34, 0,0, 2
+36,35, 0,0, 2
+36,36, 0,0, 2
+36,37, 0,0, 2
+
+[GroupBG Transition]
+type = normal
+spriteno = 30,0
+start = -300, 0
+velocity = 30, 0
+mask = 1
+
+
+;------------------------------------
+[Scene 5]
+bg.name = VillainsBG
+fadein.time = 60       ;Time to take for fading in
+fadein.col = 255,255,255     ;Use 255,255,255 for white-fade
+fadeout.time = 0
+fadeout.col = 0,0,0
+;Sound0.value = 4,1
+;Sound0.starttime = 50
+Sound1.value = 2,0
+Sound1.starttime = 374 ;724
+Sound2.value = 5,0
+Sound2.starttime = 120
+Sound3.value = 5,0
+Sound3.starttime = 240
+clearcolor = 0,0,0 ;72,138,239
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  100       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+end.time = 430 ;830 ;800
+
+[VillainsBGDef]
+
+[VillainsBG Sky]
+type = normal
+spriteno = 9,10
+start = 0, -400
+mask = 0
+id = 400
+
+[VillainsBG Black]
+type  = anim
+actionno = 401
+start = 0, -650
+id = 401
+
+[Begin Action 401]
+9,20, 0,0, 350 ;700
+9,21, 0,0, 6
+9,22, 0,0, 4
+9,23, 0,0, 8
+9,24, 0,0, 8
+9,25, 0,0, 6
+9,26, 0,0, 3 ;4
+9,27, 0,0, 3 ;4
+9,28, 0,0, -1
+
+[VillainsBG Buu]
+type = normal
+spriteno = 9,2
+start = -30, -90
+mask = 1
+velocity = 0, 2.8 ;1.4
+
+[VillainsBG Freeza]
+type = normal
+spriteno = 9,3
+start = 60, -60
+mask = 1
+velocity = 0, 3.2 ;1.6
+
+[VillainsBG Babidi]
+type = normal
+spriteno = 9,0
+start = -70, -20
+mask = 1
+velocity = 0,3.6 ;1.8
+
+[VillainsBG Saibaman]
+type = normal
+spriteno = 9,4
+start = 40, 40
+mask = 1
+velocity = 0, 4 ;2
+
+[VillainsBG Vegeta]
+type  = anim
+actionno = 402
+start = -200, 300
+id = 402
+;velocity = 0,-.02 ;-.01
+
+[Begin Action 402]
+9,31, 0,0, -1, H
+
+[VillainsBG Goku]
+type  = anim
+actionno = 403
+start = 200, 300
+id = 403
+;velocity = 0,-.02 ;-.01
+
+[Begin Action 403]
+9,30, 0,0, -1, H
+
+[VillainsBG G.Freeza]
+type  = anim
+actionno = 450
+start = -320, 0
+
+[Begin Action 450]
+-1,0, 0,0, 240
+50,0, 0,0, 2
+50,1, 0,0, 2
+50,2, 0,0, 2
+50,3, 0,0, 2
+50,4, 0,0, 2
+50,5, 0,0, 2
+50,6, 0,0, 20
+50,7, 0,0, 4
+50,8, 0,0, 4
+50,9, 0,0, 4
+50,10, 0,0, 40
+50,11, 0,0, 2
+50,12, 0,0, 2
+50,13, 0,0, 2
+50,14, 0,0, 2
+50,15, 0,0, 2
+50,16, 0,0, 2
+-1,0, 0,0, -1
+
+[VillainsBG Jiren]
+type  = anim
+actionno = 451
+start = -320, 0
+
+[Begin Action 451]
+-1,0, 0,0, 120
+51,0, 0,0, 2
+51,1, 0,0, 2
+51,2, 0,0, 2
+51,3, 0,0, 2
+51,4, 0,0, 2
+51,5, 0,0, 2
+51,6, 0,0, 20
+51,7, 0,0, 4
+51,8, 0,0, 4
+51,9, 0,0, 2
+51,10, 0,0, 2
+51,11, 0,0, 40
+51,12, 0,0, 2
+51,13, 0,0, 2
+51,14, 0,0, 2
+51,15, 0,0, 2
+51,16, 0,0, 2
+51,17, 0,0, 2
+-1,0, 0,0, -1
+
+
+
+
+[VillainsBGCtrlDef bg] ;-----------------
+looptime =  -1 
+ctrlID = 400
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 0
+y = 1.6 ;.8
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 350 ;700
+y = 1 ;.5
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 355 ;710
+y = .4 ;.2
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 360 ;720
+y = .12 ;.06
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 365 ;730
+y = .6 ;.03
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 370
+y = 0 ;.01
+
+[VillainsBGCtrlDef Black]
+looptime =  -1 
+ctrlID = 401
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 0
+y = 2.2 ;1.1
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 350 ;700
+y = 1.4 ;.7
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 355 ;710
+y = .6 ;.3
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 360 ;720
+y = .18 ;.09
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 365 ;730
+y = .1 ;.05
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 370
+y = 0 ;.03
+
+[VillainsBGCtrlDef Goku]
+looptime =  -1 
+ctrlID = 402
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 0
+x = -.2 ;-.1
+y = -.02
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 350 ;700
+x = -.14 ;-.07
+
+[VillainsBGCtrl 1]
+type = VelSet
+time =355 ; 710
+x = -.06 ;-.03
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 360 ;720
+x = -.018 ;-.009
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 365 ;730
+x = -.01 ;-.005
+y = -.01
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 370
+x = 0
+y = 0
+
+[VillainsBGCtrlDef Vegeta]
+looptime =  -1 
+ctrlID = 403
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 0
+x = .2 ;.1
+y = -.02
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 350 ;700
+x = .14 ;.07
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 355 ;710
+x = .06 ;.03
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 360 ;720
+x = .018 ;.009
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 365 ;730
+x = .01 ;.005
+y = -.01
+
+[VillainsBGCtrl 1]
+type = VelSet
+time = 370
+x = 0
+y = 0
+
+;------------------------------------
+[Scene 6]
+bg.name = ScreenblastBG
+fadein.time = 20       ;Time to take for fading in
+fadein.col = 255,255,255     ;Use 255,255,255 for white-fade
+fadeout.time = 40
+fadeout.col = 255,255,255
+clearcolor = 0,0,0 ;72,138,239
+Sound0.value = 2,1
+Sound0.starttime = 22
+Sound1.value = 2,2
+Sound1.starttime = 70
+Sound2.value = 2,3
+Sound2.starttime = 130
+Sound3.value = 2,4
+Sound3.starttime = 190
+
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  100       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+end.time = 320 ;830 ;800
+
+[ScreenblastBGDef]
+
+[ScreenblastBG Sky]
+type = normal
+spriteno = 20,0
+start = -320, 0
+mask = 0
+
+[ScreenblastBG Goku]
+type  = anim
+actionno = 501
+start = -197, 654
+id = 501
+
+[Begin Action 501]
+20,10, 0,0, 45
+20,11, 0,0, -1
+
+[ScreenblastBG Vegeta]
+type  = anim
+actionno = 502
+start = 210, 660
+id = 502
+
+[Begin Action 502]
+20,20, 0,0, 45
+20,21, 0,0, -1
+
+[ScreenblastBG Black BG]
+type  = anim
+actionno = 503
+start = -450, 100
+mask = 0
+
+[Begin Action 503]
+-1,0, 0,0, 70
+8,20, 0,0, -1
+
+[ScreenblastBG Blast]
+type  = anim
+actionno = 504
+start = -320, 0
+mask = 0
+
+[Begin Action 504]
+-1,0, 0,0, 70
+20,30, 0,0, 4
+20,31, 0,0, 2
+20,32, 0,0, 2
+20,33, 0,0, 2
+20,34, 0,0, 2
+20,35, 0,0, 2
+20,36, 0,0, 2
+20,37, 0,0, 2
+20,38, 0,0, 2
+20,39, 0,0, 2
+
+20,40, 0,0, 2
+20,41, 0,0, 2
+20,42, 0,0, 2
+20,43, 0,0, 2
+20,44, 0,0, 2
+20,45, 0,0, 2
+20,46, 0,0, 2
+20,47, 0,0, 2
+20,48, 0,0, 2
+20,49, 0,0, 2
+
+20,50, 0,0, 2
+20,51, 0,0, 2
+20,52, 0,0, 2
+20,53, 0,0, 2
+20,54, 0,0, 2
+20,55, 0,0, 2
+20,56, 0,0, 2
+20,57, 0,0, 2
+20,58, 0,0, 2
+20,59, 0,0, 2
+
+20,60, 0,0, 2
+20,61, 0,0, 2
+20,62, 0,0, 2
+20,63, 0,0, 2
+20,64, 0,0, 2
+20,65, 0,0, 2
+
+20,30, 0,0, 2
+
+20,66, 0,0, 2
+20,67, 0,0, 2
+20,68, 0,0, 2
+20,69, 0,0, 2
+
+20,70, 0,0, 2
+20,71, 0,0, 2
+20,72, 0,0, 2
+20,73, 0,0, 2
+20,74, 0,0, 2
+20,75, 0,0, 2
+20,76, 0,0, 2
+20,77, 0,0, 2
+20,78, 0,0, 2
+20,79, 0,0, 2
+
+20,80, 0,0, 2
+20,81, 0,0, 2
+20,82, 0,0, 2
+20,83, 0,0, 2
+20,84, 0,0, 2
+20,85, 0,0, 2
+20,86, 0,0, 2
+20,87, 0,0, 2
+20,88, 0,0, 2
+20,89, 0,0, 2
+
+20,90, 0,0, 2
+20,91, 0,0, 2
+20,92, 0,0, 3
+20,93, 0,0, 3
+
+20,92, 0,0, 3
+20,93, 0,0, 3
+
+20,94, 0,0, 3
+20,95, 0,0, 3
+20,96, 0,0, 3
+20,97, 0,0, 3
+20,98, 0,0, 3
+20,99, 0,0, 3
+
+20,100, 0,0, 3
+20,101, 0,0, -1
+
+
+
+
+
+
+
+[ScreenblastBGCtrlDef Goku] ;-----------------
+looptime =  -1 
+ctrlID = 501
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 22
+y = -14
+x = 2
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 40
+y = -12
+x = 3
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 45
+y = -10
+x = 4
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 50
+y = -6
+x = 5
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 55
+y = -3
+x = 6
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 60
+y = -.3
+x = .6
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 70
+y = 0
+x = 0
+
+[ScreenblastBGCtrlDef Vegeta]
+looptime =  -1 
+ctrlID = 502
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 22
+y = -14
+x = -2
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 40
+y = -12
+x = -3
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 45
+y = -10
+x = -4
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 50
+y = -6
+x = -5
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 55
+y = -3
+x = -6
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 60
+y = -.3
+x = -.6
+
+[ScreenblastBGCtrl 1]
+type = VelSet
+time = 70
+y = 0
+x = 0
+
+;------------------------------------
+[Scene 10]
+bg.name = PressStartBG
+fadein.time = 0       ;Time to take for fading in
+fadein.col = 240,240,240     ;Use 255,255,255 for white-fade
+fadeout.time = 15
+fadeout.col = 0,0,0
+Sound0.value = 0,0
+Sound0.starttime = 30
+; Screen color
+clearcolor = 0,0,0
+; Overlay Anims (from 0 to9)
+layerall.pos = 0,0  ;Default position for all layers
+;layer0.anim =  0       ;Anim action number
+;layer0.offset = 0,0   ;Position offset
+;layer1.anim =  1       ;Anim action number
+;layer1.offset = 0,0   ;Position offset
+;layer2.anim =  2       ;Anim action number
+;layer2.offset = 0,0   ;Position offset
+;layer3.anim =  3       ;Anim action number
+;layer3.offset = 0,0   ;Position offset
+;layer4.anim =  4       ;Anim action number
+;layer4.offset = 0,0   ;Position offset
+;layer5.anim =  5       ;Anim action number
+;layer5.offset = 0,0   ;Position offset
+;layer6.anim =  6       ;Anim action number
+;layer6.offset = 0,0   ;Position offset ;final
+;layer7.anim =  7       ;Anim action number
+;layer7.offset = 0,0   ;Position offset
+;layer8.anim =  8       ;Anim action number
+;layer8.offset = 0,0   ;Position offset
+;layer9.anim =  9       ;Anim action number
+;layer9.offset = 0,0   ;Position offset
+end.time = 1500
+
+;---------------
+
+
+[PressStartBGDef]
+
+
+
+
+[PressStartBG blue]
+type = normal
+spriteno = 2,20
+start = -320, 0
+mask = 0
+
+[PressStartBG green]
+type  = anim
+actionno = 1001
+start = -320, 0
+id = 1001
+
+[Begin Action 1001] ;green
+2,21, 0,0, -1 , ,AS256D256
+
+[PressStartBG red]
+type  = anim
+actionno = 1002
+start = -320, 0
+id = 1002
+
+[Begin Action 1002] ;red
+2,22, 0,0, -1 , ,AS256D256
+
+[PressStartBG Shadows]
+type  = anim
+actionno = 1030
+start = -320, 0
+id = 1001
+
+[Begin Action 1030]
+2,30, 0,0, -1 , ,AS64D192
+
+[PressStartBG Black]
+type = normal
+spriteno = 0,0
+start = -320, 0
+mask = 1
+
+[PressStartBG Babidi]
+type = normal
+spriteno = 0,5
+start = -320, 0
+mask = 1
+
+[PressStartBG Freeza]
+type = normal
+spriteno = 0,6
+start = -320, 0
+mask = 1
+
+[PressStartBG Gotenks]
+type = normal
+spriteno = 0,4
+start = -320, 0
+mask = 1
+
+[PressStartBG group]
+type = normal
+spriteno = 0,1
+start = -320, 0
+mask = 1
+
+[PressStartBG Buu]
+type = normal
+spriteno = 0,2
+start = -320, 0
+mask = 1
+
+[PressStartBG Pilaf]
+type = normal
+spriteno = 0,3
+start = -320, 0
+mask = 1
+
+[PressStartBG Vegeta]
+type = normal
+spriteno = 0,9
+start = -320, 0
+mask = 1
+
+[PressStartBG Goku]
+type = normal
+spriteno = 0,10
+start = -320, 0
+mask = 1
+
+[PressStartBG Logo]
+type  = anim
+actionno = 10003
+start = -320, 0
+id = 10003
+
+[Begin Action 10003] ;Logo
+2,23, 0,0, -1,
+
+[PressStartBG Press Start]
+type  = anim
+actionno = 10004
+start = -320, 0
+id = 10004
+
+[Begin Action 10004] ;Press Start
+-1,0, 0,0, 90,
+2,10, 0,0, 3 , ,AS32D224
+2,10, 0,0, 3 , ,AS64D192
+2,10, 0,0, 3 , ,AS96D160
+2,10, 0,0, 3 , ,AS128D128
+2,10, 0,0, 3 , ,AS160D96
+2,10, 0,0, 3 , ,AS192D64
+2,10, 0,0, 3 , ,AS224D32
+2,10, 0,0, 120
+2,10, 0,0, 3 , ,AS224D32
+2,10, 0,0, 3 , ,AS192D64
+2,10, 0,0, 3 , ,AS160D96
+2,10, 0,0, 3 , ,AS128D128
+2,10, 0,0, 3 , ,AS96D160
+2,10, 0,0, 3 , ,AS64D192
+2,10, 0,0, 3 , ,AS32D224
+
+[PressStartBG white]
+type  = anim
+actionno = 10005
+start = -320, 0
+id = 10005
+
+[Begin Action 10005] ;white
+2,0, 0,0, 3
+2,0, 0,0, 3 , ,AS248D8
+2,0, 0,0, 3 , ,AS240D16
+2,0, 0,0, 3 , ,AS232D24
+2,0, 0,0, 3 , ,AS224D32
+2,0, 0,0, 3 , ,AS216D40
+2,0, 0,0, 3 , ,AS208D48
+2,0, 0,0, 3 , ,AS200D56
+2,0, 0,0, 3 , ,AS192D64
+2,0, 0,0, 3 , ,AS184D72
+2,0, 0,0, 3 , ,AS176D80
+2,0, 0,0, 3 , ,AS168D88
+2,0, 0,0, 3 , ,AS160D96
+2,0, 0,0, 3 , ,AS152D104
+2,0, 0,0, 3 , ,AS144D112
+2,0, 0,0, 3 , ,AS136D120
+2,0, 0,0, 3 , ,AS128D128
+2,0, 0,0, 3 , ,AS120D136
+2,0, 0,0, 3 , ,AS112D144
+2,0, 0,0, 3 , ,AS104D152
+2,0, 0,0, 3 , ,AS96D160
+2,0, 0,0, 3 , ,AS88D168
+2,0, 0,0, 3 , ,AS80D176
+2,0, 0,0, 3 , ,AS72D184
+2,0, 0,0, 3 , ,AS64D192
+2,0, 0,0, 3 , ,AS56D200
+2,0, 0,0, 3 , ,AS48D208
+2,0, 0,0, 3 , ,AS40D216
+2,0, 0,0, 3 , ,AS32D224
+2,0, 0,0, 3 , ,AS24D232
+2,0, 0,0, 3 , ,AS16D240
+2,0, 0,0, 3 , ,AS8D248
+-1,0, 0,0, -1,

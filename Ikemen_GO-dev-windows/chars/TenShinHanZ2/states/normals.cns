@@ -1,0 +1,8794 @@
+;==============================================================
+; CNS File for TenShinHan by Team Z2
+; Normal states : standing, crouching & jumping basics, etc.
+;==============================================================
+
+;---------------------------------------------------------------------------
+
+
+;---------------------------------------------------------------------------
+; Taunt
+[Statedef 195]
+type = S
+movetype = I
+physics = S
+ctrl = 0
+anim = 195
+VelSet = 0,0
+sprpriority = 2
+
+
+
+[State 195, PosAdd 1]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 2
+x = -7
+[State 195, PosAdd 2]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 3
+x = -2
+[State 195, PosAdd 3]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 4
+x = -8
+[State 195, PosAdd 4]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 11
+x = 8
+[State 195, PosAdd 5]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 12
+x = 2
+[State 195, PosAdd 6]
+type = PosAdd
+triggerall = anim = 195
+trigger1 = AnimElem = 13
+x = 7
+
+
+
+
+
+[State 195, AI ChangeAnim];AI Taunt
+type       = ChangeAnim
+triggerall = AILevel
+triggerall = fvar(27)!=0
+trigger1   = time = 0
+value      = 1970+random%3
+elem       = 1
+persistent = 0
+
+
+
+
+
+
+
+;OM mode only - Kung Fu poses
+
+;[State 195, ChangeAnim]; Hold Forward taunt
+;type = ChangeAnim
+;triggerall = fvar(27)!=0
+;trigger1 = command = "holdfwd" && command != "holddown" && command != "holdback" && time = 0
+;value = 1970
+;elem = 1
+;persistent = 0
+
+[State 195, ChangeAnim]; Hold Forward taunt
+type = ChangeAnim
+triggerall = fvar(27)!=0
+trigger1 = IfElse(Facing = 1, NumExplod(90000026),NumExplod(90000024)) && time = 0
+value = 1970
+elem = 1
+persistent = 0
+
+
+
+
+;[State 195, ChangeAnim]; Hold Down taunt
+;type = ChangeAnim
+;triggerall = fvar(27)!=0
+;trigger1 = command = "holddown" && time = 0
+;value = 1971
+;elem = 1
+;persistent = 0
+
+[State 195, ChangeAnim]; Hold Down taunt
+type = ChangeAnim
+triggerall = fvar(27)!=0
+trigger1 = NumExplod(90000021) && time = 0 || NumExplod(90000022) && time = 0 || NumExplod(90000023) && time = 0
+value = 1971
+elem = 1
+persistent = 0
+[State 195, StateTypeSet]
+type = StateTypeSet
+trigger1 = Anim = 1971
+statetype = C
+movetype = I
+physics = C
+
+
+;[State 195, ChangeAnim]; Hold Back taunt
+;type = ChangeAnim
+;triggerall = fvar(27)!=0
+;trigger1 = command = "holdback" && command != "holddown" && command != "holdfwd" && time = 0
+;value = 1972
+;elem = 1
+;persistent = 0
+
+[State 195, ChangeAnim]; Hold Back taunt
+type = ChangeAnim
+triggerall = fvar(27)!=0
+trigger1 = IfElse(Facing = 1, NumExplod(90000024),NumExplod(90000026)) && time = 0
+value = 1972
+elem = 1
+persistent = 0
+
+
+
+
+
+
+
+[State 195, PosAdd 1]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimElem = 1
+x = -7
+[State 195, PosAdd 2]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimElem = 2
+x = -8
+[State 195, PosAdd 3]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimElem = 3
+x = -11
+[State 195, PosAdd 4]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimElem = 7
+x = 11
+[State 195, PosAdd 5]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimElem = 8
+x = 8
+[State 195, PosAdd 6]
+type = PosAdd
+triggerall = Anim = 1972
+trigger1 = AnimTime = 0
+x = 7
+
+[State 200, PlaySND]
+type = PlaySND
+triggerall = Anim = [1970,1972]
+trigger1 = AnimElem = 3		;adding this sound on the blur frame
+value = 0,0
+ignorehitpause = 1
+
+
+
+
+
+[State 195, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+triggerall = Anim = [1970,1972]
+trigger1 = !Time
+fvar(28) = 7
+ignorehitpause = 1
+persistent = 0
+[State 195, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+triggerall = Anim = [1970,1972]
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+
+[State 195, OM PalFX]
+type = PalFX
+triggerall = fvar(27)!=0
+triggerall = fvar(28) < 90
+triggerall = anim = [1970,1972]
+trigger1 = !Time
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+persistent = 0
+
+
+
+[State 195, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; s.LP 1
+[Statedef 200]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 200
+poweradd = 0
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 200, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+[State 200, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3		;adding this sound on the blur frame
+value = 0,0
+ignorehitpause = 1
+
+
+
+[State 200, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 18 < 7, 7, fvar(11) * 18)), 0
+animtype = Light
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 7, 8
+guard.pausetime = 9,8
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 0
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 8;8
+ground.hittime  = 10;8
+guard.slidetime = 10
+guard.hittime = 10
+ground.velocity = -2.3   ;-2.5
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,10,20), 20
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+
+
+
+[State 200, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 200, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0		;after the attack's hit properties are finished working
+value = 0				;there's no distance between attacker and defender
+
+
+
+[State 200, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; s.LP 2
+[Statedef 201]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 201
+poweradd = 0
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = MoveHit = 1
+fvar(13) = -1
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+[State 201, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 201, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 201, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+[State 201, Voice]
+type = PlaySND
+trigger1 = AnimElem = 2 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+
+[State 201, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 0
+ignorehitpause = 1
+
+[State 201, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 18 < 3, 3, fvar(11) * 18)), 0
+animtype = Light
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 7, 8
+guard.pausetime = 8,8
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 0
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+guard.slidetime = 12
+guard.hittime = 12
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,10,20), 20
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+[State 201, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 201, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+[State 201, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;s.MP
+[Statedef 210]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 210
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 210, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+
+
+
+
+
+[State 210, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 1
+ignorehitpause = 1
+
+[State 210, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 5
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 0		;32
+animtype = Medium
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 10, 11
+guard.pausetime = 13,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 1
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 14;12
+ground.hittime  = 14;12
+guard.slidetime = 14
+guard.hittime = 14
+ground.velocity = -3   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,50), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+[State 210, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 210, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 2
+x	= 12
+;ignorehitpause = 1
+[State 210, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 3
+x	= 14
+;ignorehitpause = 1
+[State 210, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 4
+x	= 6
+;ignorehitpause = 1
+[State 210, PosAdd 4]
+type	= PosAdd
+trigger1	= AnimElem = 6
+x	= -4
+;ignorehitpause = 1
+[State 210, PosAdd 5]
+type	= PosAdd
+trigger1	= AnimElem = 7
+x	= -12
+;ignorehitpause = 1
+[State 210, PosAdd 6]
+type	= PosAdd
+trigger1	= AnimElem = 8
+x	= -16
+;ignorehitpause = 1
+
+[State 210, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+;s.MP close
+[Statedef 211]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 211
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 211, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 211, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 1
+ignorehitpause = 1
+
+[State 211, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 0		;32
+animtype = Medium
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 11, 11
+guard.pausetime = 14,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 1
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 14;12
+ground.hittime  = 14;13
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = Low	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,50), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+[State 211, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+
+[State 211, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+
+[State 211, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+;s.MP (3)
+[Statedef 215];(overhead mix-up after s.MK 241)
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;7
+ctrl = 0
+anim = IfElse(PrevStateNo = 641,216,215)
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 215, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 215, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 215, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+[State 215, VelSet]
+type = VelSet
+trigger1 = AnimElem = 2
+x = 4
+y = -4
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+
+
+[State 215, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 4 && Random < 350
+value = s85,10 + Random%4
+channel = 0
+
+
+
+
+[State 215, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 2
+ignorehitpause = 1
+
+
+[State 215, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+triggerall = anim = 215
+trigger1 = AnimElem = 5
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 27 < 3, 3, fvar(11) * 27)), 0		;32
+animtype = Medium
+guardflag = HA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 11, 15
+guard.pausetime = 13,3
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 14;8
+ground.hittime  = 14;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = Low	
+air.velocity = -7,7;-3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,50), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098	;?????
+fall = IfElse(NumExplod(215),1,0)
+
+[State 215, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+triggerall = anim = 216
+trigger1 = AnimElem = 5
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 27 < 3, 3, fvar(11) * 27)), 0
+animtype = Medium
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 11, 14
+guard.pausetime = 11,14
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = Low	
+air.velocity = -7,7;-3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098	;?????
+fall = (NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=641)
+
+;fall = IfElse(PrevStateNo=641,1,IfElse(NumExplod(215),1,0))
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+[State 215, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 215, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+
+
+
+[State 215, Aerial physics]
+type = StateTypeSet
+trigger1 = AnimElemTime(2)>=0
+physics = A
+
+[State 215, No Attack Distance]	;this allows counter messages AND enemy guarding	
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+[State 1120, Successful hit - Explod]
+type = Explod
+;triggerall = NumTarget
+;trigger1 = Target, MoveType = H
+trigger1 = MoveHit
+anim = 15999	;empty anim
+ID = 215
+removetime = -1
+pausemovetime = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+; s.HP
+[Statedef 220]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 220
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 220, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+
+
+
+
+
+[State 220, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 6
+value = 0, 2
+ignorehitpause = 1
+
+[State 220, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 6
+value = 2000,3;15000, 2
+ignorehitpause = 1
+
+[State 220, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 7
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+animtype = Hard
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 14, 15
+guard.pausetime = 16,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 20;16
+ground.hittime  = 20;22
+guard.slidetime = 18
+guard.hittime = 18
+ground.velocity = -9   ;-3
+guard.velocity = -7.5
+airguard.velocity = -4.5,-1
+air.type = Low	
+air.velocity = -8,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+
+
+[State 220, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 220, ground effect]
+type = Explod
+trigger1 = AnimElemTime(6) = 0
+anim = 2105
+ID = 2105
+pos = 65,0
+bindtime = -1
+removetime = -2
+pausemovetime = 0
+scale = 1,1
+sprpriority = 0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+supermove = 1
+pausemove = 1
+
+[State 220, EnvShake]
+type = EnvShake
+trigger1 = AnimElemTime(6) = 0
+time = 4
+freq = 60
+ampl = -4
+phase = 90
+ignorehitpause = 1
+
+
+
+
+
+
+[State 220, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 1
+x	= -8
+[State 220, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 2
+x	= -21
+[State 220, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 3
+x	= 1
+[State 220, PosAdd 4]
+type	= PosAdd
+trigger1	= AnimElem = 5
+x	= 44
+[State 220, PosAdd 5]
+type	= PosAdd
+trigger1	= AnimElem = 6
+x	= 17
+[State 220, PosAdd 6]
+type	= PosAdd
+trigger1	= AnimElem = 8
+x	= -3
+[State 220, PosAdd 7]
+type	= PosAdd
+trigger1	= AnimElem = 9
+x	= -4
+[State 220, PosAdd 8]
+type	= PosAdd
+trigger1	= AnimElem = 10
+x	= -10
+[State 220, PosAdd 9]
+type	= PosAdd
+trigger1	= AnimElem = 11
+x	= -9
+[State 220, PosAdd 10]
+type	= PosAdd
+trigger1	= AnimTime = 0
+x	= -7
+
+[State 220, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+
+
+
+
+[State 220, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+; s.HP close
+[Statedef 221]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 221
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 221, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+
+
+
+[State 221, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 2
+ignorehitpause = 1
+
+[State 221, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 2000,3;15000, 2
+ignorehitpause = 1
+
+[State 221, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 5
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+animtype = Hard
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 18, 15
+guard.pausetime = 15,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-75
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 16;8
+ground.hittime  = 22;8
+ground.velocity = -9   ;-3
+guard.velocity = -7.5
+airguard.velocity = -4.5,-1
+air.type = Low	
+air.velocity = -8,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+
+
+[State 221, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 221, ground effect]
+type = Explod
+trigger1 = AnimElemTime(4) = 0
+anim = 2105
+ID = 2105
+pos = 45,0
+bindtime = -1
+removetime = -2
+pausemovetime = 0
+scale = 1,1
+sprpriority = 0
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+supermove = 1
+pausemove = 1
+
+[State 221, EnvShake]
+type = EnvShake
+trigger1 = AnimElemTime(4) = 0
+time = 4
+freq = 60
+ampl = -4
+phase = 90
+ignorehitpause = 1
+
+
+
+
+
+
+[State 221, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 2
+x	= -8
+[State 221, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 3
+x	= -3
+[State 221, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 4
+x	= 30
+[State 221, PosAdd 4]
+type	= PosAdd
+trigger1	= AnimElem = 7
+x	= -6
+[State 221, PosAdd 5]
+type	= PosAdd
+trigger1	= AnimElem = 8
+x	= -15
+
+
+[State 221, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+
+
+
+[State 221, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;s.LK
+[Statedef 230]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 230
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+
+[State 230, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+
+[State 230, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+[State 230, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 24 < 7, 7, fvar(11) * 24)), 0
+animtype = Light
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 7, 8
+guard.pausetime = 8,8
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -12,-45
+hitsound = s5, 3
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = Low	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+[State 230, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+
+
+
+
+
+
+
+[State 230, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 15
+[State 230, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = 5
+[State 230, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 8
+x = -20
+
+
+
+
+
+[State 230, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+
+
+
+
+
+
+
+[State 230, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+;s.LK close
+[Statedef 235]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 235
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 235, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+
+
+[State 235, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+
+
+[State 235, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 24 < 7, 7, fvar(11) * 24)), 0
+animtype = Light
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 7, 8
+guard.pausetime = 8,8
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -12,-45
+hitsound = s5, 3
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2.5   ;-3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = Low	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098		;?????
+
+
+
+[State 235, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+
+[State 235, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2 || AnimElem = 8
+x = IfElse(AnimElemTime(2) = 0,12,-12)
+[State 235, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3 || AnimElem = 7
+x = IfElse(AnimElemTime(3) = 0,14,-6)
+[State 235, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = -8
+
+
+
+[State 235, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+
+[State 235, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;s.MK 1
+[Statedef 240]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = Cond(enemynear, StateType = A, 244, 240)
+sprpriority = 2
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim != 244
+triggerall = enemynear, StateType = A
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+trigger3 = AnimElem = 4
+trigger4 = AnimElem = 5
+trigger5 = AnimElem = 6
+trigger6 = AnimElem = 7
+trigger7 = AnimElem = 8
+trigger8 = AnimElem = 9
+trigger9 = AnimElem = 10
+trigger10 = AnimElem = 11
+trigger11 = AnimElem = 12
+trigger12 = AnimElem = 13
+trigger13 = AnimElem = 14
+trigger14 = AnimElem = 15
+trigger15 = AnimElem = 16
+trigger16 = AnimElem = 17
+value = 244
+elem = AnimElemno(0)
+ignorehitpause = 1
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim != 240
+triggerall = enemynear, StateType != A
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+trigger3 = AnimElem = 4
+trigger4 = AnimElem = 5
+trigger5 = AnimElem = 6
+trigger6 = AnimElem = 7
+trigger7 = AnimElem = 8
+trigger8 = AnimElem = 9
+trigger9 = AnimElem = 10
+trigger10 = AnimElem = 11
+trigger11 = AnimElem = 12
+trigger12 = AnimElem = 13
+trigger13 = AnimElem = 14
+trigger14 = AnimElem = 15
+trigger15 = AnimElem = 16
+trigger16 = AnimElem = 17
+value = 240
+elem = AnimElemno(0)
+ignorehitpause = 1
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 240, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 240, 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 4
+
+[State 240, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+animtype = Medium
+damage = Ceil(IfElse(fvar(11) * 29 < 7, 7, fvar(11) * 29)), 0	;35
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 10, 11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 18;12
+ground.hittime  = 18;12
+ground.velocity = -4  ;-2
+guard.velocity = -7;-6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+
+
+
+
+
+[State 240, correct alignment]
+type = PosAdd
+trigger1 = PrevStateNo = 210
+x = -15
+persistent = 0
+
+
+[State 240, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+[State 240, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = 11
+[State 240, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 10
+x = -31
+
+[State 240, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 240, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;s.MK 2
+[Statedef 241]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 241
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 241, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 241, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 241, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 241, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 241, 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 5
+
+[State 241, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+animtype = Medium
+damage = Ceil(IfElse(fvar(11) * 31 < 3, 3, fvar(11) * 31)), 0	;35
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 10, 11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -40,-90
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 241, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 9
+x = 15
+[State 241, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = 8
+[State 241, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 4
+x = 5
+[State 241, PosAdd 4]
+type = PosAdd
+trigger1 = AnimElem = 5
+x = 1
+[State 241, PosAdd 5]
+type = PosAdd
+trigger1 = AnimElem = 10
+x = 21
+
+[State 241, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+
+[State 241, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;s.MK 3
+[Statedef 242]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 242
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 242, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 242, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 242, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 242, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 350
+value = s85,10 + Random%4
+channel = 0
+
+
+
+[State 242, 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 4
+
+[State 242, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+animtype = Hard
+damage = Ceil(IfElse(fvar(11) * 35 < 3, 3, fvar(11) * 35)), 0
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 14, 15
+guard.pausetime = 14,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 15;8
+ground.hittime  = 15;8
+ground.velocity = -11  ;-4
+guard.velocity = -9
+air.velocity = -6,-3
+airguard.velocity = -4,-2.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 242, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+[State 242, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = 11
+[State 242, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 10
+x = -31
+
+[State 242, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 242, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;s.MK -> (3)
+[Statedef 243]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;2
+ctrl = 0
+anim = 243
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2	;2
+ignorehitpause = 1
+persistent = 0
+
+[State 243, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 243, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 243, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 243, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+
+[State 243, 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 5
+
+
+[State 243, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = S, NA
+animtype = Up
+damage = Ceil(IfElse(fvar(11) * 28 < 3, 3, fvar(11) * 28)), 0		;35
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 14, 15
+guard.pausetime = 12,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-125
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 15;8
+ground.hittime  = 15;8
+ground.velocity = -2,-12  ;-4
+guard.velocity = -4
+air.velocity = -3,-8
+airguard.velocity = -4,-4
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 1098
+
+
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 243, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 7
+x = 16
+[State 243, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 8
+x = 25
+
+[State 243, VelSet 1]
+type = VelSet
+trigger1 = AnimElemTime(2) = 0
+x = 15
+[State 243, VelSet 2]
+type = VelSet
+trigger1 = AnimElemTime(2) = 1
+x = 0
+
+
+[State 243, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=2
+value = 0
+
+[State 243, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;fwd s.MK
+[Statedef 245]
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;7
+ctrl = 0
+anim = 245
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, VarAdd]
+type = VarAdd
+;triggerall = AnimElemTime(4)<0
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+;[State 0, VarAdd]
+;type = VarAdd
+;triggerall = !NumExplod(245)
+;triggerall = AnimElemTime(8)>0
+;trigger1 = MoveHit = 1
+;trigger1 = P2StateType = A || P2StateType = L
+;var(18) = 7
+;ignorehitpause = 1
+;persistent = 0
+;
+;[State 0, Explod]
+;type = Explod
+;trigger1 = !NumExplod(245)
+;trigger1 = NumTarget(245)
+;anim = 1
+;ID = 245
+;removetime = 36
+;removeongethit = 1
+;[State 0, RemoveExplod]
+;type = RemoveExplod
+;trigger1 = AnimElemTime(9)>=0
+;id = 245
+
+[State 245, Width]
+type = Width
+trigger1 = AnimElemTime(1)>=0 && AnimElemTime(5)<=0
+value = 15,0
+ignorehitpause = 1
+
+
+
+
+[State 245, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 6 && Random < 500
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 245, PlaySND 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 6
+ignorehitpause = 1
+[State 245, PlaySND 2]
+type = PlaySND
+trigger1 = AnimElem = 7
+value = 0, 4
+ignorehitpause = 1
+
+[State 245, Hitdef 1]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 3
+attr = S, NA
+animtype = Light
+damage = Ceil(IfElse(fvar(11) * 15 < 7, 7, fvar(11) * 15)), 0
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 4, 7
+guard.pausetime = 4,7
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound   = s5,3
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 14;8
+ground.hittime  = 14;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 245
+
+[State 245, Hitdef 2]
+type = HitDef
+triggerall = Var(18) <= 15-7 || (p2stateno = [31509, 31510]) || NumTarget(245)
+trigger1 = AnimElem = 8
+attr = S, NA
+animtype = Medium
+damage = Ceil(IfElse(fvar(11) * 20 < 7, 7, fvar(11) * 20)), 0
+guardflag = MA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 9, 10
+guard.pausetime = 9,10
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+
+
+
+
+[State 245, PosSet]
+type = PosSet
+triggerall = AnimElem = 7
+trigger1 = 1
+y = 0
+persistent = 1
+ignorehitpause = 1
+
+[State 245, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+x = 20
+[State 245, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 7
+x = 7
+[State 245, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 11
+x = 30
+
+
+[State 245, VelSet 1]
+type = VelSet
+trigger1 = AnimElemTime(3) = 0
+x = 3
+y = -4.3
+[State 245, VelSet 2]
+type = VelSet
+trigger1 = AnimElemTime(7) = 0
+y = 0
+x = 0
+ 
+
+
+[State 245, Gravity]
+type = Gravity
+trigger1 = AnimElemTime(3) > 0 && AnimElemTime(6) < 0
+ignorehitpause = 0	;Be careful!! You need this to be 0(zero) otherwise Tien will sink down into the floor!
+
+
+
+[State 245, StateTypeSet = Standing]
+type = StateTypeSet
+trigger1 = AnimElemTime(7)>=0
+statetype = S
+physics = S
+ignorehitpause = 1
+
+[State 245, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(9)>=0
+value = 0
+
+
+
+[State 245, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;fwd s.MK (from 240)
+[Statedef 246]
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;7
+ctrl = 0
+anim = 246
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 246, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 246, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 246, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 246, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 4 && Random < 200
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 246, PlaySND 1]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 4
+ignorehitpause = 1
+
+
+
+[State 246, Hitdef 1]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 5
+attr = S, NA
+animtype = Medium
+damage = Ceil(IfElse(fvar(11) * 20 < 3, 3, fvar(11) * 20)), 0
+guardflag = MA
+hitflag = MAF
+priority = 4, Hit
+pausetime = 11, 13
+guard.pausetime = 11,13
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+[State 246, PosSet]
+type = PosSet
+triggerall = AnimElem = 4
+trigger1 = 1
+y = 0
+persistent = 1
+ignorehitpause = 1
+
+[State 246, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 4
+x = 7
+[State 246, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 8
+x = 30
+
+
+[State 246, VelSet 1]
+type = VelSet
+trigger1 = AnimElemTime(1) = 0
+x = 3
+y = -6
+[State 246, VelSet 2]
+type = VelSet
+trigger1 = AnimElemTime(4) = 0
+y = 0
+x = 0
+ 
+
+
+[State 246, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(1) >= 0 && AnimElemTime(4) < 0
+y = 0.99
+ignorehitpause = 0	;Be careful!! You need this to be 0(zero) otherwise Tien will sink down into the floor!
+
+
+
+
+[State 246, StateTypeSet = Standing]
+type = StateTypeSet
+trigger1 = AnimElemTime(4)>=0
+statetype = S
+physics = S
+ignorehitpause = 1
+
+[State 246, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+
+[State 246, ChangeState]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;s.HK
+[Statedef 250]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0;7
+ctrl = 0
+anim = 250
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 250, ChangeAnim]
+type = Null;ChangeAnim
+trigger1 = PrevStateNo = [240,246]
+value = 251
+elem = 1
+ignorehitpause = 1
+persistent = 0
+
+
+[State 250, hold forward for f.HK]
+type = Explod
+triggerall = command = "holdfwd"
+trigger1 = Time = 0
+anim = 15999	;empty anim
+ID = 250
+removetime = -1
+pausemovetime = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 0, Width]
+type = Width
+trigger1 = AnimElemTime(5)>=0 && AnimElemTime(10)<0
+player = -40,0
+ignorehitpause = 1
+
+
+
+[State 250, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 4 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+
+
+
+[State 250, 1]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 5
+ignorehitpause = 1
+
+[State 250, 2]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 5
+attr = S, NA
+animtype  = Hard
+damage    = Ceil(IfElse(fvar(11) * 39 < 7, 7, fvar(11) * 39)), 0		;44
+priority = 4, Hit
+guardflag = MA
+pausetime = 12,13
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -30,-90
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 20
+ground.velocity = -13
+air.velocity = -7,-4
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,80), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+[State 250, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+;VelSets: if you press forward, he goes further.
+[State 250, VelSet 1]
+type = VelSet
+trigger1 = AnimElemTime(2) = 1
+x = IfElse(NumExplod(250)=0,10,18);6,18
+[State 250, VelSet 2]
+type = VelSet
+trigger1 = AnimElemTime(2) = 2
+x = IfElse(NumExplod(250)=0,8,12);4,12
+[State 250, VelSet 3]
+type = VelSet
+trigger1 = AnimElem = 3
+x = IfElse(NumExplod(250)=0,7,9);3,9
+[State 250, VelSet 4]
+type = VelSet
+trigger1 = AnimElem = 4
+x = IfElse(NumExplod(250)=0,2.5,5);1.66,5
+[State 250, VelSet 5]
+type = VelSet
+trigger1 = AnimElem = 5
+x = 0
+
+
+
+[State 250, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 5
+x	= 20
+ignorehitpause = 1
+[State 250, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 11
+x	= -16
+ignorehitpause = 1
+[State 250, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 12
+x	= -14
+ignorehitpause = 1
+[State 250, PosAdd 4]
+type	= PosAdd
+trigger1	= AnimElem = 13
+x	= -25
+ignorehitpause = 1
+
+
+[State 250, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+
+
+
+
+
+[State 250, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+; B, s.HK
+[Statedef 255]
+type     = S
+movetype = A
+physics  = S
+velset   = 0,0
+anim     = 255
+;poweradd = 30
+ctrl     = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 255, StateTypeSet]
+type           = StateTypeSet
+trigger1       = AnimElemTime(4)>=1
+statetype      = A       
+physics        = N        
+ignorehitpause = 1
+
+
+
+
+
+
+[State 255, Width]
+type           = Width
+trigger1       = AnimElemTime(4)>=0
+value          = 15,0
+ignorehitpause = 1
+
+
+
+
+
+
+[State 255, VelSet]
+type     = VelSet
+trigger1 = AnimElemTime(4)=1
+x        = 1
+y        = -5.5
+
+
+
+
+
+[State 255, PosAdd]
+type	= PosAdd
+trigger1	= AnimElem = 6
+x	= 12
+
+
+
+[State 255, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 8
+value = 0, 5
+
+[State 255, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 40, 1
+
+
+
+[State 255, 3]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 9
+trigger2 = AnimElem = 11 && !MoveContact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 35 < 7, 7, fvar(11) * 35)), 0
+hitflag = MAF
+guardflag = HA
+animtype = Hard
+priority = 4, Hit
+pausetime = 8,9
+guard.pausetime = 6,6
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-65
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,8
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+air.fall = 1
+fall.recover = 0
+
+
+
+
+[State 255, Gravity]
+type           = Gravity
+trigger1       = AnimElemTime(4)>=1
+ignorehitpause = 0
+persistent     = 1
+
+
+
+
+[state 255, Dust]
+type           = explod
+trigger1       = animelemtime(4)=0
+anim           = 1216
+id             = 1216
+facing         = -1
+pos            = -10,4
+postype        = P1
+sprpriority    = -3
+ownpal         = 1
+removetime     = -2
+persistent     = 0
+ignorehitpause = 1
+
+
+
+
+[State 255, 5]
+type     = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= -12
+value    = 256
+
+;---------------------------------------------------------------------------
+; B, s.HK landing
+[Statedef 256]
+type    = S
+movetype= I
+physics = S
+velset = 0,0
+anim = 1308
+;poweradd = 0
+ctrl = 0
+
+
+
+[State 256, PlaySnd]
+type = PlaySnd
+trigger1 = Time = 0
+value = 40, 0
+ignorehitpause = 1
+
+[State 256, PosSet]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+ignorehitpause = 1
+[State 256, PosAdd]
+type = null;PosAdd
+trigger1 = Time = 0
+x = 15
+
+
+[State 256, Stand]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;c.LP
+[Statedef 400]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = 400
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 400, Width]
+type = Width
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(6)<=0
+value = -20,0
+ignorehitpause = 1
+
+
+
+[State 400, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+
+
+
+[State 400, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 0
+ignorehitpause = 1
+
+[State 400, HitDef]
+type = HitDef
+triggerall = !NumTarget(400)
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = C, NA
+hitflag = MAF
+guardflag = MA
+animtype = light
+priority = 4, Hit
+damage    = Ceil(IfElse(fvar(11) * 18 < 7, 7, fvar(11) * 18)), 0
+pausetime = 9,10
+guard.pausetime = 10,10
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-60
+hitsound   = s5,0
+guardsound = S6,0
+ground.type = low
+ground.slidetime = 8;7
+ground.hittime = 8;7
+ground.velocity = -2.5  ;-3
+guard.velocity = -4.5
+air.velocity = -2,-2
+air.animtype = back
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+ID = Cond(P2StateType = L,400,1098)
+
+[State 400, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+
+
+[State 400, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 3
+x	= 24
+ignorehitpause = 1
+[State 400, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 6
+x	= -8
+ignorehitpause = 1
+[State 400, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 7
+x	= -16
+ignorehitpause = 1
+
+
+
+
+
+[State 400, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 400, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;c.MP
+[Statedef 410]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = 410
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 410, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 4 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+
+[State 410, PlaySND]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 1
+
+[State 410, HitDef]
+type = HitDef
+triggerall = !NumTarget(410)
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 5
+attr = C, NA
+damage    = Ceil(IfElse(fvar(11) * 25 < 7, 7, fvar(11) * 25)), 0
+animtype  = Medium
+priority = 4, Hit
+hitflag = MAF
+guardflag = MA
+pausetime = 11,12
+guard.pausetime = 12,12
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-65
+hitsound   = s5,1
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+guard.slidetime = 14
+guard.hittime = 14
+ground.velocity = -3  ;-4
+guard.velocity = -6
+air.velocity = -2,-1.2
+air.animtype = back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = Cond(P2StateType = L,410,1098)
+
+
+
+[State 410, Basics Limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+
+
+[State 410, PosAdd 1]
+type	= PosAdd
+trigger1	= AnimElem = 4
+x	= 18
+ignorehitpause = 1
+[State 410, PosAdd 2]
+type	= PosAdd
+trigger1	= AnimElem = 6
+x	= -6
+ignorehitpause = 1
+[State 410, PosAdd 3]
+type	= PosAdd
+trigger1	= AnimElem = 7
+x	= -12
+ignorehitpause = 1
+
+
+
+
+
+[State 410, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 410, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;c.HP
+[Statedef 420]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = Cond(enemynear, StateType = A, 421, 420)
+sprpriority = 2
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim != 421
+triggerall = enemynear, StateType = A
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+trigger3 = AnimElem = 4
+trigger4 = AnimElem = 5
+trigger5 = AnimElem = 6
+trigger6 = AnimElem = 7
+trigger7 = AnimElem = 8
+trigger8 = AnimElem = 9
+trigger9 = AnimElem = 10
+trigger10 = AnimElem = 11
+trigger11 = AnimElem = 12
+trigger12 = AnimElem = 13
+trigger13 = AnimElem = 14
+trigger14 = AnimElem = 15
+trigger15 = AnimElem = 16
+trigger16 = AnimElem = 17
+value = 421
+elem = AnimElemno(0)
+ignorehitpause = 1
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = Anim != 420
+triggerall = enemynear, StateType != A
+trigger1 = AnimElem = 2
+trigger2 = AnimElem = 3
+trigger3 = AnimElem = 4
+trigger4 = AnimElem = 5
+trigger5 = AnimElem = 6
+trigger6 = AnimElem = 7
+trigger7 = AnimElem = 8
+trigger8 = AnimElem = 9
+trigger9 = AnimElem = 10
+trigger10 = AnimElem = 11
+trigger11 = AnimElem = 12
+trigger12 = AnimElem = 13
+trigger13 = AnimElem = 14
+trigger14 = AnimElem = 15
+trigger15 = AnimElem = 16
+trigger16 = AnimElem = 17
+value = 420
+elem = AnimElemno(0)
+ignorehitpause = 1
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 420, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+[State 420, 1]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 0, 2
+channel = 1
+
+[State 420, 3]
+type = HitDef
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 7
+attr = S, NA
+damage = ceil(IfElse(fvar(11) * 41 < 7, 7, fvar(11) * 41)), 0
+hitflag = MAF
+guardflag = MA
+priority = 4, Hit
+pausetime = 14,15
+guard.pausetime = 15,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-85
+hitsound   = s5, 2
+guardsound = S6,0
+animtype = Up
+ground.type = High
+ground.slidetime = 12
+ground.hittime = 12
+ground.velocity = -1,-11.5
+guard.velocity = -9
+air.velocity = IfElse(p2movetype = H,-3,-1),IfElse(p2movetype = H,-5,-10)
+fall = 1
+air.animtype = back
+getpower= IfElse(p2movetype=H,20,80), 35
+givepower = 35,35
+yaccel = 0.45
+fall.recover = 0
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = animelemtime(8) >= 0 && animelemtime(8) <= 2
+trigger1 = movehit
+value = 420
+elem = 9
+ignorehitpause = 1
+;persistent = 
+
+
+
+[State 410, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+
+
+;---------------------------------------------------------------------------
+;c.LK
+[Statedef 430]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = 430
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+;trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 430, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+[State 430, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+
+[State 430, 2]
+type = HitDef
+triggerall = !NumTarget(430)
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = C, NA
+hitflag = MAFD
+guardflag = LA
+damage = Ceil(IfElse(fvar(11) * 16 < 7, 7, fvar(11) * 16)), 0
+animtype = light
+priority = 4, Hit
+pausetime = 8,10
+guard.pausetime = 10,10
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound   = s5,3
+guardsound = s6,0
+ground.type = low
+ground.slidetime = 10;7
+ground.hittime = 10;7
+guard.slidetime = 10
+guard.hittime = 10
+ground.velocity = -2.5  ;-3
+guard.velocity = -4.5
+air.velocity = -2,-2
+air.animtype = back
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+ID = Cond(P2StateType = L,430,1098)
+
+[State 430, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 430, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+[State 430, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+;c.MK
+[Statedef 440]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = 440
+sprpriority = 2
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelemtime(2) = 0
+x = 11
+y = 0
+;ignorehitpause = 
+;persistent = 
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelemtime(2) = 2
+x = 0
+y = 0
+;ignorehitpause = 
+;persistent = 
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+[State 440, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+[State 440, 1]
+type = PlaySnd
+trigger1 = AnimElem = 5
+value = 0, 4
+
+[State 440, 1]
+type = PlaySnd
+trigger1 = AnimTime = 0
+value = 40, 0
+
+[State 440, 2]
+type = HitDef
+triggerall = !NumTarget(440)
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 6
+attr = C, NA
+damage = Ceil(IfElse(fvar(11) * 26 < 7, 7, fvar(11) * 26)), 0
+animtype  = Medium
+hitflag = MAFD
+priority = 4, Hit
+guardflag = LA
+pausetime = 11,12
+guard.pausetime = 12,12
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -25,-55
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -3  ;-4
+guard.velocity = -6
+air.velocity = -2,-1
+down.velocity = -3,0
+down.hittime = 20
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+fall.recover = 0
+air.animtype = back
+yaccel = 0.5
+ID = Cond(P2StateType = L,440,1098)
+
+
+[State 440, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 440, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+
+
+
+[State 440, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;c.HK
+[Statedef 450]
+type    = C
+movetype= A
+physics = C
+;juggle  = 0;7
+ctrl = 0
+anim = 450
+sprpriority = 2
+
+[state 200, velmul]
+type = velmul
+trigger1 = !time
+x = 0.8
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 450, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+
+[State 450, 1]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 5
+ignorehitpause = 1
+
+[State 450, 1]
+type = PlaySnd
+trigger1 = AnimTime = 0
+value = 40, 0
+
+
+[State 450, 2]
+type = HitDef
+triggerall = !NumTarget(450)
+triggerall = Var(18) <= 15-7 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 6
+attr = S, NA
+animtype  = Hard
+damage    = Ceil(IfElse(fvar(11) * 39 < 7, 7, fvar(11) * 39)), 0		;44
+priority = 4, Hit
+guardflag = MA
+pausetime = 12,13
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -30,-70
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 20
+ground.velocity = -13
+air.velocity = -7,-4
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,80), 35
+givepower = 35,35
+yaccel = 0.5
+ID = Cond(P2StateType = L,450,1098)
+
+[State 450, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 450, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+
+
+
+
+
+[State 450, 4]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 10
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+; F,F, HP (ground)
+[Statedef 300]
+type    = C;S
+movetype= A
+physics = N
+;juggle  = 0;5
+ctrl = 0
+anim = 300
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 5	;7
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 300, VelMul]
+type = VelSet
+trigger1 = !Time
+x = 5.5
+ignorehitpause = 1
+;persistent = 
+
+[State 300, StateTypeSet]
+type = StateTypeSet
+trigger1 = Time >= 25
+physics = S
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+[State 220, ground effect]
+type = Explod
+trigger1 = AnimElemTime(3) = 0
+anim = 8060
+ID = 8060
+pos = 20,5
+facing = -1
+bindtime = 1
+removetime = -2
+pausemovetime = 0
+scale = 1,1
+sprpriority = 2
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+supermove = 0
+pausemove = 0
+
+
+
+[State 300, PlaySND]	;blur SFX
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 2
+ignorehitpause = 1
+
+[State 300, PlaySND]	;dust, sliding on ground
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 5, 8
+ignorehitpause = 1
+
+
+
+
+[State 300, Hitdef]	;1st bounce
+type = HitDef
+;triggerall = !Var(2)
+triggerall = Var(18) <= 15-5 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 6 && !MoveContact
+trigger3 = AnimElem = 7 && !MoveContact
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+animtype = Hard
+guardflag = L
+hitflag = MAF
+priority = 4, Hit
+pausetime = 2, 5
+guard.pausetime = 15,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-25
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 16;8
+ground.hittime  = 22;8
+ground.velocity = 2,-12  ;-4
+guard.velocity = -3
+airguard.velocity = -4.5,-1
+air.type = Low	
+air.velocity =  2,-12
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover =  0
+;fall.recovertime = 50
+ID = 1098		;?????
+
+[State 300, Hitdef]	;2nd bounce
+type = HitDef
+triggerall = Var(2) = 1
+triggerall = Var(18) <= 15-5 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 6 && !MoveContact
+trigger3 = AnimElem = 7 && !MoveContact
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+animtype = Hard
+guardflag = L
+hitflag = MAF
+priority = 3, Hit
+pausetime = 2, 5
+guard.pausetime = 15,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-25
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 16;8
+ground.hittime  = 22;8
+ground.velocity = 2,-12  ;-4
+guard.velocity = -3
+airguard.velocity = -4.5,-1
+air.type = Low	
+air.velocity =  2,-12
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover =  0
+;fall.recovertime = 50
+ID = 1098		;?????
+
+[State 300, Hitdef]	;no more bounces
+type = HitDef
+triggerall = Var(2) = 2
+triggerall = Var(18) <= 15-5 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 6 && !MoveContact
+trigger3 = AnimElem = 7 && !MoveContact
+attr = S, NA
+damage = Ceil(IfElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+animtype = Hard
+guardflag = L
+hitflag = MAF
+priority = 3, Hit
+pausetime = 2, 5
+guard.pausetime = 15,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -12,-25
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 16;8
+ground.hittime  = 22;8
+ground.velocity = -3,-3  ;-4
+guard.velocity = -3
+airguard.velocity = -4.5,-1
+air.type = Low	
+air.velocity = -8,-3
+air.hittime = 12
+air.animtype = back
+getpower= IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover =  1
+fall.recovertime = 50
+ID = 1098		;?????
+
+
+
+[State 300, basics limiter]
+
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+
+[State 300, VarAdd]
+type = VarAdd
+trigger1 = MoveHit
+var(2) = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 300, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+
+
+[State 300, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+triggerall = !MoveContact
+value = 301
+ctrl = 0
+
+[State 300, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+triggerall = MoveContact
+value = 302
+ctrl = 0
+
+
+
+;---------------------------------------------------------------------------
+; Recover - Roll
+[Statedef 301]
+type = C;S
+ctrl = 0
+anim = 301
+movetype = I
+physics = S
+sprpriority = 2
+
+[State 301, Turn]
+type = Turn
+triggerall = P2BodyDist x < -10
+trigger1 = AnimElem = 6
+
+[State 301, VelSet]
+type = VelSet
+trigger1 = AnimElem = 6 
+x = 0
+
+[State 301, 2]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+; Recover - Get up
+[Statedef 302]
+type    = L
+movetype= I
+physics = N
+anim = 302
+
+[State 302, Turn]
+type = Turn
+triggerall = P2BodyDist x < -10
+trigger1 = !Time
+
+[State 302, 2]
+type = VelSet
+trigger1 = Time = 0
+x = 0
+
+
+[State 302, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 4
+x = 10
+
+[State 302, PosAdd]	;correct alignment
+type = PosAdd
+trigger1 = AnimTime = 0
+x = -15
+
+
+
+[State 302, Get up sound]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 41,0
+
+
+[State 302, 7]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 52
+ctrl = 1
+
+
+
+;---------------------------------------------------------------------------
+;F,F, HP (air)
+[Statedef 350]
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;2
+VelSet = 0,0;.3*vel x,.3*vel y
+ctrl = 0
+anim = 350
+sprpriority = 2
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+[State 350, VelSet]
+type = VelSet
+triggerall = anim = 350
+trigger1 = AnimElemTime(2)>0
+x = 15	;8.6 -   10
+ignorehitpause = 1
+
+
+
+[State 350, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 500
+value = s85,4 + Random%2
+channel = 0
+
+
+[State 625, 2]
+type = PlaySND
+trigger1 = AnimElemTime(2)=0
+value = 0, 2
+
+
+[State 625, 3]
+type = HitDef
+triggerall = p2bodydist x > -10;p2bodydist x > 0
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 7, 7, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = HA
+animtype = Hard
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+[State 625, 3]
+type = HitDef
+triggerall = p2bodydist x > -10;p2bodydist x > 0
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 7, 7, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = MA
+animtype = Hard
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+
+[State 625, PosFreeze]
+type = PosFreeze
+trigger1 = MoveContact
+value = 1
+ignorehitpause = 1
+
+
+[State 625, Gravity]
+type = Gravity
+triggerall = anim = 355
+trigger1 = AnimElemTime(2)>0
+ignorehitpause = 0
+;persistent = 
+
+[State 0, VelMul]
+type = VelMul
+trigger1 = anim = 355
+x = 0.6
+
+
+
+[State 109, only once - Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 15999	;empty anim
+ID = 625
+removetime = -1
+pausemovetime = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 625, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimElemTime(3)>=0 && MoveContact
+value = 350
+elem = 4
+ignorehitpause = 1
+persistent = 1
+;this changeanim is coded so that if he hits with the blur frame he goes immediately into the other frame
+
+
+[State 625, ChangeState]
+type = ChangeState
+trigger1 = MoveContact = 1
+value = 351
+ctrl = 0
+ignorehitpause = 0
+
+
+[State 625, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time = 17	;30
+value = 355
+elem = 2
+ignorehitpause = 1
+persistent = 1
+
+
+[State 625, Land]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;F,F, HP (air) 2
+[Statedef 351];- recoil
+type    = A
+movetype= I
+physics = A
+VelSet = 0,0
+ctrl = 0
+anim = 355
+sprpriority = 2
+
+
+[State 351, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = -3
+y = -8
+ignorehitpause = 1
+
+
+
+[State 351, Levitation]
+type = ChangeState
+value = 109
+;triggerall = command = "a+b+c";"QCB_p";"UU"
+triggerall = IfElse(Facing = -1,(NumExplod(90010006)),NumExplod(90010104))
+triggerall = NumExplod(90000230) && NumExplod(90000240) || NumExplod(90000240) && NumExplod(90000250) || NumExplod(90000250) && NumExplod(90000230) || NumExplod(90000235) && NumExplod(90000245) || NumExplod(90000245) && NumExplod(90000255) || NumExplod(90000255) && NumExplod(90000235)
+triggerall = NumExplod(625) = 1	;only once
+triggerall = Pos y <= -50
+trigger1 = StateType = A; && ctrl
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;a.LP
+[Statedef 600]
+type    = A
+movetype= A
+physics = A
+;juggle  = 0;2
+ctrl = 0
+anim = 600
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+
+[State 600, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+[State 600, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 0
+ignorehitpause = 1
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 600, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+triggerall = !NumExplod(stateno+9999)
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 5 && !MoveContact
+attr = A, NA
+hitflag = MAF
+damage = Ceil(IfElse(fvar(11) * 16 < 7, 7, fvar(11) * 16)), 0
+guardflag = HA
+animtype = Light          ;light,medium,hard,back,up,diagup
+air.animtype = Light
+;fall.animtype = Back
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 9,10
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,0
+guardsound = S6,0
+ground.slidetime = 8  ;7
+ground.hittime  = 11	;12
+ground.velocity = -3  ;-4
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 600, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+triggerall = !NumExplod(stateno+9999)
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 5 && !MoveContact
+attr = A, NA
+hitflag = MAF
+damage = Ceil(IfElse(fvar(11) * 16 < 7, 7, fvar(11) * 16)), 0
+guardflag = MA
+animtype = Light          ;light,medium,hard,back,up,diagup
+air.animtype = Light
+;fall.animtype = Back
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 9,10
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,0
+guardsound = S6,0
+ground.slidetime = 8  ;7
+ground.hittime  = 11	;12
+ground.velocity = -3  ;-4
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 400, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 600, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+[State 600, CtrlSet]
+type = CtrlSet
+trigger1 = AnimElemTime(8)>=0
+value = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;a.MP
+[Statedef 610]
+type    = A
+movetype= A
+physics = A
+;juggle  = 0;2
+ctrl = 0
+anim = 610
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+
+[State 610, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+[State 610, 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 1
+
+[State 610, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 28 < 7, 7, fvar(11) * 28)), 0	;30
+guardflag = HA
+hitflag = MAF
+animtype = Medium          ;light,medium,hard,back,up,diagup
+air.animtype = Medium
+;fall.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 3,Hit
+pausetime = 10,10
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,1
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -4   
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 610, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2
+triggerall = Vel Y <0
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 28 < 7, 7, fvar(11) * 28)), 0	;30
+guardflag = MA
+hitflag = MAF
+animtype = Medium          ;light,medium,hard,back,up,diagup
+air.animtype = Medium
+;fall.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 3,Hit
+pausetime = 10,10
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,1
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -4   
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || prevstateno=600 || prevstateno=630 || NumExplod(52)=3)
+
+[State 400, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 610, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 610, CtrlSet]
+type = CtrlSet
+trigger1 = AnimElemTime(8)>=0
+value = 1
+
+
+
+;---------------------------------------------------------------------------
+;a.HP
+[Statedef 620]
+type    = A
+movetype= A
+physics = A
+;juggle  = 0;3
+ctrl = 0
+anim = 620
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 3
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+[State 620, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+[State 620, 2]
+type = PlaySND
+trigger1 = AnimElemTime(3)=0
+value = 0, 2
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 620, 3];normal hit
+type = HitDef
+;triggerall = Var(18) <= 15
+triggerall = !NumExplod(stateno+9999)
+triggerall = Vel Y >=0
+triggerall = P2StateType != A
+trigger1 = AnimElem = 6
+trigger2 = AnimElem = 8 && !MoveContact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 44 < 7, 7, fvar(11) * 44)), 0	;55
+hitflag = MAF
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 15,16
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-40
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+air.fall = 1
+fall.recover = 0
+id = 619
+p2facing = 1
+
+[State 620, 3];normal hit
+type = HitDef
+;triggerall = Var(18) <= 15
+triggerall = !NumExplod(stateno+9999)
+triggerall = Vel Y <0
+triggerall = P2StateType != A
+trigger1 = AnimElem = 6
+trigger2 = AnimElem = 8 && !MoveContact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 44 < 7, 7, fvar(11) * 44)), 0	;55
+hitflag = MAF
+guardflag = MA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,16
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-40
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+air.fall = 1
+fall.recover = 0
+id = 619
+p2facing = 1
+
+
+
+[State 620, 3];Opponent in air sent to custom bounce state
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2StateType = A
+trigger1 = AnimElem = 6 && NumExplod(620) = 0
+trigger2 = AnimElem = 8 && NumExplod(620) = 0 && !MoveContact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 44 < 7, 7, fvar(11) * 44)), 0
+hitflag = MAF
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,16
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-40
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+air.fall = 1
+fall.recover = 0
+id = 620
+p2facing = 1
+
+[State 620, TargetState]
+type = TargetState
+trigger1 = movehit
+trigger1 = numtarget(620)
+trigger1 = !(target, ishelper)
+value = 653 ;651
+ignorehitpause = 1
+persistent = 0
+id = 620
+
+
+
+
+[State 620, 3];Opponent in air with bounce juggling limiter
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2StateType = A
+trigger1 = AnimElem = 6 && NumExplod(620)
+trigger2 = AnimElem = 8 && NumExplod(620) && !MoveContact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 44 < 7, 7, fvar(11) * 44)), 0
+hitflag = MAF
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,16
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-40
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+air.fall = 1
+fall.recover = 0
+id = 621
+p2facing = 1
+
+
+[State 620, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(9)>=0
+value = 0
+
+
+
+;---------------------------------------------------------------------------
+;up a.HP (air)
+[Statedef 622];- Buddha's Rise
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;2
+VelSet = 0,0;.3*vel x,.3*vel y
+ctrl = 0
+anim = 622
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 622, VelSet]
+type = VelSet
+triggerall = anim = 622
+trigger1 = AnimElemTime(2)>0
+x = 8.4
+y = -9.6
+ignorehitpause = 1
+
+
+
+[State 622, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 500
+value = s85,4 + Random%2
+channel = 0
+
+
+[State 622, 2]
+type = PlaySND
+trigger1 = AnimElemTime(2)=0
+value = 0, 2
+
+
+[State 622, 3]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 7, 7, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+[State 622, 3]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 45 < 7, 7, fvar(11) * 45)), 0
+hitflag = MAFD
+guardflag = MA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -16,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5.8,-2
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 1098
+p2facing = 1
+
+[State 622, PosFreeze]
+type = PosFreeze
+trigger1 = MoveContact
+value = 1
+ignorehitpause = 1
+
+
+[State 622, Gravity]
+type = Gravity
+triggerall = anim = 623
+trigger1 = AnimElemTime(2)>0
+ignorehitpause = 0
+;persistent = 
+
+[State 622, VelMul]
+type = VelMul
+trigger1 = anim = 623
+x = 0.5
+persistent = 0
+
+
+
+[State 622, only once - Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 15999	;empty anim
+ID = 625
+removetime = -1
+pausemovetime = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 622, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimElemTime(3)>=0 && MoveContact
+value = 622
+elem = 4
+ignorehitpause = 1
+persistent = 1
+;this changeanim is coded so that if he hits with the blur frame he goes immediately into the other frame
+
+
+[State 622, ChangeState]
+type = ChangeState
+trigger1 = MoveContact = 1
+value = 623
+ctrl = 0
+ignorehitpause = 0
+
+
+[State 622, ChangeAnim]
+type = ChangeAnim
+trigger1 = Time = 17	;30
+value = 623
+elem = 2
+ignorehitpause = 1
+persistent = 1
+
+
+[State 622, Land]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52
+
+
+
+[State 623, Levitation]
+type = ChangeState
+value = 109
+;triggerall = command = "a+b+c";"QCB_p";"UU"
+triggerall = NumExplod(90000230) && NumExplod(90000240) && NumExplod(90000250)
+triggerall = NumExplod(625) = 1	;only once
+triggerall = Pos y <= -50
+trigger1 = StateType = A; && ctrl
+trigger2 = Anim = 623
+
+
+
+
+;---------------------------------------------------------------------------
+;up a.HP (air) 2
+[Statedef 623];- recoil
+type    = A
+movetype= I
+physics = A
+VelSet = 0,0
+ctrl = 0
+anim = 623
+sprpriority = 2
+
+
+[State 623, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = -3
+y = -8
+ignorehitpause = 1
+
+
+
+[State 623, Levitation]
+type = ChangeState
+value = 109
+;triggerall = command = "a+b+c";"QCB_p";"UU"
+triggerall = IfElse(Facing = -1,(NumExplod(90010006)),NumExplod(90010104))
+triggerall = NumExplod(90000230) && NumExplod(90000240) || NumExplod(90000240) && NumExplod(90000250) || NumExplod(90000250) && NumExplod(90000230) || NumExplod(90000235) && NumExplod(90000245) || NumExplod(90000245) && NumExplod(90000255) || NumExplod(90000255) && NumExplod(90000235)
+triggerall = NumExplod(625) = 1	;only once
+triggerall = Pos y <= -50
+trigger1 = StateType = A; && ctrl
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;down a.HP 1
+[Statedef 625];- Buddha's Fist
+type    = A
+movetype= A
+physics = N
+;juggle  = 0;2
+VelSet = 0,0;.3*vel x,.3*vel y
+ctrl = 0
+anim = 625
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 625, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(3)>0
+x = 8.4
+y = 9.6
+ignorehitpause = 1
+
+
+[State 625, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 500
+value = s85,4 + Random%2
+channel = 0
+
+
+[State 625, 2]
+type = PlaySND
+trigger1 = AnimElemTime(3)=0
+value = 0, 2
+
+
+[State 625, 3]
+type = HitDef
+triggerall = var(2)<3
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+;triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 41 < 7, 7, fvar(11) * 41)), 0
+hitflag = MAFD
+guardflag = HA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound   = s5,2
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 625
+p2facing = 1
+
+[State 625, 3]
+type = HitDef
+triggerall = var(2)<3
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+;triggerall = p2bodydist x > -10;triggerall = p2bodydist x > 0
+trigger1 = Time = 0
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 41 < 7, 7, fvar(11) * 41)), 0
+hitflag = MAFD
+guardflag = MA
+animtype = Hard          ;light,medium,hard,back,up,diagup
+fall.animtype = Back
+air.animtype = Back
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+priority = 4, Hit
+pausetime = 15,20
+guard.pausetime = 20,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound   = s5,2
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,5
+down.velocity = -1.5,-10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+airguard.cornerpush.veloff= 0
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1;(NumExplod(987654321) || prevstateno=600 || prevstateno=630 || prevstateno=610 || prevstateno=640)
+fall.recover = 0
+ID = 625
+p2facing = 1
+
+[State 805, TargetState]
+type = TargetState
+triggerall = P2StateType = L
+trigger1 = MoveHit
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 627
+id = 625
+ignorehitpause = 1
+
+
+
+
+
+
+
+
+[State 300, VarAdd]
+type = VarAdd
+trigger1 = MoveHit
+var(2) = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+
+[State 625, PosFreeze]
+type = PosFreeze
+trigger1 = MoveContact
+value = 1
+ignorehitpause = 1
+
+
+[State 625, Gravity]
+type = Gravity
+trigger1 = AnimElemTime(3)>0
+ignorehitpause = 0
+;persistent = 
+
+
+[State 109, only once - Explod]
+type = Explod
+trigger1 = Time = 0
+anim = 15999	;empty anim
+ID = 625
+removetime = -1
+pausemovetime = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 625, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimElemTime(4)>=0 && MoveContact
+value = 625
+elem = 5
+ignorehitpause = 1
+persistent = 1
+;this changeanim is coded so that if he hits with the blur frame he goes immediately into the other frame
+
+
+[State 625, ChangeState]
+type = ChangeState
+trigger1 = MoveContact = 1
+value = 626
+ctrl = 0
+ignorehitpause = 0
+
+[State 625, Land]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 12
+value = 52
+
+
+
+;---------------------------------------------------------------------------
+;down a.HP 2
+[Statedef 626];- recoil from Buddha's Fist
+type    = A
+movetype= I
+physics = A
+VelSet = 0,0
+ctrl = 0
+anim = 626
+sprpriority = 2
+
+
+[State 626, VelSet]
+type = VelSet
+trigger1 = Time = 0
+x = -3
+y = -8
+ignorehitpause = 1
+
+
+
+[State 626, Levitation]
+type = ChangeState
+value = 109
+;triggerall = command = "a+b+c";"QCB_p";"UU"
+triggerall = IfElse(Facing = -1,(NumExplod(90010006)),NumExplod(90010104))
+triggerall = NumExplod(90000230) && NumExplod(90000240) || NumExplod(90000240) && NumExplod(90000250) || NumExplod(90000250) && NumExplod(90000230) || NumExplod(90000235) && NumExplod(90000245) || NumExplod(90000245) && NumExplod(90000255) || NumExplod(90000255) && NumExplod(90000235)
+triggerall = NumExplod(625) = 1	;only once
+triggerall = Pos y <= -50
+trigger1 = StateType = A; && ctrl
+
+
+
+;---------------------------------------------------------------------------
+;Custom State-----
+[Statedef 627]
+type    = A
+movetype= H
+physics = N
+VelSet = 0,0
+sprpriority = 1
+;anim = 627
+
+[State 627, ChangeAnim]
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 627
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 627, VelSet]
+type = VelSet
+trigger1 = Time = 10
+x = -1.5
+y = -10
+ignorehitpause = 0
+persistent = 0
+
+[State 627, Gravity]
+type = VelAdd
+trigger1 = Time > 10
+y = 0.5859375
+ignorehitpause = 1
+
+
+
+[State 625, Land]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 628
+
+
+
+;---------------------------------------------------------------------------
+; Downed get-hit (hit ground from fall)
+[Statedef 628]
+type    = L
+movetype= H
+physics = N
+
+[State 628, EnvShake]
+type = FallEnvShake
+trigger1 = Time = 0
+
+[State 628, Var] ;Save fall velocity
+type = VarSet
+trigger1 = Time = 0
+sysvar(1) = floor(vel y)
+
+[State 628, 2] ;Hit ground anim (normal)
+type = ChangeAnim
+triggerall = time = 0
+trigger1 = (anim != [5051,5059]) && (anim != [5061,5069])
+trigger2 = !SelfAnimExist(5100 + (anim % 10))
+value = 5100
+
+[State 628, 3] ;Hit ground anim (for hit up)
+type = ChangeAnim
+trigger1 = time = 0
+trigger1 = (anim = [5051,5059]) || (anim = [5061,5069])
+trigger1 = SelfAnimExist(5100 + (anim % 10))
+value = 5100 + (anim % 10)
+
+
+[State 628, 4]
+type = PosSet
+trigger1 = Time = 0
+y = 0
+
+[State 628, 5]
+type = VelSet
+trigger1 = Time = 0
+y = 0
+
+[State 628, 6] ;Reduce speed
+type = VelMul
+trigger1 = Time = 0
+x = 0.75
+
+
+[State 628, 9]
+type = HitFallDamage
+trigger1 = Time = 3
+
+[State 628, 11]
+type = PosFreeze
+trigger1 = 1
+
+[State 628, 12]
+type = SelfState
+trigger1 = AnimTime = 0
+value = 5101 ;Downed get-hit (bounce off ground)
+
+[State 628, 13]
+type = ForceFeedback
+trigger1 = Time = 0
+waveform = sinesquare
+ampl = 128,-3,-.2,.005
+time = 20
+
+
+
+
+
+;---------------------------------------------------------------------------
+;a.LK
+[Statedef 630]
+type    = A
+movetype= A
+physics = A
+;juggle  = 0;2
+ctrl = 0
+anim = 630
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 2
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 630, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 200
+value = s85,0 + Random%5
+channel = 0
+
+
+[State 630, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+[State 630, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 20 < 7, 7, fvar(11) * 20)), 0
+hitflag = MAF
+guardflag = HA
+animtype = Light          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Light
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 8,11
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-50
+hitsound   = s5,3
+guardsound = S6,0
+ground.slidetime = 8
+ground.hittime  = 15
+ground.velocity = -3
+air.velocity = -2,-3
+airguard.cornerpush.veloff= 0
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3) ;|| NumHelper(2011) || NumHelper(2021) || NumHelper(2031) || NumHelper(2041)
+id = 1098		;every basic attack
+
+[State 630, 2]
+type = HitDef
+triggerall = Var(18) <= 15-2 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 20 < 7, 7, fvar(11) * 20)), 0
+hitflag = MAF
+guardflag = MA
+animtype = Light          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Light
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 8,11
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-50
+hitsound   = s5,3
+guardsound = S6,0
+ground.slidetime = 8
+ground.hittime  = 15
+ground.velocity = -3
+air.velocity = -2,-3
+airguard.cornerpush.veloff= 0
+getpower= 20, 10
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3) ;|| NumHelper(2011) || NumHelper(2021) || NumHelper(2031) || NumHelper(2041)
+id = 1098		;every basic attack
+
+[State 400, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 630, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+[State 630, CtrlSet]
+type = CtrlSet
+trigger1 = AnimElemTime(8)>=0
+value = 1
+
+
+;---------------------------------------------------------------------------
+;a.MK
+[Statedef 640]
+type = A
+movetype = A
+physics = A
+;juggle = 1;2
+ctrl = 0
+anim = 640
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 640, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+[State 640, PlaySND 1]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 4
+
+
+[State 640, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-1 || p2stateno = [31509, 31510]
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 29 < 7, 7, fvar(11) * 29)), 0		;35
+guardflag = MA
+hitflag = MAF
+animtype = Medium          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Medium
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 10, 11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound = s5,4
+guardsound = S6,0
+ground.slidetime = 12;8
+ground.hittime = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+fall = NumExplod(52)=3
+
+
+[State 640, VelSet 1]
+type = VelSet
+trigger1 = AnimElemTime(3) = 0
+y = -3.8;-4.3
+ignorehitpause = 1
+persistent = 0
+[State 640, VelMul]
+type = VelMul
+trigger1 = AnimElemTime(3) = 0
+x = 0.5
+ignorehitpause = 1
+persistent = 0
+
+[State 400, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+
+[State 640, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+[State 640, CtrlSet]
+type = CtrlSet
+trigger1 = AnimElemTime(10)>=0
+value = 1
+
+
+;---------------------------------------------------------------------------
+;a.MK 2
+[Statedef 641]
+type = A
+movetype = A
+physics = A
+;juggle = 1
+ctrl = 0
+anim = 641
+sprpriority = 2
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 641, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 641, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 641, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+[State 641, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 5 && Random < 350
+value = s85,5 + Random%4
+channel = 0
+
+
+[State 641, PlaySND 1]
+type = PlaySND
+trigger1 = AnimElem = 5
+value = 0, 5
+
+
+
+[State 641, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-1 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+trigger1 = AnimElem = 6
+attr = A, NA
+animtype = Medium          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Medium ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 31 < 3, 3, fvar(11) * 31)), 0
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 10, 11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound = s5,4
+guardsound = S6,0
+ground.slidetime = 12;8
+ground.hittime = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 641, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-1 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+trigger1 = AnimElem = 6
+attr = A, NA
+animtype = Medium          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Medium ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 31 < 3, 3, fvar(11) * 31)), 0
+guardflag = MA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 10, 11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound = s5,4
+guardsound = S6,0
+ground.slidetime = 12;8
+ground.hittime = 12;8
+ground.velocity = -2  ;-4
+guard.velocity = -6
+air.velocity = -3,-3
+airguard.velocity = -2,-1.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+[State 641, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(5) = 0
+y = -3.4;-4
+ignorehitpause = 1
+persistent = 0
+
+[State 641, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+
+
+
+;---------------------------------------------------------------------------
+;a.MK 3
+[Statedef 642]
+type = A
+movetype = A
+physics = A
+;juggle = 1
+ctrl = 0
+anim = 642
+sprpriority = 2
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 642, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 642, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 642, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 642, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2 && Random < 350
+value = s85,2 + Random%2
+channel = 0
+
+
+[State 642, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 2
+value = 0, 4
+
+
+[State 642, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-1 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+trigger1 = AnimElem = 3
+attr = A, NA
+animtype = Medium          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Medium ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 35 < 3, 3, fvar(11) * 35)), 0
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -6  ;-4
+guard.velocity = -6
+air.velocity = -6,-3
+airguard.velocity = -4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+fall = 1
+fall.recover = 0
+
+[State 642, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-1 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+trigger1 = AnimElem = 3
+attr = A, NA
+animtype = Medium          ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Medium ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 35 < 3, 3, fvar(11) * 35)), 0
+guardflag = MA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-97
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -6  ;-4
+guard.velocity = -6
+air.velocity = -6,-3
+airguard.velocity = -4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+fall = 1
+fall.recover = 0
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+
+[State 642, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(3) = 0
+y = -3.2;-4
+ignorehitpause = 1
+persistent = 0
+
+[State 642, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+
+;---------------------------------------------------------------------------
+;a.MK -> (3)
+[Statedef 643]
+type = A
+movetype = A
+physics = A
+;juggle = IfElse(p2statetype=A,3,15)
+ctrl = 0
+anim = 643
+sprpriority = 2
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 3
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 643, OM variable]
+type = VarAdd
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+fvar(28) = 1
+ignorehitpause = 1
+persistent = 0
+[State 643, OM variable]
+type = VarSet
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) > 90
+trigger1 = !Time
+fvar(28) = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 643, OM PalFX]
+type = PalFX
+triggerall = numhelper(2550)=1||numhelper(2560)=1
+triggerall = fvar(28) < 90
+trigger1 = MoveHit
+time = 2
+add = 100,100,100
+mul = 256,256,256
+invertall = 0
+color = 256
+ignorehitpause = 1
+persistent = 0
+
+
+[State 620, Only once - Explod] ;only once
+type = Explod
+triggerall = NumTarget
+triggerall = !NumExplod(620)
+trigger1 = MoveHit && Target,StateNo = 651
+anim = 15999	;blank anim
+ID = 620
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 643, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 4 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+
+[State 643, PlaySND 1]
+type = PlaySND
+trigger1 = AnimElem = 4
+value = 0, 4
+
+
+
+[State 643, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2StateType != A
+triggerall = Vel Y >=0
+trigger1 = AnimElem = 5
+attr = A, NA
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 28 < 3, 3, fvar(11) * 28)), 0	;35
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-67
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -2,5  ;-4
+guard.velocity = -6
+air.velocity = -7,7;-6,-3
+airguard.velocity = -4,4;-4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 643
+
+[State 643, Hitdef]
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2StateType != A
+triggerall = Vel Y <0
+trigger1 = AnimElem = 5
+attr = A, NA
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 28 < 3, 3, fvar(11) * 28)), 0	;35
+guardflag = MA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-67
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -2,5  ;-4
+guard.velocity = -6
+air.velocity = -7,7;-6,-3
+airguard.velocity = -4,4;-4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 643
+
+[State 643, Hitdef];Opponent in air sent to custom bounce state
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2Statetype = A
+trigger1 = AnimElem = 5 && NumExplod(620) = 0
+attr = A, NA
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 35 < 3, 3, fvar(11) * 35)), 0
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-67
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -2,5  ;-4
+guard.velocity = -6
+air.velocity = -7,7;-6,-3
+airguard.velocity = -4,4;-4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 644
+
+[State 2207, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = MoveHit
+trigger1 = P2MoveType = H
+fvar(13) = 1		;for damage dampening purposes it's 4 instead of 1.
+ignorehitpause = 1
+persistent = 0
+
+[State 902, TargetState]
+type = TargetState
+trigger1 = movehit
+trigger1 = numtarget(644)
+trigger1 = !(target, ishelper)
+value = 651
+ignorehitpause = 1
+persistent = 0
+id = 644
+
+
+
+[State 643, Hitdef];Opponent in air with bounce juggling limiter
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = P2Statetype = A
+trigger1 = AnimElem = 5 && NumExplod(620)
+attr = A, NA
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = Low      ;Low,Trip,None
+air.type = Low
+damage = Ceil(IfElse(fvar(11) * 35 < 7, 7, fvar(11) * 35)), 0
+guardflag = HA
+hitflag = MAF
+priority = 3, Hit
+pausetime = 14, 15
+guard.pausetime = 14, 15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -40,-67
+hitsound = s5,5
+guardsound = S6,0
+ground.slidetime = 15;8
+ground.hittime = 15;8
+ground.velocity = -2,5  ;-4
+guard.velocity = -6
+air.velocity = -7,7;-6,-3
+airguard.velocity = -4,4;-4,-2.1
+getpower = IfElse(P2MoveType=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 645
+
+
+
+[State 643, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(3) = 0
+x = 4
+y = -4
+ignorehitpause = 1
+persistent = 0
+
+
+[State 643, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+
+
+;---------------------------------------------------------------------------
+;a.HK
+[Statedef 650]
+type    = A
+movetype= A
+physics = A
+;juggle  = 0;IfElse(p2statetype=A,3,15)
+ctrl = 0
+anim = 650
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = MoveHit ;= 1
+trigger1 = P2StateType = A || P2StateType = L 
+var(18) = 3
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+
+[State 650, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 3 && Random < 500
+value = s85,10 + Random%4
+channel = 0
+
+[State 650, 2]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 5
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 650, 2]
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = Vel Y >=0
+triggerall = !NumExplod(stateno+9999)
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 5 && !movecontact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 40 < 7, 7, fvar(11) * 40)), 0		;38
+guardflag = HA
+hitflag = MAF
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 3, Hit
+pausetime = 12,17
+guard.pausetime = 13,14
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,5
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5,6
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = NumExplod(52)=3
+id = 645
+air.fall = 1 ;added
+fall.recover = 0
+
+[State 650, 2]
+type = HitDef
+triggerall = Var(18) <= 15-3 || p2stateno = [31509, 31510]
+triggerall = Vel Y <0
+triggerall = !NumExplod(stateno+9999)
+trigger1 = AnimElem = 4
+trigger2 = AnimElem = 5 && !movecontact
+attr = A, NA
+damage = Ceil(IfElse(fvar(11) * 40 < 7, 7, fvar(11) * 40)), 0		;38
+guardflag = MA
+hitflag = MAF
+animtype = Hard         ;light,medium,hard,back,up,diagup
+;fall.animtype = Back
+air.animtype = Hard ;back?
+ground.type = High      ;Low,Trip,None
+air.type = Low
+priority = 4,Hit
+pausetime = 12,17
+guard.pausetime = 13,14
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,5
+guardsound = S6,0
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -5,6
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+getpower= IfElse(p2movetype=H,20,70), 35
+givepower = 35,35
+yaccel = 0.5
+fall = NumExplod(52)=3
+id = 645
+air.fall = 1 ;added
+fall.recover = 0
+
+
+[State 650, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;Forward Throw
+[Statedef 800]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0
+poweradd= 0
+VelSet = 0,0
+ctrl = 0
+anim = 800
+sprpriority = 2
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 800, ChangeAnim]
+type = ChangeAnim
+trigger1 = MoveHit
+value = Anim
+elem = 3 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 800, PlaySND - Swing]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 6
+ignorehitpause = 1
+persistent = 0
+
+
+[State 810, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+fvar(13) = 2
+
+[State 810, hit]
+type = hitdef
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+trigger1 = animelem=3
+trigger1 = p2bodydist x<35 
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+
+[State 810, hit] ;Throw tech
+type = hitdef
+trigger1 = animelem=3
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)=0
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=3
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)>0
+attr = S,NT
+hitflag = M-
+priority = 1,Hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+
+
+
+
+[State 800, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+trigger1 = !(Target, IsHelper)
+value = 899
+ignorehitpause = 1
+
+[State 800, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800)|| (NumTarget(800) && enemy, AuthorName != "Team Z2");new2
+trigger2 = MoveHit=1
+value = 801
+ignorehitpause = 1
+persistent = 0
+ 
+[State 800, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+ 
+[State 800, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+[State 800, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+[State 800, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 8
+x = -20
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+
+[State 800, 2]
+type = ChangeState
+Trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+;(COMBO AND NO TECH) Forward Throw 
+[Statedef 804]
+type    = S
+movetype= A
+physics = S
+;juggle  = 0
+poweradd= 0
+VelSet = 0,0
+ctrl = 0
+anim = 800
+sprpriority = 2
+
+;
+;[State 0, ChangeAnim]
+;type = ChangeAnim
+;trigger1 = MoveHit
+;value = Anim
+;elem = 3 ; change this to animelemno of grab you wish frozen
+;ignorehitpause = 1
+
+
+
+[State 800, PlaySND - Swing]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 6
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 800, 1]
+type = HitDef
+;triggerall = Var(0)=0 || enemy, AuthorName != "Team Z2" ;Throw tech
+Trigger1 = AnimElem = 3;Time = 0
+attr = S, NT
+hitflag = MF;-
+priority = 1, Miss
+sparkno = -1
+p1sprpriority = 1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+numhits = 0
+
+
+
+
+
+;[State 800, 1]
+;type = HitDef
+;triggerall = Var(0)>0 ;Throw tech
+;Trigger1 = Time = 0
+;attr = S, NT
+;hitflag = MF;-
+;priority = 1, Hit
+;sparkno = -1
+;p1sprpriority = 1
+;p1facing = 1
+;p2facing = 1
+;guard.dist = 0
+;fall = 1
+;numhits = 0
+;id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;old code don't delete
+;TargetState first, ChangeState second, otherwise Mugen won't read the TargetState, resulting in more bugs.
+
+;Instead of P2StateNo
+[State 805, TargetState]
+type = TargetState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 802
+ignorehitpause = 1
+
+
+;Instead of P1 StateNo
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 801
+persistent = 1	;if omitted this still holds true.
+ignorehitpause = 1
+;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;New code don't delete, not used at the moment because it causes bugs
+
+;[State 0, TargetState]
+;type = TargetState
+;trigger1 = MoveHit =1
+;trigger1 = NumTarget(800)
+;trigger1 = target, StateNo != [800,899]
+;trigger1 = target, AuthorName = "Team Z2"
+;trigger1 = !(Target, IsHelper)
+;value = 899
+;ignorehitpause = 1
+;
+;[State 0, ChangeState]
+;type = ChangeState
+;trigger1 = NumTarget(800)
+;trigger1 = target, time>=6
+;trigger1 = target, StateNo = 899
+;trigger2 = !NumTarget(800)
+;trigger2 = MoveHit=1
+;value = 801
+;ignorehitpause = 1
+;persistent = 0
+; 
+;[State 0, ChangeState]
+;type = ChangeState
+;trigger1 = Var(0)=2
+;trigger1 = NumTarget(800)
+;trigger1 = target, time<=5
+;trigger1 = target, StateNo = 5949
+;value = 5940
+;ignorehitpause = 1
+;persistent = 0
+; 
+;[State 0, ChangeState]
+;type = ChangeState
+;trigger1 = Var(0)=1
+;trigger1 = enemynear, StateNo = 950
+;value = 950
+;ignorehitpause = 1
+;persistent = 0
+
+
+
+
+
+[State 800, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = 20
+[State 800, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 8
+x = -20
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+
+[State 800, 2]
+type = ChangeState
+Trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;Throw - Throwing the opponent
+[Statedef 801]
+type    = A
+movetype= A
+physics = N
+anim = 801
+poweradd = 180
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = !Time ;MoveHit = 1
+;trigger1 = P2StateType = A
+var(18) = 45;15
+ignorehitpause = 1
+persistent = 0
+
+;[State 801, TargetBind]
+;type = TargetBind
+;trigger1 = !Time 
+;time = 1
+;id = -1
+;pos = p2bodydist
+;ignorehitpause = 1
+;persistent = 0
+
+[State 801, BindToTarget]
+type = BindToTarget
+triggerall = NumTarget
+trigger1 = time>=1 && AnimElemTime(4) < 0
+time = 1
+pos = 60,30, Mid ;Foot,Mid,Head
+persistent = 0
+
+
+
+[State 801, TargetState];NEW CODE ADDED FOR THE THROW TECH
+type = TargetState
+trigger1 = !Time
+value = 802
+
+
+
+[State 801, Target changes state - Flip KO state]
+type = TargetState
+trigger1 = AnimElem = 4
+value = cond(prevstateno = 804, 80300, 803)
+
+
+
+[State 801, HitSpark]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 4
+anim = 7030
+pos = (Enemy, Const(size.head.pos.x)),  (Enemy, Const(size.head.pos.y))  ;20,-90
+postype = p2
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 801, Swing Sound]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = S0,5
+ignorehitpause = 1
+;persistent = 
+
+[State 801, HitSound]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 4
+value = S5,5
+ignorehitpause = 1
+;persistent = 
+
+
+[State 801, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 2
+value = s85,9 + Random%2
+channel = 0
+volumescale = 255
+
+
+
+
+
+[State 801, HitAdd]
+type = HitAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 4
+value = 1
+ignorehitpause = 1
+
+
+
+;Jump back
+[State 801, Vel Add]
+type = VelSet
+trigger1 = AnimElem = 5
+x = -4
+y = -6
+ignorehitpause = 1
+
+[State 801, Gravity]
+type = Gravity
+trigger1 = AnimElemTime(5)>=0
+
+
+
+[State 801, VarAdd - for 'dmg dampening']
+type = VarAdd
+trigger1 = AnimElem = 4
+trigger1 = P2MoveType = H
+fvar(13) = 1		;1 hit so 1 point; try to consider this as a normal attack.
+ignorehitpause = 1
+
+[State 801, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = AnimElem = 4
+value = -1* Ceil(IfElse(fvar(11) * 90 < 45, 45, fvar(11) * 90))  ;-60
+kill = 1
+absolute = 0
+ignorehitpause = 1
+;The usual formula for any attack but multiplied by -1 because otherwise it would give the target more life.
+ 
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+
+[State 801, State End]
+type = ChangeState
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 52
+
+;---------------------------------------------------------------------------
+;Thrown
+[Statedef 802]
+type    = A
+movetype= H
+physics = N
+VelSet = 0,0
+facep2 = 1
+poweradd = 35
+
+
+[State 802, ChangeAnim]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 802
+
+
+[State 802, 2]
+type = SelfState
+trigger1 = Time = 150
+value = 5050
+;After 150 ticks (2.5 seconds), the enemy falls down: this is done to prevent any bug/glitch
+;(character stuck in thrown action forever)
+
+
+
+
+
+
+;-------------------------------------
+;Flip KO Throw State
+[Statedef 803]
+type = A
+movetype = H
+physics = N
+anim = IfElse(SelfAnimExist(5937),5937,IfElse(SelfAnimExist(5052),5052,5030))
+ctrl = 0
+facep2 = 1
+
+[State 803, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(2)=0
+x = -4
+y = -6
+persistent = 0
+ 
+[State 803, VelAdd]
+type = VelAdd
+trigger1 = Pos Y < 0
+y = 0.35
+ 
+[State 803, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+ 
+[State 803, ChangeState]
+type = ChangeState
+trigger1 = (Pos Y >= 0) && (Vel Y > 0)
+value = 5954
+
+
+;-------------------------------------
+;Flip KO Throw State
+[Statedef 80300]
+type = A
+movetype = H
+physics = N
+anim = IfElse(SelfAnimExist(5937),5937,IfElse(SelfAnimExist(5052),5052,5030))
+ctrl = 0
+facep2 = 1
+
+[State 803, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(2)=0
+x = -4
+y = -6
+persistent = 0
+ 
+[State 803, VelAdd]
+type = VelAdd
+trigger1 = Pos Y < 0
+y = 0.35
+ 
+[State 803, ChangeState]
+type = ChangeState
+trigger1 = (Pos Y >= 0) && (Vel Y > 0)
+value = 5954
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;Back Throw - attempt
+[Statedef 805]
+type    = S
+movetype= A
+physics = S
+juggle  = 15
+poweradd= 0
+ctrl = 0
+VelSet = 0,0
+anim = 805		;light kick animation
+sprpriority = 2
+
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+
+[State 805, ChangeAnim]
+type = ChangeAnim
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 805, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+; Notes: The '-' symbol in the hitflag field means that it only affects
+;   players who are not in a hit state. This prevents Tien from combo-ing
+;   into the throw. The priority should be set to a low number, such as
+;   1 or 2, so that the throw does not take precedence over normal attacks.
+;   The type of priority must always be set to "Miss" or "Dodge" for throws,
+;   otherwise strange behavior can result.
+;[State 805, 1]
+;type = HitDef
+;triggerall = P2moveType != H ;FIX
+;Trigger1 = AnimElemTime(4) = 0
+;attr = S, NT          ;Attributes: Standing, Normal Throw
+;hitflag = M-          ;Affect only ground people who are not being hit
+;priority = 1, Miss    ;Throw has low priority, must be miss or dodge type.
+;sparkno = -1          ;No spark
+;p1sprpriority = 1     ;Draw p1's sprite in front of p2; p2's sprite priority is set to 0 by default
+;p1facing = 1
+;p2facing = 1          ;Force p2 to face Tien
+;guard.dist = 0        ;This prevents p2 from going into a guard state if close
+;fall = 1              ;Force p2 into falling down
+;numhits = 0
+;sparkno = -1;s7010
+;guard.sparkno = -1;s7000
+;sparkxy = -12,-45
+;hitsound = s5, 3
+;guardsound = S6,0
+
+
+
+
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+fvar(13) = 2
+
+[State 810, hit]
+type = hitdef
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+Trigger1 = AnimElemTime(4) = 0
+trigger1 = p2bodydist x<35 
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+
+[State 810, hit] ;Throw tech
+type = hitdef
+Trigger1 = AnimElemTime(4) = 0
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)=0
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+[State 810, hit]
+type = hitdef
+Trigger1 = AnimElemTime(4) = 0
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)>0
+attr = S,NT
+hitflag = M-
+priority = 1,Hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+
+
+[State 806, TargetBind]
+type = TargetBind
+trigger1 = MoveHit
+time = 1
+pos = 50,0
+ignorehitpause = 1
+;persistent = 
+
+
+;HitSpark before the Change/TargetStates so it works (explod).
+[State 806, HitSpark]
+type = Explod
+trigger1 = MoveHit ;AnimElem = 3
+anim = 7010
+pos = -12,-45;(Enemy, Const(size.head.pos.x)),  (Enemy, Const(size.head.pos.y))  ;20,-90
+postype = p2
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+;TargetState first, ChangeState second, otherwise Mugen won't read the TargetState, resulting in more bugs.
+;Instead of P2StateNo
+;[State 805, TargetState]
+;type = TargetState
+;trigger1 = MoveHit = 1
+;trigger1 = NumTarget
+;trigger1 = !(Target, IsHelper)
+;value = 810
+;ignorehitpause = 1
+;
+;;Instead of P1StateNo
+;[State 805, ChangeState]
+;type = ChangeState
+;trigger1 = MoveHit = 1
+;trigger1 = NumTarget
+;trigger1 = !(Target, IsHelper)
+;value = 806
+;persistent = 1	;if omitted this still holds true.
+;ignorehitpause = 1
+
+
+[State 805, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+trigger1 = !(Target, IsHelper)
+value = 899
+ignorehitpause = 1
+
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800)|| (NumTarget(800) && enemy, AuthorName != "Team Z2");new2
+trigger2 = MoveHit=1
+value = 806
+ignorehitpause = 1
+persistent = 0
+ 
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+ 
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+
+
+[State 805, Width]
+type = Width
+trigger1 = 1
+value = -20,-20
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+
+
+
+[State 805, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2 || AnimElem = 8
+x = IfElse(AnimElemTime(2) = 0,12,-12)
+[State 805, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3 || AnimElem = 7
+x = IfElse(AnimElemTime(3) = 0,14,-6)
+[State 805, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = -8
+
+[State 805, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+[State 805, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; NO TECH Back Throw - attempt
+[Statedef 808]
+type    = S
+movetype= A
+physics = S
+juggle  = 15
+poweradd= 0
+ctrl = 0
+VelSet = 0,0
+anim = 805		;light kick animation
+sprpriority = 2
+
+
+
+
+[State 805, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+; Notes: The '-' symbol in the hitflag field means that it only affects
+;   players who are not in a hit state. This prevents Tien from combo-ing
+;   into the throw. The priority should be set to a low number, such as
+;   1 or 2, so that the throw does not take precedence over normal attacks.
+;   The type of priority must always be set to "Miss" or "Dodge" for throws,
+;   otherwise strange behavior can result.
+[State 805, 1]
+type = HitDef
+triggerall = P2moveType != H ;FIX
+Trigger1 = AnimElemTime(4) = 0
+attr = S, NT          ;Attributes: Standing, Normal Throw
+hitflag = M-          ;Affect only ground people who are not being hit
+priority = 1, Miss    ;Throw has low priority, must be miss or dodge type.
+sparkno = -1          ;No spark
+p1sprpriority = 1     ;Draw p1's sprite in front of p2; p2's sprite priority is set to 0 by default
+p1facing = 1
+p2facing = 1          ;Force p2 to face Tien
+guard.dist = 0        ;This prevents p2 from going into a guard state if close
+fall = 1              ;Force p2 into falling down
+numhits = 0
+sparkno = -1;s7010
+guard.sparkno = -1;s7000
+sparkxy = -12,-45
+hitsound = s5, 3
+guardsound = S6,0
+
+[State 806, TargetBind]
+type = TargetBind
+trigger1 = MoveHit
+time = 1
+pos = 50,0
+ignorehitpause = 1
+;persistent = 
+
+
+;HitSpark before the Change/TargetStates so it works (explod).
+[State 806, HitSpark]
+type = Explod
+trigger1 = MoveHit ;AnimElem = 3
+anim = 7010
+pos = -12,-45;(Enemy, Const(size.head.pos.x)),  (Enemy, Const(size.head.pos.y))  ;20,-90
+postype = p2
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+;TargetState first, ChangeState second, otherwise Mugen won't read the TargetState, resulting in more bugs.
+;Instead of P2StateNo
+[State 805, TargetState]
+type = TargetState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 810
+ignorehitpause = 1
+
+;Instead of P1StateNo
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 806
+persistent = 1	;if omitted this still holds true.
+ignorehitpause = 1
+
+
+
+
+
+
+[State 805, Width]
+type = Width
+trigger1 = 1
+value = -20,-20
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+
+
+
+[State 805, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2 || AnimElem = 8
+x = IfElse(AnimElemTime(2) = 0,12,-12)
+[State 805, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3 || AnimElem = 7
+x = IfElse(AnimElemTime(3) = 0,14,-6)
+[State 805, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = -8
+
+[State 805, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+[State 805, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;Throw - Attacking
+[Statedef 806]
+type    = A
+movetype= A
+physics = N
+anim = 806
+poweradd = 180
+sprpriority = 3
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = !Time ;MoveHit = 1
+;trigger1 = P2StateType = A
+var(18) = 15
+ignorehitpause = 1
+persistent = 0
+
+[State 806, SprPriority]
+type = SprPriority
+trigger1 = AnimElemTime(5) >= 0
+value = 1
+
+
+
+[State 806, TargetState];NEW CODE ADDED FOR THE THROW TECH
+type = TargetState
+trigger1 = !Time
+value = 810
+
+
+
+[State 806, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = -8
+[State 806, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = -6
+[State 806, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 4
+x = -12
+
+
+
+
+
+[State 806, HitSpark 1]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 8
+anim = 7020
+pos = 40,-80
+postype = p1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+[State 806, HitSpark 2]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 14
+anim = 7030
+pos = 20,-5
+postype = p1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+[State 806, Hit Ground Spark (front)]
+type = Explod
+trigger1 = AnimElem = 14
+postype = p2
+pos = -4, -3
+removetime = -2
+sprpriority = 3
+ignorehitpause = 1
+anim = 8400
+[State 806, Hit Ground Spark (back)]
+type = Explod
+trigger1 = AnimElem = 14
+postype = p2
+pos = -4, -3
+removetime = -2
+sprpriority = 0
+ignorehitpause = 1
+anim = 8401
+
+
+
+
+
+[State 806, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 13
+value = s85,13
+channel = 0
+
+
+
+
+
+[State 806, Swing Sounds]
+type = PlaySND
+trigger1 = AnimElem = 8
+trigger2 = AnimElem = 13
+value = S0,1
+ignorehitpause = 1
+
+[State 806, Hit ground sound]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = Target, AnimElem = 11
+value = S15000,0
+ignorehitpause = 1
+
+[State 806, Hit ground sound]
+type = PlaySND
+trigger1 = AnimElem = 14
+value = S15000,2
+ignorehitpause = 1
+
+[State 806, HitSound 1]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 8
+value = S5,1
+ignorehitpause = 1
+[State 806, HitSound 2]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 14
+value = S5,6
+ignorehitpause = 1
+
+
+
+
+
+[State 806, EnvShake]
+type = EnvShake
+trigger1 = AnimElem = 14
+time = 4
+freq = 60
+ampl = -4
+phase = 90
+ignorehitpause = 1
+
+
+
+[State 806, HitAdd]
+type = HitAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 1
+trigger2 = AnimElem = 8
+trigger3 = AnimElem = 14
+value = 1
+ignorehitpause = 1
+
+
+
+
+;[State 806, VarAdd - for 'dmg dampening']
+;type = VarAdd
+;triggerall = P2MoveType = H
+;trigger1 = AnimElem = 1
+;fvar(13) = 1		;1 hit so 1 point; try to consider this as a normal attack.
+;ignorehitpause = 1
+
+[State 806, TargetLifeAdd]
+type = TargetLifeAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 1
+trigger2 = AnimElem = 8
+value = -1* Ceil(IfElse(fvar(11) * 20 < 10, 10, fvar(11) * 20))  ;-25
+kill = 0
+absolute = 0
+ignorehitpause = 1
+[State 806, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = AnimElem = 14
+value = -1* Ceil(IfElse(fvar(11) * 50 < 25, 25, fvar(11) * 50))  ;-25
+kill = 1
+absolute = 0
+ignorehitpause = 1
+;The usual formula for any attack but multiplied by -1 because otherwise it would give the target more life.
+ 
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+
+[State 806, State End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 807
+
+
+
+
+
+;---------------------------------------------------------------------------
+; Retreat
+[Statedef 807]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 807
+VelSet = 0,0
+sprpriority = 1
+
+[State 807, Turn]	;if too close to one of the edges, he'll turn.
+type = Turn
+;triggerall = BackEdgeBodyDist > 60	;BackEdgeBodyDist < 60
+trigger1 = Time = 0
+persistent = 0
+
+[State 807, PlayerPush]	;no pushing
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+;[State 807, HitBy]
+;type = HitBy
+;trigger1 = AnimElemTime(7) >= 0
+;value = SCA,AT
+;time = 1
+
+[State 807, HitBy]
+type = HitBy
+trigger1 = 1
+value =
+time = 1
+
+[State 807, VelSet 1]
+type = VelSet
+trigger1 = AnimelemTime(2) = 0
+x = -12.5
+[State 807, VelSet 2]
+type = VelSet
+trigger1 = AnimelemTime(4) = 0
+x = 0
+[State 807, VelSet 3]
+type = VelSet
+trigger1 = AnimelemTime(6) = 0
+x = -8
+
+
+
+[State 807, Dust]
+type = Explod
+trigger1 = Animelem = 2
+anim = 1207
+pos = 0,0
+postype = p1
+removetime = -2
+sprpriority = 1
+ownpal = 0
+facing = -1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 807, PlaySnd]
+type = PlaySND
+trigger1 = AnimelemTime(2) = 0
+value = S41,0
+
+[State 807, PlaySnd]
+type = PlaySND
+trigger1 = AnimelemTime(4) = 0
+value = S40,0
+
+
+
+[State 807, 2]
+type = ChangeState
+trigger1 = AnimElemTime(8) = 4
+value = 52
+ctrl = 0
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;Thrown
+[Statedef 810]
+type    = A
+movetype= H
+physics = N
+VelSet = 0,0
+sprpriority = 2
+poweradd = 35
+
+
+[State 810, Turn]
+type = Turn
+trigger1 = AnimElem = 7 ;3
+ignorehitpause = 1
+persistent = 0
+
+
+[State 810, ChangeAnim]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 810
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 10
+statetype = L
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 810, VelSet]
+type = VelSet
+trigger1 = Time = 22
+x = -11
+ignorehitpause = 1
+persistent = 0
+[State 810, VelSet]
+type = VelSet
+trigger1 = Time = 27
+x = 0
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 810, 2]
+type = SelfState
+trigger1 = Time = 125
+value = IfElse(Alive,5120,5150)	;Alive = he gets up; dead = he lies down.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;Back Throw - attempt
+;OM MODE
+[Statedef 815]
+type    = S
+movetype= A
+physics = S
+juggle  = 15
+poweradd= 0
+ctrl = 0
+VelSet = 0,0
+anim = 805		;light kick animation
+sprpriority = 2
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 815, ChangeAnim]
+type = ChangeAnim
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 815, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+[State 810, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+fvar(13) = 2
+
+[State 810, hit]
+type = hitdef
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+trigger1 = animelem=3
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+
+[State 810, hit] ;Throw tech
+type = hitdef
+trigger1 = animelem=3
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)=0
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=3
+trigger1 = Var(0)>0 ;NEW
+trigger1 = enemy, NumExplod(800)>0
+attr = S,NT
+hitflag = M-
+priority = 1,Hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+
+
+
+
+[State 806, TargetBind]
+type = TargetBind
+trigger1 = MoveHit
+time = 1
+pos = 50,0
+ignorehitpause = 1
+;persistent = 
+
+
+;HitSpark before the Change/TargetStates so it works (explod).
+[State 806, HitSpark]
+type = Explod
+trigger1 = MoveHit ;AnimElem = 3
+anim = 7010
+pos = -12,-45;(Enemy, Const(size.head.pos.x)),  (Enemy, Const(size.head.pos.y))  ;20,-90
+postype = p2
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+;TargetState first, ChangeState second, otherwise Mugen won't read the TargetState, resulting in more bugs.
+;Instead of P2StateNo
+;[State 815, TargetState]
+;type = TargetState
+;trigger1 = MoveHit = 1
+;trigger1 = NumTarget
+;trigger1 = !(Target, IsHelper)
+;value = 820
+;ignorehitpause = 1
+;
+;;Instead of P1StateNo
+;[State 815, ChangeState]
+;type = ChangeState
+;trigger1 = MoveHit = 1
+;trigger1 = NumTarget
+;trigger1 = !(Target, IsHelper)
+;value = 816
+;persistent = 1	;if omitted this still holds true.
+;ignorehitpause = 1
+
+
+
+[State 815, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+trigger1 = !(Target, IsHelper)
+value = 899
+ignorehitpause = 1
+
+[State 815, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800) || (NumTarget(800) && enemy, AuthorName != "Team Z2");new2
+trigger2 = MoveHit=1
+value = 816
+ignorehitpause = 1
+persistent = 0
+ 
+[State 815, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+ 
+[State 815, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+
+
+
+
+[State 815, Width]
+type = Width
+trigger1 = 1
+value = -20,-20
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+
+
+
+[State 815, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2 || AnimElem = 8
+x = IfElse(AnimElemTime(2) = 0,12,-12)
+[State 815, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3 || AnimElem = 7
+x = IfElse(AnimElemTime(3) = 0,14,-6)
+[State 815, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = -8
+
+[State 815, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+[State 815, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; NO TECH Back Throw - attempt
+;OM MODE
+[Statedef 818]
+type    = S
+movetype= A
+physics = S
+juggle  = 15
+poweradd= 0
+ctrl = 0
+VelSet = 0,0
+anim = 805		;light kick animation
+sprpriority = 2
+
+
+
+
+[State 805, PlaySND]
+type = PlaySND
+trigger1 = AnimElem = 3
+value = 0, 3
+ignorehitpause = 1
+
+; Notes: The '-' symbol in the hitflag field means that it only affects
+;   players who are not in a hit state. This prevents Tien from combo-ing
+;   into the throw. The priority should be set to a low number, such as
+;   1 or 2, so that the throw does not take precedence over normal attacks.
+;   The type of priority must always be set to "Miss" or "Dodge" for throws,
+;   otherwise strange behavior can result.
+[State 805, 1]
+type = HitDef
+triggerall = P2moveType != H ;FIX
+Trigger1 = AnimElemTime(4) = 0
+attr = S, NT          ;Attributes: Standing, Normal Throw
+hitflag = M-          ;Affect only ground people who are not being hit
+priority = 1, Miss    ;Throw has low priority, must be miss or dodge type.
+sparkno = -1          ;No spark
+p1sprpriority = 1     ;Draw p1's sprite in front of p2; p2's sprite priority is set to 0 by default
+p1facing = 1
+p2facing = 1          ;Force p2 to face Tien
+guard.dist = 0        ;This prevents p2 from going into a guard state if close
+fall = 1              ;Force p2 into falling down
+numhits = 0
+sparkno = -1;s7010
+guard.sparkno = -1;s7000
+sparkxy = -12,-45
+hitsound = s5, 3
+guardsound = S6,0
+
+[State 806, TargetBind]
+type = TargetBind
+trigger1 = MoveHit
+time = 1
+pos = 50,0
+ignorehitpause = 1
+;persistent = 
+
+
+;HitSpark before the Change/TargetStates so it works (explod).
+[State 806, HitSpark]
+type = Explod
+trigger1 = MoveHit ;AnimElem = 3
+anim = 7010
+pos = -12,-45;(Enemy, Const(size.head.pos.x)),  (Enemy, Const(size.head.pos.y))  ;20,-90
+postype = p2
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+;TargetState first, ChangeState second, otherwise Mugen won't read the TargetState, resulting in more bugs.
+;Instead of P2StateNo
+[State 805, TargetState]
+type = TargetState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 820
+ignorehitpause = 1
+
+;Instead of P1StateNo
+[State 805, ChangeState]
+type = ChangeState
+trigger1 = MoveHit = 1
+trigger1 = NumTarget
+trigger1 = !(Target, IsHelper)
+value = 816
+persistent = 1	;if omitted this still holds true.
+ignorehitpause = 1
+
+
+
+
+
+
+[State 805, Width]
+type = Width
+trigger1 = 1
+value = -20,-20
+ignorehitpause = 1
+;persistent = 
+
+
+
+
+
+
+
+[State 805, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2 || AnimElem = 8
+x = IfElse(AnimElemTime(2) = 0,12,-12)
+[State 805, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3 || AnimElem = 7
+x = IfElse(AnimElemTime(3) = 0,14,-6)
+[State 805, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 6
+x = -8
+
+[State 805, No Attack Distance]	;this allows counter messages AND enemy guarding
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+[State 805, Standing]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+
+
+;---------------------------------------------------------------------------
+;Throw - Attacking
+[Statedef 816]
+type    = A
+movetype= A
+physics = N
+anim = 816
+poweradd = 180
+sprpriority = 3
+
+[State 0, Juggle variable]
+type = VarAdd
+trigger1 = !Time ;MoveHit = 1
+;trigger1 = P2StateType = A
+var(18) = 45;15
+ignorehitpause = 1
+persistent = 0
+
+[State 816, SprPriority]
+type = SprPriority
+trigger1 = AnimElemTime(5) >= 0
+value = 1
+
+
+[State 816, TargetState];NEW CODE ADDED FOR THE THROW TECH
+type = TargetState
+trigger1 = !Time
+value = 820
+
+
+
+[State 806, PosAdd 1]
+type = PosAdd
+trigger1 = AnimElem = 2
+x = -8
+[State 806, PosAdd 2]
+type = PosAdd
+trigger1 = AnimElem = 3
+x = -6
+[State 806, PosAdd 3]
+type = PosAdd
+trigger1 = AnimElem = 4
+x = -12
+
+
+
+
+
+[State 806, HitSpark 1]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 8
+anim = 7020
+pos = 40,-80
+postype = p1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+[State 806, HitSpark 2]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 14
+anim = 7030
+pos = 20,-5
+postype = p1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+[State 806, HitSpark 3]
+type = Explod
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 20
+anim = 7030
+pos = -20,-5
+postype = p1
+removetime = -2
+sprpriority = 5
+ownpal = 1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+[State 806, Hit Ground Spark (front)]
+type = Explod
+trigger1 = AnimElem = 14
+trigger2 = AnimElem = 20
+postype = p2
+pos = -4, -3
+removetime = -2
+sprpriority = 3
+ignorehitpause = 1
+anim = 8400
+[State 806, Hit Ground Spark (back)]
+type = Explod
+trigger1 = AnimElem = 14
+trigger2 = AnimElem = 20
+postype = p2
+pos = -4, -3
+removetime = -2
+sprpriority = 0
+ignorehitpause = 1
+anim = 8401
+
+
+
+
+
+
+
+[State 806, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 13
+value = s85,9
+channel = 0
+
+[State 806, Voice]
+type = PlaySND
+triggerall = NumExplod(389115)=0
+trigger1 = AnimElem = 19
+value = s85,13
+channel = 0
+
+
+
+[State 806, Swing Sounds]
+type = PlaySND
+trigger1 = AnimElem = 8
+trigger2 = AnimElem = 13
+trigger3 = AnimElem = 19
+value = S0,1
+ignorehitpause = 1
+
+[State 806, Hit ground sound]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = Target, AnimElem = 11
+value = S15000,0
+ignorehitpause = 1
+
+[State 806, Hit ground sound]
+type = PlaySND
+trigger1 = AnimElem = 14
+trigger2 = AnimElem = 20
+value = S15000,2
+ignorehitpause = 1
+
+[State 806, HitSound 1]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 8
+value = S5,1
+ignorehitpause = 1
+[State 806, HitSound 2]
+type = PlaySND
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 14
+trigger2 = AnimElem = 20
+value = S5,6
+ignorehitpause = 1
+
+
+[State 806, EnvShake]
+type = EnvShake
+trigger1 = AnimElem = 14
+trigger2 = AnimElem = 20
+time = 4
+freq = 60
+ampl = -4
+phase = 90
+ignorehitpause = 1
+
+
+
+
+
+
+
+
+
+[State 806, HitAdd]
+type = HitAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 1
+trigger2 = AnimElem = 8
+trigger3 = AnimElem = 14
+trigger4 = AnimElem = 20
+value = 1
+ignorehitpause = 1
+
+
+
+
+[State 806, VarAdd - for 'dmg dampening']
+type = VarAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 1
+trigger2 = AnimElem = 8
+trigger3 = AnimElem = 14
+trigger4 = AnimElem = 20
+fvar(13) = 1		;1 hit so 1 point; try to consider this as a normal attack.
+ignorehitpause = 1
+
+[State 806, TargetLifeAdd]
+type = TargetLifeAdd
+triggerall = P2MoveType = H
+trigger1 = AnimElem = 1
+trigger2 = AnimElem = 8
+value = -1* Ceil(IfElse(fvar(11) * 25 < 7, 7, fvar(11) * 25))  ;-25
+kill = 0
+absolute = 0
+ignorehitpause = 1
+[State 806, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = AnimElem = 14
+value = -1* Ceil(IfElse(fvar(11) * 25 < 7, 7, fvar(11) * 25))  ;-25
+kill = 0
+absolute = 0
+ignorehitpause = 1
+[State 806, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = AnimElem = 20
+value = -1* Ceil(IfElse(fvar(11) * 25 < 7, 7, fvar(11) * 25))  ;-25
+kill = 1
+absolute = 0
+ignorehitpause = 1
+;The usual formula for any attack but multiplied by -1 because otherwise it would give the target more life.
+ 
+[State 800, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+ignorehitpause = 1
+
+
+[State 806, State End]
+type = ChangeState
+trigger1 = !AnimTime
+value = 817
+
+
+
+
+
+;---------------------------------------------------------------------------
+; Retreat
+[Statedef 817]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+anim = 807
+VelSet = 0,0
+sprpriority = 1
+
+[State 807, Turn]	;if too close to one of the edges, he'll turn.
+type = Turn
+;triggerall = BackEdgeBodyDist > 60	;BackEdgeBodyDist < 60
+trigger1 = Time = 0
+persistent = 0
+
+[State 807, PlayerPush]	;no pushing
+type = PlayerPush
+trigger1 = 1
+value = 0
+
+;[State 807, HitBy]
+;type = HitBy
+;trigger1 = AnimElemTime(7) >= 0
+;value = SCA,AT
+;time = 1
+
+[State 807, HitBy]
+type = HitBy
+trigger1 = 1
+value =
+time = 1
+
+[State 807, VelSet 1]
+type = VelSet
+trigger1 = AnimelemTime(2) = 0
+x = -12.5
+[State 807, VelSet 2]
+type = VelSet
+trigger1 = AnimelemTime(4) = 0
+x = 0
+[State 807, VelSet 3]
+type = VelSet
+trigger1 = AnimelemTime(6) = 0
+x = -8
+
+
+
+[State 807, Dust]
+type = Explod
+trigger1 = Animelem = 2
+anim = 1207
+pos = 0,0
+postype = p1
+removetime = -2
+sprpriority = 1
+ownpal = 0
+facing = -1
+removeongethit = 1
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 807, PlaySnd]
+type = PlaySND
+trigger1 = AnimelemTime(2) = 0
+value = S41,0
+
+[State 807, PlaySnd]
+type = PlaySND
+trigger1 = AnimelemTime(4) = 0
+value = S40,0
+
+
+
+[State 807, 2]
+type = ChangeState
+trigger1 = AnimElemTime(8) = 4
+value = 52
+ctrl = 0
+
+
+
+
+
+
+;---------------------------------------------------------------------------
+;Thrown
+[Statedef 820]
+type    = A
+movetype= H
+physics = N
+VelSet = 0,0
+sprpriority = 2
+poweradd = 35
+
+
+[State 810, Turn]
+type = Turn
+trigger1 = AnimElem = 7 ;3
+ignorehitpause = 1
+persistent = 0
+
+
+[State 810, ChangeAnim]
+type = ChangeAnim2
+Trigger1 = Time = 0
+value = 820
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 10
+statetype = L
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA
+time = 1
+
+[State 810, VelSet]
+type = VelSet
+trigger1 = Time = 22
+x = -11
+ignorehitpause = 1
+persistent = 0
+[State 810, VelSet]
+type = VelSet
+trigger1 = Time = 27
+x = 0
+ignorehitpause = 1
+persistent = 0
+
+
+
+[State 810, 2]
+type = SelfState
+trigger1 = Time = 140
+value = IfElse(Alive,5120,5150)	;Alive = he gets up; dead = he lies down.
+
+
+
+
+
+;----------------------------
+;Enemy Grabbed
+[Statedef 899]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+ 
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = !Time
+value = 899
+ 
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 0, SelfState]
+type = SelfState
+trigger1 = !AILEVEL
+trigger1 = ((NumExplod(90000800) ||(NumExplod(800)))|| (command = "x" && command = "a")) && command != "up"
+trigger2 = AILEVEL > 0 
+trigger2 = Cond(AILevel = 8, 1,random < 470*(AIlevel ** 2 / 64.0))
+value = Cond(enemynear,Var(0)=1,950,5940)
+ 
+[State 0, ChangeState]
+type = SelfState
+trigger1 = Time >= 9
+value = 0	;why 0?
+ctrl = 1		;and why 1?
+
+

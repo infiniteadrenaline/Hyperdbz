@@ -1,0 +1,6430 @@
+;==============================================================
+; CNS File for Name by Team Z2
+; Normal states : standing, crouching & jumping basics, etc.
+;==============================================================
+;---------------------------------------------------------------------------
+
+;---------------------------------------------------------------------------
+; Taunt
+[Statedef 195]
+type = A
+movetype = I
+physics = N
+ctrl = 0
+;anim = 195
+velset = 0,0
+sprpriority = 2
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 195
+
+[State 0]
+Type=ChangeAnim
+triggerall = PrevStateNo != 9000
+Trigger1=Anim=195
+Trigger1=Time>8&&NumExplod(90000200)||Command="x"
+Value=196
+Elem=1
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=196&&!AnimTime
+Value=195
+Elem=3
+
+[State 0]
+Type=ChangeAnim
+triggerall = PrevStateNo != 9000
+Trigger1=Anim=195
+Trigger1=Time>8&&NumExplod(90000230)||Command="a"
+Value=197
+Elem=1
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=197&&!AnimTime
+Value=195
+Elem=3
+
+[State 0];Voice
+Type=PlaySND
+triggerall = PrevStateNo != 9000
+Trigger1=!Time
+Value=195,1
+VolumeScale=200
+
+[State 0];PEcs
+Type=PlaySND
+Trigger1=AnimElem=1
+Trigger1=Anim=196||Anim=197
+Value=195,0
+VolumeScale=100
+
+[State 0]
+Type=PosAdd
+triggerall = PrevStateNo != 9000
+Trigger1=Time<5
+Y=-2
+
+[State 0]
+Type=null;PosAdd
+Trigger1=Time>=8
+Y=.5*Sin(Time*.2)
+
+[State 0]
+Type=PosAdd
+Trigger1=Time>=80
+Y=2
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = 1
+x = 0
+y = 0
+
+
+[State 0]
+Type=PlaySND
+Trigger1=Pos Y>=0&&Vel Y>=0
+Value=40,0
+VolumeScale=100
+
+[State 195, 2]
+type = ChangeState
+trigger1 = Pos Y>=0&&Vel Y>=0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND LIGHT PUNCH
+[StateDef 200]
+type = S
+movetype = A
+physics = S
+;anim = 200
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;;juggle = 7
+
+[State 200, a]
+type = ChangeAnim
+trigger1 = PrevStateNo != 9000
+trigger1 = time = 0
+value = 200
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(2)>=3 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, snd];voice
+type = playsnd
+trigger1 = PrevStateNo != 9000
+trigger1 = animelem=1 && random<200
+value = 3,random%2
+channel = 0
+
+[State 200, 1];snd
+type = PlaySnd
+trigger1 = animelem = 2
+value = 0, 1
+channel = 1
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = !movecontact && !movereversed
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 29 < 7, 7, fvar(11) * 29)), 0
+animtype = Medium
+guardflag = MA
+hitflag = MAF
+pausetime = 10,11
+guard.pausetime = 11,11
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -22,-70
+hitsound = s5, 1
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 12
+ground.velocity = -2.5
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,-3
+air.hittime = 12
+air.animtype = back
+getpower= Cond(Var(14),20,40),35
+givepower = 35,35
+yaccel = 0.5
+ID = 200
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(3) >= 0 && AnimElemTime(4) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,6 - (1 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 4
+    ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 200, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND MEDIUM PUNCH
+[Statedef 210]
+type    = S
+movetype= A
+physics = S
+;juggle =   = 7
+ctrl = 0
+velset = 0,0
+;anim = 210 ;IfElse((p2bodydist x<15),215,210);this is an example of having a close and far version of an attack
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0 || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0 || var(50) = 2
+trigger1 = AnimElemTime(6)<0 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 0]
+Type=PosAdd
+Trigger1=AnimElemTime(7)=0
+X=12
+IgnoreHitPause=1
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo = [200,499] 
+trigger1 = time = 0
+value = 210
+elem=2
+
+[State 200, a]
+type = ChangeAnim
+trigger1 = PrevStateNo != 9000
+trigger1 = time = 0
+value = 210
+
+
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(6)>=0 && AnimElemTime(9)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 210, snd]
+type = playsnd
+trigger1= animelem=2 && random<350
+value=3,10+random%4
+channel = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 0, 2
+channel = 1
+
+[State 0, Width]
+type = Width
+trigger1 = AnimElemTime(4)>=0 && AnimElemTime(9)<=0
+player = 30,0
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(7) >= 0 && AnimElemTime(8) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,12 - (1 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 8
+    ignorehitpause = 1
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1=!movecontact && !movereversed
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 44 < 7, 7, fvar(11) * 44)), 0
+animtype = Hard	
+guardflag = MA
+hitflag = MAF
+pausetime = 12,13
+guard.pausetime = 13,10
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 15
+ground.hittime  = 18
+ground.velocity = -7
+guard.velocity = -9
+airguard.velocity = -2.5,-1.3
+air.type = High	
+air.velocity = -4,-4
+air.hittime = 12
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 210
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND STRONG PUNCH 
+[Statedef 220]
+type = S
+movetype = A
+physics = S
+;anim = 220
+ctrl = 0
+velset = 0,0
+sprpriority = 2
+;juggle = 7
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !Time
+var(9) = AnimElemNo(0)
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = AnimElemTime(18)<0
+value = ,AP
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 
+
+
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(18)>=0 && AnimElemTime(20)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000 
+trigger1 = !Time&&Anim!=220
+value = 220
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = PrevStateNo != 221
+trigger1 = numtarget
+trigger1 = AnimElemTime(3)<0
+trigger1 = PrevStateNo = 200 || PrevStateNo = 230 || PrevStateNo = 400 || PrevStateNo = 430 || PrevStateNo = 210 || PrevStateNo = 240 || PrevStateNo = 410 
+value = Anim
+elem = 3
+;ignorehitpause = 
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo = 221
+trigger1 = !Time&&Anim!=220
+value = Var(9);+1
+
+[State 0]
+Type=PlaySND
+Trigger1=AnimElemTime(18)=0
+Value=220,1
+Channel=1
+VolumeScale=200
+
+[State 0];SUPER FX
+Type=Explod
+Trigger1=AnimElemTime(18)=0
+Anim=223
+Id=223
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=-1
+RemoveTime=-2
+Pos=0,0
+PosType=P1
+RemoveOnGetHit=1
+OwnPal=1
+SprPriority=3
+OnTop=0
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElemTime(18)=0
+anim = 222
+ID = 222
+pos = -30,0
+postype = p1  ;p2,front,back,left,right
+bindtime = -1
+;vel = 6,0
+removetime = -2
+pausemovetime = 0
+scale = 1,1
+sprpriority = 0
+removeongethit = 1
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=2 ;&& random<500
+value = 220,10+random%2
+channel = 0
+
+[State 0, Helper]
+type = Helper
+trigger1 = AnimElem = 18
+name = "after image"
+ID = 222
+stateno = 222
+pos = -30,0
+postype = p1    ;p2,front,back,left,right
+ownpal = 1
+ignorehitpause = 1
+
+
+
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(18) >= 0 && AnimElemTime(19) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,16 - (23 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 20
+    ignorehitpause = 1
+
+[State 0, PosAdd]
+type = null;PosAdd
+trigger1 = AnimElem = 3
+trigger2 = AnimElem = 5
+x = 20
+ignorehitpause = 1
+
+[state 3020, Flame overlay]
+type = helper
+triggerall = !NumHelper(9990)
+TriggerAll=AnimElemTime(10)>=0
+trigger1= movehit && numtarget
+trigger1= (target,movetype=H) && !(target,time)
+trigger1 = target,IsHelper=0
+pos = 0,0
+postype = p2 ;left
+ID = 9990
+stateno = 9990
+helpertype = normal
+name = "Fire"
+sprpriority = -5
+ownpal = 1
+ignorehitpause = 1
+
+[State 0];BURNING HELPER
+Type = Helper
+Trigger1 = Fvar(8)=1&&MoveHit = 1
+TriggerAll = Enemy,StateNo = 2501
+TriggerAll = Enemy,MoveType = H
+StateNo = 2502
+ID = 2502
+Pos = 0, 0
+PosType = P2
+OwnPal = 1
+IgnoreHitPause = 1
+Size.XScale = 1
+Size.YScale = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 18
+physics = N         ;A,C,S,N
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(18)>=0 && AnimElemTime(26)<0
+x = 8
+
+[State 0, VelSet]
+type = null;VelSet
+trigger1 = PrevStateNo=221
+x =10
+
+[State 0]
+Type=VelMul
+Trigger1=AnimElemTime(26)>=0
+X=.5
+IgnoreHitPause=1
+
+
+[State 0, VarSet]
+type = null;VarSet
+trigger1 = AnimElem = 1 
+var(12) = 0
+
+[State 0, VarSet]
+type = null;VarSet
+trigger1 = AnimElem = 2
+var(12) = 2
+
+[State 1540, HitOverride]
+type = HitOverride
+trigger1 = AnimElemTime(0) >= 0 && AnimElemTime(18) < 1
+trigger2 = AnimElemTime(20) >= 0 && AnimElemTime(41) < 0
+slot = 1
+time = 1
+stateno = 221 ;loop
+attr = SCA,NP,SP,HP
+ignorehitpause = 1
+
+[State 0, Helper]
+type = null;Helper
+trigger1 = !NumHelper(226)
+trigger1 = AnimElem = 18
+name = "barrier"
+ID = 226
+stateno = 226
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+ownpal = 1
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 20
+physics = S  
+
+[State 0, Explod]
+type = null;Explod
+trigger1 = MoveHit = 1
+anim = 2845
+ID = 2845
+pos = 80,-50
+postype = p1  ;p2,front,back,left,right
+sprpriority = 2
+ownpal = 0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = Vel X >0
+anim = 224
+ID = 224
+pos = -80,0
+postype = p1  ;p2,front,back,left,right
+sprpriority = 2
+ownpal = 0
+ignorehitpause = 1
+persistent = 3
+
+
+[State 0, PlaySnd]
+type = null;PlaySnd
+trigger1 = MoveHit = 1
+value = 2511,0
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = AnimElemTime(2)=0 ;&& AnimElemTime(5)<0
+time = 23
+add = 240,50,0
+mul = 250,224,120
+sinadd = 110,55,85,10
+invertall = 0
+color = 0
+
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(4)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 =!movecontact && !movereversed
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 52 < 7, 7, fvar(11) * 52)), 5
+animtype = Hard	
+guardflag = MA
+hitflag = MAF
+pausetime = 16,17
+guard.pausetime = 16,9
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound = s5, 9
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 30
+guard.slidetime = 20
+ground.hittime = 30
+guard.hittime = 20
+air.hittime = 30
+guard.ctrltime = 20
+guard.dist = 100
+ground.velocity = -7,-3
+guard.velocity = -9
+airguard.velocity = -7,-3
+air.type = High	
+air.velocity = -12,-4
+air.hittime = 12
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+;p2stateno =221
+fall = 1
+fall.recover = 0
+p2facing=1
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+
+[State 0];HeavyHitshake
+Type=EnvShake
+Trigger1=MoveContact=1
+Time=10
+Freq=100
+Ampl=10
+IgnoreHitPause=1
+Persistent=0
+
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(220)
+trigger1 = P2StateNo = 221 && P2MoveType = H
+anim = 1
+ID = 220
+pos = 0,0
+postype = P1  ;P2, Front, Back, Left, Right
+removeongethit = 1
+removetime = -1
+;ignorehitpause = 1
+
+[State 0, TargetState]
+type =null;TargetState
+triggerall = !NumExplod(220)
+triggerall = NumTarget;()
+triggerall = P2StateType !=A
+trigger1 = MoveHit = 1
+value = 221
+;ignorehitpause = 1
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = MoveHit = 1
+x = 30
+ignorehitpause = 1
+persistent = 0
+
+[State 0, EnvShake]
+type = EnvShake
+trigger1 = MoveHit
+time = 16
+freq = 60
+ampl = -4
+phase = 90
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Width]
+type = Width
+trigger1 = MoveHit
+player = 40,0
+ignorehitpause = 1
+
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(20)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = null;VarSet
+trigger1 = AnimElem = 6
+var(12) = 0
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;----------------------------------------
+;Armor Hit Loop
+[Statedef 221]
+type = A
+physics = N
+movetype = I
+ctrl = 0
+
+[State 0]
+Type=LifeAdd
+Trigger1=!Time
+Value=-Floor(GetHitVar(Damage)*1)
+Kill=1
+
+[State 1541, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+time = 1
+value = SCA
+
+[State -2, PalFX] 
+type =null;PalFX
+Trigger1=!Time
+time = 10
+add = 164,0,0
+mul = 266,256,256
+sinadd = 164,0,0,30
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1541, VarAdd] ;Number of hits remaining
+type =null; VarAdd
+trigger1 = !time
+var(12) = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 2315, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 220 ;go back
+ctrl = 0
+;---------------------------------------------------------------------------
+; Hit by STRONG PUNCH 
+[Statedef 222]
+type = A
+movetype = H
+physics = N
+ctrl = 0
+velset=0,0
+
+[State VelSet];Move backwards
+Type=VelSet
+Trigger1=Time=0
+X=(GetHitVar(Xvel)*.3)*Facing
+
+[State 0]
+Type=VelSet
+Trigger1=HitOver
+Trigger2=Time>=GetHitVar(SlideTime)
+X=0
+
+[State 5000, 1] ;Anim for HIT_LIGHT to HIT_HARD
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1=Pos Y = 0
+trigger1 = GetHitVar(animtype) != [3,5]
+value = ifelse((GetHitVar(groundtype) = 1),5000,5010) + GetHitVar(animtype)
+[State ChangeAnim];Recovery Anim Standing
+Type=ChangeAnim
+trigger1=Pos Y = 0&&!AnimTime
+Value= 5005 + GetHitVar(AnimType)
+;-------AIR
+[State 5000, 2] ;Anim for HIT_BACK
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+[State 5000, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+[State 5000, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+trigger1 = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y != 0
+statetype = a
+
+[State 0]
+Type=ChangeAnim
+trigger1 = Pos Y != 0
+Trigger1=AnimExist(5035)
+Trigger1=Anim=5030&&!Animtime
+Value=5035
+Elem=1
+
+[State 0]
+Type=ChangeAnim
+trigger1 = Pos Y != 0
+Trigger1=AnimExist(5050)
+Trigger1=Anim=5035&&!Animtime
+Trigger2=Pos Y=0
+Trigger2=(Anim=5005 + GetHitVar(AnimType)) && Time = 40
+Value=5050
+Elem=1
+
+[State VelSet];Move backwards
+Type=VelSet
+trigger1 = Pos Y != 0
+Trigger1=Time=0
+X=(GetHitVar(Xvel))*Facing
+Y=(GetHitVar(Yvel));*Facing
+
+[State 0];Gravity
+Type=VelAdd
+trigger1 = Pos Y != 0
+Trigger2=Anim = 5050
+Y=GetHitVar(Yaccel)
+
+[State 0, Self State]
+Type=SelfState
+Trigger1=HitOver&&Time>1
+Trigger1=Pos Y>=10
+Value=5100
+Ctrl=0
+
+[State 0, ChangeState]
+type = null;ChangeState
+trigger1 = !AnimTime
+value = 5050
+
+;---------------------------------------------------------------------------
+; FWD L PUNCH 
+[Statedef 205]
+type = S
+movetype = A
+physics = S
+;anim = 220
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 205
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = AnimElemTime(2)<10 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(2)>=10 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=2 && random<500
+value = 3,20+random%2
+channel = 0
+
+[State 200, 1];snd
+type = PlaySnd
+trigger1 = animelem = 3
+value = 0, 2
+channel = 1
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(3) >= 0 && AnimElemTime(4) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,12 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 4
+    ignorehitpause = 1
+
+[State 0];HeavyHitshake
+Type=EnvShake
+Trigger1=MoveHit=1
+Time=10
+Freq=100
+Ampl=10
+Persistent=0
+IgnoreHitPause=1
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = animelem = 3
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 33 < 7, 7, fvar(11) * 33)), 0
+animtype = Medium
+guardflag = HA
+hitflag = MAF
+pausetime = 12, 15
+guard.pausetime = 12,12
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -22,-70
+hitsound = s5, 2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 12
+ground.velocity = -2.5,3
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.type = High	
+air.velocity = -3,3
+air.hittime = 12
+air.animtype = back
+getpower= Cond(Var(14),20,40),35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+fall.recover = 0
+ID = 205
+
+[State 1400, TargetDrop]
+type = TargetDrop
+trigger1 = NumTarget(205) > 1
+ID = 205
+keepOne = 1
+excludeID = 205
+ignoreHitPause = 1
+
+[State 1400, TargetState]
+type = TargetState
+trigger1 = MoveHit && NumTarget(205)
+trigger1 = !(Target(205), Time)
+value = ifElse(Target(205), StateType = A, 5425, 5420)
+ID = 205
+ignoreHitPause = 1
+
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(220)
+trigger1 = P2StateNo = 221 && P2MoveType = H
+anim = 1
+ID = 220
+pos = 0,0
+postype = P1  ;P2, Front, Back, Left, Right
+removeongethit = 1
+removetime = -1
+;ignorehitpause = 1
+
+[State 0, TargetState]
+type =null; TargetState
+triggerall = !NumExplod(220)
+triggerall = NumTarget;()
+triggerall = P2StateType !=A
+trigger1 = MoveHit = 1
+value = 221
+;ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 210, 5]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND LIGHT KICK
+[Statedef 230]
+type = S
+movetype = A
+physics = S
+;anim = 230
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 230
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(7)<0
+value = 200
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = enemy, BackEdgeBodyDist<=10
+trigger1 = NumHelper(231)
+trigger1 = helper(231),MoveContact
+x = -1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(4)>=0 && AnimElemTime(7)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 230, 1]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 0, 2
+
+[State 0, ChangeAnim]
+type = null;ChangeAnim
+trigger1 = NumHelper(231)
+trigger1 = helper(231),MoveContact=1
+value = Anim
+elem = 5
+;IgnoreHitPause=1
+
+[State 230, 2]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = !movecontact && !movereversed
+attr = S, NA
+animtype  = Medium
+damage = ceil(ifElse(fvar(11) * 32 < 7, 7, fvar(11) * 32)), 0
+hitflag = MAFD
+guardflag = LA
+pausetime = 10,11
+guard.pausetime = 11,11
+sparkno = s7010
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound   = s5,4
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 8
+ground.hittime  = 12
+ground.velocity = -2.5
+guard.velocity = -4.5
+air.velocity = -2,-3
+air.animtype = back
+getpower= Cond(Var(14),20,40),35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+forcestand = 1
+
+[State 0, Explod]
+type = Explod
+trigger1 = AnimElem = 5
+anim = 231
+ID = 231
+pos = 80,0
+postype = p1  ;p2,front,back,left,right
+sprpriority = 2
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimElem = 5
+value = 421,1
+
+[State 0, Helper]
+type = null;Helper
+trigger1 = AnimElem = 5
+helpertype = Normal ;Player
+name = "Rock Spike"
+ID = 231
+stateno = 231
+pos = 80,0
+postype = P1    ;P2, Front, Back, Left, Right
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+
+[State -3, Shake on Ground hit]
+type = EnvShake
+trigger1 = AnimElem = 4
+freq = 80
+time = 8
+ampl = -5
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 230, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND MK NEW
+[Statedef 240]
+type = S
+movetype = A
+physics = S
+;anim = 250
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 240
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = numtarget
+trigger1 = P2MoveType = H
+trigger1 = !Time
+trigger1 = (PrevStateNo = [200,240]) || (PrevStateNo = [400,440] )
+value = 240
+elem = 3
+persistent = 0
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0 || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0 || var(50) = 2
+trigger1 = AnimElemTime(5)<2 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(5)>=2 && AnimElemTime(8)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 250, 1]
+type = PlaySnd
+trigger1 = AnimElem = 5
+value = 0, 5
+
+;animate through blur anim on hitpause code (only use this if an attack can hit on a blur frame) this will be the only example given
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(6) >= 0 && AnimElemTime(7) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,16 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 7
+    ignorehitpause = 1
+;end blur code
+
+[State 250, no fall]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 6
+attr = S, NA
+animtype  = back
+damage = ceil(ifElse(fvar(11) * 41 < 7, 7, fvar(11) * 41)), 0
+guardflag = MA
+pausetime = 12,13
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-85
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = high
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 23
+ground.velocity = -9
+air.velocity = -4,-4
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 0
+air.fall = 1
+fall.recover=1
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+[State 250, 3]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; STAND STRONG KICK 
+[Statedef 250]
+type = S
+movetype = A
+physics = N
+;anim = 250
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 0, VarAdd]
+type = VarAdd
+triggerall = AnimElemTime(8)<0
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+[State 0, VarAdd]
+type = VarAdd
+triggerall = !NumExplod(250)
+triggerall = AnimElemTime(9)>0
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(6)>=3 && AnimElemTime(8)<0
+trigger2 = AnimElemTime(11)>=7 && AnimElemTime(13)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0]
+Type=StateTypeSet
+Trigger1=AnimElemTime(5)>=0
+StateType=A
+
+[State 200, a]
+type = ChangeAnim
+trigger1 = !Time&&Anim!=260
+value = 260
+
+[State 0, ChangeAnim]
+type = null;ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = P2MoveType = H
+trigger1 = AnimElemTime(3)<0
+trigger1 = (PrevStateNo = [200,240]) || (PrevStateNo = [400,440] )
+value = 260
+elem = 1
+persistent = 0
+
+[State 250, 1]
+type = PlaySnd
+trigger1 =Anim=260&& AnimElem = 5
+Trigger2=Anim=260&&AnimElem = 11
+value = 0, 6
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=2 ;&& random<500
+value = 250,10+random%2
+channel = 0
+persistent = 0
+
+[State 0];FX
+Type=null;Explod
+Trigger1=AnimElemTime(11)=4
+Anim=262
+Id=262
+PauseMoveTime=0
+SuperMoveTime=0
+RemoveOnGetHit=1
+BindTime=-1
+RemoveTime=-2
+Pos=0,0
+OwnPal=1
+PosType=P1
+SprPriority=2
+IgnoreHitPause=0
+
+[State 0, Helper];FireTrail Loop
+type = Helper
+Trigger1=AnimElemTime(11)=4
+helpertype = normal ;player
+name = "FireTrail Loop"
+ID = 6510
+stateno = 6510
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+ownpal = 1
+Persistent=0
+
+;animate through blur anim on hitpause code (only use this if an attack can hit on a blur frame) this will be the only example given
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(7) >= 0 && AnimElemTime(8) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,15 - (1 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 8
+    ignorehitpause = 1
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(12) >= 0 && AnimElemTime(13) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,15 - (3 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 13
+    ignorehitpause = 1
+
+;end blur code
+
+[State 250, no fall]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 7
+attr = A, NA
+animtype  = up
+damage = ceil(ifElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 5
+hitflag=MAF
+guardflag = MA
+pausetime = 17,18
+guard.pausetime = 12,16
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-85
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 18 ;15
+ground.velocity = -2,-7
+air.velocity = -1,-4
+air.animtype = up
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+air.fall = 1
+fall.recover=0
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+ID = 250
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(250)
+trigger1 = NumTarget(250)
+anim = 1
+ID = 250
+removetime = 36
+removeongethit = 1
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = AnimElemTime(13)>=0
+id = 250
+
+
+
+[State 250, no fall]
+type = HitDef
+triggerall = Var(18) <= 15 || NumExplod(250)
+TriggerAll=Fvar(8)=0
+trigger1 = AnimElem = 12
+guard.dist = 320
+attr = A, NA
+animtype  = back
+damage = ceil(ifElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 5
+hitflag=MAF
+guardflag = HA
+pausetime = 15,18
+guard.pausetime = 10,16
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-25
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 18 ;15
+guard.hittime = 28
+guard.slidetime = 28
+ground.velocity = -1,6
+air.velocity = -1,6
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+air.fall = 1
+fall.recover=0
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+id = Cond(NumTarget(250), 250, 251)
+[State 250, no fall]
+type = HitDef
+triggerall = Var(18) <= 15 || NumExplod(250)
+TriggerAll=Fvar(8)=1
+trigger1 = AnimElem = 12
+guard.dist = 320
+attr = A, NA
+animtype  = back
+damage = ceil(ifElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 5
+hitflag=MAF
+guardflag = HA
+pausetime = 15,18
+guard.pausetime = 10,16
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-25
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = high
+ground.slidetime = 15
+ground.hittime = 18 ;15
+guard.hittime = 28
+guard.slidetime = 28
+ground.velocity = -1,6
+air.velocity = -1,6
+air.animtype = back
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.5
+fall = 1
+air.fall = 1
+fall.recover=0
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+
+
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[state 3020, Flame overlay]
+type = helper
+triggerall = !NumHelper(9990)
+TriggerAll=AnimElemTime(10)>=0
+trigger1= movehit && numtarget
+trigger1= (target,movetype=H) && !(target,time)
+trigger1 = target,IsHelper=0
+pos = 0,0
+postype = p2 ;left
+ID = 9990
+stateno = 9990
+helpertype = normal
+name = "Fire"
+sprpriority = -5
+ownpal = 1
+ignorehitpause = 1
+
+[State 0];BURNING HELPER
+Type = Helper
+Trigger1 = Fvar(8)=1&&MoveHit = 1
+TriggerAll = Enemy,StateNo = 2501
+TriggerAll = Enemy,MoveType = H
+StateNo = 2502
+ID = 2502
+Pos = 0, 0
+PosType = P2
+OwnPal = 1
+IgnoreHitPause = 1
+Size.XScale = 1
+Size.YScale = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(13)>=0
+value = 0
+
+[State 0]
+Type=PosSet
+Trigger1=!Time
+Y=0
+
+[State 0]
+Type=VelSet
+Trigger1=AnimElemTime(5)=0
+X=3
+Y=-6
+[State 0]
+Type=VelSet
+Trigger1=AnimElemTime(11)>=5;&&Pos Y<0
+X=1
+Y=12
+
+[State 0]
+Type=null;ChangeAnim
+Trigger1=AnimElem=11&&Pos Y>=-20&&Vel Y>0
+Value=Anim
+Elem=12
+
+[State 0]
+Type=PosSet
+Trigger1=Anim=261
+Y=0
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=260&&Pos Y>=-30&&Vel Y>0&&Anim!=261
+Value=261
+Elem=1
+Persistent=0
+
+[State 0]
+Type=VelSet
+Trigger1=Anim=261
+X=0
+Y=0
+
+[State 0]
+Type=StateTypeSet
+Trigger1=Time >= 35
+trigger1 = Pos Y >= 0
+StateType=S
+
+[State 0]
+Type=ChangeState
+Trigger1=Anim=261&&!AnimTime
+Value=0
+Ctrl=1
+;---------------------------------------------------------------------------
+; Landing
+[Statedef 251]
+type = A
+movetype = A
+physics = N
+anim = 261
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = 1
+value =0
+;ignorehitpause = 
+;persistent = 
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = 1
+id = 250
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 261
+
+[State 0]
+Type=RemoveExplod
+Trigger1=!Time
+Id=262
+
+[State 0];FLOOR FX
+Type=Explod
+Trigger1=AnimElemTime(3)=0
+Anim=17100
+Id=17100
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=-1
+RemoveTime=-2
+RemoveOnGetHit=1
+Pos=-36,0
+OwnPal=1
+PosType=P1
+SprPriority=-2
+OnTop=0
+
+[State 0];FX
+Type=Explod
+Trigger1=!Time
+Anim=263
+Id=263
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=-1
+RemoveTime=-2
+Pos=0,0
+OwnPal=1
+PosType=P1
+SprPriority=3
+OnTop=1
+
+[State 0]
+Type=PosSet
+Trigger1=AnimElem = 3
+Y=0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElemTime(3)>=0
+statetype = S       ;S,A,C,L
+physics = S         ;A,C,S,N
+
+
+
+[State 0]
+Type=PlaySND
+Trigger1=AnimElemTime(3)=0
+Value=40,0
+Channel=-1
+
+[State 0]
+Type=ChangeState
+Trigger1=!AnimTime
+Value=0
+Ctrl=1
+
+;----------------------------------------
+;Armor Hit Loop
+[Statedef 252]
+type = A
+physics = N
+movetype = I
+ctrl = 0
+
+[State 0]
+Type=LifeAdd
+Trigger1=!Time
+Value=-Floor(GetHitVar(Damage)*.5)
+Kill=1
+
+[State 1541, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+time = 1
+value = SCA
+
+[State -2, PalFX] 
+type =null;PalFX
+Trigger1=!Time
+time = 10
+add = 164,0,0
+mul = 266,256,256
+sinadd = 164,0,0,30
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1541, VarAdd] ;Number of hits remaining
+type = VarAdd
+trigger1 = !time
+var(12) = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 2315, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 250 ;go back
+ctrl = 0
+
+;Z BOOST BURN EFFECT
+[StateDef 2501]
+type = A
+physics = N
+moveType =H
+VelSet=0,0
+ctrl = 0
+
+
+[State VelSet];Move backwards
+Type=VelSet
+Trigger1=Time=15
+X=(GetHitVar(Xvel))*Facing
+Y=(GetHitVar(Yvel))
+[State 0];Gravity
+Type=VelAdd
+Trigger1=Time>=15
+Y=.55
+
+[State 0]
+Type = ChangeAnim2
+Trigger1 = Time = 0
+Value =2501
+
+[State ?????]
+type = HitDef
+triggerall = Var(18) <= 15
+Trigger1 = Time = 0
+Attr = C, HP, HT
+Damage = 0
+Priority = 1, Hit
+HitFlag = MAFD-
+PauseTime = 0,0
+SparkNo = -1
+Guard.SparkNo = -1
+Ground.SlideTime = 0
+Ground.HitTime = 9
+fall.recover=0
+Ground.Velocity = 0
+Guard.Velocity = 0
+Air.Velocity = 0,0
+
+[State 0, PalFXWiz]
+type = PalFX
+trigger1 = !Time
+time =200
+add = 255,50,0
+sinadd = -255,-50,0,20
+invertall = 0
+color = 250
+
+[State 0]
+Type=HitAdd
+Trigger1=!Time
+Value=-1
+
+[State ?????]
+Type = ChangeAnim
+Trigger1 = Time = 2
+Value = 5030
+
+[State 0]
+Type=null;ChangeAnim
+Trigger1=AnimExist(5035)
+Trigger1=Anim=5030&&!Animtime
+Value=5035
+Elem=1
+
+[State 0]
+Type=null;ChangeAnim
+Trigger1=AnimExist(5050)
+Trigger1=Anim=5035&&!Animtime
+Trigger2=Anim!= 5035
+Trigger2 =Anim=5030&&AnimTime = 20
+Value=5050
+Elem=1
+
+[State 3052, Land]
+type = selfstate
+trigger1 = Time=2
+value = 5050
+
+;---------------------------------------------------------------------------
+; CROUCH LIGHT PUNCH
+[Statedef 400]
+type = C
+movetype = A
+physics = C
+;anim = 400
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 400
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = animelem=1 && random<200
+value = 3,random%5
+channel = 0
+
+[State 400, 1]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 0, 1
+
+[State 400, 2]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 4
+attr = C, NA
+hitflag = MAF
+guardflag = MA
+animtype = medium
+damage = ceil(ifElse(fvar(11) *33< 7, 7, fvar(11) * 33)), 0
+pausetime = 13, 16
+guard.pausetime = 13,16
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -15,-33
+hitsound   = s5,1
+guardsound = S6,0
+ground.type = low
+ground.slidetime = 12
+ground.hittime  = 12
+ground.velocity = -2.5
+guard.velocity = -6
+airguard.velocity = -2,-1.1
+air.velocity = -2.5,-4
+air.animtype = back
+getpower= Cond(Var(14),20,40), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 221, finish]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11+(!NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003))
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; CROUCH Medium PUNCH
+[Statedef 410]
+type = C
+movetype = A
+physics = S
+;anim = 420
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 9
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = AnimElemTime(7)<0 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(7)>=0 && AnimElemTime(12)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = !Time&&Anim!=410
+value = 410
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !Time
+var(3) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = AILevel>0
+trigger1 = AnimElemTime(5)>=0 && AnimElemTime(6)<0
+trigger1 = Time = [0,21]
+trigger1 = P2BodyDist X > 90
+var(3) = 1
+
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = !AILevel
+trigger1 = command = "holdy"
+trigger1 = AnimElemTime(5)>=0 && AnimElemTime(6)<0
+trigger1 = Time = [0,21]
+value = anim
+elem = 5
+ignorehitpause = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AILevel>0
+trigger1 = Var(3) = 1
+trigger1 = AnimElemTime(5)>=0 && AnimElemTime(6)<0
+trigger1 = Time = [0,21]
+value = anim
+elem = 5
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = AnimElemTime(5)<0
+var(9) = 0
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = AnimElemTime(5)>=0 && AnimElemTime(6)<0
+var(9) = 1
+ignorehitpause = 1
+
+
+[State 0]
+Type=ChangeAnim
+Trigger1=PrevStateNo=[200,400]
+Trigger1=!Time
+Value=Anim
+elem=2
+
+
+
+[State 400, 2]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 7 
+attr = C, NA
+hitflag = M
+guardflag = MA
+animtype = heavy
+damage = ceil(ifElse(fvar(11) *17< 7, 7, fvar(11) * 17)), 0
+pausetime = 1, 16
+guard.pausetime = 1,16
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -15,-33
+hitsound   = s5,1
+guardsound = S6,0
+ground.type = low
+ground.type = high
+ground.slidetime = 7
+ground.hittime = 10
+ground.velocity = -4
+air.velocity = -4,-4
+air.animtype = back
+getpower= Cond(Var(14),20,40), 35
+givepower = 35,35
+yaccel = 0.5
+ID = 1098
+ground.cornerpush.veloff = -2
+down.cornerpush.veloff = -2
+guard.cornerpush.veloff = -2
+
+[State 420, 3]
+type = HitDef
+triggerall = !NumTarget(440)
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 9
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 30 < 7, 7, fvar(11) * 30)), 0
+hitflag = MAFD
+guardflag = MA
+pausetime = 10,10
+guard.pausetime = 10,10
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-60
+hitsound   = s421, 0
+guardsound = S6,0
+animtype = Hard
+ground.type = High
+ground.slidetime = 15
+ground.hittime = 23
+ground.velocity = -9
+air.velocity = -4,-4
+air.animtype = back
+ground.cornerpush.veloff =0 
+air.velocity = ifelse(p2movetype=H,-3,-1),ifelse(p2movetype=H,-5,-10)
+getpower= ifelse(p2movetype=H,40,210), 35
+givepower = 35,35
+yaccel = 0.45
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+ID = Cond(P2StateType = L,440,1098)
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(7) >= 0 && AnimElemTime(9) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,1 - (4 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 9
+    ignorehitpause = 1
+
+[State 0]
+Type=VelSet
+Trigger1=NumHelper(421)
+Trigger1=Helper(421),MoveContact=1
+Trigger1=FrontEdgeDist < 150
+X=-3
+
+[State 220, voice snd]
+type = playsnd
+trigger1 = animelem=1 && random<500
+value = 3,20+random%2
+channel = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = animelem = 6
+value = 0, 2
+
+[State 0, PlaySnd]
+type =PlaySnd
+trigger1 = animelem = 7
+value = 2020,8
+
+[State 0, ChangeAnim]
+type = null;ChangeAnim
+trigger1 = Time <1
+trigger1 = NumHelper(421)
+trigger1 = helper(421),MoveContact;<10
+value = Anim
+elem =7
+
+[State 0]
+type = EnvShake
+Trigger1= !NumProjID(421)
+trigger1 = animelemtime(8)=1
+freq = 160
+time = 10
+ampl = 10
+IgnoreHitPause=1
+
+[State 0, Explod]
+type = Explod
+triggerall = !NumExplod(422)
+trigger1 = AnimElemTime(7)=0
+anim = 421
+ID = 422
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+sprpriority = 2
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+removetime = 21
+
+
+[State 0, Helper]
+type = Helper
+trigger1 = Var(9) >= 12
+trigger1 =AnimElemTime(9)=1;&&NumHelper(421)=0
+helpertype = Normal ;Player
+name = "Rock Slab"
+ID = 421
+stateno = 421
+pos = 50,0
+postype = P1    ;P2, Front, Back, Left, Right
+ownpal = 1
+ignorehitpause = 1
+persistent = 0
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(12)>=0
+value = 0
+
+[State 221, finish]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11+(!NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003))
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; CROUCH STRONG PUNCH
+[Statedef 420]
+type = S
+movetype = A
+physics = S
+;anim = 420
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 5
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 420
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = numtarget
+trigger1 = AnimElemTime(3)<0
+trigger1 = PrevStateNo = 200 || PrevStateNo = 230 || PrevStateNo = 400 || PrevStateNo = 430 || PrevStateNo = 210 || PrevStateNo = 240 || PrevStateNo = 410 
+value = Anim
+elem = 3
+;ignorehitpause = 
+persistent = 0
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(6)>=0 && AnimElemTime(8)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 220, voice snd]
+type = playsnd
+trigger1 = animelem=1 ;&& random<500
+value = 420,10+random%4
+channel = 0
+
+[State 200, 1]
+type = PlaySnd
+trigger1 = animelem = 7
+value = 0, 7
+
+[State 1300, repel helper]
+type = null;Helper
+triggerall = !IsHelper
+trigger1 = animelemtime(2) = 0
+stateno = 1305
+ID = 1305
+name = "repel"
+postype = p1
+pos = 50, -40
+
+[State 0, Explod]
+type =null;Explod
+trigger1 = AnimElem = 5
+anim = 1302
+ID = 1302
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+sprpriority = 3
+ownpal = 1
+
+[state 1215, Smoke FX]
+type = explod
+trigger1 = animelemtime(5)=1
+anim = 1208;+(var(2)=0)
+id = 1206
+pos =40,0  ;30,0
+postype = P1
+Facing=1
+sprpriority = 3
+ownpal = 1
+scale = 1.2,1.2
+removetime = -2
+persistent = 0
+ignorehitpause = 1
+
+[State 0]
+type = EnvShake
+trigger1 = animelemtime(5)=1
+freq = 110
+time = 10
+ampl = 10
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = AnimElem = 6
+value = 1300,0
+
+[State 420, 3]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 =AnimElem = 6
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 45 < 7, 7, fvar(11) * 45)), 5
+hitflag = MAF
+guardflag = MA
+pausetime = 14, 15
+guard.pausetime = 12,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -17,-73
+hitsound   = s5, 9
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 20  ;14
+ground.hittime  = 20   ;14
+ground.velocity = -9.95,-9
+guard.slidetime = 18
+guard.hittime = 18
+guard.ctrltime = 12
+airguard.velocity = -5.5,-5
+air.type = High
+air.velocity = -9.5,-6
+air.hittime = 9
+getpower = Cond(P2MoveType = H,20,101),35
+givepower = 35,35
+ground.cornerpush.veloff = -7.25
+guard.cornerpush.veloff = -7
+air.cornerpush.veloff = 0
+yaccel = .55
+air.fall = 1
+fall = 1
+fall.recover = 0
+id = 1303
+
+[State 0];FX 1
+Type=Explod
+Trigger1=AnimElemTime(7)=0
+Anim=422
+Id=422
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=-43,-57
+PosType=P1
+SprPriority=2
+OnTop=0
+[State 0];FX 2
+Type=Explod
+Trigger1=AnimElemTime(3)=2
+Anim=423
+Id=423
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=-0,0
+PosType=P1
+SprPriority=2
+OnTop=0
+RemoveOnGetHit=1
+[State 0];FX 3
+Type=Explod
+Trigger1=AnimElemTime(7)=0
+Anim=424
+Id=424
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=0,0
+PosType=P1
+SprPriority=3
+OnTop=0
+[State 0];FX 4
+Type=Explod
+Trigger1=AnimElemTime(6)=0
+Anim=425
+Id=425
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=0,0
+PosType=P1
+SprPriority=3
+OnTop=0
+
+[State 0, TargetState]  ;New state
+type = TargetState
+trigger1 = Numtarget(1303)
+trigger1 = movehit = 1
+value = 1330
+ID = 1303
+ignorehitpause = 1
+persistent = 0
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+[State 410, End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
+
+
+;---------------------------------------------------------------------------
+; CROUCH LIGHT KICK
+[Statedef 430]
+type = C
+movetype = A
+physics = C
+;anim = 430
+ctrl = 0
+velset = 0,0
+sprpriority = 1
+;juggle = 7
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 430
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = animelem=2 && random<200
+value = 3,random%5
+channel = 0
+
+[State 430, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 4
+
+[State 430, 2]
+type = HitDef
+triggerall = !NumTarget(440)
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 4
+attr = C, NA
+hitflag = MAFD
+guardflag = LA
+damage = ceil(ifElse(fvar(11) * 32 < 7, 7, fvar(11) * 32)), 0
+animtype = medium
+pausetime = 11,12
+guard.pausetime = 12,12
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-10
+hitsound   = s5,4
+guardsound = s6,0
+ground.type = Low
+ground.slidetime = 12;8
+ground.hittime  = 12;8
+ground.velocity = -3,0
+guard.velocity = -6
+air.type = Low
+air.velocity = -2,-5
+down.velocity = -3,0 ;-3,-1 
+down.hittime = 12
+down.cornerpush.veloff = -16
+air.cornerpush.veloff = 0
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+;fall.recover = 0
+air.animtype = back
+air.hittime = 4
+yaccel = 0.5
+ID = Cond(P2StateType = L,440,1098)
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 221, finish]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11+(!NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003))
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; CROUCH MEDIUM KICK 
+[Statedef 440]
+type    = C
+movetype= A
+physics = C
+;juggle  = 7
+ctrl = 0
+velset = 0,0
+;anim = 440
+sprpriority = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 7
+ignorehitpause = 1
+persistent = 0
+
+[State 0]
+Type=VelAdd
+Trigger1=AnimElem = 5
+X = 9
+IgnoreHitPause=1
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 =!Time&&Anim!=440
+value = 440
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo = 200 || PrevStateNo = 230 || PrevStateNo = 400 || PrevStateNo = 430
+trigger1 = NumTarget
+trigger1 =!Time&&Anim=440
+value = 440
+elem = 2
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = AnimElemTime(4)<2 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(4)>=2 && AnimElemTime(6)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = AnimElem = 1 
+var(12) = 0
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = AnimElem = 2
+var(12) = 2
+
+[State 1540, HitOverride]
+type = HitOverride
+triggerall = var(12) > 0
+trigger1 = AnimElemTime(4) >= 0 && AnimElemTime(6) < 0
+slot = 1
+time = 1
+stateno = 441 ;loop
+attr = SCA,NA,SA,HA,NP,SP,HP
+ignorehitpause = 1
+
+[State 0, ChangeAnim]
+type =null; ChangeAnim
+trigger1 = P2MoveType = H
+trigger1 = AnimElemTime(3)<0
+trigger1 = PrevStateNo = 230 || PrevStateNo = 400 || PrevStateNo = 430
+value = Anim
+elem = 3
+;ignorehitpause = 
+persistent = 0
+
+[State 210, snd]
+type = playsnd
+trigger1= animelem=2 && random<350
+value=3,10+random%4
+channel = 0
+
+[State 440, 1]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 5
+
+[State 440, 2]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 5
+attr = C, NA
+damage = ceil(ifElse(fvar(11) * 58< 7, 7, fvar(11) * 58)), 0
+animtype  = hard
+hitflag = MAF
+guardflag = LA
+pausetime = 12,13
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-20
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = Trip
+ground.slidetime = 14
+ground.hittime  = 14
+ground.velocity = -.5,-3
+guard.velocity = -9
+air.velocity = -.5,-1
+guard.velocity = -2
+getpower= ifelse(prevstateno!=750,ifelse(p2movetype=H,40,210),0), ifelse(prevstateno!=750,35,0)
+givepower = 35,35
+yaccel = 0.5
+;fall = 1
+air.fall = 1
+fall.recover=0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 221, finish]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 11+(!NumExplod(90000001) && !NumExplod(90000002) && !NumExplod(90000003))
+ctrl = 1
+
+;----------------------------------------
+;Armor Hit Loop
+[Statedef 441]
+type = A
+physics = N
+movetype = I
+ctrl = 0
+
+[State 0]
+Type=LifeAdd
+Trigger1=!Time
+Value=-Floor(GetHitVar(Damage)*.5)
+Kill=1
+
+[State 1541, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+time = 1
+value = SCA
+
+[State -2, PalFX] 
+type =null;PalFX
+Trigger1=!Time
+time = 10
+add = 164,0,0
+mul = 266,256,256
+sinadd = 164,0,0,30
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1541, VarAdd] ;Number of hits remaining
+type = VarAdd
+trigger1 = !time
+var(12) = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 2315, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 440 ;go back
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; CROUCH STRONG KICK
+[Statedef 450]
+type = C
+movetype = A
+physics = C
+;anim = 450
+ctrl = 0
+velset = 0,0
+;juggle = 5
+sprpriority = 2
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = ,AT
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 
+
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 450
+
+[State 0, ChangeAnim]
+type = null;ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = P2MoveType = H
+trigger1 = AnimElemTime(2)<0
+trigger1 = PrevStateNo = 400 || PrevStateNo = 430 
+value = 450
+elem = 2
+;ignorehitpause = 
+persistent = 0
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=2 && AnimElemTime(6)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 2
+statetype = A       ;S,A,C,L
+physics = N         ;A,C,S,N
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=3 ;&& random<500
+value = 450,10+random%2
+channel = 0
+
+[State 450, 2]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 6
+[State 450, 2]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 450, 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(2)= 0; && AnimElemTime(3) < 0
+x = 6
+y = -8
+
+[State 0]
+Type=VelAdd
+Trigger1=AnimElemTime(2)>0
+Y=.55
+
+[State 0, StateTypeSet]
+type = null;StateTypeSet
+trigger1 = AnimElem = 4
+physics = A   
+
+
+
+[State 450, 3]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = AnimElem = 4
+attr = A, NA
+animtype = Back
+damage =Ceil(IfElse(fvar(11) * 60 < 7, 7, fvar(11) * 60)), 5
+hitflag = MAF
+guardflag = MA
+priority=4,Hit
+pausetime = 16,15
+guard.pausetime = 16,15
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 14
+ground.hittime  = 14
+ground.velocity = -6,-9
+guard.velocity = -9
+air.velocity = -5,-6
+guard.velocity = -2
+getpower= ifelse(p2movetype=H,40,210)
+givepower = 35,35
+yaccel = 0.5
+;p2stateno=455
+envshake.time = 10
+envshake.freq = 100
+envshake.ampl = 10
+envshake.phase = 10
+fall = 1
+id=450
+fall.recover = 0
+[State 450, 3]
+type =null; HitDef
+Trigger1=Fvar(8)=1
+trigger1 = AnimElem = 4
+attr = A, NA
+animtype = Back
+damage = Ceil(IfElse(fvar(11) * 43 < 3, 10, fvar(11) * 43)), 10
+hitflag = MAF
+guardflag = MA
+priority=6,Hit
+pausetime = 16,18
+guard.pausetime = 16,18
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = Low
+ground.slidetime = 14
+ground.hittime  = 14
+ground.velocity = -2,-13
+guard.velocity = -9
+air.velocity = -2,-6
+guard.velocity = -2
+getpower= ifelse(p2movetype=H,40,210)
+givepower = 35,35
+yaccel = 0.5
+;p2stateno=455
+envshake.time = 10
+envshake.freq = 100
+envshake.ampl = 10
+envshake.phase = 10
+fall = 1
+id=450
+fall.recover = 0
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=Pos Y>=0&&Vel Y>0
+Value=451
+Ctrl=0
+;---------------------------------------------------------------------------
+; cHK Landing
+[Statedef 451]
+type = S
+movetype = I
+physics = S
+;anim = 451
+velset=0,0
+ctrl = 0
+sprpriority = 1
+
+[State 0]
+Type=StopSND
+Trigger1=1
+Channel=0
+
+[State 0]
+Type=PosSet
+Trigger1=!Time
+Y=0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 451
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Value=40,0
+VolumeScale=100
+
+[State 950, Smoke Explod]; Smoke FX
+type		= Explod
+trigger1		= Time =0
+anim		= 17100
+pos		= -10,0
+postype		= p1
+removetime	= -2
+scale		= 1,1
+sprpriority	= 0
+id		= 956
+bindtime		= -1
+ownpal		= 1
+ignorehitpause	= 1
+pausemovetime	= -1
+
+[State 0]
+Type=ChangeState
+Trigger1=!AnimTime
+Value=0
+Ctrl=1
+
+;---------------------------------------------------------------------------
+; cHK Counter Hit
+[Statedef 455]
+type = A
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 1
+
+[State 5000, 2] ;Animelem=1 for HIT_BACK
+type = ChangeAnim
+trigger1 = Time < GetHitVar(HitTime)
+trigger1 = GetHitVar(animtype) = [3,5]
+value = 5030
+elem=1
+
+
+[State 5000, 3] ;Anim for HIT_UP/HIT_DIAGUP (only if it exists)
+type = ChangeAnim
+trigger1 = Time = 0
+trigger1 = (GetHitVar(animtype) = [4,5]) && (SelfAnimExist(5047 + GetHitVar(animtype)))
+value = 5047 + GetHitVar(animtype) ;5051 - 4 + type
+[State 5000, 5] ;State type gets set to aerial if getting hit up
+type = StateTypeSet
+trigger1 = Time = 0
+; = GetHitVar(yvel) != 0 || GetHitVar(fall)
+trigger2 = Pos Y != 0
+statetype = a
+
+[State 0]
+Type=ChangeAnim
+Trigger1=AnimExist(5035)
+Trigger1=Anim=5030&&!Animtime
+Value=5035
+Elem=1
+
+[State 0]
+Type=ChangeAnim
+Trigger1=AnimExist(5050)
+Trigger1=Anim=5035&&!Animtime
+Trigger2=Anim!= 5035
+Trigger2 =Anim=5030&&AnimTime = 20
+Value=5050
+Elem=1
+
+[State 0];Gravity
+Type=VelAdd
+Trigger1=Time>=15
+Y=GetHitVar(Yaccel)
+
+[State VelSet];Move backwards
+Type=VelSet
+TriggerAll=Enemy,Fvar(8)=0
+Trigger1=Time=15
+X=(GetHitVar(Xvel))*Facing
+Y=(GetHitVar(Yvel))
+
+[State 3052, Land]
+type = selfstate
+trigger1 = Pos Y >= 0
+trigger1 = Vel Y > 0
+value = 5100
+
+;---------------------------------------------------------------------------
+; JUMP LIGHT PUNCH
+[Statedef 600]
+type = A
+movetype = A
+physics = A
+;anim = 600
+ctrl = 0
+sprpriority = 1
+;juggle = 5
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+trigger1 = time = 0
+value = 600
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(2)>=3 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = animelem=2 && random<200
+value = 3,random%5
+channel = 0
+
+[State 600, 1]
+type = PlaySnd
+trigger1 = AnimElem = 2
+value = 0, 1
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(3) >= 0 && AnimElemTime(4) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,12 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 4
+    ignorehitpause = 1
+
+[State 600, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y >=0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 3
+attr = A, NA
+hitflag = MAF
+damage = ceil(ifElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 0
+guardflag = HA
+priority = 3, hit
+animtype = medium
+pausetime = 10,10
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,1
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -4   ;-5
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+envshake.time=10
+envshake.freq=100
+envshake.ampl=7
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+[State 600, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y <0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 3
+attr = A, NA
+hitflag = MAF
+damage = ceil(ifElse(fvar(11) * 27 < 7, 7, fvar(11) * 27)), 0
+guardflag = MA
+animtype = Light
+priority = 3, hit
+pausetime = 10,10
+sparkno = s7020
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,1
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -4   ;-5
+air.velocity = -2,-4
+airguard.cornerpush.veloff= 0
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+envshake.time=10
+envshake.freq=100
+envshake.ampl=7
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 0, basics limiter]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(987654321)
+trigger1 = movehit
+trigger1 = numtarget
+anim = 15999
+ID = 987654321
+pos = 0,0
+postype = p1  ;p2,front,back,left,right
+removetime = 24
+removeongethit = 0
+ignorehitpause = 1
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50 ;ifelse(vel X >= 0,50,116)
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP MEDIUM PUNCH
+[Statedef 610]
+type = A
+movetype = A
+physics = A
+;juggle = 5
+ctrl = 0
+;anim = 610
+sprpriority = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 625
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = AnimElemTime(3)<0 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0]
+Type=VelSet
+Trigger1=AnimElemTime(4)=0
+X=-2
+Y=-4
+
+
+[State 210, snd]
+type = playsnd
+trigger1= animelem=3 && random<350
+value=3,10+random%4
+channel = 0
+
+[State 610, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 2
+[State 0]
+Type = PlaySND
+Trigger1 = AnimElemTime(4)=0
+value = 5,9
+[State 0];Med Hitshake
+Type=EnvShake
+Trigger1=AnimElemTime(4)=0
+Time=10
+Freq=100
+Ampl=7
+IgnoreHitPause=1
+
+[State 0];FX
+Type=Explod
+Trigger1=AnimElemTime(4)=0
+Anim=626
+Id=626
+RemoveOnGetHit=1
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=79,-38
+PosType=P1
+OwnPal=1
+SprPriority=2
+OnTop=0
+
+[State 610, 2]
+type = HitDef
+trigger1 = Var(18) <= 15
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 42 < 7, 7, fvar(11) * 42)), 0
+guardflag = HA
+hitflag = MAF
+animtype  = hard
+pausetime = 15,16
+sparkno = s7030
+priority = 3, hit
+guard.sparkno = s7000
+sparkxy = -10,-70
+hitsound   = s5,2
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -1.5,10
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50 ;ifelse(vel X >= 0,50,116)
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP STRONG PUNCH 
+[Statedef 620]
+type = A
+movetype = I
+physics = A
+;anim = 620
+ctrl = 0
+sprpriority = 1
+;juggle = 5
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 620
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(4)>=0 && AnimElemTime(6)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0, Projectile]
+type = Projectile
+trigger1 = 1;AnimElemTime(0) >=2 && AnimElemTime(6) <0
+;trigger1 = (P2BodyDist X = [-150,150]) && (P2BodyDist Y = [-150,150])
+ProjID = 93999999999
+projanim = 1
+projremovetime = 2
+offset = -400,0
+postype = p1
+attr = A,SP        ;change this to whatever your projectile is set
+ignorehitpause = 1
+guardflag = A
+guard.dist = 1999
+projedgebound = 1600
+projstagebound = 1600
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=3 ;&& random<500
+value = 620,10+random%2
+channel = 0
+
+[State 620, 2]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 7
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElem = 4
+x = -2
+y = -4
+;ignorehitpause = 
+;persistent = 
+
+[State 0, Width]
+type = Width
+trigger1 = AnimElemTime(6) < 0
+player = 30,0
+
+[State 620, 2]
+type = null;PlaySnd
+trigger1 = AnimElemtime(4) = 0
+value = 620, 0
+[State 620, 2]
+type = PlaySnd
+trigger1 = !movecontact && !movereversed
+trigger1 = AnimElemtime(5) = 0
+value = 620, 0
+volumescale = 50
+
+
+[State 0, Explod]
+type =null; Explod
+trigger1 = AnimElem = 4
+anim = 621
+ID = 621
+pos = 0,0
+postype = P1  ;P2, Front, Back, Left, Right
+removetime = -2
+supermovetime = 99999999
+pausemovetime = 99999999
+sprpriority = 5
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+
+[state 1215, Smoke FX]
+type =null; explod
+trigger1 = AnimElem = 5
+anim = 1206
+id = 1206
+pos = 140,-(ceil(Pos Y))
+postype = P1
+sprpriority = 3
+ownpal = 1
+removetime = -2
+persistent = 0
+ignorehitpause = 1
+scale = .8,.8
+facing = -1
+persistent = 0
+
+[State 0, Helper];Storm Shot C
+type =Helper
+;Trigger1=Vel X
+Trigger1=AnimElemTime(5)=0
+helpertype = normal ;player
+name = "Shots"
+ID = 2026
+stateno = 2026
+pos = 64,-53
+postype = p1    ;p2,front,back,left,right
+facing = 1
+ownpal = 1
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(7)>=0
+value = 0
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50 ;ifelse(vel X >= 0,50,116)
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; JUMP LIGHT KICK
+[Statedef 630]
+type = A
+movetype = A
+physics = A
+;anim = 630
+ctrl = 0
+sprpriority = 1
+;juggle = 5
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 630
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=0 && AnimElemTime(5)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 200, snd]
+type = playsnd
+trigger1 = anim=630 && animelem=1 && random<200
+value = 3,random%5
+channel = 0
+
+[State 630, 1]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 4
+persistent = 0
+
+[State 630, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y >=0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 26 < 7, 7, fvar(11) * 26)), 0
+hitflag = MAF
+guardflag = HA
+animtype = hard
+priority = 3, hit
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound = s5,4
+guardsound = S6,0
+ground.type = High
+pausetime = 10,15 ;11,15
+guard.pausetime = 11,15
+ground.slidetime = 8
+ground.hittime = 15
+ground.velocity = -4  ;-8
+air.velocity = -2,-2
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || prevstateno=600 || prevstateno=630) || NumExplod(52)=3 
+
+[State 630, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y <0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 26 < 7, 7, fvar(11) * 26)), 0
+hitflag = MAF
+guardflag = MA
+animtype = hard
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,-30
+hitsound = s5,4
+guardsound = S6,0
+ground.type = High
+pausetime = 10,15 ;11,15
+guard.pausetime = 11,15
+ground.slidetime = 8
+ground.hittime = 15
+ground.velocity = -4  ;-8
+air.velocity = -2,-2
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || prevstateno=600 || prevstateno=630) || NumExplod(52)=3 
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; JUMP MEDIUM KICK
+[Statedef 640]
+type    = A
+movetype = A
+physics = A
+;juggle = 5
+ctrl = 0
+;anim = 640
+sprpriority = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 640
+
+[State 0, HitOverride]
+type = HitOverride
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = !Time
+attr = S,AA,AP        ;SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+slot = 0
+stateno = StateNo
+
+[State Armor, Projectile]
+type = Projectile
+triggerall = fvar(15) >0  || var(50) = 2
+trigger1 = AnimElemTime(3)<5 
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(3)>=5 && AnimElemTime(6)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 210, snd]
+type = playsnd
+trigger1= animelem=1 && random<350
+value=3,10+random%4
+channel = 0
+
+[State 640, 1]
+type = PlaySnd
+trigger1 = AnimElem = 4
+value = 0, 5
+
+;animate through blur anim on hitpause code (only use this if an attack can hit on a blur frame) this will be the only example given
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(4) >= 0 && AnimElemTime(5) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,15 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 5
+    ignorehitpause = 1
+
+[State 640, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y >=0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 36 < 7, 7, fvar(11) * 36)), 0
+guardflag = HA
+hitflag = MAF
+animtype  = hard
+priority = 3, hit
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,5
+guardsound = S6,0
+pausetime = 16,16
+guard.pausetime = 15,15
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+guard.ctrltime = 15
+ground.velocity = -5
+air.velocity = -7,-2
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+p2facing = 1
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+id = 619
+
+[State 640, 2]
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y <0
+;triggerall = Var(1) <= 20 && Var(18) = 0 || Var(18) = 1
+trigger1 = AnimElem = 4
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 36 < 7, 7, fvar(11) * 36)), 0
+guardflag = MA
+hitflag = MAF
+animtype  = hard
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-50
+hitsound   = s5,5
+guardsound = S6,0
+pausetime = 16,16
+guard.pausetime = 15,15
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+guard.ctrltime = 15
+ground.velocity = -5
+air.velocity = -7,-2
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+p2facing = 1
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+id = 619
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50 ;ifelse(vel X >= 0,50,116)
+ctrl = 1
+
+;---------------------------------------------------------------------------
+; DROPKICK
+[Statedef 645]
+type    = S
+movetype = A
+physics = N
+;juggle = 5
+ctrl = 0
+;anim = 640
+VelSet=0,0
+sprpriority = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000 && PrevStateNo!=646
+trigger1 = !Time
+value = 40
+[State 0]
+Type=ChangeAnim
+Trigger1=!Time&&PrevStateNo=646
+Value=645
+Elem=4
+[STate 0]
+Type=VelSet
+Trigger1=!Time&&PrevStateNo=646
+X=-5
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=40&&!AnimTime
+Value=645
+[State 0]
+Type=StateTypeSet
+Trigger1=Anim=645&&AnimElem=1
+StateType=A
+
+[State 0]
+Type=VelSet
+Trigger1=Anim=645&&AnimElem=1
+X=-5
+Y=-5
+[State 0]
+Type=VelAdd
+Trigger1=Time>5
+Y=.55
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=645&&!AnimTime
+Value=45
+
+
+[State 0]
+Type=VarSet
+Trigger1=!Time&&PrevStateNo!=646
+V=12
+Value=1
+[State 1540, HitOverride]
+type = HitOverride
+TriggerAll=Var(12)>0
+trigger1 = AnimElemTime(4) >= 0 && AnimElemTime(5) < 0
+slot = 1
+time = 1
+stateno = 646 ;loop
+attr = SCA,NA,SA,HA,NP,SP,HP
+ignorehitpause = 1
+
+[State Armor, Projectile]
+type =null; Projectile
+Trigger1=Anim=645
+trigger1 = AnimElemTime(4)>=0 && AnimElemTime(6)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 210, snd]
+type = playsnd
+Trigger1=Anim=645
+trigger1= animelem=1 && random<350
+value=3,10+random%4
+channel = 0
+
+[State 640, 1]
+type = PlaySnd
+Trigger1=Anim=645
+trigger1 = AnimElem = 4
+value = 0, 5
+
+;animate through blur anim on hitpause code (only use this if an attack can hit on a blur frame) this will be the only example given
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(4) >= 0 && AnimElemTime(5) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+   Trigger1=Anim=645
+    trigger1 = hitPauseTime = [1,16 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 5
+    ignorehitpause = 1
+
+[State 200, 1]
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 =!movecontact && !movereversed
+Trigger1=PrevStateNo!=646
+attr = S, NA
+damage = ceil(ifElse(fvar(11) * 37 < 7, 7, fvar(11) * 37)), 0
+animtype = Hard	
+guardflag = MA
+hitflag = MAF
+pausetime = 16,13
+guard.pausetime = 22,6
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-75
+hitsound = s5, 9
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 5
+ground.hittime  = 18
+ground.velocity = -7,-3
+guard.velocity = -9
+airguard.velocity = -7,-3
+air.type = High	
+air.velocity = -12,-4
+air.hittime = 12
+air.animtype = back
+envshake.time = 5
+envshake.ampl = 4
+envshake.freq = 176
+getpower= Cond(Var(14),20,40),35
+givepower = 35,35
+yaccel = 0.5
+ID = 645
+;p2stateno =221
+fall = 1
+fall.recover = 0
+p2facing=1
+
+;juggle limit LVL2
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A
+var(1) = 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(6)>=0
+value = 0
+
+[State 1400, EndState]
+type =ChangeState
+Trigger1=Anim=45 && (Pos Y >= 0 && Vel Y>0)
+Trigger2=Anim=645&&Pos Y>60
+value = 52 ;ifelse(vel X >= 0,50,116)
+ctrl = 0
+;----------------------------------------
+;Armor Hit Loop
+[Statedef 646]
+type = A
+physics = N
+movetype = I
+ctrl = 0
+
+[State 0]
+Type=LifeAdd
+Trigger1=!Time
+Value=-Floor(GetHitVar(Damage)*.5)
+Kill=1
+
+[State 1541, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+time = 1
+value = SCA
+
+[State -2, PalFX] 
+type =null;PalFX
+Trigger1=!Time
+time = 10
+add = 164,0,0
+mul = 266,256,256
+sinadd = 164,0,0,30
+invertall = 0
+color = 256
+ignorehitpause = 1
+
+[State 1541, VarAdd] ;Number of hits remaining
+type = VarAdd
+trigger1 = !time
+var(12) = -1
+ignorehitpause = 1
+persistent = 0
+
+[State 2315, ChangeState]
+type = ChangeState
+trigger1 = !time
+value = 645 ;go back
+ctrl = 0
+;---------------------------------------------------------------------------
+; JUMP STRONG KICK
+[Statedef 650]
+type = A
+movetype = A
+physics = A
+;anim = 650
+ctrl = 0
+sprpriority = 1
+;juggle = 5
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(53)
+trigger1 = !Time
+anim = 1
+ID = 53
+removetime = 25
+removeongethit = 1
+ignorehitpause = 1
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = MoveHit
+id = 53
+ignorehitpause = 1
+
+[State -2, anti-fuzzy check]
+type = Explod
+triggerall = !IsHelper
+trigger1 = !NumExplod(stateno+9999)
+trigger1 = movecontact
+trigger1 = numtarget
+anim = 15999
+ID = stateno+9999
+pos = 0,0
+postype = p1
+removetime = abs(animtime)
+removeongethit = 0
+ignorehitpause = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = MoveHit = 1
+trigger1 = P2StateType = A || P2StateType = L
+var(18) = 5
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 650
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(4)>=2 && AnimElemTime(8)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=2 ;&& random<500
+value = 650,10+random%2
+channel = 0
+
+[State 650, 2]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 6
+
+;animate through blur anim on hitpause code (only use this if an attack can hit on a blur frame) this will be the only example given
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(5) >= 0 && AnimElemTime(6) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,16 - (1- var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 7
+    ignorehitpause = 1
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(6) >= 0 && AnimElemTime(7) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,16 - (2 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 7
+    ignorehitpause = 1
+;end blur code
+
+[State 650, 3];opponent on ground
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y >=0
+trigger1 = !movecontact && !movereversed
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 46 < 7, 7, fvar(11) * 46)), 5
+hitflag = MAF
+guardflag = HA
+animtype = back
+pausetime = 16,16
+guard.pausetime = 16,10
+priority = 3, hit
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -30,-55
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -6,8
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+p2facing = 1
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+id = Cond(NumExplod(620) || P2StateType != A , 619,650)
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+
+[State 650, 3];opponent on ground
+type = HitDef
+triggerall = !NumExplod(stateno+9999) ;XGargoyle's anti fuzzy fix
+triggerall = Var(18) <= 15
+triggerall = Vel Y <0
+trigger1 = !movecontact && !movereversed
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 46 < 7, 7, fvar(11) * 46)), 5
+hitflag = MAF
+guardflag = MA
+animtype = back
+pausetime = 16,16
+guard.pausetime = 16,10
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -30,-55
+hitsound   = s5,10
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -6,8
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+p2facing = 1
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+id = Cond(NumExplod(620) || P2StateType != A , 619,650)
+palfx.add = 255,50,0
+palfx.sinadd = -255,-50,0,20
+palfx.time = 25
+
+
+
+[State 0];Fire startup
+Type=PlaySND
+Trigger1=AnimElemTime(2)=0
+Value=s2020,0
+Channel=-1
+VolumeScale=200
+
+[State 0];FX1
+Type=null;Explod
+Trigger1=AnimElemTime(3)=0
+Anim=651
+Id=651
+BindTime=-1
+RemoveTime=-2
+RemoveOnGetHit=1
+OwnPal=1
+Pos=0,0
+PosType=P1
+SprPriority=2
+OnTop=0
+Persistent=0
+IgnoreHitPause=0
+
+[State 0, Helper];FireTrail Loop
+type = Helper
+Trigger1=AnimElemTime(3)=0
+trigger1 = !NumHelper(6510)
+helpertype = normal ;player
+name = "FireTrail Loop"
+ID = 6510
+stateno = 6510
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = 1
+ownpal = 1
+Persistent=0
+
+[state 3020, Flame overlay]
+type = helper
+triggerall = !NumHelper(9990)
+trigger1= movehit && numtarget
+trigger1= (target,movetype=H) && !(target,time)
+trigger1 = target,IsHelper=0
+pos = 0,0
+postype = p2 ;left
+ID = 9990
+stateno = 9990
+helpertype = normal
+name = "Fire"
+sprpriority = -5
+ownpal = 1
+ignorehitpause = 1
+
+[State 0, TargetState]
+type = TargetState
+triggerall = NumTarget(650)
+trigger1 = MoveHit = 1 
+value = 651
+persistent = 0
+ignorehitpause = 1
+id = 650
+
+[State 0, Explod]
+type = Explod
+trigger1 = NumTarget(650)
+trigger1 = !NumExplod(620)
+anim = 1
+ID = 620
+removetime = -1
+removeongethit = 1
+ignorehitpause = 1
+
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(8)>=0
+value = 0
+
+[State 1400, EndState]
+type = ChangeState
+trigger1 = !animtime
+value = 50 ;ifelse(vel X >= 0,50,116)
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; SPIN START
+[Statedef 670]
+type = A
+movetype = A
+physics = N
+;anim = 650
+ctrl = 0
+sprpriority = 1
+velset = 0,0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 670
+
+[State 220, snd]
+type = playsnd
+trigger1 = animelem=2 && random<500
+value = 3,20+random%2
+channel = 0
+
+[State 650, 2]
+type = PlaySnd
+trigger1 = AnimElem = 3
+value = 0, 6
+
+[State 1000, VarSet]
+type = VarSet
+Trigger1=Time=30
+fvar(5) = 3
+;Light=1
+;Medium=2
+;Heavy=3
+
+[State 1400, EndState]
+type = ChangeState
+triggerall = !AILevel
+trigger1 =Time>=10
+Trigger1=Command!="holdc"&&StateNo!=675
+Trigger2=Time>=30&&StateNo!=675
+value = 675 
+ctrl = 0
+
+[State 1400, EndState]
+type = ChangeState
+triggerall = AILevel>0
+trigger1 =Time>=10
+Trigger1=P2BodyDist X <= 90
+Trigger2=Time>=30&&StateNo!=675
+value = 675 
+ctrl = 0
+
+;---------------------------------------------------------------------------
+; SPIN KICK ATTACK
+[Statedef 675]
+type = A
+movetype = A
+physics = N
+;anim = 650
+ctrl = 0
+sprpriority = 1
+velset = 0,0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(10) != 0
+trigger1 = NumTarget
+trigger1 = target, gethitvar(hitcount) = 1
+trigger1 = MoveHit = 1
+fvar(13) = 4
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 675
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = !Time
+id = 675
+
+[State Armor, Projectile]
+type = Projectile
+trigger1 = AnimElemTime(2)>=0 && AnimElemTime(4)<0
+ProjID = 99995
+projanim =1
+projremovetime = 1
+ignorehitpause = 1
+
+[State 0]
+Type=VelSet
+Trigger1=AnimElem=3
+X=8
+Y=18
+
+[State 650, 3];opponent on ground
+type = HitDef
+triggerall = Var(18) <= 15
+trigger1 = !movecontact && !movereversed
+attr = A, NA
+damage = ceil(ifElse(fvar(11) * 40 < 7, 7, fvar(11) * 40)), 5
+hitflag = MAFD
+guardflag = HA
+animtype = back
+pausetime = 16,16
+;guard.pausetime = 16,20
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -10,30
+hitsound   = s5,10
+priority = 3, hit
+guardsound = S6,0
+ground.type = High
+ground.slidetime = 12
+guard.hittime = 22
+guard.slidetime = 22
+ground.hittime  = 15
+ground.velocity = -5
+air.velocity = -6,8
+envshake.time = 12
+envshake.freq = 60
+envshake.ampl = 3
+fall = 1
+fall.recover = 0
+p2facing = 1
+airguard.cornerpush.veloff= 0
+air.animtype = Back
+fall.animtype = Back
+getpower= ifelse(p2movetype=H,40,140), 35
+givepower = 35,35
+yaccel = 0.5
+fall = (NumExplod(987654321) || NumExplod(52)=3)
+id = 660
+
+[State 1400, TargetDrop]
+type = TargetDrop
+trigger1 = NumTarget(660) > 1
+ID = 660
+keepOne = 1
+excludeID = 660
+ignoreHitPause = 1
+
+[State 1400, TargetState]
+type = TargetState
+trigger1 = MoveHit && NumTarget(660)
+trigger1 = !(Target(660), Time)
+value = ifElse(Target(660), StateType = A, 5425, 5420)
+ID = 660
+ignoreHitPause = 1
+
+[State 0, Explod]
+type = Explod
+trigger1 = MoveContact = 1
+anim = 1
+ID = 675
+removetime = -1
+removeongethit = 1
+ignorehitpause = 1
+
+    [State 200, Time Offset]
+    type = VarSet
+    trigger1 = moveContact = 1
+    var(15) = Time
+    ignorehitpause = 1
+    persistent = 0
+
+    [State 200, Play Anim]
+    type = ChangeAnim
+    triggerall = AnimElemTime(3) >= 0 && AnimElemTime(4) <= 0 ;(2)would be the blur frame while (3) is the nonblur
+    trigger1 = hitPauseTime = [1,16 - (1 - var(15))] ;[1,10 - (5 - var(15))] means [1,10 {change the 10 to the hitpausetime} - (5 {change the 5 to how long it takes before you get to the frame you want the pause to stay on}- var(15))]
+    value = anim
+    elem = 4
+    ignorehitpause = 1
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 =Pos Y>=0 && Vel Y>0
+value = 680
+ctrl = 0
+;---------------------------------------------------------------------------
+; JUMP DOWN ST KICK Land
+[Statedef 680]
+type = S
+movetype = A
+physics = S
+;anim = 650
+ctrl = 0
+sprpriority = 1
+velset = 0,0
+
+[State 0]
+Type=PosSet
+Trigger1=1
+Y=0
+
+[State 0]
+Type=EnvShake
+Trigger1=!Time
+Time=10
+Freq=110
+Ampl=7
+[State 0];FLOOR FX
+Type=null;Explod
+trigger1 =!Time
+Anim=3500
+Id=3500
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+;RemoveOnGetHit=1
+Pos=0,0
+OwnPal=1
+Scale=1.2,1.2
+PosType=P1
+Facing=-1
+SprPriority=-3
+OnTop=0
+
+[State 0, Helper]
+type = Helper
+trigger1 = !Time
+name = "Ground DMG"
+ID = 3500
+stateno = 3500
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = -1
+persistent = 0
+ownpal = 1
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 680
+
+[State 0, PlaySnd]
+type = PlaySnd
+trigger1 = !Time
+value = 15000, 2
+
+[State 450, 3]		;Standing Trip
+type = HitDef
+triggerall = Var(18) <= 15
+Trigger1=Fvar(5)=3
+trigger1 =!movecontact && !movereversed
+Trigger1=!NumTarget(660)
+trigger1 = !NumExplod(675)
+attr = C, NA
+animtype = Back
+priority = 4, Hit
+;damage    = 50,0
+damage = ceil(ifElse(fvar(11) * 47 < 7, 7, fvar(11) * 47)), 0
+hitflag = MFD
+guardflag = M
+pausetime = 12,13
+guard.pausetime = 13,13
+sparkno = s7030
+guard.sparkno = s7000
+sparkxy = -20,-10
+hitsound   = s5,5
+guardsound = S6,0
+ground.type = Trip
+ground.slidetime = 14
+ground.hittime  = 14
+ground.velocity = .2,-3
+guard.velocity = -9
+air.velocity = .2,-1
+guard.velocity = -2
+getpower=Cond(Var(14),20,40),35
+givepower = 35,35
+yaccel = 0.5
+nochainID = 660
+
+[State 0, RemoveExplod]
+type = RemoveExplod
+trigger1 = !AnimTime
+id = 675
+;ignorehitpause = 
+;persistent = 
+
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(2)>=0
+value = 0
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+ctrl = 1
+
+
+;===========================================================================
+; <<<<< FORWARD THROW >>>>>
+; Grab state : 800
+; Gotenks throws : 801
+; P2 Throw State : 802
+;===========================================================================
+;-------------------------------------------------------------------------------
+
+;Forward Throw (Grab)
+[Statedef 800]
+type = S
+movetype = A
+physics = S
+;juggle = 15
+velset = 0,0
+ctrl = 0
+;anim = 800
+sprpriority = 1
+facep2 = 1
+poweradd = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = !Time
+trigger1 = Var(51) > 1
+var(52) = 10
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 800
+
+[State 810, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 810, hit]
+type = hitdef
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+trigger1 = animelem=4 && !var(38)
+trigger1 = p2bodydist x<35 
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+ 
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)=0
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+ 
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)>0
+attr = S,NT
+hitflag = M-
+priority = 1,hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumTarget;updated 
+trigger1 = !(target, ishelper);updated
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800) || (NumTarget(800) && enemy, AuthorName != "Team Z2");new2
+trigger2 = MoveHit=1
+value = 801
+ignorehitpause = 1
+persistent = 0
+
+[State 810, 1]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 0, 1
+
+[State 810, missed voice]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5000,6
+channel = 0
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 810, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;P1 Throwing
+[Statedef 801]
+type = S
+movetype = A
+physics = S
+anim = 801
+ctrl = 0
+VelSet=0,0
+sprpriority = 2
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(51) > 1
+trigger1 = !Time
+var(52) = 100
+ignorehitpause = 1
+persistent = 0
+
+[State 0, HitAdd]
+type = HitAdd
+trigger1 = !Time
+value = -1
+[State 0]
+Type=VelSet
+Trigger1=!Time&&FrontEdgeDist < 100
+X=-3
+[State 0]
+Type=null;VelSet
+Trigger1=Anim=803&&AnimElemTime(20)>=0&&FrontEdgeDist < 160
+X=-1
+[State 0]
+Type=null;VarAdd
+Trigger1=AnimElem=5
+V=16
+Value=1
+
+[State 0]
+Type=null;VarSet
+Trigger1=AnimElem=5
+V=17
+Value=0
+
+[State 0]
+Type=null;VarSet
+Trigger1=AnimElemTime(8)<0
+Trigger1= NumExplod(90000200) ||  NumExplod(90000210) ||  NumExplod(90000220) ||  NumExplod(90000230) ||  NumExplod(90000240) ||  NumExplod(90000250) 
+V=17
+Value=1
+
+[State 0]
+Type = null;VarSet
+Trigger1 = Var(16) < 5
+Trigger1 = (AnimElemTime(8)=0) && (Var(17) = 0) && (Var(16) > 1)
+V=16
+Value=9
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=801&&AnimElemTime(8)=0
+;Trigger1=Var(16)>4
+Value=803
+
+[State 0]
+Type=PosAdd
+Trigger1=!Time&&FrontEdgeDist<100
+X=-30
+
+[State Throw]
+type = targetstate
+trigger1 = !time
+value = 805
+
+[State 0]
+Type=PlaySND
+Trigger1=!Time
+Value=s8,2
+Channel=0
+VolumeScale=100
+
+[State 0, TargetBind]
+type = TargetBind
+Trigger1=Anim=801
+trigger1 = AnimElem=1
+time = 4
+id = 800
+pos = 67,0
+[State 0, TargetBind]
+type = TargetBind
+Trigger1=Anim=801
+trigger1 = AnimElem=2
+;time = 4
+;id = 800
+pos = 55,-30
+[State 0, TargetBind]
+type = TargetBind
+TriggerAll=Anim=801
+trigger1 = AnimElem=3
+;Trigger2=Anim=803
+;time = 58
+;id = 800
+pos = 55,-100
+[State 810, 1]
+type = PlaySnd
+Trigger1=Anim=801
+Trigger1=AnimElemTime(6)=0&&Random<300
+value = s3,206
+Channel=0
+VolumeScale=100
+
+[State 0]
+Type=PlaySND
+Trigger1=Anim=801&&AnimElemTime(6)=0
+Trigger2=Anim=803&&AnimElemTime(15)=0
+Value=s5,4+Random%2
+Channel=-1
+VolumeScale=100
+[State 0]
+Type=PlaySND
+Trigger1=Anim=803&&AnimElemTime(15)=0
+Value=s800,0
+Channel=-1
+VolumeScale=250
+[State 0]
+Type=null;PlaySND
+Trigger1=Time=50
+Value=s800,1
+Channel=-1
+VolumeScale=200
+[State 0];HeavyHitshake
+Type=EnvShake
+Trigger1=Anim=801&&AnimElemTime(6)=0
+Time=7
+Freq=80
+Ampl=7
+[State 0];HeavyHitshake
+Type=EnvShake
+Trigger1=Anim=803&&AnimElemTime(15)=0
+Time=12
+Freq=160
+Ampl=10
+
+[State 0];HitSpark FX
+Type=Explod
+Trigger1=Anim=801&&AnimElemTime(6)=0
+Trigger2=Anim=803&&AnimElemTime(15)=0
+Anim=7030
+Id=7030
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+Pos=0,0
+Facing = 1-2*(Random%2)
+VFacing = 1-2*(Random%2)
+PosType=P2
+OwnPal=1
+SprPriority=2
+Random = 20,50
+OnTop=1
+
+[State 0];BUTTON MASH
+Type=null;Explod
+Trigger1=!Time
+Anim=2616
+Id=2616
+PauseMoveTime=9999
+SuperMoveTime=9999
+BindTime=-1
+RemoveTime=-1
+Pos=-7,-129
+PosType=P1
+OwnPal=1
+SprPriority=5
+OnTop=1
+[STate 0]
+Type=RemoveExplod
+Trigger1=Anim=803&&NumExplod(2616)
+Id=2616
+
+[State 0]
+Type=HitAdd
+Trigger1=Anim=801&&AnimElemTime(6)=0
+Trigger2=Anim=803&&AnimElemTime(15)=0
+Value=1
+
+
+
+[State 0, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = Anim=801&&animelemtime(6)=0
+value = -25
+kill = 0
+absolute = 0
+[State 0, TargetLifeAdd]
+type = TargetLifeAdd
+trigger1 = Anim=803&&animelemtime(15)=0
+value = -65
+kill = 1
+absolute = 0
+
+[State 810, power]
+type = poweradd
+trigger1 = animelemtime(18)=0
+value = 180
+persistent = 0
+
+[State 0]
+Type=ChangeState
+Trigger1=Anim = 803&&!AnimTime
+Value=0
+Ctrl=1
+;----------------------------
+;P2 Hit by Throw
+[Statedef 805]
+type = A
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 1
+
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = 1
+Value=1
+movecamera = 0,0
+
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = !Time && Anim!=802
+value = 802
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 =Time = 38
+value = 804
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+;value2 = S,NA
+time = 1
+;ignorehitpause = 
+;persistent = 
+
+
+
+[State 0]
+Type=null;PosSet
+Trigger1=!Time
+Y=0
+
+[State 0]
+Type=PosAdd
+Trigger1=Anim=5030&&AnimElem=1
+Y=80
+[State 0, VelSet]
+type =VelSet
+Trigger1=Anim=804
+Trigger1=AnimElemTime(2)=20
+x = -4
+y = -1
+[State 0]
+Type=VelAdd
+Trigger1=Vel X
+Trigger2=Anim != [802,804]
+Y=.45
+
+[State 0]
+Type=ChangeAnim
+Trigger1=Anim=804
+Trigger1=AnimElemTime(2)=20&&AnimExist(5030)
+Value=5030
+[State 0]
+Type=ChangeAnim
+TriggerAll=AnimExist(5035)
+Trigger1=(Anim=5030&&!AnimTime)
+Trigger2=Anim=5030&&AnimTime>=3
+Value=5035
+[State 0]
+Type=ChangeAnim
+Trigger1=(Anim=5035&&!AnimTime)&&AnimExist(5050)
+Value=5050
+
+[State 810, power]
+type = poweradd
+Trigger1=Anim!=802
+trigger1 = (Vel y > 0) && (Pos y >= 0)
+value = 35
+
+[State 1224, Hit ground]
+type = ChangeState
+Trigger1=Anim!=802
+trigger1 = (Vel y > 0) && (Pos y >= 0)
+value = 5956
+
+
+;===========================================================================
+; <<<<< REVERSE THROW >>>>>
+; Grab state : 810
+; Gotenks throws : 811
+; P2 thrown state : 815
+;===========================================================================
+;-------------------------------------------------------------------------------
+
+;Reverse Throw (Grab)
+[Statedef 810]
+type = S
+movetype = A
+physics = S
+;juggle = 15
+velset = 0,0
+ctrl = 0
+;anim = 810
+sprpriority = 1
+facep2 = 1
+poweradd = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(51) > 1
+trigger1 = !Time
+var(52) = 10
+ignorehitpause = 1
+persistent = 0
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value = 800
+
+[State 810, Don't Guard]
+type = attackdist
+trigger1 = 1
+value = 0
+
+[State 810, hit]
+type = hitdef
+trigger1 = Var(0)=0 || enemy, AuthorName != "Team Z2";NEW
+trigger1 = animelem=4 && !var(38)
+trigger1 = p2bodydist x<35 
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+ 
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)=0
+attr = S,NT
+hitflag = M-
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+ 
+[State 810, hit]
+type = hitdef
+trigger1 = animelem=4 && !var(38)
+trigger1 = Var(0)>0 ;NEW
+trigger1 = p2bodydist x<35 
+trigger1 = enemy, NumExplod(800)>0
+attr = S,NT
+hitflag = M-
+priority = 1,hit
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+hitsound = s800,1
+id = Cond((enemynear, NumExplod(98000000)),800,801);NEW
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = MoveHit = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 15
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = NumTarget;updated 
+trigger1 = !(target, ishelper);updated
+trigger1 = MoveHit
+value = Anim
+elem = 4 ; change this to animelemno of grab you wish frozen
+ignorehitpause = 1
+
+[State 650, throw tech explod]
+type = Explod
+trigger1 = time = 0
+anim = 15999
+ID = 800
+pos = 55,-75
+postype = p1
+ignorehitpause = 1
+persistent = 0
+ownpal = 1
+removetime = 5
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+
+[State 0, TargetState]
+type = TargetState
+trigger1 = MoveHit =1
+trigger1 = NumTarget(800)
+trigger1 = target, StateNo != [800,899]
+trigger1 = target, AuthorName = "Team Z2"
+value = 899
+ignorehitpause = 1
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=2
+trigger1 = NumTarget(800)
+trigger1 = target, time<=5
+trigger1 = target, StateNo = 5949
+value = 5940
+ignorehitpause = 1
+persistent = 0
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = Var(0)=1
+trigger1 = enemynear, StateNo = 950
+value = 950
+ignorehitpause = 1
+persistent = 0
+ 
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = NumTarget(800)
+trigger1 = target, time>=6
+trigger1 = target, StateNo = 899
+trigger2 = !NumTarget(800) || (NumTarget(800) && enemy, AuthorName != "Team Z2")
+trigger2 = MoveHit=1
+value = 811
+ignorehitpause = 1
+persistent = 0
+
+[State 810, 1]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 0, 1
+
+[State 810, missed voice]
+type = PlaySnd
+trigger1 = animelem = 5
+value = 5000,6
+channel = 0
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = AnimElemTime(5)>=0
+value = 0
+
+[State 810, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+[State 10, Bind 1]
+type = TargetBind
+trigger1=MoveContact
+trigger1 = AnimElem = 1
+pos = 75, 0
+
+;----------------------------
+;P1 Back Throwing
+[Statedef 811]
+type = S
+movetype = A
+physics = S
+anim = 811
+ctrl = 0
+sprpriority = 1
+
+[State Throw]
+type = targetstate
+trigger1 = !time
+value = 815
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(51) > 1
+trigger1 = !Time
+var(52) = 100
+ignorehitpause = 1
+persistent = 0
+
+[State 0];Jump Woosh
+Type=PlaySND
+trigger1 =AnimElemTime(10)=0
+Value=1600,0
+VolumeScale=200
+channel=-1
+
+[State 0];air
+Type=PlaySND
+trigger1 =AnimElemTime(10)=20
+Value=811,0
+VolumeScale=255
+channel=-1
+
+[State 0];HeavyHitshake
+Type=EnvShake
+trigger1 = time > 50
+trigger1 = time < 70
+Trigger1=Time%7=0
+Time=7
+Freq=70
+Ampl= 2
+IgnoreHitPause=1
+
+
+[State 10, Bind 2]
+type = TargetBind
+trigger1 = AnimElem = 1
+pos = 75, 0
+
+[State 10, Bind 2]
+type = TargetBind
+trigger1 = AnimElem = 2
+pos = 75, -20
+
+[State 10, Bind 3]
+type = TargetBind
+trigger1 = AnimElem = 3
+pos = 55, -89
+
+[State 10, Bind 4]
+type = TargetBind
+trigger1 = AnimElem = 4
+pos = 45.333333333333, -106
+
+[State 10, Bind 5]
+type = TargetBind
+trigger1 = AnimElem = 5
+pos = 21, -140
+
+[State 10, Bind 6]
+type = TargetBind
+trigger1 = AnimElem = 6
+pos = 21, -140
+
+[State 10, Bind 7]
+type = TargetBind
+trigger1 = AnimElem = 7
+pos = 15, -125
+time = 7
+
+[State 10, Bind 8]
+type = TargetBind
+trigger1 = AnimElem = 8
+pos = 15, -105
+
+[State 10, Bind 9]
+type = TargetBind
+trigger1 = AnimElem = 9
+pos = 15, -110
+
+[State 10, Bind 10]
+type = TargetBind
+trigger1 = AnimElem = 10
+pos = 15, -166
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElem = 10
+x = 0
+y = -30
+
+[State 10, Bind 11]
+type = TargetBind
+trigger1 = AnimElem = 11
+pos = 22, -148.66666666667
+time = 20
+
+[State 10, Bind 12]
+type = TargetBind
+trigger1 = AnimElem = 12
+pos = 0, 0
+time = 4
+
+
+
+[State 10, Bind 13]
+type = TargetBind
+trigger1 = AnimElem = 13
+pos = 0, 0
+time = 4
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElem = 11
+statetype = A       
+physics = N
+
+
+
+
+[STate 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 810, power]
+type = poweradd
+trigger1 = animelemtime(12)>=0
+trigger1 = Pos Y >=0
+value = 180
+persistent = 0
+
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElemTime(11) >=10 && AnimElemTime(12) <0
+;trigger2 = AnimElem = 12
+;trigger2 = Pos Y >=0
+x = 0
+y = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = animelem = 12
+x = 0
+y = 50
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = animelem = 12
+trigger1 = Pos Y >=0
+y = 0
+
+[State 0, PosSet]
+type = velSet
+trigger1 = animelem = 12
+trigger1 = Pos Y >=0
+y = 0
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElem = 13
+x = 0
+y = 0
+
+
+[State 0, VelSet]
+type =  VelSet
+trigger1 = AnimElem = 15
+x = 3
+y = 10
+
+[State 0, SprPriority]
+type = SprPriority
+trigger1 = AnimElemTime(12) >=0
+value = 4
+;ignorehitpause = 
+;persistent = 
+
+
+[State 0, Explod]
+type = Explod
+trigger1 = time > 135
+trigger1 = Pos Y >= 0
+persistent = 0
+anim = 6854
+ID = 6854
+pos = 0,0
+postype = p2  ;p2,front,back,left,right
+facing = 1
+bindtime = 1
+sprpriority = 5
+ownpal = 1
+
+[State 0];FLOOR FX
+Type=null;Explod
+trigger1 = time > 135
+trigger1 = Pos Y >= 0
+Anim=3500
+Id=3500
+PauseMoveTime=0
+SuperMoveTime=0
+BindTime=1
+RemoveTime=-2
+;RemoveOnGetHit=1
+Pos=0,0
+OwnPal=1
+Scale=1.2,1.2
+PosType=P1
+Facing=-1
+SprPriority=-3
+OnTop=0
+
+[State 0, Helper]
+type = Helper
+trigger1 = time > 135
+trigger1 = Pos Y >= 0
+name = "Ground DMG"
+ID = 3500
+stateno = 3500
+pos = 0,0
+postype = p1    ;p2,front,back,left,right
+facing = -1
+persistent = 0
+ownpal = 1
+
+[State 0, ChangeAnim]
+type = ChangeAnim
+trigger1 = AnimElemTime(15)>=0
+trigger1 = Pos Y >=0
+value = Anim
+elem = 16
+persistent = 0
+
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time = 145
+value = 812
+
+
+;----------------------------
+;P1 back throwing part 2
+[Statedef 812]
+type = S
+movetype = H
+physics = N
+anim = 812
+ctrl = 0
+sprpriority = 4
+
+
+
+[State 0];HeavyHitshake
+Type=EnvShake
+trigger1 =time < 20
+Trigger1=Time%7=0&&Time<100
+Time=7
+Freq=70
+Ampl= 2-.12*(time-100)
+IgnoreHitPause=1
+
+
+[State 0, VelSet]
+type = velset
+trigger1 = time = 0
+x = 0
+y = 0
+[State 0, VelSet]
+type = posset
+trigger1 = time = 0
+y = 0
+
+[State 0, VelSet]
+type = velset
+trigger1 = time = 29
+x = 4
+y = -10
+
+[State 0, VelSet]
+type = veladd
+trigger1 = time > 29
+y = 1
+
+[State 0, Turn]
+type = Turn
+trigger1 = time > 35 
+trigger1 = pos y >= 0
+
+
+[State -2, Hitting ground/wall sound effect];Strong sound effect, first bounce.
+type		= PlaySnd
+Trigger1= !time
+value		= 812,0
+ignorehitpause	= 1
+channel		= 20
+persistent = 0
+
+;This controller plays a sound everytime the player lands from a jump, or from a back-dash.
+[State -3, Landing Sound]
+type = PlaySnd
+trigger1 = time > 35 
+trigger1 = pos y >= 0
+value = 40, 0
+
+[state 52, Land FX]
+type = helper
+trigger1 = time > 35 
+trigger1 = pos y >= 0
+name = "LandFX"
+StateNo = 17100
+id = 17100
+postype = P1
+ownpal = 1
+keyctrl = 0
+supermovetime = 99999
+pausemovetime = 99999
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = time > 35 
+trigger1 = pos y >= 0
+value = 0
+ctrl = 1
+
+
+;----------------------------
+;P2 Hit by Back Throw
+[Statedef 815]
+type = S
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 2
+
+[STate 0]
+Type=ScreenBound
+Trigger1=1
+Value=0
+MoveCamera=0,0
+
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 815
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Pos Y >=0
+y = 0
+
+[State 0, Turn]
+type = Turn
+trigger1 = time = 100 
+persistent = 0
+
+[State 0, SprPriority]
+type = SprPriority
+trigger1 = AnimElem = 13
+value = 2
+[State 0, SprPriority]
+type = SprPriority
+trigger1 = AnimElem = 14
+value = 1
+
+[State 810, Normal throw]
+type = LifeAdd
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = -90
+kill = 1
+persistent = 0
+[State 810, hurt]
+type = poweradd
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 35
+persistent = 0
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElemTime(14)=0
+y = 20
+
+[State 0, VelSet]
+type = null;VelSet
+trigger1 = AnimElemTime(14) >=0
+x = 5
+y = 20
+
+[State 21, 4] ;Hit ground
+type = velset
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+trigger2 = AnimElemTime(14) >=0
+x = 0
+y = 0 ;Hit ground
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+trigger2 = StateType = L
+y = 0
+
+[State 0, StateTypeSet]
+type = StateTypeSet
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+trigger2 = AnimElemTime(14) >=0
+statetype = L       ;S,A,C,L
+
+
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = enemynear, StateNo != 850
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 810, end]
+type = selfstate
+trigger1 = !Alive
+trigger1 = AnimElemTime(13) >=0
+trigger1 = Pos Y >= 0
+value = 5150
+
+[State 810, end]
+type = selfstate
+trigger1 = Alive
+trigger1 = AnimElemTime(14) >=60
+trigger1 = Pos Y >= 0
+;trigger1 =  time >= 130
+value = 5120
+
+;------------------------------------------------------------------------
+;Ground Throw (Grab)
+[Statedef 850]
+type = S
+movetype = A
+physics = S
+velset = 0,0
+ctrl = 0
+sprpriority = 1
+facep2 = 1
+poweradd = 0
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(51) > 1
+trigger1 = !Time
+var(52) = Cond(NumExplod(850),Cond(NumExplod(851),30,300), 10)
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PowerAdd]
+type = PowerAdd
+trigger1 = Anim = 860
+trigger1 = Var(33)
+value = 1
+
+
+[State 200, a]
+type = ChangeAnim
+triggerall = PrevStateNo != 9000
+trigger1 = time = 0
+value =Cond(NumExplod(850),860, 850)
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(851)
+trigger1 = Anim = 860
+trigger1 = Time >= 1
+anim = 1
+ID = 851
+removetime = -1
+
+[State 810, 1]
+type = PlaySnd
+trigger1 = Anim = 860
+trigger1 = animelem = 3
+value = 860, 0+random%2
+
+[State 810, hit]
+type = HitDef
+;triggerall = Var(18) <= 15
+TriggerAll=Enemy,StateNo!=5120
+trigger1 = !NumExplod(850)
+trigger1 = P2StateType = L
+trigger1 = enemy, Vel Y = 0
+attr = C,NT
+hitflag = FD
+priority = 1,Miss
+sparkno = -1
+p1facing = 1
+p2facing = 1
+guard.dist = 0
+fall = 1
+fall.recover = 0
+id = 850
+hitsound = s800,1
+numhits = 0
+
+[State 0, ChangeState]
+type = ChangeState
+triggerall = Anim != 860
+TriggerAll=Enemy,StateNo!=855
+trigger1 = NumTarget(850)
+trigger2 = MoveHit=1
+value = 851
+ignorehitpause = 1
+persistent = 0
+
+[State 810, 1]
+type = PlaySnd
+trigger1 = Anim = 850
+trigger1 = animelem = 4
+value = 0, 2
+
+[State 0, AttackDist]
+type = AttackDist
+trigger1 = 1
+value = 0
+
+[State 810, end]
+type = changestate
+trigger1 = !animtime
+value = 0
+ctrl = 1
+
+;----------------------------
+;P1 Ground Throwing
+[Statedef 851]
+type = S
+movetype = A
+physics = S
+anim = 851
+ctrl = 0
+sprpriority = 2
+velset = 0
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 0, VarAdd]
+type = VarAdd
+trigger1 = Var(51)>1
+trigger1 = !Time
+var(52) = 100
+ignorehitpause = 1
+persistent = 0
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = BackEdgeBodyDist < 30
+trigger1 = AnimElem = 4
+x = 60
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = BackEdgeBodyDist > 100
+trigger1 = AnimElem = 4
+x = -60
+
+[State 0, PosAdd]
+type = null;PosAdd
+trigger1 = BackEdgeBodyDist < 100
+trigger1 = AnimElemTime(4) >=2
+x = 30
+
+
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 10
+x = 21
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 11
+x = 21
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 12
+x = 21
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 13
+x =21
+[State 0, PosAdd]
+type = PosAdd
+trigger1 = AnimElem = 14
+x = 23
+
+[State 0, VarSet]
+type = VarSet
+trigger1 = !Time
+var(9) = 0
+
+[State 0, Explod]
+type = Explod
+trigger1 = !NumExplod(850)
+trigger1 = !AnimTime
+anim = 1
+ID = 850
+removetime =-1
+removeongethit = 1
+
+[State 0]
+Type=Turn
+trigger1 = Var(9)=1
+Trigger1=AnimElem = 2
+
+[State 0]
+Type=Turn
+;trigger1 = !Var(9)
+Trigger1=AnimElem=10
+
+[State 810, 1]
+type = PlaySnd
+trigger1 =Time=5&&Random<500
+value = 3,204
+Channel=0
+VolumeScale=200
+
+[State Throw]
+type = targetstate
+trigger1 = !time
+value = 855
+
+[State 10, Bind 2]
+type = TargetBind
+trigger1 = AnimElem = 1
+pos =99, -10
+
+[State 10, Bind 2]
+type = TargetBind
+trigger1 = AnimElem = 2
+pos =99, -47
+
+[State 10, Bind 2]
+type = TargetBind
+trigger1 = AnimElem = 3
+pos = 75, -47
+
+[State 10, Bind 3]
+type = TargetBind
+trigger1 = AnimElem = 4
+pos =79,-47
+
+[State 10, Bind 4]
+type = TargetBind
+trigger1 = AnimElem = 5
+pos = 18, -47
+
+
+[State 0];HeavyHitshake
+Type=EnvShake
+Trigger1=AnimElemTime(7)=0
+Time=7
+Freq=150
+Ampl=10
+IgnoreHitPause=1
+[State 810, 1]
+type = PlaySnd
+trigger1 = animelem = 4
+value = 192, 0
+[State 0, LifeAdd]
+type =TargetLifeAdd
+Trigger1=NumTarget
+trigger1 = target, StateNo = 856
+value = ceil(ifElse(fvar(11) * -65 < 10, -30, fvar(11) * -65))
+kill = 1
+persistent = 0
+[State 0]
+Type=HitAdd
+trigger1 = AnimElemTime(6) = 0
+Value=1
+IgnoreHitPause=1
+[State 10, Bind 5]
+type = TargetBind
+trigger1 = AnimElem = 6
+pos = -78, -60
+
+[State 0, TargetFacing]
+type = TargetFacing
+trigger1 = target,AnimElem = 2
+value = Facing = target, facing
+
+[State 810, power]
+type = poweradd
+trigger1 = animelemtime(11)=0
+value = 60
+
+[State 0]
+Type=null;PosAdd
+Trigger1=!AnimTime
+X=Cond(Var(9)=0,120,240)
+
+[State 0]
+Type=null;VelSet
+Trigger1=AnimElemTime(5)>=0&&BackEdgeDist < 10
+X=6
+
+[State 0, ChangeState]
+type = ChangeState
+trigger1 = !AnimTime
+value = 0
+ctrl = 1
+
+;----------------------------
+;P2 Hit by Ground Throw
+[Statedef 855]
+type = A
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 1
+velset = 0,0
+facep2 = 1
+
+[State 0, ScreenBound]
+type = ScreenBound
+trigger1 = AnimElemTime(6)<0
+value = 0
+movecamera =1,1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = Time = 0
+value = 855
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = PrevStateNo != 1011
+trigger1 = AnimElemTime(6)>=0
+x =10
+
+[State 0, VelAdd]
+type = Velset
+trigger1 = AnimElemTime(7)>=0
+y = 7.55
+
+[State 9011, ChangeState]
+type =null;changeState
+triggerall = !alive&&AnimElemTime(5)>=0
+trigger1 = BackEdgeBodyDist <= 20
+trigger2 = FrontEdgeBodyDist <= 20
+value = 1327
+
+
+[State 9011, ChangeState]
+type =null;changeState
+triggerall = alive&&AnimElemTime(5)>=0
+trigger1 = BackEdgeBodyDist <= 20
+trigger2 = FrontEdgeBodyDist <= 20
+value = 1020
+
+[State 21, 4] ;Hit ground
+type = changeState
+;trigger1 = Vel Y > 0
+trigger1 = Pos Y >= 0
+value = 856 ;Hit ground
+
+;----------------------------
+;P2 Sliding across ground
+[Statedef 856]
+type = L
+movetype = H
+physics = N
+ctrl = 0
+sprpriority = 1
+velset = -10,0
+facep2 = 1
+
+[State 0, VelAdd]
+type = VelAdd
+trigger1 = AnimElemTime(2)<0
+x = .3
+y = 0
+;ignorehitpause = 
+;persistent = 
+
+
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = !Time
+value = 856
+
+
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+
+[State 0, ScreenBound]
+type = null;ScreenBound
+trigger1 = Time <5
+value = 0
+movecamera =1,1
+
+[State 0, NotHitBy]
+type = NotHitBy
+trigger1 = 1
+value = SCA,NA,SA,HA,NP,SP,HP,NT,ST,HT
+time = 1
+
+[State 0, VelSet]
+type = VelSet
+trigger1 = AnimElem = 2
+x = 0
+
+[State 0, SelfState]
+type = SelfState
+trigger1 = !AnimTime
+value = Cond(!Alive,5150,5120)
+
+
+;----------------------------
+;Enemy Grabbed
+[Statedef 899]
+type    = S
+movetype= H
+physics = N
+velset = 0,0
+ 
+[State 0, ChangeAnim2]
+type = ChangeAnim2
+trigger1 = !Time
+value = 899
+ 
+[State 0, PosSet]
+type = PosSet
+trigger1 = 1
+y = 0
+ 
+[State 0, SelfState]
+type = SelfState
+trigger1 = !AILEVEL
+trigger1 = ((NumExplod(90000800) ||(NumExplod(800)))|| (command = "x" && command = "a")) && command != "up"
+trigger2 = AILEVEL > 0 
+trigger2 = Cond(AILevel = 8, 1,random < 470*(AIlevel ** 2 / 64.0))
+value = Cond(enemynear,Var(0)=1,950,5940)
+ 
+[State 0, ChangeState]
+type = SelfState
+trigger1 = Time >= 9
+value = 0
+ctrl = 1
