@@ -100,8 +100,7 @@ if time = 0 {
 # continue until reaching place where the switch was initiated, but stop in front of enemy
 if backEdgeDist >= 0 && (floor(map(_iksys_tagSwitchDist)) <= 0 || p2BodyDist X < const240p(30)) {
 	velSet{x: 0; y: 0}
-	selfState{
-			redirectid: $partnerId;value: const(StateStand); ctrl: 1}
+	selfState{value: const(StateStand); ctrl: 1}
 }
 
 #===============================================================================
@@ -124,8 +123,7 @@ if time = 0 {
 velSet{x: min(max(ifElse(const(velocity.run.fwd.x) != 0, const(velocity.run.fwd.x), const(velocity.walk.fwd.x) * 2),5), const240p(const(TagInVelX)));y: 0}
 
 if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
-	selfState{
-			redirectid: $partnerId;value: const(StateTagWaitingOutside)}
+	selfState{value: const(StateTagWaitingOutside)}
 }
 
 #===============================================================================
@@ -141,8 +139,8 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 let callRequest = map(_iksys_kameoCallRequest);
 
 if $callRequest > 0 {
-	let partnerId = player(teamLeader) + 1;
 	
+	let partnerId = player(teamLeader) + 1;
 	# Clear standby invisibility parameters instantly
 	assertSpecial{flag: noTurnTarget} 
 	
@@ -226,8 +224,7 @@ if time = 0 {
 	velAdd{y: const240p(0.5)}
 	if vel y > 0 && pos y >= 0 {
 		velSet{x: 0; y: 0}
-		selfState{
-			redirectid: $partnerId;value: const(StateTagLanding)}
+		selfState{value: const(StateTagLanding)}
 	}
 }
 
@@ -245,8 +242,7 @@ if time = 0 {
 }
 
 if animTime >= 0 {
-	selfState{
-			redirectid: $partnerId;value: const(StateStand); ctrl: 1}
+	selfState{value: const(StateStand); ctrl: 1}
 }
 
 
