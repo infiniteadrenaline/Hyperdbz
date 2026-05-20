@@ -13,7 +13,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "TagShiftBack"
-command = d
+command = /d
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
@@ -21,7 +21,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "TagShiftFwd"
-command = w
+command = /w
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
