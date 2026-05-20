@@ -21,7 +21,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "TagShiftFwd"
-command = w
+command = q
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
