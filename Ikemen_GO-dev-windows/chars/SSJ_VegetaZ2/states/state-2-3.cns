@@ -5547,3 +5547,210 @@ trigger1 = target, StateNo = [130,155]
 trigger1 = target, MoveType = H
 value = 2
 ignorehitpause = 1
+
+
+; ===========================================================================
+; >>>>>> KAMEO ENTRY PIPELINES (19000-19040) <<<<<<=
+; ===========================================================================
+[Statedef 19000]
+type = S
+physics = S
+anim = 300
+
+[State 19000, Flash]
+type = EnvFlash
+trigger1 = time = 0
+value = S
+
+[State 19000, Position]
+type = PosSet
+trigger1 = time = 0
+x = enemy, pos X + 80
+y = 0
+
+[State 19000, Attack]
+type = ChangeState
+trigger1 = time = 10
+value = 9200
+ctrl = 1
+
+[Statedef 19010]
+type = S
+physics = S
+anim = 301
+
+[State 19010, Position]
+type = PosSet
+trigger1 = time = 0
+x = enemy, pos X - 120
+y = 0
+
+[State 19010, Attack]
+type = ChangeState
+trigger1 = time = 10
+value = 9210
+ctrl = 1
+
+[Statedef 19020]
+type = S
+physics = S
+anim = 302
+
+[State 19020, Position]
+type = PosSet
+trigger1 = time = 0
+x = enemy, pos X + 120
+y = 0
+
+[State 19020, Attack]
+type = ChangeState
+trigger1 = time = 10
+value = 9220
+ctrl = 1
+
+[Statedef 19030]
+type = S
+physics = S
+anim = 303
+
+[State 19030, Position]
+type = PosSet
+trigger1 = time = 0
+x = enemy, pos X
+y = -80
+
+[State 19030, Attack]
+type = ChangeState
+trigger1 = time = 10
+value = 9230
+ctrl = 1
+
+[Statedef 19040]
+type = S
+physics = S
+anim = 304
+
+[State 19040, Position]
+type = PosSet
+trigger1 = time = 0
+x = enemy, pos X + 150
+y = -40
+
+[State 19040, Attack]
+type = ChangeState
+trigger1 = time = 10
+value = 9240
+ctrl = 1
+
+
+; ===========================================================================
+; >>>>>> KAMEO ATTACK STATES (9200-9240) <<<<<<=
+; ===========================================================================
+[Statedef 9200]
+type = S
+movetype = A
+
+[State 9200, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 400
+
+[State 9200, Hit]
+type = HitDef
+trigger1 = time = 8
+attr = S, HA
+damage = 55, 10
+
+[State 9200, Return]
+type = SelfState
+trigger1 = animtime = 0
+value = const(StateTagWaitingOutside)
+
+[Statedef 9210]
+type = A
+movetype = A
+physics = N
+
+[State 9210, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 410
+
+[State 9210, Vel]
+type = VelSet
+trigger1 = time >= 2
+x = 25
+
+[State 9210, Hit]
+type = HitDef
+trigger1 = time = 5
+attr = A, SA
+damage = 35, 5
+
+[State 9210, Return]
+type = SelfState
+trigger1 = animtime = 0
+value = const(StateTagWaitingOutside)
+
+[Statedef 9220]
+type = S
+movetype = A
+
+[State 9220, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 420
+
+[State 9220, Helper]
+type = Helper
+trigger1 = time = 20
+stateno = 9225
+
+[State 9220, Return]
+type = SelfState
+trigger1 = animtime = 0
+value = const(StateTagWaitingOutside)
+
+[Statedef 9225]
+type = S
+
+[State 9225, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 425
+
+[State 9225, Hit]
+type = HitDef
+trigger1 = time = 0
+attr = S, SP
+damage = 45, 8
+
+[State 9225, End]
+type = Destroyself
+trigger1 = animtime = 0
+
+[Statedef 9230]
+type = A
+movetype = A
+physics = N
+
+[State 9230, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 430
+
+[State 9230, Vel]
+type = VelSet
+trigger1 = time >= 3
+y = -18
+
+[State 9230, Hit]
+type = HitDef
+trigger1 = time = 3
+attr = A, UA
+damage = 40, 8
+
+[State 9230, Return]
+type = SelfState
+trigger1 = pos Y >= 0
+value = const(StateTagWaitingOutside)
