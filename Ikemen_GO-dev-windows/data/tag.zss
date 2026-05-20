@@ -135,23 +135,25 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	velset: 0, 0; ctrl: 0;
 ]
 
-# --- Read the point character's unified engine map flag ---
-let callRequest = map(_iksys_kameoCallRequest);
+# --- Read the point character's map flag ---
+let callRequest = ifElse(teamMode = Turns, (player(teamLeader),map(_iksys_kameoCallRequest)), map(_iksys_kameoCallRequest));
 
 if $callRequest > 0 {
+	let partnerId = player(teamLeader),id + 1;
 	
 	# Clear standby invisibility parameters instantly
-	assertSpecial{flag: noTurnTarget} 
+	assertSpecial{redirectid: $partnerId; flag: noTurnTarget}
 	
 	# Teleport the real bench character directly onto the field relative to the leader
 	posSet{
+		redirectid: $partnerId;
 		x: player(teamLeader),pos x + ifElse($callRequest = 18010, const240p(40), ifElse($callRequest = 18020, -const240p(80), -const240p(60)));
 		y: 0;
 	}
 	
 	# Force match facing values
 	if facing != player(teamLeader),facing {
-		turn{}
+		turn{redirectid: $partnerId}
 	}
 	
 	# Clear the request map instantly so it doesn't infinite loop
@@ -159,6 +161,7 @@ if $callRequest > 0 {
 	
 	# Route the bench character directly into their custom attack move entry pipelines
 	selfState{
+		redirectid: $partnerId;
 		value: ifElse($callRequest = 18010, 19010, ifElse($callRequest = 18020, 19020, ifElse($callRequest = 18030, 19030, ifElse($callRequest = 18040, 19040, 19000))));
 		ctrl: 0;
 	}
@@ -252,7 +255,7 @@ if animTime >= 0 {
 # Make players (any mode) only turn towards enemy Tag team leader
 # This benefits assist systems more than it does this native Tag code
 ignoreHitPause if roundState = 2 && !isHelper {
-	if p2, teamMode = Tag && p2, playerNo != p2, teamLeader ||
+	if p2, teamMode = Tag || teamMode = Turns && p2, playerNo != p2, teamLeader ||
 		p2, time <= 0 && p2, prevStateNo = p2, const(StateTagWaitingOutside) { # Run order fix
 		assertSpecial{flag: noAutoTurn; flag2: noFaceP2}
 		# Run order fix is necessary because when tagging in a player that was already processed in the current frame, they won't be repositioned immediately
@@ -268,7 +271,7 @@ ignoreHitPause if roundState = 2 && !isHelper {
 
 ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 	# do nothing, global code disabled locally or executed by helper/stage
-} else if roundState <= 1 && teamMode = Tag && map(_iksys_tagActive) = 0 {
+} else if roundState <= 1 && teamMode = Tag || teamMode = Turns && map(_iksys_tagActive) = 0 {
 	map(_iksys_tagActive) := 1;
 	map(_iksys_tagLastId) := 0;
 	map(_iksys_tagPartnerId) := 0;

@@ -341,6 +341,12 @@ time = 1
 
 
 
+;===========================================================================
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = command = "holdback"
+
 ;==============================================================================================
 ;========================================<-1 STATES>===========================================
 ;==============================================================================================
@@ -371,6 +377,18 @@ trigger3 = command = "holdback" && command = "holdfwd" || command = "holdup" && 
 flag = NoStandGuard
 flag2 = NoCrouchGuard
 ignoreHitPause = 0
+
+; ===========================================================================
+; KAMEO ASSIST CALLS - SIMPLIFIED
+; ===========================================================================
+
+[State -1, Kameo Call]
+type = changestate
+value = 18010
+triggerall = !AILevel
+triggerall = command = "b+c"
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+trigger1 = ctrl
 
 ;===========================================================================
 ; HYPERS

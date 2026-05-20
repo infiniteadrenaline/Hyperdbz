@@ -2439,6 +2439,10 @@ function start.f_selectScreen()
 		if motif.select_info.teammenu.itemname_order[gameMode()] ~= nil then
 			itemname_order = motif.select_info.teammenu.itemname_order[gameMode()]
 		end
+                -- Fallback: ensure tag is always included
+                if not main.f_tableHasValue(itemname_order, 'tag') then
+                        table.insert(itemname_order, 'tag')
+                end
 		-- map itemname -> mode (kept from old defaults)
 		local modeByName = {
 			single = 0,
