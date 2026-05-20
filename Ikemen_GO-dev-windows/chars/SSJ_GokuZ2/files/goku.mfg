@@ -342,57 +342,6 @@ time = 1
 
 
 ;===========================================================================
-; KAMEO ASSIST CALLS (Turns Mode)
-;===========================================================================
-
-[State -1, Kameo Request]
-type = ChangeState
-value = 18010
-triggerall = !AILevel
-triggerall = TeamMode = Turns
-triggerall = movetype != H
-triggerall = ctrl || movetype = A
-trigger1 = command = "b+c"
-
-;===========================================================================
-; KAMEO ASSIST CALLS - DIRECTIONAL (Turns Mode)
-;===========================================================================
-
-[State -1, Kameo Request - Up]
-type = ChangeState
-value = 18040
-triggerall = !AILevel
-triggerall = TeamMode = Turns
-triggerall = movetype != H
-triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
-triggerall = command = "b+c"
-trigger1 = command = "holdup"
-
-[State -1, Kameo Request - Down]
-type = ChangeState
-value = 18050
-triggerall = !AILevel
-triggerall = TeamMode = Turns
-triggerall = movetype != H
-triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
-triggerall = command = "b+c"
-trigger1 = command = "holddown"
-
-[State -1, Kameo Request - Forward]
-type = ChangeState
-value = 18020
-triggerall = !AILevel
-triggerall = TeamMode = Turns
-triggerall = movetype != H
-triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
-triggerall = command = "b+c"
-trigger1 = command = "holdfwd"
-
-[State -1, Kameo Request - Back]
-type = ChangeState
-value = 18030
-triggerall = !AILevel
-triggerall = TeamMode = Turns
 triggerall = movetype != H
 triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
 triggerall = command = "b+c"
@@ -428,6 +377,66 @@ trigger3 = command = "holdback" && command = "holdfwd" || command = "holdup" && 
 flag = NoStandGuard
 flag2 = NoCrouchGuard
 ignoreHitPause = 0
+
+; ===========================================================================
+; KAMEO ASSIST CALLS (Turns Mode) - SSJ GOKU
+; ===========================================================================
+
+; --- [1/5] UP KAMEO ---
+[State -1, Kameo Request - Up]
+type = ChangeState
+value = 18040
+triggerall = !AILevel
+triggerall = teammode = turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdup"
+
+; --- [2/5] DOWN KAMEO ---
+[State -1, Kameo Request - Down]
+type = ChangeState
+value = 18050
+triggerall = !AILevel
+triggerall = teammode = turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holddown"
+
+; --- [3/5] FORWARD KAMEO ---
+[State -1, Kameo Request - Forward]
+type = ChangeState
+value = 18020
+triggerall = !AILevel
+triggerall = teammode = turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdfwd"
+
+; --- [4/5] BACK KAMEO ---
+[State -1, Kameo Request - Back]
+type = ChangeState
+value = 18030
+triggerall = !AILevel
+triggerall = teammode = turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = (ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100) && command = "holdback"
+
+; --- [5/5] NEUTRAL KAMEO ---
+[State -1, Kameo Request - Neutral]
+type = ChangeState
+value = 18010
+triggerall = !AILevel
+triggerall = teammode = turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+triggerall = !command = "holdfwd" && !command = "holdback" && !command = "holdup" && !command = "holddown"
+trigger1 = ctrl || movetype = A || stateno = 10 || stateno = 20 || stateno = 100
 
 ;===========================================================================
 ; HYPERS
