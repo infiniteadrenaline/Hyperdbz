@@ -11007,6 +11007,30 @@ value = 5952 ;HITA_UP (transition)
 ; KAMEO CALL TRIGGERS - SSJ GOKU (States 18010-18050)
 ;===========================================================================
 
+[Statedef 18000]
+type    = S
+movetype= I
+physics = S
+anim    = 195
+ctrl    = 0
+velset  = 0,0
+
+[State 18000, Set Cooldown]
+type = VarSet
+trigger1 = time = 0
+var(58) = 360
+
+[State 18000, Broadcast Request]
+type = MapSet
+trigger1 = time = 0
+map(_iksys_kameoCallRequest) = 18000
+
+[State 18000, Return]
+type = ChangeState
+trigger1 = AnimTime = 0 || time >= 30
+value = 0
+ctrl = 1
+
 [Statedef 18010]
 type    = S
 movetype= I
