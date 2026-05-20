@@ -30,8 +30,6 @@ let partnerId = 0;
 if const(TagCommandAIChance) >= randomRange(1, 100) {
 	if command = "TagShiftFwd" {
 		let partnerId = $nextPartnerId;
-	} else if command = "TagShiftBack" {
-		let partnerId = $previousPartnerId;
 	}
 }
 
@@ -325,8 +323,6 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 						let partnerId = map(_iksys_tagPartnerId);
 					} else if command = "TagShiftFwd" {
 						let partnerId = $nextPartnerId;
-					} else if command = "TagShiftBack" {
-						let partnerId = $previousPartnerId;
 					}
 					# having control, command buffered, partner standby
 					if ctrl && $partnerId > 0 && playerId($partnerId),stateNo = playerId($partnerId),const(StateTagWaitingOutside) {
