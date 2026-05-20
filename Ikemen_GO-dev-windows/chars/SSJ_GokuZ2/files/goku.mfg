@@ -341,6 +341,63 @@ time = 1
 
 
 
+;===========================================================================
+; KAMEO ASSIST CALLS (Turns Mode)
+;===========================================================================
+
+[State -1, Kameo Request]
+type = ChangeState
+value = 18010
+triggerall = !AILevel
+triggerall = TeamMode = Turns
+triggerall = movetype != H
+triggerall = ctrl || movetype = A
+trigger1 = command = "b+c"
+
+;===========================================================================
+; KAMEO ASSIST CALLS - DIRECTIONAL (Turns Mode)
+;===========================================================================
+
+[State -1, Kameo Request - Up]
+type = ChangeState
+value = 18040
+triggerall = !AILevel
+triggerall = TeamMode = Turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = command = "holdup"
+
+[State -1, Kameo Request - Down]
+type = ChangeState
+value = 18050
+triggerall = !AILevel
+triggerall = TeamMode = Turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = command = "holddown"
+
+[State -1, Kameo Request - Forward]
+type = ChangeState
+value = 18020
+triggerall = !AILevel
+triggerall = TeamMode = Turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = command = "holdfwd"
+
+[State -1, Kameo Request - Back]
+type = ChangeState
+value = 18030
+triggerall = !AILevel
+triggerall = TeamMode = Turns
+triggerall = movetype != H
+triggerall = stateno != 18010 && stateno != 18020 && stateno != 18030 && stateno != 18040 && stateno != 18050
+triggerall = command = "b+c"
+trigger1 = command = "holdback"
+
 ;==============================================================================================
 ;========================================<-1 STATES>===========================================
 ;==============================================================================================
