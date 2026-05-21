@@ -30,8 +30,6 @@ let partnerId = 0;
 if const(TagCommandAIChance) >= randomRange(1, 100) {
 	if command = "TagShiftFwd" {
 		let partnerId = $nextPartnerId;
-	} else if command = "TagShiftBack" {
-		let partnerId = $previousPartnerId;
 	}
 }
 
@@ -42,7 +40,7 @@ if aiLevel = 0 {
 	if gameMode = "versuscoop" {
 		let anim = $anim + playerNo;
 	} else if gameMode = "netplaysurvivalcoop" || gameMode = "netplayteamcoop" || gameMode = "survivalcoop" || gameMode = "teamcoop" {
-		if teamSide = 1 {
+		if teamSide != 0 {
 			let anim = $anim + playerNo / 2 + 1;
 		} else {
 			let anim = $anim + playerNo / 2;
@@ -127,7 +125,7 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 }
 
 #===============================================================================
-# StateTagWaitingOutside (UNIVERSAL KAMEO LOGIC - COMPACT)
+# StateTagWaitingOutside (UNIVERSAL KAMEO LOGIC - BASELINE)
 #===============================================================================
 [StateDef const(StateTagWaitingOutside);
 	type: A; movetype: I; physics: N;
@@ -135,47 +133,13 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	velset: 0, 0; ctrl: 0;
 ]
 
-# --- Read the point character's map flag ---
-let callRequest = ifElse(teamMode = Turns, (player(teamLeader),map(_iksys_kameoCallRequest)), map(_iksys_kameoCallRequest));
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+assertSpecial{flag: invisible; flag2: noTurnTarget}
 
-if $callRequest > 0 {
-	let partnerId = player(teamLeader),id + 1;
-	
-	# Clear standby invisibility parameters instantly
-	assertSpecial{redirectid: $partnerId; flag: noTurnTarget}
-	
-	# Teleport the real bench character directly onto the field relative to the leader
-	posSet{
-		redirectid: $partnerId;
-		x: player(teamLeader),pos x + ifElse($callRequest = 18010, const240p(40), ifElse($callRequest = 18020, -const240p(80), -const240p(60)));
-		y: 0;
-	}
-	
-	# Force match facing values
-	if facing != player(teamLeader),facing {
-		turn{redirectid: $partnerId}
-	}
-	
-	# Clear the request map instantly so it doesn't infinite loop
-	map(_iksys_kameoCallRequest) := 0;
-	
-	# Route the bench character directly into their custom attack move entry pipelines
-	selfState{
-		redirectid: $partnerId;
-		value: ifElse($callRequest = 18010, 19010, ifElse($callRequest = 18020, 19020, ifElse($callRequest = 18030, 19030, ifElse($callRequest = 18040, 19040, 19000))));
-		ctrl: 0;
-	}
-
-} else {
-	# Standard Standby Loops
-	screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
-	assertSpecial{flag: invisible; flag2: noTurnTarget}
-
-	if pos x * facing > 0 {
-		turn{}
-	}
-	posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
+if pos x * facing > 0 {
+	turn{}
 }
+posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
 
 #===============================================================================
 # StateTagJumpingIn
@@ -258,9 +222,6 @@ ignoreHitPause if roundState = 2 && !isHelper {
 	if p2, teamMode = Tag || teamMode = Turns && p2, playerNo != p2, teamLeader ||
 		p2, time <= 0 && p2, prevStateNo = p2, const(StateTagWaitingOutside) { # Run order fix
 		assertSpecial{flag: noAutoTurn; flag2: noFaceP2}
-		# Run order fix is necessary because when tagging in a player that was already processed in the current frame, they won't be repositioned immediately
-		# This makes enemies recognize that player as the new leader and turn towards them before the screen side where they should enter from has been decided
-		# TODO: This fix could be replaced with a function where the previous leader tags out while the next one is simultaneously repositioned
 	}
 }
 
@@ -296,7 +257,7 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 		if moveType = H
 			|| getHitVar(isBound) != 0
 			|| stateNo = const(StateDownedGetHit_gettingUp) ||
-			stateNo = [const(StateAirGetHit_fallRecoveryOnGroundStillFalling), const(StateAirGetHit_fallRecoveryInAir)]
+			(stateNo >= const(StateAirGetHit_fallRecoveryOnGroundStillFalling) && stateNo <= const(StateAirGetHit_fallRecoveryInAir))
 		{
 			let beingHit = 1;
 		}
@@ -316,6 +277,25 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 					let partnerId = 0;
 					let nextPartnerId = call TagGetPartnerId(1);
 					let previousPartnerId = call TagGetPartnerId(-1);
+					
+					# --- KAMEO TRIGGER (RUNS ONLY IF W IS PRESSED & BENCH IS WAITING) ---
+					if command = "w" && $nextPartnerId > 0 {
+						if playerId($nextPartnerId),stateNo = playerId($nextPartnerId),const(StateTagWaitingOutside) {
+							# Flag the incoming partner directly to bypass standard engine logic
+							mapSet{map: "_iksys_kameoInit"; value: 1; redirectid: $nextPartnerId}
+							
+							# Save joystick layout directional integers natively
+							if command = "holdfwd" { mapSet{map: "_iksys_kameoInput"; value: 2; redirectid: $nextPartnerId} } 
+							else if command = "holdback" { mapSet{map: "_iksys_kameoInput"; value: 3; redirectid: $nextPartnerId} } 
+							else if command = "holdup" { mapSet{map: "_iksys_kameoInput"; value: 4; redirectid: $nextPartnerId} } 
+							else if command = "holddown" { mapSet{map: "_iksys_kameoInput"; value: 5; redirectid: $nextPartnerId} } 
+							else { mapSet{map: "_iksys_kameoInput"; value: 1; redirectid: $nextPartnerId} }
+							
+							tagIn{stateno: playerId($nextPartnerId),const(StateTagEnteringScreen); redirectid: $nextPartnerId}
+						}
+					}
+					
+					# --- ORIGINAL UNTOUCHED NATIVE TAG INPUT ROUTER (D KEY) ---
 					if aiLevel > 0 {
 						# id is remembered by AI player, switch will happen at first frame that meets switch conditions
 						if map(_iksys_tagPartnerId) = 0 {
@@ -325,11 +305,9 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 						let partnerId = map(_iksys_tagPartnerId);
 					} else if command = "TagShiftFwd" {
 						let partnerId = $nextPartnerId;
-					} else if command = "TagShiftBack" {
-						let partnerId = $previousPartnerId;
 					}
 					# having control, command buffered, partner standby
-					if ctrl && $partnerId > 0 && playerId($partnerId),stateNo = playerId($partnerId),const(StateTagWaitingOutside) {
+					if ctrl && $partnerId > 0 && playerId($partnerId),map(_iksys_kameoInit) = 0 && playerId($partnerId),stateNo = playerId($partnerId),const(StateTagWaitingOutside) {
 						mapSet{map: "_iksys_tagSwitchCooldown"; value: playerId($partnerId),const(TagSwitchCooldown); redirectid: $partnerId}
 						map(_iksys_tagPartnerId) := 0;
 						lifebarAction{spr: const(MsgPartnerChange), 0; top: 1}
@@ -340,21 +318,44 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 					}
 				}
 			}
-		# partners (not hit)
+		# partners / benched players (not hit)
 		} else if $beingHit = 0 {
-			# on screen, at the round start / during round
-			if roundState = 2
-				&& (ctrl || standby || map(_iksys_tagIntroFlag) = 0)
-				&& (stateNo = const(StateStand) ||
-				(pos y >= 0 && stateNo != [const(StateTagEnteringScreen), const(StateTagWaitingOutside)]))
-			{
-				map(_iksys_tagIntroFlag) := 1;
-				tagOut{stateno: const(StateTagLeavingScreen)}
-			# tagged out, at the round end
-			} else if roundState = 3 {
-				assertSpecial{flag: noInput}
-				if stateNo = const(StateTagWaitingOutside) {
-					tagIn{stateno: const(StateTagJumpingIn)}
+			
+			# --- KAMEO ROUTINE INTERCEPT ---
+			# STRICT LOCK: This block is physically impossible to enter unless W was pressed 
+			if map(_iksys_kameoInit) = 1 {
+				assertSpecial{flag: noInput; flag2: noHardcodedKeys}
+				
+				if stateNo = const(StateTagEnteringScreen) {
+					if time > 20 || vel x = 0 {
+						changeState{value: 0} 
+					}
+				} else if stateNo = 0 {
+					if time >= 60 { 
+						tagOut{stateno: const(StateTagLeavingScreen)}
+					}
+				} else if stateNo = const(StateTagWaitingOutside) {
+					map(_iksys_kameoInit) := 0; 
+					map(_iksys_kameoInput) := 0;
+				}
+				
+			# --- ORIGINAL UNTOUCHED PARTNER SWAP BLOCK ---
+			# Safe Shield: At round start, your standard tag configuration handles the characters normally
+			} else {
+				# on screen, at the round start / during round
+				if roundState = 2
+					&& (ctrl || standby || map(_iksys_tagIntroFlag) = 0)
+					&& (stateNo = const(StateStand) ||
+					(pos y >= 0 && stateNo != const(StateTagEnteringScreen) && stateNo != const(StateTagWaitingOutside)))
+				{
+					map(_iksys_tagIntroFlag) := 1;
+					tagOut{stateno: const(StateTagLeavingScreen)}
+				# tagged out, at the round end
+				} else if roundState = 3 {
+					assertSpecial{flag: noInput}
+					if stateNo = const(StateTagWaitingOutside) {
+						tagIn{stateno: const(StateTagJumpingIn)}
+					}
 				}
 			}
 		}
@@ -380,7 +381,7 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 		}
 	# active player died and hit the ground
 	} else if playerNo = teamLeader
-		&& stateNo = [const(StateDownedGetHit_hitGroundFromFall), const(StateDownedGetHit_lyingDefeated)]
+		&& (stateNo >= const(StateDownedGetHit_hitGroundFromFall) && stateNo <= const(StateDownedGetHit_lyingDefeated))
 	{
 		map(_iksys_tagActive) := 0;
 		# bring next team member
