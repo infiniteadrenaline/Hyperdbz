@@ -43,6 +43,96 @@ if backEdgeDist >= 0 && (floor(map(_iksys_kameoSwitchDist)) <= 0 || p2BodyDist X
 	selfState{value: const(StateKameoActive)}
 }
 
+# ════════════════════════════════════════════════════════════════════════
+# KAMEO ATTACKS - Simple hits inline, no state transitions needed
+# ════════════════════════════════════════════════════════════════════════
+[StateDef 9210]  # Basic punch
+	type: S; movetype: A; physics: N;
+	anim: 200; ctrl: 0;
+	velSet{x: 12; y: 0}
+	
+	if time = 0 { hitdef{
+		target: enemy;
+		attr: S, SP;
+		damage: 8; priority: 5;
+		hitflag: MAF;
+		pausetime: 5, 5;
+		sparkno: s7020;
+		hitsound: s0, 1;
+	}}
+
+	if time >= 10 { selfState{value: const(StateKameoLeaving)} }
+
+[StateDef 9215]  # Energy wave
+	type: S; movetype: A; physics: N;
+	anim: 2100; ctrl: 0;
+	velSet{x: 15; y: 0}
+	
+	if time = 0 { hitdef{
+		target: enemy;
+		attr: S, SA;
+		damage: 12; priority: 6;
+		hitflag: MAF;
+		pausetime: 8, 8;
+		sparkno: s7030;
+		hitsound: s5, 0;
+	}}
+
+	if time >= 12 { selfState{value: const(StateKameoLeaving)} }
+
+[StateDef 9220]  # Uppercut (ground)
+	type: S; movetype: A; physics: N;
+	anim: 200; ctrl: 0;
+	velSet{x: 8; y: -10}
+	
+	if time = 0 { hitdef{
+		target: enemy;
+		attr: S, SA;
+		damage: 10; priority: 6;
+		hitflag: MAF;
+		pausetime: 8, 8;
+		sparkno: s7030;
+		hitsound: s5, 0;
+	}}
+
+	if time >= 15 { selfState{value: const(StateKameoLeaving)} }
+
+[StateDef 9230]  # Air blast
+	type: A; movetype: A; physics: N;
+	anim: 1500; ctrl: 0;
+	velSet{x: 10; y: 5}
+	
+	if time = 0 { hitdef{
+		target: enemy;
+		attr: A, SA;
+		damage: 10; priority: 5;
+		hitflag: MAF;
+		pausetime: 10, 10;
+		sparkno: s7030;
+		hitsound: s5, 2;
+	}}
+
+	if time >= 20 { selfState{value: const(StateKameoLeaving)} }
+
+[StateDef 9240]  # Low sweep
+	type: S; movetype: A; physics: S;
+	anim: 215; ctrl: 0;
+	velSet{x: 0; y: 0}
+	
+	if time = 0 { hitdef{
+		target: enemy;
+		attr: C, LP;
+		damage: 6; priority: 4;
+		hitflag: LFD;
+		pausetime: 5, 5;
+		sparkno: s7020;
+		hitsound: s0, 0;
+	}}
+
+	if time >= 12 { selfState{value: const(StateKameoLeaving)} }
+
+# ════════════════════════════════════════════════════════════════════════
+
 #===============================================================================
 # StateKameoActive — bench char on-screen window
 # Exits early if hit (20 frame delay), or when KameoActiveTime expires
