@@ -89,10 +89,12 @@ if time = 0 {
 	map(_iksys_tagSwitchDist) := abs(pos x - player(teamLeader),pos x);
 	# set movement
 	velSet{x: min(const240p(const(TagInVelX)), map(_iksys_tagSwitchDist) / const(TagInTime)); y: 0}
-	# change active player assignment
-	map(_iksys_tagLastId) := player(teamLeader),id;
-	tagIn{leader: playerNo}
-	call TagSwitchExplod();
+	# change active player assignment (skip during kameo - leader stays in control)
+	if map(_iksys_kameoInit) = 0 {
+		map(_iksys_tagLastId) := player(teamLeader),id;
+		tagIn{leader: playerNo}
+		call TagSwitchExplod();
+	}
 } else {
 	mapAdd{map: "_iksys_tagSwitchDist"; value: -vel x}
 }
@@ -127,7 +129,7 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 }
 
 #===============================================================================
-# StateTagWaitingOutside (UNIVERSAL KAMEO LOGIC - COMPACT)
+# StateTagWaitingOutside
 #===============================================================================
 [StateDef const(StateTagWaitingOutside);
 	type: A; movetype: I; physics: N;
@@ -135,47 +137,13 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	velset: 0, 0; ctrl: 0;
 ]
 
-# --- Read the point character's map flag ---
-let callRequest = ifElse(teamMode = Turns, (player(teamLeader),map(_iksys_kameoCallRequest)), map(_iksys_kameoCallRequest));
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+assertSpecial{flag: invisible; flag2: noTurnTarget}
 
-if $callRequest > 0 {
-	let partnerId = player(teamLeader),id + 1;
-	
-	# Clear standby invisibility parameters instantly
-	assertSpecial{redirectid: $partnerId; flag: noTurnTarget}
-	
-	# Teleport the real bench character directly onto the field relative to the leader
-	posSet{
-		redirectid: $partnerId;
-		x: player(teamLeader),pos x + ifElse($callRequest = 18010, const240p(40), ifElse($callRequest = 18020, -const240p(80), -const240p(60)));
-		y: 0;
-	}
-	
-	# Force match facing values
-	if facing != player(teamLeader),facing {
-		turn{redirectid: $partnerId}
-	}
-	
-	# Clear the request map instantly so it doesn't infinite loop
-	map(_iksys_kameoCallRequest) := 0;
-	
-	# Route the bench character directly into their custom attack move entry pipelines
-	selfState{
-		redirectid: $partnerId;
-		value: ifElse($callRequest = 18010, 19010, ifElse($callRequest = 18020, 19020, ifElse($callRequest = 18030, 19030, ifElse($callRequest = 18040, 19040, 19000))));
-		ctrl: 0;
-	}
-
-} else {
-	# Standard Standby Loops
-	screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
-	assertSpecial{flag: invisible; flag2: noTurnTarget}
-
-	if pos x * facing > 0 {
-		turn{}
-	}
-	posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
+if pos x * facing > 0 {
+	turn{}
 }
+posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
 
 #===============================================================================
 # StateTagJumpingIn
@@ -281,6 +249,8 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 		map(_iksys_tagIntroFlag) := 0;
 	}
 	map(_iksys_tagSwitchCooldown) := 0;
+	map(_iksys_kameoInit) := 0;
+	map(_iksys_kameoInput) := 0;
 } else if map(_iksys_tagActive) = 1 {
 	# fix characters escaping state 5030
 	if !alive {
@@ -316,6 +286,22 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 					let partnerId = 0;
 					let nextPartnerId = call TagGetPartnerId(1);
 					let previousPartnerId = call TagGetPartnerId(-1);
+					
+					# --- KAMEO TRIGGER (w + optional direction, bench must be in WaitingOutside) ---
+					if command = "w" && $nextPartnerId > 0 {
+						if playerId($nextPartnerId),stateNo = playerId($nextPartnerId),const(StateTagWaitingOutside) {
+							mapSet{map: "_iksys_kameoInit"; value: 1; redirectid: $nextPartnerId}
+							# store directional input
+							if command = "holdfwd" { mapSet{map: "_iksys_kameoInput"; value: 2; redirectid: $nextPartnerId} }
+							else if command = "holdback" { mapSet{map: "_iksys_kameoInput"; value: 3; redirectid: $nextPartnerId} }
+							else if command = "holdup" { mapSet{map: "_iksys_kameoInput"; value: 4; redirectid: $nextPartnerId} }
+							else if command = "holddown" { mapSet{map: "_iksys_kameoInput"; value: 5; redirectid: $nextPartnerId} }
+							else { mapSet{map: "_iksys_kameoInput"; value: 1; redirectid: $nextPartnerId} }
+							tagIn{stateno: playerId($nextPartnerId),const(StateTagEnteringScreen); redirectid: $nextPartnerId}
+						}
+					}
+					
+					# --- STANDARD TAG INPUT ROUTER ---
 					if aiLevel > 0 {
 						# id is remembered by AI player, switch will happen at first frame that meets switch conditions
 						if map(_iksys_tagPartnerId) = 0 {
@@ -328,8 +314,8 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 					} else if command = "TagShiftBack" {
 						let partnerId = $previousPartnerId;
 					}
-					# having control, command buffered, partner standby
-					if ctrl && $partnerId > 0 && playerId($partnerId),stateNo = playerId($partnerId),const(StateTagWaitingOutside) {
+					# having control, command buffered, partner standby (blocked during active kameo)
+					if ctrl && $partnerId > 0 && playerId($partnerId),map(_iksys_kameoInit) = 0 && playerId($partnerId),stateNo = playerId($partnerId),const(StateTagWaitingOutside) {
 						mapSet{map: "_iksys_tagSwitchCooldown"; value: playerId($partnerId),const(TagSwitchCooldown); redirectid: $partnerId}
 						map(_iksys_tagPartnerId) := 0;
 						lifebarAction{spr: const(MsgPartnerChange), 0; top: 1}
@@ -342,19 +328,37 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 			}
 		# partners (not hit)
 		} else if $beingHit = 0 {
-			# on screen, at the round start / during round
-			if roundState = 2
-				&& (ctrl || standby || map(_iksys_tagIntroFlag) = 0)
-				&& (stateNo = const(StateStand) ||
-				(pos y >= 0 && stateNo != [const(StateTagEnteringScreen), const(StateTagWaitingOutside)]))
-			{
-				map(_iksys_tagIntroFlag) := 1;
-				tagOut{stateno: const(StateTagLeavingScreen)}
-			# tagged out, at the round end
-			} else if roundState = 3 {
-				assertSpecial{flag: noInput}
-				if stateNo = const(StateTagWaitingOutside) {
-					tagIn{stateno: const(StateTagJumpingIn)}
+			# --- KAMEO LIFECYCLE INTERCEPT ---
+			if map(_iksys_kameoInit) = 1 {
+				assertSpecial{flag: noInput; flag2: noHardcodedKeys}
+				if stateNo = const(StateTagEnteringScreen) {
+					if time > 20 || vel x = 0 {
+						changeState{value: 0}
+					}
+				} else if stateNo = 0 {
+					if time >= 60 {
+						tagOut{stateno: const(StateTagLeavingScreen)}
+					}
+				} else if stateNo = const(StateTagWaitingOutside) {
+					map(_iksys_kameoInit) := 0;
+					map(_iksys_kameoInput) := 0;
+				}
+			# --- STANDARD PARTNER LOGIC ---
+			} else {
+				# on screen, at the round start / during round
+				if roundState = 2
+					&& (ctrl || standby || map(_iksys_tagIntroFlag) = 0)
+					&& (stateNo = const(StateStand) ||
+					(pos y >= 0 && stateNo != [const(StateTagEnteringScreen), const(StateTagWaitingOutside)]))
+				{
+					map(_iksys_tagIntroFlag) := 1;
+					tagOut{stateno: const(StateTagLeavingScreen)}
+				# tagged out, at the round end
+				} else if roundState = 3 {
+					assertSpecial{flag: noInput}
+					if stateNo = const(StateTagWaitingOutside) {
+						tagIn{stateno: const(StateTagJumpingIn)}
+					}
 				}
 			}
 		}
