@@ -12,7 +12,7 @@ buffer.hitpause = 1
 buffer.pauseend = 1
 
 [Command]
-name = "TagShiftBack"
+name = "TagShiftFwd"
 command = d
 time = 1
 buffer.time = 1
@@ -20,16 +20,8 @@ buffer.hitpause = 1
 buffer.pauseend = 1
 
 [Command]
-name = "TagShiftFwd"
-command = w
-time = 1
-buffer.time = 1
-buffer.hitpause = 1
-buffer.pauseend = 1
-
-[Command]
 name = "holdfwd"
-command =
+command = /$F     ; UPDATED: Detects holding Forward
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
@@ -37,7 +29,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "holdback"
-command =
+command = /$B     ; UPDATED: Detects holding Back
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
@@ -45,7 +37,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "holdup"
-command =
+command = /$U     ; UPDATED: Detects holding Up
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
@@ -53,7 +45,7 @@ buffer.pauseend = 1
 
 [Command]
 name = "holddown"
-command =
+command = /$D     ; UPDATED: Detects holding Down
 time = 1
 buffer.time = 1
 buffer.hitpause = 1
