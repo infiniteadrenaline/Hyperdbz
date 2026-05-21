@@ -43,36 +43,9 @@ if backEdgeDist >= 0 && (floor(map(_iksys_kameoSwitchDist)) <= 0 || p2BodyDist X
 	selfState{value: const(StateKameoActive)}
 }
 
-# ════════════════════════════════════════════════════════════════════════════════
-# KAMEO ATTACK STUBS - Each character defines their own mapping
-# These states just transition to character-defined moves
-# ════════════════════════════════════════════════════════════════════════
-
-# Forward Kameo - character defines in their own system.cns (9210)
-[StateDef 9210]
-	type: S; movetype: I; physics: S;
-	# Let character's system.cns handle move mapping
-	
-# Back Kameo - character defines
-[StateDef 9211]
-	type: S; movetype: I; physics: S;
-
-# Down Kameo - character defines  
-[StateDef 9212]
-	type: S; movetype: I; physics: S;
-
-# Up Kameo - character defines
-[StateDef 9213]
-	type: S; movetype: I; physics: S;
-
-# Down Kameo - character defines
-[StateDef 9214]
-	type: S; movetype: I; physics: S;
-
-# ════════════════════════════════════════════════════════════════════════════════════════
-
 #===============================================================================
 # StateKameoActive — bench char on-screen window
+# Exits early if hit (20 frame delay), or when KameoActiveTime expires
 #===============================================================================
 [StateDef const(StateKameoActive);
 	type: S; movetype: I; physics: S;
@@ -89,19 +62,17 @@ if facing != player(teamLeader),facing {
 posSet{y: 0}
 velSet{x: 0; y: 0}
 
-# ── FIRE ATTACK BASED ON INPUT ────────────────────────────────
-# Input map: 1=neutral, 2=fwd, 3=back, 4=up, 5=down
-# Map to Vegeta's actual specials
+# --- FIRE ATTACK BASED ON INPUT ---
 if time = 1 && map(_iksys_kameoInput) > 0 {
-	if map(_iksys_kameoInput) = 1 {      # W (neutral) = Royal Rekka
+	if map(_iksys_kameoInput) = 1 {
 		selfState{value: 9210}
-	} else if map(_iksys_kameoInput) = 2 {  # W+forward = Superdash
+	} else if map(_iksys_kameoInput) = 2 {
 		selfState{value: 9211}
-	} else if map(_iksys_kameoInput) = 3 {  # W+back = Atomic Burst
+	} else if map(_iksys_kameoInput) = 3 {
 		selfState{value: 9212}
-	} else if map(_iksys_kameoInput) = 5 {  # W+down = Straight Shooter
+	} else if map(_iksys_kameoInput) = 4 {
 		selfState{value: 9213}
-	} else if map(_iksys_kameoInput) = 4 {  # W+up = crouching HP
+	} else if map(_iksys_kameoInput) = 5 {
 		selfState{value: 9214}
 	}
 }
