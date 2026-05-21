@@ -65,15 +65,15 @@ velSet{x: 0; y: 0}
 # --- FIRE ATTACK BASED ON INPUT ---
 if time = 1 && map(_iksys_kameoInput) > 0 {
 	if map(_iksys_kameoInput) = 1 {
-		selfState{value: 9210}
+		selfState{value: 1400}   ; Royal Buster (W neutral)
 	} else if map(_iksys_kameoInput) = 2 {
-		selfState{value: 9211}
+		selfState{value: 1000}   ; Superdash (W+F)
 	} else if map(_iksys_kameoInput) = 3 {
-		selfState{value: 9212}
+		selfState{value: 3200}   ; Atomic Burst (W+B)
 	} else if map(_iksys_kameoInput) = 4 {
-		selfState{value: 9213}
+		selfState{value: 230}    ; Anti-air (W+Up)
 	} else if map(_iksys_kameoInput) = 5 {
-		selfState{value: 9214}
+		selfState{value: 1200}  ; Straight Shooter (W+Down)
 	}
 }
 
@@ -87,6 +87,7 @@ if time >= const(KameoActiveTime)
 	|| (map(_iksys_kameoHitTime) > 0 && time >= map(_iksys_kameoHitTime) + 20)
 {
 	map(_iksys_kameoHitTime) := 0;
+		map(_iksys_kameoLastCall) := 0;
 	selfState{value: const(StateKameoLeaving)}
 }
 
@@ -113,6 +114,7 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	map(_iksys_kameoActive) := 0;
 	map(_iksys_kameoInput) := 0;
 	map(_iksys_kameoHitTime) := 0;
+		map(_iksys_kameoLastCall) := 0;
 	selfState{value: const(StateTagWaitingOutside)}
 }
 
@@ -135,6 +137,7 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 			&& $nextPartnerId > 0
 			&& playerId($nextPartnerId),stateNo = playerId($nextPartnerId),const(StateTagWaitingOutside)
 			&& playerId($nextPartnerId),map(_iksys_kameoActive) = 0
+			&& playerId($nextPartnerId),map(_iksys_kameoLastCall) = 0
 		{
 			# idle / walk / run
 			if ctrl {
@@ -163,6 +166,7 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 			}
 
 			mapSet{map: "_iksys_kameoActive"; value: 1; redirectid: $nextPartnerId}
+			mapSet{map: "_iksys_kameoLastCall"; value: 1; redirectid: $nextPartnerId}
 			lifebarAction{spr: const(MsgPartnerAssist), 0; top: 1}
 		}
 	}
