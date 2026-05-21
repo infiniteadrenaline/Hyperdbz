@@ -414,6 +414,17 @@ trigger4 = anim = 1512 && animelemtime(6) >= 0
 trigger5 = stateno = 1201 || stateno = 1203
 
 ;Final Explosion
+[State -1, Kameo Call W]
+type = ChangeState
+value = 18000
+triggerall = StateType != A
+triggerall = partner, stateNo = 6565611
+triggerall = ctrl || (stateNo = [200,499]) || (stateNo = [1000,1999])
+triggerall = !command = "holdfwd" && !command = "holdback" && !command = "holdup" && !command = "holddown"
+trigger1 = command = "w" && ctrl
+trigger2 = command = "w" && stateNo = [200,499]
+trigger3 = command = "w" && stateNo = [1000,1999]
+
 [State -1, Final Explosion]
 type = ChangeState
 value = 48000
@@ -2461,3 +2472,43 @@ triggerall = vel y > 0
 trigger1 = ctrl
 value = 645
 
+
+[State -1, Kameo Call W + Forward]
+type = ChangeState
+value = 18010
+triggerall = StateType != A
+triggerall = partner, stateNo = 6565611
+triggerall = ctrl || (stateNo = [200,499]) || (stateNo = [1000,1999])
+trigger1 = command = "w" && command = "holdfwd" && ctrl
+trigger2 = command = "w" && command = "holdfwd" && stateNo = [200,499]
+trigger3 = command = "w" && command = "holdfwd" && stateNo = [1000,1999]
+
+[State -1, Kameo Call W + Back]
+type = ChangeState
+value = 18020
+triggerall = StateType != A
+triggerall = partner, stateNo = 6565611
+triggerall = ctrl || (stateNo = [200,499]) || (stateNo = [1000,1999])
+trigger1 = command = "w" && command = "holdback" && ctrl
+trigger2 = command = "w" && command = "holdback" && stateNo = [200,499]
+trigger3 = command = "w" && command = "holdback" && stateNo = [1000,1999]
+
+[State -1, Kameo Call W + Up]
+type = ChangeState
+value = 18030
+triggerall = StateType != A
+triggerall = partner, stateNo = 6565611
+triggerall = ctrl || (stateNo = [200,499]) || (stateNo = [1000,1999])
+trigger1 = command = "w" && command = "holdup" && ctrl
+trigger2 = command = "w" && command = "holdup" && stateNo = [200,499]
+trigger3 = command = "w" && command = "holdup" && stateNo = [1000,1999]
+
+[State -1, Kameo Call W + Down]
+type = ChangeState
+value = 18040
+triggerall = StateType != A
+triggerall = partner, stateNo = 6565611
+triggerall = ctrl || (stateNo = [200,499]) || (stateNo = [1000,1999])
+trigger1 = command = "w" && command = "holddown" && ctrl
+trigger2 = command = "w" && command = "holddown" && stateNo = [200,499]
+trigger3 = command = "w" && command = "holddown" && stateNo = [1000,1999]

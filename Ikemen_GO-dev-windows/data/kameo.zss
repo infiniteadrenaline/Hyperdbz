@@ -1,0 +1,181 @@
+# Kameo / Assist System
+# Runs on the same jurisdiction as tag.zss — hooks into StateDef -2 global state.
+#
+# Cancel rules:
+#   Leader can call from: idle (ctrl), normals [200-499], specials [1000-1999]
+#   Leader CANNOT call from: air, supers [3000+], grabs [800-899], transforms [4000+]
+#   Bench char exits early if hit — 20 frame delay then leaves
+#
+# Kameo input map (_iksys_kameoInput on bench char):
+#   1=neutral  2=fwd  3=back  4=up  5=down
+#
+# States (common.const):
+#   StateKameoEntering = 6565630
+#   StateKameoActive   = 6565631
+#   StateKameoLeaving  = 6565632
+
+#===============================================================================
+# StateKameoEntering — bench char dashes in, 1.6x faster than tag for combo use
+#===============================================================================
+[StateDef const(StateKameoEntering);
+	type: S; movetype: I; physics: N;
+	anim: const(AnimTagEnteringScreen);
+	sprpriority: 2; ctrl: 0;
+]
+
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+
+if time = 0 {
+	if facing != player(teamLeader),facing {
+		turn{}
+	}
+	posAdd{x: -backEdgeDist - const240p(90)}
+	posSet{y: 0}
+	map(_iksys_kameoSwitchDist) := abs(pos x - player(teamLeader),pos x);
+	# 1.6x faster than standard tag enter
+	velSet{x: min(const240p(const(TagInVelX)) * 1.6, map(_iksys_kameoSwitchDist) / const(TagInTime) * 1.6); y: 0}
+} else {
+	mapAdd{map: "_iksys_kameoSwitchDist"; value: -vel x}
+}
+
+if backEdgeDist >= 0 && (floor(map(_iksys_kameoSwitchDist)) <= 0 || p2BodyDist X < const240p(60)) {
+	velSet{x: 0; y: 0}
+	selfState{value: const(StateKameoActive)}
+}
+
+#===============================================================================
+# StateKameoActive — bench char on-screen window
+# Exits early if hit (20 frame delay), or when KameoActiveTime expires
+#===============================================================================
+[StateDef const(StateKameoActive);
+	type: S; movetype: I; physics: S;
+	anim: const(AnimStanding);
+	sprpriority: 2; ctrl: 0;
+]
+
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+assertSpecial{flag: noTurnTarget}
+
+if facing != player(teamLeader),facing {
+	turn{}
+}
+posSet{y: 0}
+velSet{x: 0; y: 0}
+
+# ── FIRE ATTACK BASED ON INPUT ────────────────────────────────
+# Input map: 1=neutral, 2=fwd, 3=back, 4=up, 5=down
+if time = 1 {
+	if map(_iksys_kameoInput) = 1 {  # neutral
+		selfState{value: 19010}
+	} else if map(_iksys_kameoInput) = 2 {  # forward
+		selfState{value: 19010}
+	} else if map(_iksys_kameoInput) = 3 {  # back
+		selfState{value: 19020}
+	} else if map(_iksys_kameoInput) = 4 {  # up
+		selfState{value: 19030}
+	} else if map(_iksys_kameoInput) = 5 {  # down
+		selfState{value: 19040}
+	}
+}
+
+# record the frame we got hit (only once)
+if moveType = H && map(_iksys_kameoHitTime) = 0 {
+	map(_iksys_kameoHitTime) := time;
+}
+
+# exit: active window expired OR hit + 20 frame recovery passed
+if time >= const(KameoActiveTime)
+	|| (map(_iksys_kameoHitTime) > 0 && time >= map(_iksys_kameoHitTime) + 20)
+{
+	map(_iksys_kameoHitTime) := 0;
+	selfState{value: const(StateKameoLeaving)}
+}
+
+#===============================================================================
+# StateKameoLeaving — bench char runs back off-screen
+#===============================================================================
+[StateDef const(StateKameoLeaving);
+	type: S; movetype: I; physics: N;
+	anim: const(AnimTagLeavingScreen); sprpriority: -2;
+	velset: 0, 0; facep2: 1;
+	ctrl: 0;
+]
+
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+assertSpecial{flag: noTurnTarget}
+
+if time = 0 {
+	turn{}
+}
+
+velSet{x: min(max(ifElse(const(velocity.run.fwd.x) != 0, const(velocity.run.fwd.x), const(velocity.walk.fwd.x) * 2), 5), const240p(const(TagInVelX))); y: 0}
+
+if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
+	map(_iksys_kameoActive) := 0;
+	map(_iksys_kameoInput) := 0;
+	map(_iksys_kameoHitTime) := 0;
+	selfState{value: const(StateTagWaitingOutside)}
+}
+
+#===============================================================================
+# Global states
+#===============================================================================
+[StateDef -2]
+
+ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
+	# do nothing
+} else if map(_iksys_tagActive) = 1 && alive && roundState = 2 {
+
+	# ── LEADER: detect "w" and check cancel eligibility ───────────────────────
+	if playerNo = teamLeader {
+		let nextPartnerId = call TagGetPartnerId(1);
+
+		# Gate: must be grounded, bench must be waiting, no kameo in progress
+		let canCall = 0;
+		if pos y >= 0
+			&& $nextPartnerId > 0
+			&& playerId($nextPartnerId),stateNo = playerId($nextPartnerId),const(StateTagWaitingOutside)
+			&& playerId($nextPartnerId),map(_iksys_kameoActive) = 0
+		{
+			# idle / walk / run
+			if ctrl {
+				let canCall = 1;
+			# normals
+			} else if stateNo = [200, 499] {
+				let canCall = 1;
+			# specials
+			} else if stateNo = [1000, 1999] {
+				let canCall = 1;
+			}
+			# supers [3000+], grabs [800-899], transforms [4000+] = blocked
+		}
+
+		if $canCall && command = "w" {
+			if command = "holdfwd" {
+				mapSet{map: "_iksys_kameoInput"; value: 2; redirectid: $nextPartnerId}
+			} else if command = "holdback" {
+				mapSet{map: "_iksys_kameoInput"; value: 3; redirectid: $nextPartnerId}
+			} else if command = "holdup" {
+				mapSet{map: "_iksys_kameoInput"; value: 4; redirectid: $nextPartnerId}
+			} else if command = "holddown" {
+				mapSet{map: "_iksys_kameoInput"; value: 5; redirectid: $nextPartnerId}
+			} else {
+				mapSet{map: "_iksys_kameoInput"; value: 1; redirectid: $nextPartnerId}
+			}
+
+			mapSet{map: "_iksys_kameoActive"; value: 1; redirectid: $nextPartnerId}
+			lifebarAction{spr: const(MsgPartnerAssist), 0; top: 1}
+		}
+	}
+
+	# ── BENCH CHAR: respond to signal ─────────────────────────────────────────
+	if playerNo != teamLeader {
+		if map(_iksys_kameoActive) = 1 {
+			assertSpecial{flag: noInput; flag2: noHardcodedKeys}
+
+			if stateNo = const(StateTagWaitingOutside) {
+				selfState{value: const(StateKameoEntering)}
+			}
+		}
+	}
+}

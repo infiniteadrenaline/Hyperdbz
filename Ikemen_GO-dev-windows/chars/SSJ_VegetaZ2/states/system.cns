@@ -1,6 +1,61 @@
 
 ;===========================================================================
+; KAMEO ASSIST POLLING - DISABLED: now handled globally by kameo.zss
+; This old per-character approach conflicted with the global tag state machine.
+; The new system uses tagIn{redirectid} from StateDef -2 in kameo.zss.
+;===========================================================================
+;[Statedef 6565010]
+;type = S
+;movetype = I
+;physics = N
+;velset = 0,0
+
+;[State 6565010, Enter Kameo]
+;type = SelfState
+;triggerall = teamSide = 1
+;triggerall = stateNo = 6565611
+;trigger1 = player(teamleader),command = "w"
+;value = 6565610
+
+;[State 6565010, Route to Attack]
+;type = SelfState
+;triggerall = teamSide = 1
+;triggerall = stateNo = 6565610
+;trigger1 = time >= 5
+;value = 9200
+
+;[State 6565010, Check Forward Variant]
+;type = SelfState
+;triggerall = teamSide = 1
+;trigger1 = player(teamleader),stateNo = 18010
+;value = 19010
+
+;[State 6565010, Check Back Variant]
+;type = SelfState
+;triggerall = teamSide = 1
+;trigger1 = player(teamleader),stateNo = 18020
+;value = 19020
+
+;[State 6565010, Check Up Variant]
+;type = SelfState
+;triggerall = teamSide = 1
+;trigger1 = player(teamleader),stateNo = 18030
+;value = 19030
+
+;[State 6565010, Check Down Variant]
+;type = SelfState
+;triggerall = teamSide = 1
+;trigger1 = player(teamleader),stateNo = 18040
+;value = 19040
+
+;[State 6565010, Return to Wait]
+;type = ChangeState
+;trigger1 = time = 1
+;value = 6565600
+
+;===========================================================================
 ; <<<<< SUPER JUMP >>>>>
+; SJ after c.SP : 10230
 ; SJ after c.SP : 10230
 ; SJ Straight : 10231
 ; SJ Forward : 10232
@@ -7188,18 +7243,33 @@ type = VarSet
 trigger1 = time = 0
 var(58) = 360                      
 
-; --- NATIVE BROADCASTER LOGIC ---
-; Sends a global request variable to tag.zss, bypassing TargetState entirely!
 [State 18000, Broadcast Request]
 type = MapSet
 trigger1 = time = 0
-map(_iksys_kameoCallRequest) = 18000
+trigger2 = id = player(teamLeader),id
+map = "_iksys_kameoCallRequest"
+value = 19000
+
+[State 18000, Set Caller Id]
+type = MapSet
+trigger1 = time = 0
+map = "_iksys_kameoCallerId"
+value = id
+
+; ===== DIRECT PARTNER TRIGGER - fires bench immediately =====
+[State 18000, Direct Partner Activation]
+type = SelfState
+trigger1 = 1
+trigger2 = numpartner > 0
+trigger3 = partner, stateNo = 6565611
+value = 6565610
+redirectid = partner, id
 
 [State 18000, Return]
 type = ChangeState
 trigger1 = AnimTime = 0 || time >= 30            
 value = 0
-ctrl = 1                       ; <-- REQUIRED: Hands your stick control back instantly!
+ctrl = 1                       
 
 ; --- [2/5] FORWARD SUMMON ---
 [Statedef 18010]
@@ -7218,7 +7288,24 @@ var(58) = 420
 [State 18010, Broadcast Request]
 type = MapSet
 trigger1 = time = 0
-map(_iksys_kameoCallRequest) = 18010
+trigger2 = id = player(teamLeader),id
+map = "_iksys_kameoCallRequest"
+value = 19010
+
+[State 18010, Set Caller Id]
+type = MapSet
+trigger1 = time = 0
+map = "_iksys_kameoCallerId"
+value = id
+
+; ===== DIRECT PARTNER TRIGGER =====
+[State 18010, Direct Partner Activation]
+type = SelfState
+trigger1 = 1
+trigger2 = numpartner > 0
+trigger3 = partner, stateNo = 6565611
+value = 6565610
+redirectid = partner, id
 
 [State 18010, Return]
 type = ChangeState
@@ -7243,7 +7330,24 @@ var(58) = 420
 [State 18020, Broadcast Request]
 type = MapSet
 trigger1 = time = 0
-map(_iksys_kameoCallRequest) = 18020
+trigger2 = id = player(teamLeader),id
+map = "_iksys_kameoCallRequest"
+value = 19020
+
+[State 18020, Set Caller Id]
+type = MapSet
+trigger1 = time = 0
+map = "_iksys_kameoCallerId"
+value = id
+
+; ===== DIRECT PARTNER TRIGGER =====
+[State 18020, Direct Partner Activation]
+type = SelfState
+trigger1 = 1
+trigger2 = numpartner > 0
+trigger3 = partner, stateNo = 6565611
+value = 6565610
+redirectid = partner, id
 
 [State 18020, Return]
 type = ChangeState
@@ -7268,7 +7372,24 @@ var(58) = 300
 [State 18030, Broadcast Request]
 type = MapSet
 trigger1 = time = 0
-map(_iksys_kameoCallRequest) = 18030
+trigger2 = id = player(teamLeader),id
+map = "_iksys_kameoCallRequest"
+value = 19030
+
+[State 18030, Set Caller Id]
+type = MapSet
+trigger1 = time = 0
+map = "_iksys_kameoCallerId"
+value = id
+
+; ===== DIRECT PARTNER TRIGGER =====
+[State 18030, Direct Partner Activation]
+type = SelfState
+trigger1 = 1
+trigger2 = numpartner > 0
+trigger3 = partner, stateNo = 6565611
+value = 6565610
+redirectid = partner, id
 
 [State 18030, Return]
 type = ChangeState
@@ -7293,7 +7414,24 @@ var(58) = 420
 [State 18040, Broadcast Request]
 type = MapSet
 trigger1 = time = 0
-map(_iksys_kameoCallRequest) = 18040
+trigger2 = id = player(teamLeader),id
+map = "_iksys_kameoCallRequest"
+value = 19040
+
+[State 18040, Set Caller Id]
+type = MapSet
+trigger1 = time = 0
+map = "_iksys_kameoCallerId"
+value = id
+
+; ===== DIRECT PARTNER TRIGGER =====
+[State 18040, Direct Partner Activation]
+type = SelfState
+trigger1 = 1
+trigger2 = numpartner > 0
+trigger3 = partner, stateNo = 6565611
+value = 6565610
+redirectid = partner, id
 
 [State 18040, Return]
 type = ChangeState
@@ -7302,42 +7440,41 @@ value = 0
 ctrl = 1
 
 
+
 ; ===========================================================================
 ; BENCH OVERRIDE PIPELINES - REPAIR BLOCKS (system.cns)
 ; ===========================================================================
-
-[Statedef 19000] ; --- NEUTRAL SUMMON ENTRY ---
-type    = S
-movetype= I
+[Statedef 19000]
+type = S
+movetype = A
 physics = N
-velset  = 0,0
+ctrl = 0
+anim = 1800
 
-[State 19000, Maintain Stage Boundaries]
-type = AssertSpecial
-trigger1 = time >= 0
-flag = noTurnTarget             ; Keeps standard engine camera orientation properties active
-
-[State 19000, Snap to Stage Ground Floor]
-type = PosSet
+; === FIRST: Jump to ENGINE STATE 6565610 ===
+; Engine handles dash + visibilityThen 6565010 will route to attack!
+[State 19000, Use Engine Dash]
+type = SelfState
 trigger1 = time = 0
-x = root, pos x - 60            
-y = 0
+value = 6565610
 
-[State 19000, Face Opponent]
-type = Turn
-trigger1 = time = 0 && facing != root, facing
-
-[State 19000, Fire Attack Move]
+[State 19000, Return to Standby]
 type = ChangeState
-trigger1 = time = 1
-value = 9200                    
+trigger1 = time > 30 && (pos x * facing) < (root, pos x * facing) - const240p(150)
+value = 18500
 
 ; ---------------------------------------------------------------------------
 [Statedef 19010] ; --- FORWARD SUMMON ENTRY ---
-type    = S
-movetype= I
+type = S
+movetype = I
 physics = N
-velset  = 0,0
+velset = 0,0
+
+; === DASH IN FIRST ===
+[State 19010, Engine Dash]
+type = SelfState
+trigger1 = time = 0
+value = 6565610
 
 [State 19010, Maintain Stage Boundaries]
 type = AssertSpecial
@@ -7361,10 +7498,16 @@ value = 9210
 
 ; ---------------------------------------------------------------------------
 [Statedef 19020] ; --- BACK SUMMON ENTRY ---
-type    = S
-movetype= I
+type = S
+movetype = I
 physics = N
-velset  = 0,0
+velset = 0,0
+
+; === DASH IN FIRST ===
+[State 19020, Engine Dash]
+type = SelfState
+trigger1 = time = 0
+value = 6565610
 
 [State 19020, Maintain Stage Boundaries]
 type = AssertSpecial
@@ -7388,10 +7531,16 @@ value = 9220
 
 ; ---------------------------------------------------------------------------
 [Statedef 19030] ; --- UP SUMMON ENTRY ---
-type    = S
-movetype= I
+type = S
+movetype = I
 physics = N
-velset  = 0,0
+velset = 0,0
+
+; === DASH IN FIRST ===
+[State 19030, Engine Dash]
+type = SelfState
+trigger1 = time = 0
+value = 6565610
 
 [State 19030, Maintain Stage Boundaries]
 type = AssertSpecial
@@ -7415,10 +7564,16 @@ value = 9230
 
 ; ---------------------------------------------------------------------------
 [Statedef 19040] ; --- DOWN SUMMON ENTRY ---
-type    = S
-movetype= I
+type = S
+movetype = I
 physics = N
-velset  = 0,0
+velset = 0,0
+
+; === DASH IN FIRST ===
+[State 19040, Engine Dash]
+type = SelfState
+trigger1 = time = 0
+value = 6565610
 
 [State 19040, Maintain Stage Boundaries]
 type = AssertSpecial
@@ -7519,8 +7674,19 @@ type = VelSet
 trigger1 = animtime = 0       ; When animation ends, sprint away
 x = -8                        
 
-[State 9200, Dismiss Helper]
-type = DestroySelf
+[State 9200, Turn Around]
+type = Turn
+trigger1 = animtime = 0
+
+[State 9200, Sprint Away]
+type = VelSet
+trigger1 = animtime = 0
+x = -const240p(18)
+
+[State 9200, Return to Standby]
+type = ChangeState
+trigger1 = frontedgebodydist < -50 || backedgebodydist < -50
+value = 18500
 trigger1 = frontedgebodydist < -50 || backedgebodydist < -50 
 
 ; ---------------------------------------------------------------------------
@@ -8236,3 +8402,267 @@ sysvar(4) = 0
 type = SelfState
 trigger1 = pos Y >= 0 && vel y > 0 
 value = const(StateTagWaitingOutside) 
+
+;===========================================================================
+
+;===========================================================================
+; KAMEO SUMMON RUN SEQUENCES (19000-19040)
+;===========================================================================
+
+; --- [1/5] NEUTRAL SUMMON ---
+[Statedef 19000]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+
+[State 19000, Activate]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 19000, Spawn Behind Leader]
+type = PosSet
+trigger1 = 1
+x = root, pos x - const240p(80)
+y = 0
+
+[State 19000, Match Facing]
+type = Turn
+trigger1 = 1 && facing != root, facing
+
+[State 19000, Dash In]
+type = VelSet
+trigger1 = 1
+x = const240p(18)
+
+[State 19000, Trigger Attack]
+type = ChangeState
+trigger1 = time = 15
+value = 9200
+
+; --- [2/5] FORWARD SUMMON ---
+[Statedef 19010]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+
+[State 19010, Activate]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 19010, Spawn Behind Leader]
+type = PosSet
+trigger1 = 1
+x = root, pos x - const240p(80)
+y = 0
+
+[State 19010, Match Facing]
+type = Turn
+trigger1 = 1 && facing != root, facing
+
+[State 19010, Dash In]
+type = VelSet
+trigger1 = 1
+x = const240p(18)
+
+[State 19010, Trigger Attack]
+type = ChangeState
+trigger1 = time = 15
+value = 9210
+
+; --- [3/5] BACK SUMMON ---
+[Statedef 19020]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+
+[State 19020, Activate]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 19020, Spawn Behind Leader]
+type = PosSet
+trigger1 = 1
+x = root, pos x - const240p(80)
+y = 0
+
+[State 19020, Match Facing]
+type = Turn
+trigger1 = 1 && facing != root, facing
+
+[State 19020, Dash In]
+type = VelSet
+trigger1 = 1
+x = const240p(18)
+
+[State 19020, Trigger Attack]
+type = ChangeState
+trigger1 = time = 15
+value = 9220
+
+; --- [4/5] UP SUMMON ---
+[Statedef 19030]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+
+[State 19030, Activate]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 19030, Spawn Behind Leader]
+type = PosSet
+trigger1 = 1
+x = root, pos x - const240p(80)
+y = 0
+
+[State 19030, Match Facing]
+type = Turn
+trigger1 = 1 && facing != root, facing
+
+[State 19030, Dash In]
+type = VelSet
+trigger1 = 1
+x = const240p(18)
+
+[State 19030, Trigger Attack]
+type = ChangeState
+trigger1 = time = 15
+value = 9230
+
+; --- [5/5] DOWN SUMMON ---
+[Statedef 19040]
+type = S
+movetype = I
+physics = N
+ctrl = 0
+
+[State 19040, Activate]
+type = AssertSpecial
+trigger1 = 1
+flag = noshadow
+
+[State 19040, Spawn Behind Leader]
+type = PosSet
+trigger1 = 1
+x = root, pos x - const240p(80)
+y = 0
+
+[State 19040, Match Facing]
+type = Turn
+trigger1 = 1 && facing != root, facing
+
+[State 19040, Dash In]
+type = VelSet
+trigger1 = 1
+x = const240p(18)
+
+[State 19040, Trigger Attack]
+type = ChangeState
+trigger1 = time = 15
+value = 9240
+
+;===========================================================================
+; DIRECT KAMEO HELPER - Spawns attack helper from self
+;===========================================================================
+
+; SPAWN AT AGRESSOR HELPER on W press
+[State 0, Direct Kameo Helper]
+type = Helper
+trigger1 = command = "w" && ctrl
+id = 8888
+stateno = 9999
+name = "KameoAttacker"
+postype = p1
+pos = -60, 0
+facing = 1
+keyctrl = 0
+ownpal = 1
+
+; --- HELPER ATTACK STATE ---
+[Statedef 9999]
+type = S
+movetype = A
+physics = N
+
+; Attack animation
+[State 9999, Anim]
+type = ChangeAnim
+trigger1 = time = 0
+value = 1402
+
+; HIT DEFINITION
+[State 9999, Hit]
+type = HitDef
+trigger1 = time = 0
+attr = S, SA
+damage = 25
+hitflag = MAF
+guardflag = M
+pausetime = 10, 10
+numhits = 1
+fall = 1
+
+; Die after attack
+[State 9999, Die]
+type = DestroySelf
+trigger1 = time = 40
+
+; --- FORWARD CALL (W+RIGHT) ---
+[State 0, Kameo Forward Call]
+type = MapSet
+trigger1 = command = "w" && command = "holdfwd" && ctrl
+map = "_iksys_kameoCallRequest"
+value = 18010
+
+; --- BACK CALL (W+LEFT) ---
+[State 0, Kameo Back Call]
+type = MapSet
+trigger1 = command = "w" && command = "holdback" && ctrl
+map = "_iksys_kameoCallRequest"
+value = 18020
+
+; --- UP CALL (W+UP) ---
+[State 0, Kameo Up Call]
+type = MapSet
+trigger1 = command = "w" && command = "holdup" && ctrl
+map = "_iksys_kameoCallRequest"
+value = 18030
+
+; --- DOWN CALL (W+DOWN) ---
+[State 0, Kameo Down Call]
+type = MapSet
+trigger1 = command = "w" && command = "holddown" && ctrl
+map = "_iksys_kameoCallRequest"
+value = 18040
+
+; --- FORWARD SUMMON ---
+[State 0, Kameo Forward Summon]
+type = ChangeState
+trigger1 = command = "w" && command = "holdfwd" && ctrl
+value = 19010
+
+; --- BACK SUMMON ---
+[State 0, Kameo Back Summon]
+type = ChangeState
+trigger1 = command = "w" && command = "holdback" && ctrl
+value = 19020
+
+; --- UP SUMMON ---
+[State 0, Kameo Up Summon]
+type = ChangeState
+trigger1 = command = "w" && command = "holdup" && ctrl
+value = 19030
+
+; --- DOWN SUMMON ---
+[State 0, Kameo Down Summon]
+type = ChangeState
+trigger1 = command = "w" && command = "holddown" && ctrl
+value = 19040

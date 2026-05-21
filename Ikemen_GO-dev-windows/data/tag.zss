@@ -40,7 +40,7 @@ if aiLevel = 0 {
 	if gameMode = "versuscoop" {
 		let anim = $anim + playerNo;
 	} else if gameMode = "netplaysurvivalcoop" || gameMode = "netplayteamcoop" || gameMode = "survivalcoop" || gameMode = "teamcoop" {
-		if teamSide = 1 {
+		if teamSide != 0 {
 			let anim = $anim + playerNo / 2 + 1;
 		} else {
 			let anim = $anim + playerNo / 2;
@@ -125,7 +125,7 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 }
 
 #===============================================================================
-# StateTagWaitingOutside (UNIVERSAL KAMEO LOGIC - COMPACT)
+# StateTagWaitingOutside (UNIVERSAL KAMEO LOGIC - BASELINE)
 #===============================================================================
 [StateDef const(StateTagWaitingOutside);
 	type: A; movetype: I; physics: N;
@@ -133,47 +133,14 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	velset: 0, 0; ctrl: 0;
 ]
 
-# --- Read the point character's map flag ---
-let callRequest = map(_iksys_kameoCallRequest);
+screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
+assertSpecial{flag: invisible; flag2: noTurnTarget}
 
-if $callRequest > 0 {
-	let partnerId = player(teamLeader),id + 1;
-	
-	# Clear standby invisibility parameters instantly
-	assertSpecial{redirectid: $partnerId; flag: noTurnTarget}
-	
-	# Teleport the real bench character directly onto the field relative to the leader
-	posSet{
-		redirectid: $partnerId;
-		x: player(teamLeader),pos x + ifElse($callRequest = 18010, const240p(40), ifElse($callRequest = 18020, -const240p(80), -const240p(60)));
-		y: 0;
-	}
-	
-	# Force match facing values
-	if facing != player(teamLeader),facing {
-		turn{redirectid: $partnerId}
-	}
-	
-	# Clear the request map instantly so it doesn't infinite loop
-	map(_iksys_kameoCallRequest) := 0;
-	
-	# Route the bench character directly into their custom attack move entry pipelines
-	selfState{
-		redirectid: $partnerId;
-		value: ifElse($callRequest = 18010, 19010, ifElse($callRequest = 18020, 19020, ifElse($callRequest = 18030, 19030, ifElse($callRequest = 18040, 19040, 19000))));
-		ctrl: 0;
-	}
-
-} else {
-	# Standard Standby Loops
-	screenBound{value: 0; movecamera: 0, 0; stagebound: 0}
-	assertSpecial{flag: invisible; flag2: noTurnTarget}
-
-	if pos x * facing > 0 {
-		turn{}
-	}
-	posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
+if pos x * facing > 0 {
+	turn{}
 }
+posSet{x: const240p(-480) * facing / min(camerazoom, 1); y: 0}
+
 
 #===============================================================================
 # StateTagJumpingIn
@@ -342,7 +309,11 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 			if roundState = 2
 				&& (ctrl || standby || map(_iksys_tagIntroFlag) = 0)
 				&& (stateNo = const(StateStand) ||
-				(pos y >= 0 && stateNo != [const(StateTagEnteringScreen), const(StateTagWaitingOutside)]))
+				(pos y >= 0
+				&& stateNo != [const(StateTagEnteringScreen), const(StateTagWaitingOutside)]
+				&& stateNo != const(StateKameoEntering)
+				&& stateNo != const(StateKameoActive)
+				&& stateNo != const(StateKameoLeaving)))
 			{
 				map(_iksys_tagIntroFlag) := 1;
 				tagOut{stateno: const(StateTagLeavingScreen)}
@@ -403,3 +374,4 @@ if cond(isHelper, root, map(_iksys_tagActive), map(_iksys_tagActive)) {
 		screenbound{value: 0; movecamera: 0, 0; stagebound: 0}
 	}
 }
+

@@ -6293,6 +6293,60 @@ triggerall = (ifElse(Facing = 1, NumExplod(90001064),NumExplod(90001016))) ||  (
 trigger1 = statetype = S
 trigger1 = Time>=20
 
+;===========================================================================
+; KAMEO CALL - W BUTTON (Native engine macro removed, mapped to character command)
+;===========================================================================
+[State -1, Kameo Call - W Button]
+type = ChangeState
+triggerall = var(58) <= 0 ; No cooldown active
+triggerall = statetype != A ; Not in air
+triggerall = statetype != H ; Not in hit reaction
+trigger1 = command = "w"
+value = 18000
+ctrl = 0
+
+; --- W+B (Backward Kameo) ---
+[State -1, Kameo Call - W+B]
+type = ChangeState
+triggerall = var(58) <= 0
+triggerall = statetype != A
+triggerall = statetype != H
+trigger1 = command = "w" && command = "holdb"
+value = 18010
+ctrl = 0
+
+; --- W+F (Forward Kameo) ---
+[State -1, Kameo Call - W+F]
+type = ChangeState
+triggerall = var(58) <= 0
+triggerall = statetype != A
+triggerall = statetype != H
+trigger1 = command = "w" && command = "holdf"
+value = 18020
+ctrl = 0
+
+; --- W+U (Up Kameo) ---
+[State -1, Kameo Call - W+U]
+type = ChangeState
+triggerall = var(58) <= 0
+triggerall = statetype != A
+triggerall = statetype != H
+trigger1 = command = "w" && command = "holdup"
+value = 18040
+ctrl = 0
+
+; --- W+D (Down Kameo) ---
+[State -1, Kameo Call - W+D]
+type = ChangeState
+triggerall = var(58) <= 0
+triggerall = statetype != A
+triggerall = statetype != H
+trigger1 = command = "w" && command = "holddown"
+value = 18050
+ctrl = 0
+
+;===========================================================================
+
 [State 1000, PC-End]
 type = ChangeState
 triggerall = anim = 900
