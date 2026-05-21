@@ -64,17 +64,16 @@ velSet{x: 0; y: 0}
 
 # ── FIRE ATTACK BASED ON INPUT ────────────────────────────────
 # Input map: 1=neutral, 2=fwd, 3=back, 4=up, 5=down
-# Go directly to attack states - skip old entry variants that cause loops
-if time = 1 {
-	if map(_iksys_kameoInput) = 1 {  # neutral
+# Transition to attack state, then kameo.zss handles exit after KameoActiveTime
+# Mapping: 1,2→9210  3→9220  4→9230  5→9240
+if time = 1 && map(_iksys_kameoInput) > 0 {
+	if map(_iksys_kameoInput) = [1, 2] {
 		selfState{value: 9210}
-	} else if map(_iksys_kameoInput) = 2 {  # forward
-		selfState{value: 9210}
-	} else if map(_iksys_kameoInput) = 3 {  # back
+	} else if map(_iksys_kameoInput) = 3 {
 		selfState{value: 9220}
-	} else if map(_iksys_kameoInput) = 4 {  # up
+	} else if map(_iksys_kameoInput) = 4 {
 		selfState{value: 9230}
-	} else if map(_iksys_kameoInput) = 5 {  # down
+	} else if map(_iksys_kameoInput) = 5 {
 		selfState{value: 9240}
 	}
 }
