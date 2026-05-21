@@ -43,33 +43,33 @@ if backEdgeDist >= 0 && (floor(map(_iksys_kameoSwitchDist)) <= 0 || p2BodyDist X
 	selfState{value: const(StateKameoActive)}
 }
 
-# ════════════════════════════════════════════════════════════════════════
-# KAMEO ATTACKS - Map to Vegeta's ACTUAL specials
-# ════════════════════════════════════════════════════════════════════════
-
-# W (neutral) = Royal Rekka - follows HP->HP->HP chain in character file
-[StateDef 9210]
-	if time = 0 { selfState{value: 1400} }
-
-# W+Forward = Superdash  
-[StateDef 9211]
-	if time = 0 { selfState{value: 1000} }
-
-# W+Back = Atomic Burst
-[StateDef 9212]
-	if time = 0 { selfState{value: 3200} }
-
-# W+Down = Straight Shooter
-[StateDef 9213]
-	if time = 0 { selfState{value: 1200} }
-
-# W+Up = Crouching HP (anti-air uppercut)
-[StateDef 9214]
-	type: S; movetype: A; physics: N;
-	if time = 0 { changeanim{value: 230} }
-	if time >= 15 { selfState{value: const(StateKameoLeaving)} }
-
 # ════════════════════════════════════════════════════════════════════════════════
+# KAMEO ATTACK STUBS - Each character defines their own mapping
+# These states just transition to character-defined moves
+# ════════════════════════════════════════════════════════════════════════
+
+# Forward Kameo - character defines in their own system.cns (9210)
+[StateDef 9210]
+	type: S; movetype: I; physics: S;
+	# Let character's system.cns handle move mapping
+	
+# Back Kameo - character defines
+[StateDef 9211]
+	type: S; movetype: I; physics: S;
+
+# Down Kameo - character defines  
+[StateDef 9212]
+	type: S; movetype: I; physics: S;
+
+# Up Kameo - character defines
+[StateDef 9213]
+	type: S; movetype: I; physics: S;
+
+# Down Kameo - character defines
+[StateDef 9214]
+	type: S; movetype: I; physics: S;
+
+# ════════════════════════════════════════════════════════════════════════════════════════
 
 #===============================================================================
 # StateKameoActive — bench char on-screen window
