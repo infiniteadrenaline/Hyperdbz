@@ -40,17 +40,7 @@ if time = 0 {
 
 if backEdgeDist >= 0 && (floor(map(_iksys_kameoSwitchDist)) <= 0 || p2BodyDist X < const240p(60)) {
 	velSet{x: 0; y: 0}
-	# Fire attack on arrival
-	if map(_iksys_kameoInput) > 0 {
-		let st = map(_iksys_kameoInput)
-		if st = 1 { selfState{value: 1400} }
-		else if st = 2 { selfState{value: 1000} }
-		else if st = 3 { selfState{value: 3200} }
-		else if st = 4 { selfState{value: 230} }
-		else if st = 5 { selfState{value: 1200} }
-	}
-	# Go active if no attack triggered
-	if stateNo = const(StateKameoEntering) { selfState{value: const(StateKameoActive)} }
+	selfState{value: const(StateKameoActive)}
 }
 
 #===============================================================================
