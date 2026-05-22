@@ -63,10 +63,6 @@ posSet{y: 0}
 velSet{x: 0; y: 0}
 
 # Simple attack on enter
-if time = 0 && map(_iksys_kameoInput) = 1 {
-changeState{value: 9999}
-}
-# record the frame we got hit (only once)
 if moveType = H && map(_iksys_kameoHitTime) = 0 {
 	map(_iksys_kameoHitTime) := time;
 }
@@ -168,31 +164,3 @@ ignoreHitPause if !const(Default.Enable.Tag) || isHelper || teamSide = 0 {
 	}
 }
 #===============================================================================
-# Kameo Attack State
-#===============================================================================
-[StateDef 9999]
-type = S
-movetype = A
-physics = S
-anim = 200
-ctrl = 0
-
-[State 9999, atk]
-type = HitDef
-trigger1 = !time
-attr = S, NA
-priority = 4,hit
-damage = 7,0
-animtype = light
-hitflag = MAF
-pausetime = 10,10
-sparkno = s7010
-hitsound = s5,0
-ground.type = High
-ground.velocity = -2.5
-
-[State 9999, end]
-type = ChangeState
-trigger1 = AnimTime = 0
-value = 0
-ctrl = 1
