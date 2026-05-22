@@ -62,6 +62,19 @@ if facing != player(teamLeader),facing {
 posSet{y: 0}
 velSet{x: 0; y: 0}
 
+# --- FIRE KAMEO MOVE IF INPUT SET ---
+# Fire attack immediately if waiting input, then leave
+if map(_iksys_kameoInput) > 0 && map(_iksys_kameoFired) = 0 {
+	mapSet{map: "_iksys_kameoFired", value: 1}
+	let k = map(_iksys_kameoInput)
+	if k = 1 { selfState{value: 9800}
+	} else if k = 2 { selfState{value: 9801}
+	} else if k = 3 { selfState{value: 9802}
+	} else if k = 4 { selfState{value: 9803}
+	} else if k = 5 { selfState{value: 9804}
+	}
+}
+
 # record the frame we got hit (only once)
 if moveType = H && map(_iksys_kameoHitTime) = 0 {
 	map(_iksys_kameoHitTime) := time;
@@ -72,6 +85,7 @@ if time >= const(KameoActiveTime)
 	|| (map(_iksys_kameoHitTime) > 0 && time >= map(_iksys_kameoHitTime) + 20)
 {
 	map(_iksys_kameoHitTime) := 0;
+		map(_iksys_kameoFired) := 0;
 	selfState{value: const(StateKameoLeaving)}
 }
 
@@ -98,6 +112,7 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	map(_iksys_kameoActive) := 0;
 	map(_iksys_kameoInput) := 0;
 	map(_iksys_kameoHitTime) := 0;
+		map(_iksys_kameoFired) := 0;
 	selfState{value: const(StateTagWaitingOutside)}
 }
 
