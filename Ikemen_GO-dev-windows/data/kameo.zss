@@ -63,14 +63,25 @@ posSet{y: 0}
 velSet{x: 0; y: 0}
 
 # --- FIRE KAMEO MOVE IF INPUT SET ---
-if map(_iksys_kameoInput) > 0 && map(_iksys_kameoFired) = 0 {
+if map(_iksys_kameoInput) = 1 && map(_iksys_kameoFired) = 0 {
 	mapSet{map: "_iksys_kameoFired", value: 1}
-	let k = map(_iksys_kameoInput)
-	if k = 1 { selfState{value: 9800} }
-	elseif k = 2 { selfState{value: 9801} }
-	elseif k = 3 { selfState{value: 9802} }
-	elseif k = 4 { selfState{value: 9803} }
-	elseif k = 5 { selfState{value: 9804} }
+	selfState{value: 9800}
+}
+elseif map(_iksys_kameoInput) = 2 && map(_iksys_kameoFired) = 0 {
+	mapSet{map: "_iksys_kameoFired", value: 1}
+	selfState{value: 9801}
+}
+elseif map(_iksys_kameoInput) = 3 && map(_iksys_kameoFired) = 0 {
+	mapSet{map: "_iksys_kameoFired", value: 1}
+	selfState{value: 9802}
+}
+elseif map(_iksys_kameoInput) = 4 && map(_iksys_kameoFired) = 0 {
+	mapSet{map: "_iksys_kameoFired", value: 1}
+	selfState{value: 9803}
+}
+elseif map(_iksys_kameoInput) = 5 && map(_iksys_kameoFired) = 0 {
+	mapSet{map: "_iksys_kameoFired", value: 1}
+	selfState{value: 9804}
 }
 
 # record the frame we got hit (only once)
