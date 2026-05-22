@@ -64,7 +64,7 @@ velSet{x: 0; y: 0}
 
 # If W pressed on first frame, go to attack state 9800
 if time = 0 && command = "w" {
-	selfState{value: 9800}
+	changeState{value: 9800}
 }
 
 # record the frame we got hit (only once)
@@ -105,6 +105,64 @@ if backEdgeDist < -const240p(160) || frontEdgeDist < -const240p(160) {
 	map(_iksys_kameoHitTime) := 0;
 	selfState{value: const(StateTagWaitingOutside)}
 }
+[StateDef 9800]
+type = S
+movetype = I
+physics = N
+
+[State 9800, Route]
+type = ChangeState
+trigger1 = !time
+value = 1400
+ignorehitpause = 1
+
+
+[StateDef 9801]
+type = S
+movetype = I
+physics = N
+
+[State 9801, Route]
+type = ChangeState
+trigger1 = !time
+value = 1000
+ignorehitpause = 1
+
+
+[StateDef 9802]
+type = S
+movetype = I
+physics = N
+
+[State 9802, Route]
+type = ChangeState
+trigger1 = !time
+value = 3200
+ignorehitpause = 1
+
+
+[StateDef 9803]
+type = S
+movetype = I
+physics = N
+
+[State 9803, Route]
+type = ChangeState
+trigger1 = !time
+value = 230
+ignorehitpause = 1
+
+
+[StateDef 9804]
+type = S
+movetype = I
+physics = N
+
+[State 9804, Route]
+type = ChangeState
+trigger1 = !time
+value = 1200
+ignorehitpause = 1
 
 #===============================================================================
 # Global states
