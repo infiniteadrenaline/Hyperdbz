@@ -2035,3 +2035,38 @@ trigger1 = Pos Y >= 15
 type = ChangeState
 value = 5110
 
+
+;===========================================================================
+; KAMEO ASSIST ATTACK - State 7000 (standalone, no CMD triggers needed)
+;===========================================================================
+[StateDef 7000]
+type = S
+movetype = A
+physics = S
+anim = 200
+ctrl = 0
+sprpriority = 1
+
+[State 7000, Hit]
+type = HitDef
+trigger1 = !time
+attr = S, NA
+priority = 4,hit
+damage = 7,0
+animtype = light
+guardflag = MA
+hitflag = MAF
+pausetime = 10,10
+sparkno = s7010
+hitsound = s5,0
+ground.type = High
+ground.slidetime = 7
+ground.hittime = 7
+ground.velocity = -2.5
+guard.velocity = -4.5
+
+[State 7000, End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
