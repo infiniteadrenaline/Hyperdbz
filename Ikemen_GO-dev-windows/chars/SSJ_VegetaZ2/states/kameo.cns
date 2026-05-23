@@ -1,92 +1,31 @@
 ;---------------------------------------------------------------------------
-; Kameo States - Partner character actions when on screen as kameo (AI controlled)
+; Kameo States - Partner character actions when on screen as kameo
 ;---------------------------------------------------------------------------
 
-[StateDef 6565630]
+[StateDef 0]
 type = S
 physics = S
 movetype = I
-anim = 20
-sprpriority = 2
-ctrl = 0
 
-[State 6565630, DEBUG]
-type = DisplayToClipboard
-trigger1 = 1
-text = "STATE:6565630 INPUT:%M(_iksys_kameoInput)%"
-ignorehitpause = 1
-
-[State 6565630, Enter]
-type = SelfState
-trigger1 = time >= 20
-trigger1 = AILevel > 0
-value = 6565631
-
-[StateDef 6565631]
-type = S
-physics = S
-movetype = I
-sprpriority = 2
-ctrl = 1
-
-[State 6565631, DEBUG]
-type = DisplayToClipboard
-trigger1 = 1
-text = "STATE:6565631 INPUT:%M(_iksys_kameoInput)%"
-ignorehitpause = 1
-
-; AI reads input from map and routes
-[State 6565631, Route Input]
+[State 0, Immediate Move]
 type = ChangeState
-trigger1 = time = 0
 trigger1 = AILevel > 0
-trigger1 = map(_iksys_kameoInput) = 1
+trigger1 = time = 0
 value = 200
-mapSet{map: "_iksys_kameoInput"; value: 0}
 
-[State 6565631, Route Fwd]
-type = ChangeState
+[StateDef 200]
+type = A
+physics = S
+
+[State 200, Light Punch Override]
+type = HitDef
 trigger1 = time = 0
-trigger1 = AILevel > 0
-trigger1 = map(_iksys_kameoInput) = 2
-value = 210
-mapSet{map: "_iksys_kameoInput"; value: 0}
+attr = S, SA
+damage = 10
+hitflag = M
+sprpriority = 3
 
-[State 6565631, Route Back]
-type = ChangeState
+[State 200, Play]
+type = Attack
 trigger1 = time = 0
-trigger1 = AILevel > 0
-trigger1 = map(_iksys_kameoInput) = 3
-value = 220
-mapSet{map: "_iksys_kameoInput"; value: 0}
-
-[State 6565631, Route Up]
-type = ChangeState
-trigger1 = time = 0
-trigger1 = AILevel > 0
-trigger1 = map(_iksys_kameoInput) = 4
-value = 230
-mapSet{map: "_iksys_kameoInput"; value: 0}
-
-[State 6565631, Route Down]
-type = ChangeState
-trigger1 = time = 0
-trigger1 = AILevel > 0
-trigger1 = map(_iksys_kameoInput) = 5
-value = 240
-mapSet{map: "_iksys_kameoInput"; value: 0}
-
-[State 6565631, Idle]
-type = ChangeState
-trigger1 = time >= 180
-value = 6565632
-
-[StateDef 6565632]
-type = S
-physics = N
-movetype = I
-
-[State 6565632, Leave]
-type = SelfState
-trigger1 = time = 0
-value = 6565620
+value = 200
