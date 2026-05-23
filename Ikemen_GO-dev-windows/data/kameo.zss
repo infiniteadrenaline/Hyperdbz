@@ -71,6 +71,7 @@ if moveType = H && map(_iksys_kameoHitTime) = 0 {
 if time >= 180
 	|| (map(_iksys_kameoHitTime) > 0 && time >= map(_iksys_kameoHitTime) + 20)
 {
+        map(_iksys_kameoActive) := 0;
 	map(_iksys_kameoHitTime) := 0;
 	selfState{value: const(StateKameoLeaving)}
 }
