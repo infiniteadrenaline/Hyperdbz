@@ -9,36 +9,41 @@ movetype = I
 sprpriority = 2
 ctrl = 1
 
-; Detect input and route to moves
+; Read stored input and route to moves (first frame only)
 [State 6565631, Route Input]
 type = ChangeState
 trigger1 = time = 0
 trigger1 = map(_iksys_kameoInput) = 1
 value = 200
+mapSet{map: "_iksys_kameoInput"; value: 0}
 
 [State 6565631, Route Fwd]
 type = ChangeState
 trigger1 = time = 0
 trigger1 = map(_iksys_kameoInput) = 2
 value = 210
+mapSet{map: "_iksys_kameoInput"; value: 0}
 
 [State 6565631, Route Back]
 type = ChangeState
 trigger1 = time = 0
 trigger1 = map(_iksys_kameoInput) = 3
 value = 220
+mapSet{map: "_iksys_kameoInput"; value: 0}
 
 [State 6565631, Route Up]
 type = ChangeState
 trigger1 = time = 0
 trigger1 = map(_iksys_kameoInput) = 4
 value = 230
+mapSet{map: "_iksys_kameoInput"; value: 0}
 
 [State 6565631, Route Down]
 type = ChangeState
 trigger1 = time = 0
 trigger1 = map(_iksys_kameoInput) = 5
 value = 240
+mapSet{map: "_iksys_kameoInput"; value: 0}
 
 ; Default: idle if nothing pressed
 [State 6565631, Idle]
