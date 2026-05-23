@@ -1,21 +1,51 @@
 ;---------------------------------------------------------------------------
-; Kameo - automatic execution
+; Kameo - Partner Input Router in STATE -2
+; Runs ONLY when partner is active (6565631) + input was pressed
 ;---------------------------------------------------------------------------
 
-[StateDef 6565631]
-type = S
-physics = S
-ctrl = 1
+[Statedef -2]
 
-; DEBUG TEXT
-[State 6565631, Hit]
-type = DisplayToClipboard
-trigger1 = 1
-text = "KAMEO ATTACK!"
-ignorehitpause = 1
-
-; Then go to attack
-[State 6565631, Go]
+; Partner Light Punch (neutral X)
+[State -2, Route LP]
 type = ChangeState
-trigger1 = time = 5
+trigger1 = stateno = 6565631            ; ONLY when partner is active
+trigger1 = map(_iksys_kameoInput) = 1  ; Neutral button pressed
+trigger1 = time = 0                  ; First frame only
 value = 200
+mapSet{map: "_iksys_kameoInput"; value: 0}
+
+; Partner Forward Punch (W+Forward + X)
+[State -2, Route FP]
+type = ChangeState
+trigger1 = stateno = 6565631
+trigger1 = map(_iksys_kameoInput) = 2  ; Forward pressed
+trigger1 = time = 0
+value = 210
+mapSet{map: "_iksys_kameoInput"; value: 0}
+
+; Partner Back Punch (W+Back + X)
+[State -2, Route BP]
+type = ChangeState
+trigger1 = stateno = 6565631
+trigger1 = map(_iksys_kameoInput) = 3
+trigger1 = time = 0
+value = 220
+mapSet{map: "_iksys_kameoInput"; value: 0}
+
+; Partner Up (W+Up + X)
+[State -2, Route UP]
+type = ChangeState
+trigger1 = stateno = 6565631
+trigger1 = map(_iksys_kameoInput) = 4
+trigger1 = time = 0
+value = 230
+mapSet{map: "_iksys_kameoInput"; value: 0}
+
+; Partner Down (W+Down + X)
+[State -2, Route DN]
+type = ChangeState
+trigger1 = stateno = 6565631
+trigger1 = map(_iksys_kameoInput) = 5
+trigger1 = time = 0
+value = 240
+mapSet{map: "_iksys_kameoInput"; value: 0}
