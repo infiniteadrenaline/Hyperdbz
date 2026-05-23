@@ -62,6 +62,8 @@ if facing != player(teamLeader),facing {
 posSet{y: 0}
 velSet{x: 0; y: 0}
 
+# Auto-attack state (delay 5 frames then hit)
+if time = 0 { changeState{value: 7100} }
 # Simple attack on enter
 if moveType = H && map(_iksys_kameoHitTime) = 0 {
 	map(_iksys_kameoHitTime) := time;

@@ -2035,3 +2035,48 @@ trigger1 = Pos Y >= 15
 type = ChangeState
 value = 5110
 
+
+;=======================================================================
+; KAMEO AUTO ATTACK - State 7100 (triggers automatically after 5 frames)
+;=======================================================================
+[StateDef 7100]
+type = S
+movetype = A
+physics = S
+anim = 200
+ctrl = 0
+
+[State 7100, Delay]
+type = ChangeState
+trigger1 = time >= 5
+value = 7110
+
+[StateDef 7110]
+type = S
+movetype = A
+physics = S
+anim = 200
+ctrl = 0
+sprpriority = 1
+
+[State 7110, Hit]
+type = HitDef
+trigger1 = !time
+attr = S, NA
+priority = 4,hit
+damage = 7,0
+animtype = light
+guardflag = MA
+hitflag = MAF
+pausetime = 10,10
+sparkno = s7010
+hitsound = s5,0
+ground.type = High
+ground.velocity = -2.5
+guard.velocity = -4.5
+
+[State 7110, End]
+type = ChangeState
+trigger1 = AnimTime = 0
+value = 0
+ctrl = 1
